@@ -331,6 +331,7 @@ namespace Perpetuum.Zones
         }
 
         private readonly ShiftedConsumerTimer _updateUnitsTimer = new ShiftedConsumerTimer(500);
+        private readonly IntervalTimer _updateThrottlingTimer = new IntervalTimer(500);
 
         private Action<TimeSpan> _updateProfiler;
 
@@ -349,6 +350,18 @@ namespace Perpetuum.Zones
         {
             UpdatePlayerPresence(time);
             UpdateSessions(time);
+
+            if (Players.IsNullOrEmpty())
+            {
+                if (!_updateThrottlingTimer.Update(time).IsPassed((elapsed) => time = elapsed))
+                {
+                    return;
+                }
+            }
+            else
+            {
+                _updateThrottlingTimer.Reset();
+            }
 
             _updateUnitsTimer.Update(time).IsPassed(ProcessUpdatedUnits);
 

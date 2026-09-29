@@ -61,10 +61,10 @@ namespace Perpetuum.Timers
             IsPassed(e => action());
         }
 
-        public void IsPassed(Action<TimeSpan> action)
+        public bool IsPassed(Action<TimeSpan> action)
         {
             if (!Passed)
-                return;
+                return false;
 
             try
             {
@@ -74,6 +74,8 @@ namespace Perpetuum.Timers
             {
                 Reset();
             }
+
+            return true;
         }
     }
 }
