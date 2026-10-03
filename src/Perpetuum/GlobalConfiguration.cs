@@ -64,5 +64,17 @@ namespace Perpetuum
         /// </summary>
         [DefaultValue(0), JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
         public int ConcurrentPathFinds { get; set; }
+
+        /// <summary>
+        /// URL for transmitting logger messages (http://localhost:4100/loki/api/v1/push)
+        /// </summary>
+        [DefaultValue(""), JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+        public string LokiURL { get; set; }
+
+        /// <summary>
+        /// File system path for internal logger messages (C:\\PerpetuumServer\\data\\log\\loki.log)
+        /// </summary>
+        [DefaultValue(""), JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+        public string LokiFallbackPath { get; set; }
     }
 }

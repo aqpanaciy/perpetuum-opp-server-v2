@@ -104,7 +104,22 @@ namespace Perpetuum.Bootstrapper.Modules
                 {
                     return new CompositeLogger<LogEvent>(fileLogger, new ColoredConsoleLogger(formater));
                 }
-                return new CompositeLogger<LogEvent>(fileLogger);
+                
+                GlobalConfiguration config = c.Resolve<GlobalConfiguration>();
+                if (string.IsNullOrEmpty(config.LokiURL) || string.IsNullOrEmpty(config.LokiFallbackPath))
+                {
+                    return new CompositeLogger<LogEvent>(fileLogger);
+                }
+                LokiLogger lokiLogger = new LokiLogger(formater, config.LokiURL, config.LokiFallbackPath);
+                hostStateService.StateChanged += (IHostStateService service, HostState state) =>
+                {
+                    if (state == HostState.Off)
+                    {
+                        lokiLogger.Dispose();
+                    }
+                };
+
+                return new CompositeLogger<LogEvent>(lokiLogger, fileLogger);
             }).As<ILogger<LogEvent>>();
 
             _ = builder.RegisterType<CombatLogger>();
