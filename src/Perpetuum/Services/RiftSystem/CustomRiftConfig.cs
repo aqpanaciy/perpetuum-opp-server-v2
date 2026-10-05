@@ -112,7 +112,7 @@ namespace Perpetuum.Services.RiftSystem
             rift.SetConfig(config);
             rift.AddToZone(zone, sourcePosition, ZoneEnterType.NpcSpawn);
 
-            Logger.Info(string.Format("Rift spawned on zone {0} {1} ({2})", zone.Id, rift.ED.Name, rift.CurrentPosition));
+            Logger.DebugInfo(string.Format("Rift spawned on zone {0} {1} ({2})", zone.Id, rift.ED.Name, rift.CurrentPosition));
             return true;
         }
     }

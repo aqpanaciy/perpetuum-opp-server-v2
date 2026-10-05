@@ -179,7 +179,7 @@ namespace Perpetuum.Zones.NpcSystem.Flocks
 
         protected void Log(string message)
         {
-            Logger.Info($"[Flock] ({ToString()}) - {message}");
+            Logger.DebugInfo($"[Flock] ({ToString()}) - {message}");
         }
 
         private void AddMember(Npc npc)

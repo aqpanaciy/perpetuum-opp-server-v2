@@ -22,7 +22,7 @@ namespace Perpetuum.Zones.Beams
         {
             if (!_cacheBeamAssignments.ContainsKey(definition))
             {
-                Logger.Warning("no beam defined for definition: " + definition);
+                Logger.DebugWarning("no beam defined for definition: " + definition);
                 return BeamType.undefined;
             }
 

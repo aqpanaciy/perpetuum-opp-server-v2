@@ -591,7 +591,7 @@ namespace Perpetuum.Units
 
             DoExplosion();
 
-            Logger.Info($"Unit died. Killer = {(killer != null ? killer.InfoString : "")} Victim = {InfoString}");
+            Logger.DebugInfo($"Unit died. Killer = {(killer != null ? killer.InfoString : "")} Victim = {InfoString}");
             RemoveFromZone(new WreckBeamBuilder(this));
         }
 

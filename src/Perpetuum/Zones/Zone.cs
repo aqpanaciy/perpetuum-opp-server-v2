@@ -228,7 +228,7 @@ namespace Perpetuum.Zones
             unit.Dead += OnUnitDead;
 
             ZoneEffectHandler.OnEnterZone(unit);
-            Logger.Info($"Unit entered to zone. zone:{Id} eid = {unit.InfoString} ({unit.CurrentPosition})");
+            Logger.DebugInfo($"Unit entered to zone. zone:{Id} eid = {unit.InfoString} ({unit.CurrentPosition})");
         }
 
         private void OnUnitDead(Unit killer, Unit victim)
@@ -264,7 +264,7 @@ namespace Perpetuum.Zones
             }
 
             u.Updated -= OnUnitUpdated;
-            Logger.Info($"Unit exited from zone. zone:{Id} eid = {u.InfoString} ({u.CurrentPosition})");
+            Logger.DebugInfo($"Unit exited from zone. zone:{Id} eid = {u.InfoString} ({u.CurrentPosition})");
         }
 
         private ImmutableHashSet<Unit> _updatedUnits = ImmutableHashSet<Unit>.Empty;

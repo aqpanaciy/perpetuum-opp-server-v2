@@ -211,7 +211,10 @@ namespace Perpetuum.Zones
             TimeSpan workTime = GlobalTimer.Elapsed - executeTime;
             packet.WorkTime = (int)workTime.TotalMilliseconds;
             SendPacket(packet);
-            WritePacketLog(packet, $"workTime = {workTime.TotalMilliseconds} ms");
+            if (packet.Command != ZoneCommand.ClientUpdate)
+            {
+                WritePacketLog(packet, $"workTime = {workTime.TotalMilliseconds} ms");
+            }
 
             if (cancelLogout)
             {

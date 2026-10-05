@@ -108,7 +108,7 @@ namespace Perpetuum.Services.RiftSystem
             var spawnPosition = _spawnPositionFinder.FindSpawnPosition().ToPosition();
 
             rift.AddToZone(_zone, spawnPosition, ZoneEnterType.NpcSpawn);
-            Logger.Info(string.Format("Rift spawned on zone {0} {1} ({2})", _zone.Id, rift.ED.Name, rift.CurrentPosition));
+            Logger.DebugInfo(string.Format("Rift spawned on zone {0} {1} ({2})", _zone.Id, rift.ED.Name, rift.CurrentPosition));
         }
 
         private void OnRiftRemovedFromZone(Unit unit)

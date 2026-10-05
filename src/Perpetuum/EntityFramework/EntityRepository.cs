@@ -41,7 +41,7 @@ namespace Perpetuum.EntityFramework
                 .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
 
             entity.dbState = EntityDbState.Unchanged;
-            Logger.Info($"Entity created. {entity}");
+            Logger.DebugInfo($"Entity created. {entity}");
         }
 
         public void Update(Entity entity)
@@ -65,7 +65,7 @@ namespace Perpetuum.EntityFramework
                 .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLUpdateError);
 
             entity.dbState = EntityDbState.Unchanged;
-            Logger.Info($"Entity updated. {entity}");
+            Logger.DebugInfo($"Entity updated. {entity}");
         }
 
         public void Delete(Entity entity)
@@ -88,7 +88,7 @@ namespace Perpetuum.EntityFramework
             entity.ParentEntity?.RemoveChild(entity);
 
             entity.dbState = EntityDbState.Deleted;
-            Logger.Info($"Entity deleted. {entity}");
+            Logger.DebugInfo($"Entity deleted. {entity}");
         }
 
         public Entity Load(long eid)
