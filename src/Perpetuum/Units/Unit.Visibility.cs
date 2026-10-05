@@ -14,6 +14,29 @@ namespace Perpetuum.Units
 {
     public partial class Unit
     {
+        /// <summary>
+        /// Possible unit types that can participate in visibility relationships.
+        /// </summary>
+        [Flags]
+        public enum VisibilityType
+        {
+            None = 0,
+            Npc = 1 << 1,
+            RCU = 1 << 2,
+            LandMine = 1 << 3,
+            SAP = 1 << 4,
+        }
+        protected VisibilityType _myVisibilityType = VisibilityType.None;
+        protected VisibilityType _myVisibilityMask = VisibilityType.None;
+        /// <summary>
+        /// The class belongs to the visibility type.
+        /// </summary>
+        public VisibilityType MyVisibilityType => _myVisibilityType;
+        /// <summary>
+        /// Which classes can I see?
+        /// </summary>
+        public VisibilityType MyVisibilityMask => _myVisibilityMask;
+
         private ImmutableDictionary<long, UnitVisibility> _visibleUnits = ImmutableDictionary<long, UnitVisibility>.Empty;
 
         public IReadOnlyCollection<IUnitVisibility> GetVisibleUnits()

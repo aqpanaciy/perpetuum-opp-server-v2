@@ -267,21 +267,31 @@ namespace Perpetuum.Zones
             Logger.DebugInfo($"Unit exited from zone. zone:{Id} eid = {u.InfoString} ({u.CurrentPosition})");
         }
 
-        private ImmutableHashSet<Unit> _updatedUnits = ImmutableHashSet<Unit>.Empty;
+        private HashSet<Unit> _pendingUpdatedUnits = new HashSet<Unit>();
+        private HashSet<Unit> _processingUpdatedUnits = new HashSet<Unit>();
+
+        private readonly object _updatedUnitsLock = new object();
 
         private void ProcessUpdatedUnits(TimeSpan time)
         {
-            ImmutableHashSet<Unit> updatedUnits;
-
-            if ((updatedUnits = Interlocked.CompareExchange(ref _updatedUnits, ImmutableHashSet<Unit>.Empty, _updatedUnits)) == ImmutableHashSet<Unit>.Empty)
+            lock(_updatedUnitsLock)
             {
-                return;
+                // If there are no pending updated units, we can exit early.
+                if (_pendingUpdatedUnits.Count == 0)
+                {
+                    return;
+                }
+
+                // Swap the pending and processing updated units sets.
+                // This allows us to process the current set of updated units
+                // while new updates can be added to the pending set.
+                (_pendingUpdatedUnits, _processingUpdatedUnits) = (_processingUpdatedUnits, _pendingUpdatedUnits);
             }
 
             foreach (KeyValuePair<long, Unit> kvp in _units)
             {
                 Unit targetUnit = kvp.Value;
-                foreach (Unit sourceUnit in updatedUnits)
+                foreach (Unit sourceUnit in _processingUpdatedUnits)
                 {
                     if (sourceUnit == targetUnit)
                     {
@@ -300,6 +310,8 @@ namespace Perpetuum.Zones
                     bSource?.BlobHandler.UpdateBlob(targetUnit);
                 }
             }
+
+            _processingUpdatedUnits.Clear();
         }
 
         private void OnUnitUpdated(Unit unit, UnitUpdatedEventArgs e)
@@ -310,7 +322,10 @@ namespace Perpetuum.Zones
                 return;
             }
 
-            _ = ImmutableInterlocked.Update(ref _updatedUnits, h => h.Add(unit));
+            lock (_updatedUnitsLock)
+            {
+                _pendingUpdatedUnits.Add(unit);
+            }
         }
 
         public IEnumerable<Unit> Units => _units.Values;

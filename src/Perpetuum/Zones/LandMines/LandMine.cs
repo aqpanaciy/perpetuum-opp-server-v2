@@ -21,6 +21,11 @@ namespace Perpetuum.Zones.LandMines
 
         public int TriggerMass => ED.Options.GetOption<int>("triggerMass");
 
+        public LandMine()
+        {
+            _myVisibilityType = VisibilityType.LandMine;
+        }
+
         protected override void OnUpdate(TimeSpan time)
         {
             if (!gracePeriodInterval.Passed)

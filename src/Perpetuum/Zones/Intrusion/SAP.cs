@@ -89,6 +89,7 @@ namespace Perpetuum.Zones.Intrusion
 
         protected SAP(BeamType enterBeamType, BeamType exitBeamType)
         {
+            _myVisibilityType = VisibilityType.SAP;
             _enterBeamType = enterBeamType;
             _exitBeamType = exitBeamType;
             _npcAttackerCharacter = Character.GetByNick(NianiCultistNick);

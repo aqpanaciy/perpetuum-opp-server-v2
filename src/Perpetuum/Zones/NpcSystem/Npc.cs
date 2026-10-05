@@ -22,6 +22,8 @@ namespace Perpetuum.Zones.NpcSystem
 
         public Npc(TagHelper tagHelper)
         {
+            _myVisibilityType = VisibilityType.Npc;
+            _myVisibilityMask = VisibilityType.Npc | VisibilityType.RCU | VisibilityType.LandMine | VisibilityType.SAP;
             this.tagHelper = tagHelper;
         }
 
@@ -117,6 +119,8 @@ namespace Perpetuum.Zones.NpcSystem
 
         protected override void OnEnterZone(IZone zone, ZoneEnterType enterType)
         {
+            _faction = ED.Options.Faction;
+
             SetEP(zone);
 
             base.OnEnterZone(zone, enterType);
@@ -164,7 +168,7 @@ namespace Perpetuum.Zones.NpcSystem
 
         public override bool IsHostile(Player player)
         {
-            return ED.Options.Faction != Faction.Syndicate;
+            return Faction != Faction.Syndicate;
         }
 
         internal override bool IsHostile(AreaBomb bomb)
@@ -199,24 +203,38 @@ namespace Perpetuum.Zones.NpcSystem
 
         internal override bool IsHostile(Npc npc)
         {
-            return (ED.Options.Faction == Faction.Syndicate && npc.ED.Options.Faction != Faction.Syndicate) ||
-                (ED.Options.Faction != Faction.Syndicate && npc.ED.Options.Faction == Faction.Syndicate);
+            return (Faction == Faction.Syndicate && npc.Faction != Faction.Syndicate) ||
+                (Faction != Faction.Syndicate && npc.Faction == Faction.Syndicate);
         }
 
         internal override bool IsHostile(SAP sap)
         {
-            return ED.Options.Faction == Faction.Cultist;
+            return Faction == Faction.Cultist;
         }
+
+        /// <summary>
+        /// Faction of the NPC.  This is used to determine if the NPC is hostile or friendly to other units.
+        /// This property is set when the NPC enters the zone and is based on the NPC's definition.
+        /// </summary>
+        public Faction Faction => _faction;
+        private Faction _faction;
 
         protected override void UpdateUnitVisibility(Unit target)
         {
-            if (target is RemoteControlledCreature ||
-                target is LandMine ||
-                target is SAP ||
-                (target is Npc npc && npc.ED.Options.Faction != ED.Options.Faction))
+            // The target is not within the mask; therefore, it is not visible
+            if ((target.MyVisibilityType & MyVisibilityMask) == 0)
             {
-                UpdateVisibility(target);
+                return;
             }
+
+            // If the target is an NPC and belongs to the same faction, it is not visible
+            if (target.MyVisibilityType == VisibilityType.Npc && (target as Npc)?.Faction == Faction)
+            {
+                return;
+            }
+
+            // Update the visibility of the target unit
+            UpdateVisibility(target);
         }
 
         private Task HandleNpcDeadAsync(IZone zone, Unit killer, Player tagger)

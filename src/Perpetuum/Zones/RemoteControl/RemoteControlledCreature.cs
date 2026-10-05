@@ -50,6 +50,8 @@ namespace Perpetuum.Zones.RemoteControl
 
         public RemoteControlledCreature(IStandingHandler standingHandler)
         {
+            _myVisibilityType = VisibilityType.RCU;
+
             this.standingHandler = standingHandler;
         }
 
