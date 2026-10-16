@@ -21,7 +21,10 @@ namespace Perpetuum.AdminTool.ViewModels
             ulong value = 0;
             foreach (var item in Items)
             {
-                if (item.IsChecked) value |= item.Bit.Mask;
+                if (item.IsChecked)
+                {
+                    value |= item.Bit.Mask;
+                }
             }
             return value;
         }

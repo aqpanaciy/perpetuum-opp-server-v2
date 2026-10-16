@@ -83,7 +83,10 @@ namespace Perpetuum.AdminTool.ViewModels
 
         private bool MatchesFilter(object obj)
         {
-            if (obj is not EntityDefaultRow row) return false;
+            if (obj is not EntityDefaultRow row)
+            {
+                return false;
+            }
 
             // Category filter (if active) ANDs with the text filter.
             if (SelectedCategoryNode != null &&
@@ -92,16 +95,29 @@ namespace Perpetuum.AdminTool.ViewModels
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(FilterText)) return true;
+            if (string.IsNullOrWhiteSpace(FilterText))
+            {
+                return true;
+            }
 
             var f = FilterText.Trim();
 
-            if (int.TryParse(f, out var defId) && row.Definition == defId) return true;
-            if (row.DefinitionName.Contains(f, StringComparison.OrdinalIgnoreCase)) return true;
+            if (int.TryParse(f, out var defId) && row.Definition == defId)
+            {
+                return true;
+            }
+
+            if (row.DefinitionName.Contains(f, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
 
             var translated = TranslatedName(row);
             if (!string.IsNullOrEmpty(translated) &&
-                translated.Contains(f, StringComparison.OrdinalIgnoreCase)) return true;
+                translated.Contains(f, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
 
             return false;
         }
@@ -131,7 +147,11 @@ namespace Perpetuum.AdminTool.ViewModels
         public string TranslatedName(EntityDefaultRow row)
         {
             var key = row.DefinitionName;
-            if (string.IsNullOrEmpty(key) || _translations.Store == null) return "";
+            if (string.IsNullOrEmpty(key) || _translations.Store == null)
+            {
+                return "";
+            }
+
             var rowsByKey = _translations.Store.Rows;
             var match = rowsByKey.FirstOrDefault(r => r.Key == key);
             return match?[EnglishLangId] ?? "";
@@ -160,8 +180,16 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public void RemoveRow(EntityDefaultRow row)
         {
-            if (row == null) return;
-            if (ReferenceEquals(SelectedRow, row)) SelectedRow = null;
+            if (row == null)
+            {
+                return;
+            }
+
+            if (ReferenceEquals(SelectedRow, row))
+            {
+                SelectedRow = null;
+            }
+
             AllRows.Remove(row);
         }
 
@@ -169,10 +197,14 @@ namespace Perpetuum.AdminTool.ViewModels
         private async Task OpenNewItemDialogAsync()
         {
             if (AllRows.Count == 0 || Fields.Count == 0)
+            {
                 await ReloadAsync();
+            }
 
             if (StatusIsError)
+            {
                 return;
+            }
 
             var connSettings = _settings.Settings.Connection;
             var store = _translations.Store;
@@ -219,10 +251,14 @@ namespace Perpetuum.AdminTool.ViewModels
         private async Task OpenNewRobotDialogAsync()
         {
             if (AllRows.Count == 0 || Fields.Count == 0)
+            {
                 await ReloadAsync();
+            }
 
             if (StatusIsError)
+            {
                 return;
+            }
 
             var connSettings = _settings.Settings.Connection;
             var store = _translations.Store;
@@ -270,7 +306,11 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand(CanExecute = nameof(CanExport))]
         private async Task ExportEntityAsync()
         {
-            if (SelectedRow == null) return;
+            if (SelectedRow == null)
+            {
+                return;
+            }
+
             IsLoading = true;
             StatusMessage = "Generating export script...";
             StatusIsError = false;
@@ -310,7 +350,11 @@ namespace Perpetuum.AdminTool.ViewModels
                 var snapshot = await repo.LoadAsync();
                 Fields = snapshot.Fields;
                 AllRows.Clear();
-                foreach (var r in snapshot.Rows) AllRows.Add(r);
+                foreach (var r in snapshot.Rows)
+                {
+                    AllRows.Add(r);
+                }
+
                 Detail = new EntityDetailViewModel(_queue, Fields);
                 SelectedRow = null;
 

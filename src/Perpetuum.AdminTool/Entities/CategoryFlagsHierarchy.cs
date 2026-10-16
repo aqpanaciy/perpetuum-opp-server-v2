@@ -44,11 +44,21 @@ namespace Perpetuum.AdminTool.Entities
                     .OrderBy(c => c.Name, StringComparer.OrdinalIgnoreCase)
                     .ToList();
                 n.Children.Clear();
-                foreach (var c in sorted) n.Children.Add(c);
-                foreach (var c in n.Children) SortChildren(c);
+                foreach (var c in sorted)
+                {
+                    n.Children.Add(c);
+                }
+
+                foreach (var c in n.Children)
+                {
+                    SortChildren(c);
+                }
             }
 
-            foreach (var r in roots) SortChildren(r);
+            foreach (var r in roots)
+            {
+                SortChildren(r);
+            }
 
             return roots
                 .OrderBy(r => r.Name, StringComparer.OrdinalIgnoreCase)

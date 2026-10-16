@@ -16,7 +16,9 @@ namespace Perpetuum.AdminTool.Views
         {
             Loaded -= OnFirstLoaded;
             if (Vm.Sets.Count == 0)
+            {
                 await Vm.ReloadAsync();
+            }
         }
 
         private EquipmentSetsViewModel Vm => (EquipmentSetsViewModel)DataContext;

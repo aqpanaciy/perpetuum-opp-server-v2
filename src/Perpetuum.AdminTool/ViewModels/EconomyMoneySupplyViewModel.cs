@@ -41,13 +41,22 @@ namespace Perpetuum.AdminTool.ViewModels
                 IdleNic = data.IdleNic;
 
                 SnapshotRows.Clear();
-                foreach (var r in data.SnapshotRows) SnapshotRows.Add(r);
+                foreach (var r in data.SnapshotRows)
+                {
+                    SnapshotRows.Add(r);
+                }
 
                 Top10Rows.Clear();
-                foreach (var r in data.Top10Rows) Top10Rows.Add(r);
+                foreach (var r in data.Top10Rows)
+                {
+                    Top10Rows.Add(r);
+                }
 
                 Top10CorpRows.Clear();
-                foreach (var r in data.Top10CorpRows) Top10CorpRows.Add(r);
+                foreach (var r in data.Top10CorpRows)
+                {
+                    Top10CorpRows.Add(r);
+                }
 
                 StatusMessage = $"Loaded at {DateTime.UtcNow:HH:mm:ss} UTC.";
             }

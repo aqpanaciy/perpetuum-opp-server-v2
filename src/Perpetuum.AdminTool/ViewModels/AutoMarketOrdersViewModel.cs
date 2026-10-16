@@ -55,7 +55,11 @@ namespace Perpetuum.AdminTool.ViewModels
 
                 string Translate(string defName)
                 {
-                    if (string.IsNullOrEmpty(defName) || store == null) return defName;
+                    if (string.IsNullOrEmpty(defName) || store == null)
+                    {
+                        return defName;
+                    }
+
                     var row = store.Rows.FirstOrDefault(r => r.Key == defName);
                     var t = row?[EnglishLangId];
                     return string.IsNullOrEmpty(t) ? defName : t;
@@ -103,10 +107,21 @@ namespace Perpetuum.AdminTool.ViewModels
         private void ApplyFilter()
         {
             var filtered = _allOrders.AsEnumerable();
-            if (OrderTypeFilter != null) filtered = filtered.Where(r => r.OrderType == OrderTypeFilter);
-            if (CategoryFilter != null) filtered = filtered.Where(r => r.Category == CategoryFilter);
+            if (OrderTypeFilter != null)
+            {
+                filtered = filtered.Where(r => r.OrderType == OrderTypeFilter);
+            }
+
+            if (CategoryFilter != null)
+            {
+                filtered = filtered.Where(r => r.Category == CategoryFilter);
+            }
+
             FilteredOrders.Clear();
-            foreach (var r in filtered) FilteredOrders.Add(r);
+            foreach (var r in filtered)
+            {
+                FilteredOrders.Add(r);
+            }
         }
     }
 }

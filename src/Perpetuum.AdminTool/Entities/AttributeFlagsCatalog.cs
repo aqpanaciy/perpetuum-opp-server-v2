@@ -20,9 +20,21 @@ namespace Perpetuum.AdminTool.Entities
             var list = new List<Bit>();
             foreach (var name in Enum.GetNames(typeof(AttributeFlags)))
             {
-                if (name.StartsWith("undefined_", StringComparison.Ordinal)) continue;
-                if (name == "NOT_USED") continue;
-                if (name == "player") continue; // bit 0 — meaningful only for player entities, rarely set as a flag
+                if (name.StartsWith("undefined_", StringComparison.Ordinal))
+                {
+                    continue;
+                }
+
+                if (name == "NOT_USED")
+                {
+                    continue;
+                }
+
+                if (name == "player")
+                {
+                    continue; // bit 0 — meaningful only for player entities, rarely set as a flag
+                }
+
                 var pos = (int)Enum.Parse<AttributeFlags>(name);
                 list.Add(new Bit(name, pos));
             }
@@ -40,7 +52,11 @@ namespace Perpetuum.AdminTool.Entities
 
         public static string Describe(ulong value)
         {
-            if (value == 0) return "(none)";
+            if (value == 0)
+            {
+                return "(none)";
+            }
+
             var names = Bits.Where(b => (value & b.Mask) != 0).Select(b => b.Name).ToList();
             return names.Count == 0
                 ? $"(unknown: 0x{value:X})"

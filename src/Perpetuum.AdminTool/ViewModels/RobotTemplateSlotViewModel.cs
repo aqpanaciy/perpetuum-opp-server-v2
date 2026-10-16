@@ -58,10 +58,26 @@ namespace Perpetuum.AdminTool.ViewModels
             ModulePicks.Clear();
             foreach (var e in allEntities)
             {
-                if (!e.Enabled) continue;
-                if (e.ModuleFlag == 0) continue; // not a module
-                if ((e.ModuleFlag & SlotFlag) != e.ModuleFlag) continue;
-                if (slotIsSpecialized && (e.ModuleFlag & SpecializedFlag) != SpecializedFlag) continue;
+                if (!e.Enabled)
+                {
+                    continue;
+                }
+
+                if (e.ModuleFlag == 0)
+                {
+                    continue; // not a module
+                }
+
+                if ((e.ModuleFlag & SlotFlag) != e.ModuleFlag)
+                {
+                    continue;
+                }
+
+                if (slotIsSpecialized && (e.ModuleFlag & SpecializedFlag) != SpecializedFlag)
+                {
+                    continue;
+                }
+
                 ModulePicks.Add(e);
             }
         }
@@ -80,8 +96,16 @@ namespace Perpetuum.AdminTool.ViewModels
                 !_byDef.TryGetValue(ModuleDefinition, out var module) ||
                 !module.IsAmmoable)
             {
-                if (AmmoDefinition != 0) AmmoDefinition = 0;
-                if (AmmoQuantity != 0) AmmoQuantity = 0;
+                if (AmmoDefinition != 0)
+                {
+                    AmmoDefinition = 0;
+                }
+
+                if (AmmoQuantity != 0)
+                {
+                    AmmoQuantity = 0;
+                }
+
                 return;
             }
 
@@ -95,14 +119,29 @@ namespace Perpetuum.AdminTool.ViewModels
             // (We re-implement the math here instead of calling into the server's
             // extension — its static ctor binds to the Db facade we don't initialize.)
             var target = module.AmmoType;
-            if (target == 0) return;
+            if (target == 0)
+            {
+                return;
+            }
 
             var mask = CategoryFlagsMask(target);
             foreach (var e in _byDef.Values.OrderBy(e => e.Name, System.StringComparer.OrdinalIgnoreCase))
             {
-                if (!e.Enabled) continue;
-                if (e.CategoryFlags == 0) continue;
-                if ((e.CategoryFlags & mask) != target) continue;
+                if (!e.Enabled)
+                {
+                    continue;
+                }
+
+                if (e.CategoryFlags == 0)
+                {
+                    continue;
+                }
+
+                if ((e.CategoryFlags & mask) != target)
+                {
+                    continue;
+                }
+
                 AmmoPicks.Add(e);
             }
 

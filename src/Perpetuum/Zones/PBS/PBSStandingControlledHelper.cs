@@ -43,14 +43,18 @@ namespace Perpetuum.Zones.PBS
             get
             {
                 if (AlwaysEnabled)
+                {
                     return true;
+                }
 
                 return _unit.DynamicProperties.Contains(k.standing);
             }
             set
             {
                 if (AlwaysEnabled)
+                {
                     return;
+                }
 
                 if (!value)
                 {

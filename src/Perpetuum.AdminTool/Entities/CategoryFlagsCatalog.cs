@@ -24,7 +24,11 @@ namespace Perpetuum.AdminTool.Entities
             foreach (var name in Enum.GetNames(typeof(CategoryFlags)))
             {
                 var value = (long)Enum.Parse<CategoryFlags>(name);
-                if (!seen.Add(value)) continue;
+                if (!seen.Add(value))
+                {
+                    continue;
+                }
+
                 list.Add(new Entry(name, value));
             }
             Entries = list

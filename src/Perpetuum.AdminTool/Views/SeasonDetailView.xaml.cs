@@ -21,7 +21,10 @@ namespace Perpetuum.AdminTool.Views
         {
             var current = System.Windows.Media.VisualTreeHelper.GetParent(child);
             while (current != null && current is not T)
+            {
                 current = System.Windows.Media.VisualTreeHelper.GetParent(current);
+            }
+
             return current as T;
         }
     }

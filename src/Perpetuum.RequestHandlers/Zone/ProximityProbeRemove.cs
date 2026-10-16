@@ -14,7 +14,9 @@ namespace Perpetuum.RequestHandlers.Zone
 
                 var probeBase = request.Zone.GetUnit(eid) as ProximityDeviceBase;
                 if (probeBase == null)
+                {
                     return;
+                }
 
                 var character = request.Session.Character;
                 probeBase.HasAccess(character).ThrowIfError();

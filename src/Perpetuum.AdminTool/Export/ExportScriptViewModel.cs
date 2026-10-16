@@ -32,7 +32,11 @@ namespace Perpetuum.AdminTool.Export
                 FileName = SqlScriptBuilder.BuildFileName("export", Title),
                 InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop)
             };
-            if (dlg.ShowDialog() != true) return;
+            if (dlg.ShowDialog() != true)
+            {
+                return;
+            }
+
             File.WriteAllText(dlg.FileName, Script, System.Text.Encoding.UTF8);
         }
     }

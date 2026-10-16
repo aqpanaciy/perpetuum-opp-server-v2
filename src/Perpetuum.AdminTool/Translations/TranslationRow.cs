@@ -22,7 +22,10 @@ namespace Perpetuum.AdminTool.Translations
             {
                 var current = this[langId];
                 var normalized = value ?? "";
-                if (current == normalized) return;
+                if (current == normalized)
+                {
+                    return;
+                }
 
                 if (string.IsNullOrEmpty(normalized))
                 {

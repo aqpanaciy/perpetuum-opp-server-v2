@@ -292,7 +292,9 @@ namespace Perpetuum.Zones.Locking
                 }
 
                 if (!ValidateLock(newLock))
+                {
                     continue;
+                }
 
                 if (newLock.Primary)
                 {

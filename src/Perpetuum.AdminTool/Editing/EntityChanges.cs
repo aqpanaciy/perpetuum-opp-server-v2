@@ -20,7 +20,10 @@ namespace Perpetuum.AdminTool.Editing
             }
 
             var entityUpdate = BuildEntityUpdate(row);
-            if (entityUpdate != null) yield return entityUpdate;
+            if (entityUpdate != null)
+            {
+                yield return entityUpdate;
+            }
 
             foreach (var change in BuildStatChanges(row))
             {
@@ -92,7 +95,11 @@ namespace Perpetuum.AdminTool.Editing
 
             void AddIfChanged(string column, object? originalValue, object? currentValue)
             {
-                if (Equals(originalValue, currentValue)) return;
+                if (Equals(originalValue, currentValue))
+                {
+                    return;
+                }
+
                 sets.Add($"{SqlLiteral.Identifier(column)} = {SqlLiteral.Of(currentValue)}");
             }
 
@@ -118,7 +125,10 @@ namespace Perpetuum.AdminTool.Editing
                 sets.Add($"{SqlLiteral.Identifier("tierlevel")} = {SqlLiteral.OfNullableInt(row.TierLevel)}");
             }
 
-            if (sets.Count == 0) return null;
+            if (sets.Count == 0)
+            {
+                return null;
+            }
 
             var sql = new StringBuilder();
             sql.Append("UPDATE entitydefaults SET ");

@@ -44,10 +44,14 @@ namespace Perpetuum.Data
         private void Enlist()
         {
             if (Transaction.Current == null)
+            {
                 return;
+            }
 
             if (_enlisted)
+            {
                 return;
+            }
 
             _are.WaitOne();
             _txValue = _value;

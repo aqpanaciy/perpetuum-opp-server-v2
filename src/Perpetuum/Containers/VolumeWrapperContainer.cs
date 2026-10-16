@@ -21,7 +21,9 @@ namespace Perpetuum.Containers
         public override void AcceptVisitor(IEntityVisitor visitor)
         {
             if (!TryAcceptVisitor(this, visitor))
+            {
                 base.AcceptVisitor(visitor);
+            }
         }
 
         public override bool IsStackable
@@ -137,7 +139,9 @@ namespace Perpetuum.Containers
         public override void OnDeleteFromDb()
         {
             if (IsRepackaged)
+            {
                 return;
+            }
 
             if (!IsDeleteAllowed())
             {
@@ -157,7 +161,9 @@ namespace Perpetuum.Containers
                 var resutlDefinition = item.Definition;
 
                 if (resultQuantity <= 0)
+                {
                     continue;
+                }
 
                 var lootItem = LootItemBuilder.Create(resutlDefinition).SetQuantity(resultQuantity).SetRepackaged(item.ED.AttributeFlags.Repackable).Build();
                 lista.Add(lootItem);

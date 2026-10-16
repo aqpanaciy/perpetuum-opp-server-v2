@@ -38,6 +38,7 @@ public partial class BonusesPanelViewModel : ObservableObject
     {
         Rows.Clear();
         foreach (var r in rows)
+        {
             Rows.Add(new NewBonusRow
             {
                 ExtensionId = r.ExtensionId,
@@ -47,6 +48,7 @@ public partial class BonusesPanelViewModel : ObservableObject
                 EffectEnhancer = r.EffectEnhancer,
                 Note = r.Note ?? ""
             });
+        }
     }
 
     public bool HasDuplicates()

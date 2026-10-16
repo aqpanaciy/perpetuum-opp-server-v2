@@ -41,7 +41,9 @@ namespace Perpetuum.Zones.Artifacts.Scanners
             {
                 var dist = scanPosition.TotalDistance2D(artifact.Position);
                 if (dist > scanRange)
+                {
                     continue;
+                }
 
                 var scanResult = new ArtifactScanResult { scannedArtifact = artifact };
 
@@ -58,8 +60,16 @@ namespace Perpetuum.Zones.Artifacts.Scanners
                     SpawnNpcs(player, artifact);
 
                     var ep = _zone.Configuration.IsBeta ? 10 : 5;
-                    if (_zone.Configuration.Type == ZoneType.Training) ep = 0;
-                    if (ep > 0) player.Character.AddExtensionPointsBoostAndLog(EpForActivityType.Artifact, ep);
+                    if (_zone.Configuration.Type == ZoneType.Training)
+                    {
+                        ep = 0;
+                    }
+
+                    if (ep > 0)
+                    {
+                        player.Character.AddExtensionPointsBoostAndLog(EpForActivityType.Artifact, ep);
+                    }
+
                     SeasonServiceLocator.Instance?.RecordActivity(player.Character.Id, SeasonActivityType.ArtifactFound, new ActivityEvent(1));
 
                     player.MissionHandler.EnqueueMissionEventInfo(new FindArtifactEventInfo(player, artifact.Info.type, artifact.Position));
@@ -82,7 +92,9 @@ namespace Perpetuum.Zones.Artifacts.Scanners
         {
             var lootItems = _artifactLootGenerator.GenerateLoot(artifact);
             if (lootItems == null)
+            {
                 return;
+            }
 
             LootContainer.Create().SetOwner(player).SetEnterBeamType(BeamType.artifact_found).AddLoot(lootItems.LootItems).BuildAndAddToZone(_zone, lootItems.Position);
         }
@@ -96,7 +108,9 @@ namespace Perpetuum.Zones.Artifacts.Scanners
         {
             //do the standard stuff if the presence is set
             if (artifact.Info.npcPresenceId == null)
+            {
                 return;
+            }
 
             var presence = _zone.AddDynamicPresenceToPosition((int)artifact.Info.npcPresenceId, artifact.Position);
 

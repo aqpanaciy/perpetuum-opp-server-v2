@@ -25,8 +25,16 @@ namespace Perpetuum.AdminTool.ViewModels
 
         private bool MatchesFilter(object obj)
         {
-            if (obj is not CategoryFlagsCatalog.Entry entry) return false;
-            if (string.IsNullOrWhiteSpace(Filter)) return true;
+            if (obj is not CategoryFlagsCatalog.Entry entry)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(Filter))
+            {
+                return true;
+            }
+
             var f = Filter.Trim();
             return entry.Name.Contains(f, StringComparison.OrdinalIgnoreCase)
                 || entry.Hex.Contains(f, StringComparison.OrdinalIgnoreCase);

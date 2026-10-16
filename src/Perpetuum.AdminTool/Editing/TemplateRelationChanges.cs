@@ -25,7 +25,10 @@ namespace Perpetuum.AdminTool.Editing
                 if (originalByDefinition.TryGetValue(row.Original.Definition, out var original))
                 {
                     var update = BuildUpdate(row, original);
-                    if (update != null) yield return update;
+                    if (update != null)
+                    {
+                        yield return update;
+                    }
                 }
                 else
                 {
@@ -35,7 +38,11 @@ namespace Perpetuum.AdminTool.Editing
 
             foreach (var kv in originalByDefinition)
             {
-                if (seen.Contains(kv.Key)) continue;
+                if (seen.Contains(kv.Key))
+                {
+                    continue;
+                }
+
                 yield return BuildDelete(kv.Value);
             }
         }
@@ -58,23 +65,49 @@ namespace Perpetuum.AdminTool.Editing
         {
             var sets = new List<string>();
             if (row.Definition != original.Definition)
+            {
                 sets.Add($"definition = {row.Definition}");
-            if (row.TemplateId != original.TemplateId)
-                sets.Add($"templateid = {row.TemplateId}");
-            if (row.ItemScoreSum != original.ItemScoreSum)
-                sets.Add($"itemscoresum = {row.ItemScoreSum}");
-            if (row.RaceId != original.RaceId)
-                sets.Add($"raceid = {row.RaceId}");
-            if (row.MissionLevel != original.MissionLevel)
-                sets.Add($"missionlevel = {SqlLiteral.OfNullableInt(row.MissionLevel)}");
-            if (row.MissionLevelOverride != original.MissionLevelOverride)
-                sets.Add($"missionleveloverride = {SqlLiteral.OfNullableInt(row.MissionLevelOverride)}");
-            if (row.KillEp != original.KillEp)
-                sets.Add($"killep = {SqlLiteral.OfNullableInt(row.KillEp)}");
-            if ((row.Note ?? "") != (original.Note ?? ""))
-                sets.Add($"note = {(string.IsNullOrEmpty(row.Note) ? "NULL" : SqlLiteral.Of(row.Note))}");
+            }
 
-            if (sets.Count == 0) return null;
+            if (row.TemplateId != original.TemplateId)
+            {
+                sets.Add($"templateid = {row.TemplateId}");
+            }
+
+            if (row.ItemScoreSum != original.ItemScoreSum)
+            {
+                sets.Add($"itemscoresum = {row.ItemScoreSum}");
+            }
+
+            if (row.RaceId != original.RaceId)
+            {
+                sets.Add($"raceid = {row.RaceId}");
+            }
+
+            if (row.MissionLevel != original.MissionLevel)
+            {
+                sets.Add($"missionlevel = {SqlLiteral.OfNullableInt(row.MissionLevel)}");
+            }
+
+            if (row.MissionLevelOverride != original.MissionLevelOverride)
+            {
+                sets.Add($"missionleveloverride = {SqlLiteral.OfNullableInt(row.MissionLevelOverride)}");
+            }
+
+            if (row.KillEp != original.KillEp)
+            {
+                sets.Add($"killep = {SqlLiteral.OfNullableInt(row.KillEp)}");
+            }
+
+            if ((row.Note ?? "") != (original.Note ?? ""))
+            {
+                sets.Add($"note = {(string.IsNullOrEmpty(row.Note) ? "NULL" : SqlLiteral.Of(row.Note))}");
+            }
+
+            if (sets.Count == 0)
+            {
+                return null;
+            }
 
             return new RawSqlChange(
                 $"robottemplaterelation: update def {original.Definition} ({sets.Count} column(s))",

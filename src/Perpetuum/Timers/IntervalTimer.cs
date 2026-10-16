@@ -64,7 +64,9 @@ namespace Perpetuum.Timers
         public bool IsPassed(Action<TimeSpan> action)
         {
             if (!Passed)
+            {
                 return false;
+            }
 
             try
             {

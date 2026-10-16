@@ -35,7 +35,10 @@ namespace Perpetuum.AdminTool.ViewModels
                 InsuranceCoveragePct = data.InsuranceCoveragePct;
 
                 SinkRows.Clear();
-                foreach (var r in data.SinkRows) SinkRows.Add(r);
+                foreach (var r in data.SinkRows)
+                {
+                    SinkRows.Add(r);
+                }
 
                 StatusMessage = $"Loaded at {DateTime.UtcNow:HH:mm:ss} UTC.";
             }

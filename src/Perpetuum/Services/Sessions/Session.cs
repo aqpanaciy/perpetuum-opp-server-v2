@@ -178,7 +178,9 @@ namespace Perpetuum.Services.Sessions
         {
             var selectedCharacter = Character;
             if (selectedCharacter == Character.None)
+            {
                 return;
+            }
 
             selectedCharacter.LastLogout = DateTime.Now;
             selectedCharacter.TotalOnlineTime += SessionTime;
@@ -209,7 +211,9 @@ namespace Perpetuum.Services.Sessions
         public void SignIn(int accountID, string hwHash, int language)
         {
             if (IsAuthenticated)
+            {
                 return;
+            }
 
             using (var scope = Db.CreateTransaction())
             {
@@ -261,7 +265,9 @@ namespace Perpetuum.Services.Sessions
         public void SignOut()
         {
             if (!IsAuthenticated)
+            {
                 return;
+            }
 
             DeselectCharacter();
 
@@ -409,13 +415,17 @@ namespace Perpetuum.Services.Sessions
         {
             var args = data.Split(':');
             if (args.Length < 3)
+            {
                 throw new PerpetuumException(ErrorCodes.TooManyOrTooFewArguments);
+            }
 
             var commandText = args[0];
 
             var command = _commandFactory(commandText);
             if (command == null)
+            {
                 throw PerpetuumException.Create(ErrorCodes.NoSuchCommand).SetData("command", commandText);
+            }
 
             if (!_accessLevel.HasFlag(command.AccessLevel))
             {
@@ -438,7 +448,9 @@ namespace Perpetuum.Services.Sessions
             };
 
             if (!targetPlugin.StartsWith("zone_"))
+            {
                 return request;
+            }
 
             request.Target = targetPlugin;
             var zoneID = int.Parse(targetPlugin.Remove(0, 5));
@@ -493,7 +505,9 @@ namespace Perpetuum.Services.Sessions
             public override void Send(byte[] data)
             {
                 if (_rc4 == null)
+                {
                     return;
+                }
 
                 base.Send(data);
             }

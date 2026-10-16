@@ -70,7 +70,11 @@ namespace Perpetuum.AdminTool.Seasons
         {
             get
             {
-                if (IsActive) return SeasonCardState.Active;
+                if (IsActive)
+                {
+                    return SeasonCardState.Active;
+                }
+
                 return EndTime > DateTime.UtcNow ? SeasonCardState.Draft : SeasonCardState.Ended;
             }
         }

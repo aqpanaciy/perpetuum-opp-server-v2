@@ -37,10 +37,16 @@ namespace Perpetuum.AdminTool.ViewModels
                 var (nicIn, nicOut) = await _repo.LoadNicFlowAsync();
 
                 NicIn.Clear();
-                foreach (var row in nicIn) NicIn.Add(row);
+                foreach (var row in nicIn)
+                {
+                    NicIn.Add(row);
+                }
 
                 NicOut.Clear();
-                foreach (var row in nicOut) NicOut.Add(row);
+                foreach (var row in nicOut)
+                {
+                    NicOut.Add(row);
+                }
 
                 OnPropertyChanged(nameof(NetToday));
                 OnPropertyChanged(nameof(NetLast7Days));

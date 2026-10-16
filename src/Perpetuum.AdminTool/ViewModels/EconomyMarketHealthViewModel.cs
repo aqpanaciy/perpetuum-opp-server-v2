@@ -56,10 +56,16 @@ namespace Perpetuum.AdminTool.ViewModels
                 var basket = await _repo.LoadBasketAsync();
 
                 VelocityRows.Clear();
-                foreach (var r in marketData.VelocityRows) VelocityRows.Add(r);
+                foreach (var r in marketData.VelocityRows)
+                {
+                    VelocityRows.Add(r);
+                }
 
                 PriceIndexRows.Clear();
-                foreach (var r in marketData.PriceIndexRows) PriceIndexRows.Add(r);
+                foreach (var r in marketData.PriceIndexRows)
+                {
+                    PriceIndexRows.Add(r);
+                }
 
                 AgeBucketToday = marketData.AgeBuckets.Today;
                 AgeBucketD1To7 = marketData.AgeBuckets.D1To7;
@@ -69,7 +75,10 @@ namespace Perpetuum.AdminTool.ViewModels
                 PlayerOrderCount = marketData.PlayerOrderCount;
 
                 BasketItems.Clear();
-                foreach (var b in basket) BasketItems.Add(b);
+                foreach (var b in basket)
+                {
+                    BasketItems.Add(b);
+                }
 
                 StatusMessage = $"Loaded at {DateTime.UtcNow:HH:mm:ss} UTC.";
             }
@@ -86,7 +95,10 @@ namespace Perpetuum.AdminTool.ViewModels
         {
             var desc = $"economy_price_index_basket: update id={item.Id}";
             var existing = _changes.Items.FirstOrDefault(c => c.Description == desc);
-            if (existing != null) _changes.Items.Remove(existing);
+            if (existing != null)
+            {
+                _changes.Items.Remove(existing);
+            }
 
             _changes.Add(new RawSqlChange(desc,
                 $"UPDATE economy_price_index_basket SET weight = {SqlLiteral.Of(item.Weight)} WHERE id = {SqlLiteral.Of(item.Id)}"));
@@ -110,7 +122,11 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void AddBasketItem()
         {
-            if (SelectedNewItem == null) return;
+            if (SelectedNewItem == null)
+            {
+                return;
+            }
+
             if (BasketItems.Any(b => b.Definition == SelectedNewItem.Definition))
             {
                 StatusMessage = $"'{SelectedNewItem.Name}' is already in the basket.";

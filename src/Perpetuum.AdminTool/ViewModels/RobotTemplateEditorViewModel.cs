@@ -85,9 +85,21 @@ namespace Perpetuum.AdminTool.ViewModels
             var mask = CategoryFlagsMask(categoryRoot);
             foreach (var e in _all)
             {
-                if (!e.Enabled) continue;
-                if (e.CategoryFlags == 0) continue;
-                if ((e.CategoryFlags & mask) != categoryRoot) continue;
+                if (!e.Enabled)
+                {
+                    continue;
+                }
+
+                if (e.CategoryFlags == 0)
+                {
+                    continue;
+                }
+
+                if ((e.CategoryFlags & mask) != categoryRoot)
+                {
+                    continue;
+                }
+
                 sink.Add(e);
             }
         }
@@ -123,7 +135,11 @@ namespace Perpetuum.AdminTool.ViewModels
             // Round-trip everything else (e.g. `items`) back into the saved Genxy.
             foreach (var kv in dict)
             {
-                if (_ownedKeys.Contains(kv.Key)) continue;
+                if (_ownedKeys.Contains(kv.Key))
+                {
+                    continue;
+                }
+
                 _passthrough[kv.Key] = kv.Value;
             }
 
@@ -147,7 +163,10 @@ namespace Perpetuum.AdminTool.ViewModels
             List<ModuleData> seedModules)
         {
             sink.Clear();
-            if (partDefinition <= 0 || !_byDef.TryGetValue(partDefinition, out var part)) return;
+            if (partDefinition <= 0 || !_byDef.TryGetValue(partDefinition, out var part))
+            {
+                return;
+            }
 
             for (var i = 0; i < part.SlotFlags.Length; i++)
             {
@@ -198,7 +217,11 @@ namespace Perpetuum.AdminTool.ViewModels
             // Preserve unknown keys (cargo `items`, anything else).
             foreach (var kv in _passthrough)
             {
-                if (output.ContainsKey(kv.Key)) continue;
+                if (output.ContainsKey(kv.Key))
+                {
+                    continue;
+                }
+
                 output[kv.Key] = kv.Value;
             }
 
@@ -212,7 +235,10 @@ namespace Perpetuum.AdminTool.ViewModels
             var idx = 0;
             foreach (var slot in slots)
             {
-                if (slot.ModuleDefinition <= 0) continue; // skip empty slots
+                if (slot.ModuleDefinition <= 0)
+                {
+                    continue; // skip empty slots
+                }
 
                 var inner = new Dictionary<string, object>(StringComparer.Ordinal)
                 {
@@ -234,11 +260,18 @@ namespace Perpetuum.AdminTool.ViewModels
         private static List<ModuleData> ReadModules(object? raw)
         {
             var result = new List<ModuleData>();
-            if (raw is not IDictionary<string, object> outer) return result;
+            if (raw is not IDictionary<string, object> outer)
+            {
+                return result;
+            }
 
             foreach (var kv in outer)
             {
-                if (kv.Value is not IDictionary<string, object> m) continue;
+                if (kv.Value is not IDictionary<string, object> m)
+                {
+                    continue;
+                }
+
                 result.Add(new ModuleData
                 {
                     Definition = ToInt(GetOrDefault(m, "definition")),

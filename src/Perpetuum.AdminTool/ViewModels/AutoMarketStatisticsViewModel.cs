@@ -45,7 +45,10 @@ namespace Perpetuum.AdminTool.ViewModels
                 var store = _translations?.Store;
 
                 NicFlow.Clear();
-                foreach (var r in nicTask.Result) NicFlow.Add(r);
+                foreach (var r in nicTask.Result)
+                {
+                    NicFlow.Add(r);
+                }
 
                 PricingTrace.Clear();
                 foreach (var r in priceTask.Result)
@@ -76,7 +79,11 @@ namespace Perpetuum.AdminTool.ViewModels
 
         private string Translate(TranslationStore? store, string defName)
         {
-            if (store == null) return defName;
+            if (store == null)
+            {
+                return defName;
+            }
+
             var t = store.Rows.FirstOrDefault(x => x.Key == defName)?[EnglishLangId];
             return string.IsNullOrEmpty(t) ? defName : t;
         }

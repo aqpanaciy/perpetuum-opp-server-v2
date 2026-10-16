@@ -10,8 +10,16 @@ namespace Perpetuum.AdminTool.Common
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return "";
-            if (value is Enum) return System.Convert.ToInt32(value).ToString(CultureInfo.InvariantCulture);
+            if (value == null)
+            {
+                return "";
+            }
+
+            if (value is Enum)
+            {
+                return System.Convert.ToInt32(value).ToString(CultureInfo.InvariantCulture);
+            }
+
             return value.ToString() ?? "";
         }
 

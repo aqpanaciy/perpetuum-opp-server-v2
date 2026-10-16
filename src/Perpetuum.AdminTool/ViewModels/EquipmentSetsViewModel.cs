@@ -72,7 +72,10 @@ namespace Perpetuum.AdminTool.ViewModels
                 var store = _translations.Store;
 
                 Sets.Clear();
-                foreach (var s in sets) Sets.Add(s);
+                foreach (var s in sets)
+                {
+                    Sets.Add(s);
+                }
 
                 AggregateFieldOptions.Clear();
                 foreach (var f in fields
@@ -109,10 +112,17 @@ namespace Perpetuum.AdminTool.ViewModels
         private async Task LoadSetDetailAsync(EquipmentSetRow? set)
         {
             Members.Clear();
-            foreach (var t in Thresholds) t.PropertyChanged -= OnThresholdPropertyChanged;
+            foreach (var t in Thresholds)
+            {
+                t.PropertyChanged -= OnThresholdPropertyChanged;
+            }
+
             Thresholds.Clear();
 
-            if (set == null || set.IsNew) return;
+            if (set == null || set.IsNew)
+            {
+                return;
+            }
 
             IsLoading = true;
             try
@@ -167,8 +177,15 @@ namespace Perpetuum.AdminTool.ViewModels
 
         private void OnThresholdPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (sender is not EquipmentSetThresholdRow row) return;
-            if (SelectedSet == null) return;
+            if (sender is not EquipmentSetThresholdRow row)
+            {
+                return;
+            }
+
+            if (SelectedSet == null)
+            {
+                return;
+            }
 
             if (row.RequiredPieces > 0 && row.AggregateFieldId > 0)
             {
@@ -222,7 +239,11 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand(CanExecute = nameof(HasSelection))]
         private void DeleteSet()
         {
-            if (SelectedSet == null) return;
+            if (SelectedSet == null)
+            {
+                return;
+            }
+
             var memberCount = Members.Count;
             var thresholdCount = Thresholds.Count;
             var msg =
@@ -230,7 +251,10 @@ namespace Perpetuum.AdminTool.ViewModels
                 $"This will also remove {memberCount} member(s) and {thresholdCount} threshold row(s).\n\n" +
                 "Continue?";
             if (MessageBox.Show(msg, "Delete set", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No)
-                != MessageBoxResult.Yes) return;
+                != MessageBoxResult.Yes)
+            {
+                return;
+            }
 
             _queue.Add(EquipmentSetChanges.BuildDeleteSet(SelectedSet.SetId, SelectedSet.Name));
             Sets.Remove(SelectedSet);
@@ -242,7 +266,11 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand(CanExecute = nameof(CanRename))]
         private void RenameSet()
         {
-            if (SelectedSet == null) return;
+            if (SelectedSet == null)
+            {
+                return;
+            }
+
             var newName = SelectedSet.Name.Trim();
             if (string.IsNullOrEmpty(newName))
             {
@@ -264,11 +292,18 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public void AddMember(Window owner)
         {
-            if (SelectedSet == null) return;
+            if (SelectedSet == null)
+            {
+                return;
+            }
+
             var assigned = Members.Select(m => m.Definition).ToHashSet();
             var vm = new AddSetMemberViewModel(_lookups, _translations, assigned);
             var win = new AddSetMemberWindow(vm) { Owner = owner };
-            if (win.ShowDialog() != true || vm.SelectedItem == null) return;
+            if (win.ShowDialog() != true || vm.SelectedItem == null)
+            {
+                return;
+            }
 
             var item = vm.SelectedItem;
             _queue.Add(EquipmentSetChanges.BuildInsertMember(SelectedSet.SetId, SelectedSet.Name, item.Definition));
@@ -286,7 +321,11 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void RemoveMember(EquipmentSetMemberRow row)
         {
-            if (SelectedSet == null) return;
+            if (SelectedSet == null)
+            {
+                return;
+            }
+
             _queue.Add(EquipmentSetChanges.BuildDeleteMember(SelectedSet.SetId, SelectedSet.Name, row.Definition));
             Members.Remove(row);
         }
@@ -295,11 +334,18 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public void AddThreshold(Window owner)
         {
-            if (SelectedSet == null) return;
+            if (SelectedSet == null)
+            {
+                return;
+            }
+
             var usedPieces = Thresholds.Select(t => t.RequiredPieces).ToHashSet();
             var vm = new AddSetThresholdViewModel(AggregateFieldOptions);
             var win = new AddSetThresholdWindow(vm, usedPieces) { Owner = owner };
-            if (win.ShowDialog() != true || vm.SelectedField == null) return;
+            if (win.ShowDialog() != true || vm.SelectedField == null)
+            {
+                return;
+            }
 
             var row = new EquipmentSetThresholdRow
             {
@@ -324,8 +370,11 @@ namespace Perpetuum.AdminTool.ViewModels
         private void RemoveThreshold(EquipmentSetThresholdRow row)
         {
             if (SelectedSet != null && row.RequiredPieces > 0 && row.AggregateFieldId > 0)
+            {
                 _queue.Add(EquipmentSetChanges.BuildDeleteThreshold(
                     SelectedSet.SetId, SelectedSet.Name, row.RequiredPieces));
+            }
+
             row.PropertyChanged -= OnThresholdPropertyChanged;
             Thresholds.Remove(row);
         }

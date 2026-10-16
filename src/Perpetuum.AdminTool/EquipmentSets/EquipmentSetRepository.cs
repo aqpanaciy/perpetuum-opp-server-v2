@@ -24,11 +24,14 @@ namespace Perpetuum.AdminTool.EquipmentSets
             cmd.CommandText = "SELECT set_id, name FROM equipment_sets ORDER BY name";
             await using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
+            {
                 result.Add(new EquipmentSetRow
                 {
                     SetId = reader.GetInt32(0),
                     Name = reader.IsDBNull(1) ? "" : reader.GetString(1),
                 });
+            }
+
             return result;
         }
 
@@ -47,12 +50,15 @@ namespace Perpetuum.AdminTool.EquipmentSets
             cmd.Parameters.AddWithValue("@setId", setId);
             await using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
+            {
                 result.Add(new EquipmentSetMemberRow
                 {
                     SetId = setId,
                     Definition = reader.GetInt32(0),
                     DefinitionName = reader.GetString(1),
                 });
+            }
+
             return result;
         }
 
@@ -70,6 +76,7 @@ namespace Perpetuum.AdminTool.EquipmentSets
             cmd.Parameters.AddWithValue("@setId", setId);
             await using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
+            {
                 result.Add(new EquipmentSetThresholdRow
                 {
                     SetId = setId,
@@ -77,6 +84,8 @@ namespace Perpetuum.AdminTool.EquipmentSets
                     AggregateFieldId = reader.GetInt32(1),
                     BonusValue = reader.GetDouble(2),
                 });
+            }
+
             return result;
         }
 
@@ -91,6 +100,7 @@ namespace Perpetuum.AdminTool.EquipmentSets
                 "measurementoffset, category, digits FROM aggregatefields";
             await using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
+            {
                 result.Add(new AggregateFieldInfo
                 {
                     Id = reader.GetInt32(0),
@@ -102,6 +112,8 @@ namespace Perpetuum.AdminTool.EquipmentSets
                     Category = reader.IsDBNull(6) ? 0 : reader.GetInt32(6),
                     Digits = reader.IsDBNull(7) ? 0 : reader.GetInt32(7),
                 });
+            }
+
             return result;
         }
     }

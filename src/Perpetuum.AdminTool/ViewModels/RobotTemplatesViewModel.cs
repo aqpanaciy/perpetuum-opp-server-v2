@@ -45,10 +45,22 @@ namespace Perpetuum.AdminTool.ViewModels
 
         private bool MatchesFilter(object obj)
         {
-            if (obj is not RobotTemplateRow row) return false;
-            if (string.IsNullOrWhiteSpace(FilterText)) return true;
+            if (obj is not RobotTemplateRow row)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(FilterText))
+            {
+                return true;
+            }
+
             var f = FilterText.Trim();
-            if (int.TryParse(f, out var id) && row.Id == id) return true;
+            if (int.TryParse(f, out var id) && row.Id == id)
+            {
+                return true;
+            }
+
             return row.Name.Contains(f, StringComparison.OrdinalIgnoreCase);
         }
 
@@ -62,7 +74,11 @@ namespace Perpetuum.AdminTool.ViewModels
                 var repo = new RobotTemplateRepository(_settings.Settings.Connection);
                 var rows = await repo.LoadAllAsync();
                 AllRows.Clear();
-                foreach (var r in rows) AllRows.Add(r);
+                foreach (var r in rows)
+                {
+                    AllRows.Add(r);
+                }
+
                 SelectedRow = null;
 
                 // Push fresh template list into the shared cache so the Template-relations
@@ -106,14 +122,26 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public void RemoveRow(RobotTemplateRow row)
         {
-            if (row == null) return;
-            if (ReferenceEquals(SelectedRow, row)) SelectedRow = null;
+            if (row == null)
+            {
+                return;
+            }
+
+            if (ReferenceEquals(SelectedRow, row))
+            {
+                SelectedRow = null;
+            }
+
             AllRows.Remove(row);
         }
 
         public void Save()
         {
-            if (SelectedRow == null) return;
+            if (SelectedRow == null)
+            {
+                return;
+            }
+
             var row = SelectedRow;
 
             if (row.IsNew && row.IsQueued)
@@ -130,7 +158,10 @@ namespace Perpetuum.AdminTool.ViewModels
                 StatusMessage = "No changes to save.";
                 return;
             }
-            foreach (var c in changes) _queue.Add(c);
+            foreach (var c in changes)
+            {
+                _queue.Add(c);
+            }
 
             if (row.IsNew)
             {
@@ -147,7 +178,11 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public void Discard()
         {
-            if (SelectedRow == null) return;
+            if (SelectedRow == null)
+            {
+                return;
+            }
+
             SelectedRow.ApplySnapshot(SelectedRow.Original);
             StatusIsError = false;
             StatusMessage = "Reverted to last-saved state.";
@@ -155,17 +190,33 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public System.Collections.Generic.IReadOnlyList<IPendingChange> EnqueueDelete()
         {
-            if (SelectedRow == null) return Array.Empty<IPendingChange>();
-            if (SelectedRow.IsNew) return Array.Empty<IPendingChange>();
+            if (SelectedRow == null)
+            {
+                return Array.Empty<IPendingChange>();
+            }
+
+            if (SelectedRow.IsNew)
+            {
+                return Array.Empty<IPendingChange>();
+            }
+
             var changes = TemplateChanges.ComputeDeleteChanges(SelectedRow).ToList();
-            foreach (var c in changes) _queue.Add(c);
+            foreach (var c in changes)
+            {
+                _queue.Add(c);
+            }
+
             return changes;
         }
 
         [RelayCommand(CanExecute = nameof(CanExport))]
         private async Task ExportTemplateAsync()
         {
-            if (SelectedRow == null) return;
+            if (SelectedRow == null)
+            {
+                return;
+            }
+
             IsLoading = true;
             StatusMessage = "Generating export script...";
             StatusIsError = false;
@@ -196,7 +247,11 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public void ValidateGenxy()
         {
-            if (SelectedRow == null) return;
+            if (SelectedRow == null)
+            {
+                return;
+            }
+
             var raw = SelectedRow.Description ?? "";
             if (string.IsNullOrEmpty(raw))
             {

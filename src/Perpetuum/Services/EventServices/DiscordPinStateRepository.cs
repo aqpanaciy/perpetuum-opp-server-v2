@@ -14,14 +14,18 @@ namespace Perpetuum.Services.EventServices
                 .ExecuteSingleRow();
 
             if (record == null)
+            {
                 return null;
+            }
 
             var rawChannel = record.GetValue<string>("discord_channel_id");
             var rawMessage = record.GetValue<string>("discord_message_id");
 
             if (!ulong.TryParse(rawChannel, out var channelId) ||
                 !ulong.TryParse(rawMessage, out var messageId))
+            {
                 return null;
+            }
 
             return (channelId, messageId);
         }

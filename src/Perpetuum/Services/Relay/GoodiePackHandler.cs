@@ -26,7 +26,9 @@ namespace Perpetuum.Services.Relay
             var campaignIds = GetNonRedeemedCampaignIds(account).ToArray();
 
             if (campaignIds.IsNullOrEmpty())
+            {
                 return Enumerable.Empty<GoodiePack>();
+            }
 
             var campaignStr = campaignIds.ArrayToString();
             return Db.Query()

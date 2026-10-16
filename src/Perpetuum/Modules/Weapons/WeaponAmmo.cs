@@ -39,7 +39,9 @@ namespace Perpetuum.Modules.Weapons
             var result = new List<Damage>();
 
             if (!(GetParentModule() is WeaponModule weapon))
+            {
                 return result;
+            }
 
             if (weapon is FirearmWeaponModule firearm)
             {

@@ -147,7 +147,10 @@ public partial class NewRobotDialogViewModel : ObservableObject
                 InventoryPanel.SuggestName(BasicPanel.DefinitionName, "_inventory");
             }
             if (e.PropertyName == nameof(BasicPanelViewModel.CategoryFlags))
+            {
                 ProductionPanel.UpdateCategory(BasicPanel.CategoryFlags);
+            }
+
             if (e.PropertyName is nameof(BasicPanelViewModel.IsCraftable)
                                  or nameof(BasicPanelViewModel.HasPrototype))
             {
@@ -155,7 +158,9 @@ public partial class NewRobotDialogViewModel : ObservableObject
                 OnPropertyChanged(nameof(HasPrototype));
             }
             if (e.PropertyName == nameof(BasicPanelViewModel.IsRobot))
+            {
                 OnPropertyChanged(nameof(IsRobot));
+            }
         };
     }
 
@@ -250,8 +255,16 @@ public partial class NewRobotDialogViewModel : ObservableObject
         var result = new List<PackageItemPickItem>();
         foreach (var e in _lookupCache.Entities)
         {
-            if (!e.Enabled || e.CategoryFlags == 0) continue;
-            if (!node.ContainsOrEquals(e.CategoryFlags)) continue;
+            if (!e.Enabled || e.CategoryFlags == 0)
+            {
+                continue;
+            }
+
+            if (!node.ContainsOrEquals(e.CategoryFlags))
+            {
+                continue;
+            }
+
             var baseName = (englishNames != null && englishNames.TryGetValue(e.Name, out var eng) && !string.IsNullOrEmpty(eng))
                 ? eng
                 : e.Name;
@@ -268,8 +281,16 @@ public partial class NewRobotDialogViewModel : ObservableObject
         var result = new List<PackageItemPickItem>();
         foreach (var e in _lookupCache.Entities)
         {
-            if (!e.Enabled || e.CategoryFlags == 0) continue;
-            if (!node.ContainsOrEquals(e.CategoryFlags)) continue;
+            if (!e.Enabled || e.CategoryFlags == 0)
+            {
+                continue;
+            }
+
+            if (!node.ContainsOrEquals(e.CategoryFlags))
+            {
+                continue;
+            }
+
             result.Add(new PackageItemPickItem(e.Definition, e.Name));
         }
         return result.OrderBy(p => p.DisplayName, StringComparer.OrdinalIgnoreCase).ToList();
@@ -277,7 +298,10 @@ public partial class NewRobotDialogViewModel : ObservableObject
 
     private async Task LoadCloneAsync(int definition)
     {
-        if (!_existingRowsById.TryGetValue(definition, out var row)) return;
+        if (!_existingRowsById.TryGetValue(definition, out var row))
+        {
+            return;
+        }
 
         BasicPanel.LoadFromClone(row);
         CalibrationPanel.LoadFromClone(row, "_cprg");
@@ -295,7 +319,9 @@ public partial class NewRobotDialogViewModel : ObservableObject
 
             var relation = await _robotRepository.LoadTemplateRelationAsync(definition);
             if (relation != null)
+            {
                 TemplateRelationPanelViewModel.LoadFromClone(relation);
+            }
 
             var dict = GenxyConverter.Deserialize(row.Options ?? "");
             if (dict.TryGetValue("chassis", out var chassisVal) && chassisVal is int chassisDefinition)
@@ -375,39 +401,116 @@ public partial class NewRobotDialogViewModel : ObservableObject
 
     private string? Validate()
     {
-        if (BasicPanel.HasErrors) return "Basic tab has errors — check Definition Name and Category Flags.";
-        if (IsCraftable && CalibrationPanel.HasErrors) return "Calibration Template tab has errors.";
-        if (IsCraftable && HasPrototype && PrototypePanel.HasErrors) return "Prototype tab has errors.";
-        if (StatsPanel.HasDuplicateFields()) return "Stats tab: duplicate aggregate field.";
+        if (BasicPanel.HasErrors)
+        {
+            return "Basic tab has errors — check Definition Name and Category Flags.";
+        }
+
+        if (IsCraftable && CalibrationPanel.HasErrors)
+        {
+            return "Calibration Template tab has errors.";
+        }
+
+        if (IsCraftable && HasPrototype && PrototypePanel.HasErrors)
+        {
+            return "Prototype tab has errors.";
+        }
+
+        if (StatsPanel.HasDuplicateFields())
+        {
+            return "Stats tab: duplicate aggregate field.";
+        }
+
         if (IsRobot)
         {
-            if (HeadPanel.HasErrors) return "Head tab has errors.";
-            if (ChassisPanel.HasErrors) return "Chassis tab has errors.";
-            if (LegPanel.HasErrors) return "Leg tab has errors.";
-            if (InventoryPanel.HasErrors) return "Inventory tab has errors.";
-            if (HeadStatsPanel.HasDuplicateFields()) return "Head Stats: duplicate aggregate field.";
-            if (ChassisStatsPanel.HasDuplicateFields()) return "Chassis Stats: duplicate aggregate field.";
-            if (LegStatsPanel.HasDuplicateFields()) return "Leg Stats: duplicate aggregate field.";
-            if (InventoryStatsPanel.HasDuplicateFields()) return "Inventory Stats: duplicate aggregate field.";
-            if (BonusesPanel.HasDuplicates()) return "Robot Bonuses tab: duplicate (extension + target property) pair.";
-            if (TemplatePanelViewModel.HasErrors) return "Robot Template tab: name is required.";
+            if (HeadPanel.HasErrors)
+            {
+                return "Head tab has errors.";
+            }
+
+            if (ChassisPanel.HasErrors)
+            {
+                return "Chassis tab has errors.";
+            }
+
+            if (LegPanel.HasErrors)
+            {
+                return "Leg tab has errors.";
+            }
+
+            if (InventoryPanel.HasErrors)
+            {
+                return "Inventory tab has errors.";
+            }
+
+            if (HeadStatsPanel.HasDuplicateFields())
+            {
+                return "Head Stats: duplicate aggregate field.";
+            }
+
+            if (ChassisStatsPanel.HasDuplicateFields())
+            {
+                return "Chassis Stats: duplicate aggregate field.";
+            }
+
+            if (LegStatsPanel.HasDuplicateFields())
+            {
+                return "Leg Stats: duplicate aggregate field.";
+            }
+
+            if (InventoryStatsPanel.HasDuplicateFields())
+            {
+                return "Inventory Stats: duplicate aggregate field.";
+            }
+
+            if (BonusesPanel.HasDuplicates())
+            {
+                return "Robot Bonuses tab: duplicate (extension + target property) pair.";
+            }
+
+            if (TemplatePanelViewModel.HasErrors)
+            {
+                return "Robot Template tab: name is required.";
+            }
         }
-        if (IsCraftable && ProductionPanel.HasDuplicateIngredients()) return "Production tab: duplicate ingredient.";
-        if (IsCraftable && ResearchPanel.HasDuplicatePointTypes()) return "Research tab: duplicate point type.";
-        if (OptionsVisualPanel.HasDuplicateConfigColumns()) return "Options & Visual tab: duplicate config column.";
+        if (IsCraftable && ProductionPanel.HasDuplicateIngredients())
+        {
+            return "Production tab: duplicate ingredient.";
+        }
+
+        if (IsCraftable && ResearchPanel.HasDuplicatePointTypes())
+        {
+            return "Research tab: duplicate point type.";
+        }
+
+        if (OptionsVisualPanel.HasDuplicateConfigColumns())
+        {
+            return "Options & Visual tab: duplicate config column.";
+        }
+
         var tintError = OptionsVisualPanel.ValidateTintValues();
-        if (tintError != null) return tintError;
+        if (tintError != null)
+        {
+            return tintError;
+        }
+
         return null;
     }
 
     private List<string> SeedTranslations()
     {
         var seeded = new List<string>();
-        if (!_translationStore.DirectoryExists) return seeded;
+        if (!_translationStore.DirectoryExists)
+        {
+            return seeded;
+        }
 
         void TryAdd(string key)
         {
-            if (_translationStore.TryAddKey(key, out _)) seeded.Add(key);
+            if (_translationStore.TryAddKey(key, out _))
+            {
+                seeded.Add(key);
+            }
         }
 
         TryAdd(BasicPanel.DefinitionName);
@@ -442,15 +545,25 @@ public partial class NewRobotDialogViewModel : ObservableObject
     {
         var sb = new StringBuilder();
         if (scriptPath != null)
+        {
             sb.AppendLine($"Robot '{BasicPanel.DefinitionName}' written to script: {scriptPath}");
+        }
         else
+        {
             sb.AppendLine($"Robot '{BasicPanel.DefinitionName}' created.");
+        }
+
         if (!_translationStore.DirectoryExists)
+        {
             sb.AppendLine("Warning: GameRoot not configured — translation keys were NOT seeded.");
+        }
         else if (seededKeys.Count > 0)
         {
             sb.AppendLine("Translation keys seeded:");
-            foreach (var k in seededKeys) sb.AppendLine($"  • {k}");
+            foreach (var k in seededKeys)
+            {
+                sb.AppendLine($"  • {k}");
+            }
         }
         return sb.ToString().TrimEnd();
     }

@@ -196,7 +196,9 @@ namespace Perpetuum.Services.ProductionEngine
             foreach (var ed in EntityDefault.All.GetByCategoryFlags(CategoryFlags.cf_research_kits))
             {
                 if (ed.Options.Level != targetLevel)
+                {
                     continue;
+                }
 
                 definition = ed.Definition;
                 return ErrorCodes.NoError;
@@ -289,15 +291,21 @@ namespace Perpetuum.Services.ProductionEngine
             foreach (var item in foundItems)
             {
                 if (item.HealthRatio < 1.0)
+                {
                     continue;
+                }
 
                 //only items that are in container
                 var co = item.GetOrLoadParentEntity() as Container;
                 if (co == null)
+                {
                     continue;
+                }
 
                 if (item is Robot robot && !robot.IsRepackaged)
+                {
                     continue;
+                }
 
                 var plc = new ProductionLiveComponent
                 {
@@ -326,7 +334,9 @@ namespace Perpetuum.Services.ProductionEngine
                 var defName = component.EntityDefault.Name;
 
                 if (component.IsSkipped(productionType))
+                {
                     continue;
+                }
 
                 var realNeededAmount = component.EffectiveAmount(targetAmount, materialMultiplier);
                 var componentFound = false;
@@ -336,7 +346,9 @@ namespace Perpetuum.Services.ProductionEngine
                 foreach (var foundComponent in foundComponents)
                 {
                     if (foundComponent.definition != component.EntityDefault.Definition)
+                    {
                         continue;
+                    }
 
                     Logger.Info("checking eid:" + foundComponent.eid + " " + defName + " needed:" + realNeededAmount + " found:" + foundComponent.quantity);
 
@@ -364,14 +376,18 @@ namespace Perpetuum.Services.ProductionEngine
                     itemsNeeded.Add(foundComponent);
 
                     if (amountFound != realNeededAmount)
+                    {
                         continue;
+                    }
 
                     componentFound = true;
                     break;
                 }
 
                 if (componentFound)
+                {
                     continue;
+                }
 
                 wasComponentMissing = true;
 
@@ -413,7 +429,9 @@ namespace Perpetuum.Services.ProductionEngine
                     //put it into the storage
 
                     if (!container.RemoveItemFromTree(component))
+                    {
                         return ErrorCodes.ItemNotFound;
+                    }
 
                     component.Parent = storageEid;
 

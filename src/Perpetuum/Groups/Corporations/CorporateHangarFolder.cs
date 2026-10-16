@@ -14,7 +14,9 @@ namespace Perpetuum.Groups.Corporations
         public override void AcceptVisitor(IEntityVisitor visitor)
         {
             if (!TryAcceptVisitor(this, visitor))
+            {
                 base.AcceptVisitor(visitor);
+            }
         }
 
         [CanBeNull]
@@ -32,7 +34,9 @@ namespace Perpetuum.Groups.Corporations
             }
 
             if (ParentHangar != null)
+            {
                 SetLogging(ParentHangar.IsLogging(), null);
+            }
 
             base.OnLoadFromDb();
         }

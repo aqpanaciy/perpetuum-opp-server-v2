@@ -15,7 +15,9 @@ namespace Perpetuum.Robots.EquipmentSets
         public EquipmentSetBonusResult Compute(IEnumerable<int> fittedDefinitions)
         {
             if (fittedDefinitions == null)
+            {
                 return EquipmentSetBonusResult.Empty;
+            }
 
             var countPerSet = new Dictionary<int, int>();
             foreach (int def in fittedDefinitions)
@@ -28,7 +30,9 @@ namespace Perpetuum.Robots.EquipmentSets
             }
 
             if (countPerSet.Count == 0)
+            {
                 return EquipmentSetBonusResult.Empty;
+            }
 
             var modifiersPerSet = new Dictionary<int, IReadOnlyList<ItemPropertyModifier>>();
 
@@ -48,11 +52,15 @@ namespace Perpetuum.Robots.EquipmentSets
                 }
 
                 if (setModifiers != null)
+                {
                     modifiersPerSet[setId] = setModifiers; // List<T> upcast to IReadOnlyList<T>
+                }
             }
 
             if (modifiersPerSet.Count == 0)
+            {
                 return EquipmentSetBonusResult.Empty;
+            }
 
             return new EquipmentSetBonusResult(modifiersPerSet);
         }

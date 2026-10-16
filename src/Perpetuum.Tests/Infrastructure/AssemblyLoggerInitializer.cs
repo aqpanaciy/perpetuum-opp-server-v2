@@ -18,7 +18,11 @@ namespace Perpetuum.Tests.Infrastructure
         {
             lock (Gate)
             {
-                if (_installed) return;
+                if (_installed)
+                {
+                    return;
+                }
+
                 Logger.Current = Instance;
                 _installed = true;
             }

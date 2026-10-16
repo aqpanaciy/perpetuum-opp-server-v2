@@ -35,7 +35,10 @@ namespace Perpetuum.AdminTool.ViewModels
             {
                 var rows = await _repo.LoadConfigAsync();
                 Rows.Clear();
-                foreach (var r in rows) Rows.Add(r);
+                foreach (var r in rows)
+                {
+                    Rows.Add(r);
+                }
             }
             catch (Exception ex)
             {
@@ -50,7 +53,11 @@ namespace Perpetuum.AdminTool.ViewModels
         {
             var description = $"automarket_config: update {row.ParamName}";
             var existing = _queue.Items.FirstOrDefault(c => c.Description == description);
-            if (existing != null) _queue.Items.Remove(existing);
+            if (existing != null)
+            {
+                _queue.Items.Remove(existing);
+            }
+
             _queue.Add(new RawSqlChange(
                 description,
                 $"UPDATE automarket_config SET param_value = {SqlLiteral.Of(row.ParamValue)} " +

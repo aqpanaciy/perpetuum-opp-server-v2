@@ -27,10 +27,14 @@ public partial class NewItemDialog : Window
     private void OnPreviewKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key != Key.Enter)
+        {
             return;
+        }
 
         if (Keyboard.FocusedElement is TextBox { AcceptsReturn: false } box)
+        {
             box.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+        }
     }
 
     // Tab 1 — Basic
@@ -38,14 +42,18 @@ public partial class NewItemDialog : Window
     {
         var win = new CategoryFlagsPickerWindow(Vm.BasicPanel.CategoryFlags) { Owner = this };
         if (win.ShowDialog() == true && win.ViewModel.Selected != null)
+        {
             Vm.BasicPanel.CategoryFlags = win.ViewModel.Selected.Value;
+        }
     }
 
     private void PickAttributeMain_Click(object sender, RoutedEventArgs e)
     {
         var win = new AttributeFlagsPickerWindow(unchecked((ulong)Vm.BasicPanel.AttributeFlags)) { Owner = this };
         if (win.ShowDialog() == true)
+        {
             Vm.BasicPanel.AttributeFlags = unchecked((long)win.ViewModel.ComposeValue());
+        }
     }
 
     // Tab 2 — Calibration Template
@@ -53,14 +61,18 @@ public partial class NewItemDialog : Window
     {
         var win = new CategoryFlagsPickerWindow(Vm.CalibrationPanel.CategoryFlags) { Owner = this };
         if (win.ShowDialog() == true && win.ViewModel.Selected != null)
+        {
             Vm.CalibrationPanel.CategoryFlags = win.ViewModel.Selected.Value;
+        }
     }
 
     private void PickCalibrationAttribute_Click(object sender, RoutedEventArgs e)
     {
         var win = new AttributeFlagsPickerWindow(unchecked((ulong)Vm.CalibrationPanel.AttributeFlags)) { Owner = this };
         if (win.ShowDialog() == true)
+        {
             Vm.CalibrationPanel.AttributeFlags = unchecked((long)win.ViewModel.ComposeValue());
+        }
     }
 
     // Tab 3 — Prototype
@@ -68,13 +80,17 @@ public partial class NewItemDialog : Window
     {
         var win = new CategoryFlagsPickerWindow(Vm.PrototypePanel.CategoryFlags) { Owner = this };
         if (win.ShowDialog() == true && win.ViewModel.Selected != null)
+        {
             Vm.PrototypePanel.CategoryFlags = win.ViewModel.Selected.Value;
+        }
     }
 
     private void PickPrototypeAttribute_Click(object sender, RoutedEventArgs e)
     {
         var win = new AttributeFlagsPickerWindow(unchecked((ulong)Vm.PrototypePanel.AttributeFlags)) { Owner = this };
         if (win.ShowDialog() == true)
+        {
             Vm.PrototypePanel.AttributeFlags = unchecked((long)win.ViewModel.ComposeValue());
+        }
     }
 }

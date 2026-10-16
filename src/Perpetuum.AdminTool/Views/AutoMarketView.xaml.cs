@@ -16,7 +16,9 @@ namespace Perpetuum.AdminTool.Views
         {
             Loaded -= OnFirstLoaded;
             if (Vm.Config.Rows.Count == 0)
+            {
                 await Vm.LoadAsync();
+            }
         }
 
         private AutoMarketViewModel Vm => (AutoMarketViewModel)DataContext;

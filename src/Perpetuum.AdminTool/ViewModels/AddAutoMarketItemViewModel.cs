@@ -29,8 +29,15 @@ namespace Perpetuum.AdminTool.ViewModels
             var store = translations?.Store;
             foreach (var e in lookups.Entities)
             {
-                if (!e.Enabled) continue;
-                if (alreadyInList.Contains(e.Name)) continue;
+                if (!e.Enabled)
+                {
+                    continue;
+                }
+
+                if (alreadyInList.Contains(e.Name))
+                {
+                    continue;
+                }
 
                 var translated = "";
                 if (store != null)
@@ -55,8 +62,16 @@ namespace Perpetuum.AdminTool.ViewModels
 
         private bool MatchesFilter(object obj)
         {
-            if (obj is not AddAutoMarketItemPickItem item) return false;
-            if (string.IsNullOrWhiteSpace(FilterText)) return true;
+            if (obj is not AddAutoMarketItemPickItem item)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(FilterText))
+            {
+                return true;
+            }
+
             var f = FilterText.Trim();
             return item.DefinitionName.Contains(f, StringComparison.OrdinalIgnoreCase)
                 || item.DisplayName.Contains(f, StringComparison.OrdinalIgnoreCase);

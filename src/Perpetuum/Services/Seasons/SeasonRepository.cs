@@ -15,7 +15,10 @@ namespace Perpetuum.Services.Seasons
                 "FROM seasons WHERE is_active = 1 AND start_time <= GETUTCDATE()")
                 .ExecuteSingleRow();
 
-            if (record == null) return null;
+            if (record == null)
+            {
+                return null;
+            }
 
             return new Season
             {
@@ -468,7 +471,9 @@ namespace Perpetuum.Services.Seasons
                            .ExecuteSingleRow();
 
             if (record == null)
+            {
                 return ("(none)", TimeSpan.Zero, 0);
+            }
 
             var endTime = DateTime.SpecifyKind(record.GetValue<DateTime>("end_time"), DateTimeKind.Utc);
             return (record.GetValue<string>("name"),
@@ -486,7 +491,10 @@ namespace Perpetuum.Services.Seasons
                 .SetParameter("@id", seasonId)
                 .ExecuteSingleRow();
 
-            if (record == null) return null;
+            if (record == null)
+            {
+                return null;
+            }
 
             return new Season
             {
@@ -517,7 +525,10 @@ namespace Perpetuum.Services.Seasons
                 "ORDER BY start_time ASC")
                 .ExecuteSingleRow();
 
-            if (record == null) return null;
+            if (record == null)
+            {
+                return null;
+            }
 
             return new Season
             {
@@ -556,7 +567,9 @@ namespace Perpetuum.Services.Seasons
         public Season CloneSeasonForNextIteration(Season previous)
         {
             if (previous.RecurrenceGapDays == null)
+            {
                 throw new InvalidOperationException($"Cannot clone season {previous.Id}: recurrence_gap_days is null on a recurring season.");
+            }
 
             int nextIteration = previous.RecurrenceIteration + 1;
             DateTime nextStart = previous.EndTime.AddDays(previous.RecurrenceGapDays!.Value);

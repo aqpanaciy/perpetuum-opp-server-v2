@@ -21,7 +21,10 @@ namespace Perpetuum.AdminTool.Views
             while (cur != null)
             {
                 if (cur is FrameworkElement fe && fe.DataContext is EntitiesViewModel evm)
+                {
                     return evm;
+                }
+
                 cur = System.Windows.Media.VisualTreeHelper.GetParent(cur);
             }
             return null;
@@ -41,7 +44,11 @@ namespace Perpetuum.AdminTool.Views
 
         private void OnDeleteEntityClick(object sender, RoutedEventArgs e)
         {
-            if (Vm?.Row == null) return;
+            if (Vm?.Row == null)
+            {
+                return;
+            }
+
             var row = Vm.Row;
 
             string prompt;
@@ -58,7 +65,10 @@ namespace Perpetuum.AdminTool.Views
 
             var ok = MessageBox.Show(Window.GetWindow(this), prompt, "Delete entity",
                 MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (ok != MessageBoxResult.Yes) return;
+            if (ok != MessageBoxResult.Yes)
+            {
+                return;
+            }
 
             var changes = Vm.EnqueueDelete();
             FindParentEntitiesVm()?.RemoveRow(row);
@@ -85,7 +95,11 @@ namespace Perpetuum.AdminTool.Views
 
         private void OnPickCategoryClick(object sender, RoutedEventArgs e)
         {
-            if (Vm?.Row == null) return;
+            if (Vm?.Row == null)
+            {
+                return;
+            }
+
             var win = new CategoryFlagsPickerWindow(Vm.Row.CategoryFlags)
             {
                 Owner = Window.GetWindow(this)
@@ -98,7 +112,11 @@ namespace Perpetuum.AdminTool.Views
 
         private void OnPickAttributeClick(object sender, RoutedEventArgs e)
         {
-            if (Vm?.Row == null) return;
+            if (Vm?.Row == null)
+            {
+                return;
+            }
+
             var win = new AttributeFlagsPickerWindow(unchecked((ulong)Vm.Row.AttributeFlags))
             {
                 Owner = Window.GetWindow(this)

@@ -75,7 +75,10 @@ namespace Perpetuum.AdminTool.ViewModels
             {
                 var rows = await _seasonRepo.LoadAllSeasonsAsync();
                 Seasons.Clear();
-                foreach (var r in rows) Seasons.Add(r);
+                foreach (var r in rows)
+                {
+                    Seasons.Add(r);
+                }
 
                 await PackagesVm.LoadAsync();
 
@@ -116,7 +119,11 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void NavigateToSeason(SeasonRow? row)
         {
-            if (row == null) return;
+            if (row == null)
+            {
+                return;
+            }
+
             var statsVm = new SeasonStatisticsViewModel(_seasonRepo);
             var detail = new SeasonDetailViewModel(
                 row, _seasonRepo, _pkgRepo, _queue,

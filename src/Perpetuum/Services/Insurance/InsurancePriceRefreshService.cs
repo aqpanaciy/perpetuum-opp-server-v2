@@ -25,7 +25,11 @@ namespace Perpetuum.Services.Insurance
 
         private void RefreshAsync()
         {
-            if (_refreshing) return;
+            if (_refreshing)
+            {
+                return;
+            }
+
             _refreshing = true;
             _ = Task.Run(() =>
             {

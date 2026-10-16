@@ -134,7 +134,9 @@ namespace Perpetuum.Robots
             foreach (ItemPropertyModifier bonus in _setBonusResult.Modifiers)
             {
                 if (bonus.Field == field)
+                {
                     bonus.Modify(ref modifier);
+                }
             }
 
             return modifier;

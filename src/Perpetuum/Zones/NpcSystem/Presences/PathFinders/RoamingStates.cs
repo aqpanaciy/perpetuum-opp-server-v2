@@ -101,7 +101,9 @@ namespace Perpetuum.Zones.NpcSystem.Presences.PathFinders
         public void Update(TimeSpan time)
         {
             if (IsRunningTask)
+            {
                 return;
+            }
 
             if (_spawned)
             {
@@ -110,7 +112,9 @@ namespace Perpetuum.Zones.NpcSystem.Presences.PathFinders
             }
 
             if (CheckElapsed(time))
+            {
                 return;
+            }
 
             RunTask(() => SpawnFlocks(), t => _spawned = true);
         }

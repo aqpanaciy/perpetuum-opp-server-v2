@@ -76,7 +76,9 @@ namespace Perpetuum.Services.EventServices
                                                        ?? discordChannel;
                                     var oldMsg = await unpinChannel.GetMessageAsync(existing.Value.messageId);
                                     if (oldMsg is IUserMessage oldUserMsg)
+                                    {
                                         await oldUserMsg.UnpinAsync();
+                                    }
                                 }
                                 catch (Exception ex)
                                 {

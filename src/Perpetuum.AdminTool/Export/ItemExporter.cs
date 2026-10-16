@@ -14,7 +14,10 @@ namespace Perpetuum.AdminTool.Export
         {
             var changes = new List<RawSqlChange>();
             string? defName = await GetDefinitionNameAsync(definitionId, cn);
-            if (defName == null) return changes;
+            if (defName == null)
+            {
+                return changes;
+            }
 
             string v = $"@def_{definitionId}";
 
@@ -57,7 +60,10 @@ namespace Perpetuum.AdminTool.Export
                 "FROM entitydefaults WHERE definition = @id";
             cmd.Parameters.AddWithValue("@id", definitionId);
             await using var r = await cmd.ExecuteReaderAsync();
-            if (!await r.ReadAsync()) return;
+            if (!await r.ReadAsync())
+            {
+                return;
+            }
 
             var desc = r.IsDBNull(0) ? "NULL" : SqlLiteral.Of(r.GetString(0));
             var catF = r.IsDBNull(1) ? "0" : r.GetInt64(1).ToString();
@@ -99,16 +105,25 @@ namespace Perpetuum.AdminTool.Export
             var rows = new List<(string Field, double Value)>();
             await using var r = await cmd.ExecuteReaderAsync();
             while (await r.ReadAsync())
+            {
                 rows.Add((r.GetString(0), r.IsDBNull(1) ? 0d : r.GetDouble(1)));
-            if (rows.Count == 0) return;
+            }
+
+            if (rows.Count == 0)
+            {
+                return;
+            }
 
             var sb = new StringBuilder();
             sb.AppendLine($"DELETE FROM aggregatevalues WHERE definition = {v};");
             foreach (var (field, val) in rows)
+            {
                 sb.AppendLine(
                     $"INSERT INTO aggregatevalues (definition, field, value) VALUES ({v}, " +
                     $"(SELECT id FROM aggregatefields WHERE name = {SqlLiteral.Of(field)}), " +
                     $"{val.ToString("R", CultureInfo.InvariantCulture)});");
+            }
+
             changes.Add(new RawSqlChange($"aggregatevalues: {rows.Count} stat(s) for '{defName}'", sb.ToString().TrimEnd()));
         }
 
@@ -124,8 +139,15 @@ namespace Perpetuum.AdminTool.Export
 
             var rows = new List<(string CompName, int Amount)>();
             await using var r = await cmd.ExecuteReaderAsync();
-            while (await r.ReadAsync()) rows.Add((r.GetString(0), r.GetInt32(1)));
-            if (rows.Count == 0) return;
+            while (await r.ReadAsync())
+            {
+                rows.Add((r.GetString(0), r.GetInt32(1)));
+            }
+
+            if (rows.Count == 0)
+            {
+                return;
+            }
 
             var sb = new StringBuilder();
             foreach (var (comp, amount) in rows)
@@ -153,7 +175,10 @@ namespace Perpetuum.AdminTool.Export
                 "WHERE irl.definition = @id";
             cmd.Parameters.AddWithValue("@id", definitionId);
             await using var r = await cmd.ExecuteReaderAsync();
-            if (!await r.ReadAsync()) return; // definition has a unique index — at most one row
+            if (!await r.ReadAsync())
+            {
+                return; // definition has a unique index — at most one row
+            }
 
             var level = r.GetInt32(0).ToString();
             var calProg = r.IsDBNull(1) ? "NULL" : $"(SELECT definition FROM entitydefaults WHERE definitionname = {SqlLiteral.Of(r.GetString(1))})";
@@ -178,7 +203,10 @@ namespace Perpetuum.AdminTool.Export
                 "WHERE t.childdefinition = @id";
             cmd.Parameters.AddWithValue("@id", definitionId);
             await using var r = await cmd.ExecuteReaderAsync();
-            if (!await r.ReadAsync()) return;
+            if (!await r.ReadAsync())
+            {
+                return;
+            }
 
             var parentVar = r.IsDBNull(0) ? "NULL" : $"(SELECT definition FROM entitydefaults WHERE definitionname = {SqlLiteral.Of(r.GetString(0))})";
             var groupId = r.GetInt32(1).ToString();
@@ -205,16 +233,26 @@ namespace Perpetuum.AdminTool.Export
 
             var rows = new List<(int PointType, int Amount)>();
             await using var r = await cmd.ExecuteReaderAsync();
-            while (await r.ReadAsync()) rows.Add((r.GetInt32(0), r.GetInt32(1)));
-            if (rows.Count == 0) return;
+            while (await r.ReadAsync())
+            {
+                rows.Add((r.GetInt32(0), r.GetInt32(1)));
+            }
+
+            if (rows.Count == 0)
+            {
+                return;
+            }
 
             var sb = new StringBuilder();
             foreach (var (pt, amount) in rows)
+            {
                 sb.AppendLine(SqlExportBuilder.IfNotExistsInsert(
                     "techtreenodeprices",
                     $"definition = {v} AND pointtype = {pt}",
                     "definition, pointtype, amount",
                     $"{v}, {pt}, {amount}"));
+            }
+
             changes.Add(new RawSqlChange($"techtreenodeprices: {rows.Count} price(s) for '{defName}'", sb.ToString().TrimEnd()));
         }
 
@@ -230,8 +268,15 @@ namespace Perpetuum.AdminTool.Export
 
             var rows = new List<string>();
             await using var r = await cmd.ExecuteReaderAsync();
-            while (await r.ReadAsync()) rows.Add(r.GetString(0));
-            if (rows.Count == 0) return;
+            while (await r.ReadAsync())
+            {
+                rows.Add(r.GetString(0));
+            }
+
+            if (rows.Count == 0)
+            {
+                return;
+            }
 
             var sb = new StringBuilder();
             foreach (var prototypeName in rows)
@@ -258,15 +303,25 @@ namespace Perpetuum.AdminTool.Export
 
             var rows = new List<(string ExtName, int Level)>();
             await using var r = await cmd.ExecuteReaderAsync();
-            while (await r.ReadAsync()) rows.Add((r.GetString(0), r.GetInt32(1)));
-            if (rows.Count == 0) return;
+            while (await r.ReadAsync())
+            {
+                rows.Add((r.GetString(0), r.GetInt32(1)));
+            }
+
+            if (rows.Count == 0)
+            {
+                return;
+            }
 
             var sb = new StringBuilder();
             sb.AppendLine($"DELETE FROM enablerextensions WHERE definition = {v};");
             foreach (var (extName, level) in rows)
+            {
                 sb.AppendLine(
                     $"INSERT INTO enablerextensions (definition, extensionid, extensionlevel) " +
                     $"VALUES ({v}, (SELECT extensionid FROM extensions WHERE extensionname = {SqlLiteral.Of(extName)}), {level});");
+            }
+
             changes.Add(new RawSqlChange($"enablerextensions: {rows.Count} skill req(s) for '{defName}'", sb.ToString().TrimEnd()));
         }
 
@@ -277,7 +332,10 @@ namespace Perpetuum.AdminTool.Export
             cmd.CommandText = "SELECT beam FROM beamassignment WHERE definition = @id";
             cmd.Parameters.AddWithValue("@id", definitionId);
             var result = await cmd.ExecuteScalarAsync();
-            if (result == null || result == DBNull.Value) return;
+            if (result == null || result == DBNull.Value)
+            {
+                return;
+            }
 
             int beamId = (int)result;
             var sql =
@@ -304,7 +362,10 @@ namespace Perpetuum.AdminTool.Export
                 "WHERE dc.definition = @id";
             cmd.Parameters.AddWithValue("@id", definitionId);
             await using var r = await cmd.ExecuteReaderAsync();
-            if (!await r.ReadAsync()) return;
+            if (!await r.ReadAsync())
+            {
+                return;
+            }
 
             string N(int i) => r.IsDBNull(i) ? "NULL" : r.GetInt32(i).ToString();
             string F(int i) => r.IsDBNull(i) ? "NULL" : r.GetDouble(i).ToString("R", CultureInfo.InvariantCulture);

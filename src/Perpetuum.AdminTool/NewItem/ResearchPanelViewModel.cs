@@ -51,6 +51,7 @@ public partial class ResearchPanelViewModel : ObservableObject
 
         TechTreeRows.Clear();
         foreach (var (pd, grp, x, y, ext) in clone.TechTree)
+        {
             TechTreeRows.Add(new TechTreePlacementRow
             {
                 ParentDefinition = pd,
@@ -62,13 +63,17 @@ public partial class ResearchPanelViewModel : ObservableObject
                 OriginalX = x,
                 OriginalY = y
             });
+        }
 
         ResearchCostRows.Clear();
         foreach (var (pt, amt) in clone.ResearchCosts)
+        {
             ResearchCostRows.Add(new ResearchCostRow { PointTypeId = pt, Amount = amt, OriginalAmount = amt });
+        }
 
         EnablerExtensionRows.Clear();
         foreach (var (extId, lvl) in clone.EnablerExtensions)
+        {
             EnablerExtensionRows.Add(new EnablerExtensionRow
             {
                 ExtensionId = extId,
@@ -76,6 +81,7 @@ public partial class ResearchPanelViewModel : ObservableObject
                 OriginalExtensionId = extId,
                 OriginalExtensionLevel = lvl
             });
+        }
     }
 
     public bool HasDuplicatePointTypes()

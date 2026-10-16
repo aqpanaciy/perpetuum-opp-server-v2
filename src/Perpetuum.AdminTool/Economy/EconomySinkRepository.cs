@@ -138,7 +138,11 @@ namespace Perpetuum.AdminTool.Economy
             await using var r = await cmd.ExecuteReaderAsync();
             while (await r.ReadAsync())
             {
-                if (r.IsDBNull(0)) continue;
+                if (r.IsDBNull(0))
+                {
+                    continue;
+                }
+
                 raw[r.GetString(0)] = (long)Math.Round(r.GetDouble(1));
             }
             return raw;

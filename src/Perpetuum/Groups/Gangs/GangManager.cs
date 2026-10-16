@@ -71,9 +71,13 @@ namespace Perpetuum.Groups.Gangs
             }
 
             if (Transaction.Current != null)
+            {
                 Transaction.Current.OnCommited(Finish);
+            }
             else
+            {
                 Finish();
+            }
 
             return gang;
         }

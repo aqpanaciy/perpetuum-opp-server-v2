@@ -24,7 +24,10 @@ namespace Perpetuum.AdminTool.Entities
             var fields = await LoadFieldsAsync(cn);
             var rows = await LoadDefaultsAsync(cn);
             var byDef = new Dictionary<int, EntityDefaultRow>(rows.Count);
-            foreach (var r in rows) byDef[r.Definition] = r;
+            foreach (var r in rows)
+            {
+                byDef[r.Definition] = r;
+            }
 
             await LoadStatsAsync(cn, byDef);
 
@@ -109,7 +112,10 @@ namespace Perpetuum.AdminTool.Entities
                 var fieldId = reader.GetInt32(1);
                 var value = reader.IsDBNull(2) ? 0d : reader.GetDouble(2);
 
-                if (!byDef.TryGetValue(def, out var row)) continue;
+                if (!byDef.TryGetValue(def, out var row))
+                {
+                    continue;
+                }
 
                 row.Stats.Add(new StatRow(def, (AggregateField)fieldId, value, wasInDb: true));
                 row.OriginalStats[fieldId] = value;

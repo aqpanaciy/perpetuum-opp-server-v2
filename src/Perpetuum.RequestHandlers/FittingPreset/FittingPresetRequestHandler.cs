@@ -24,13 +24,17 @@ namespace Perpetuum.RequestHandlers.FittingPreset
                 Transaction.Current.OnCommited(Sender);
             }
             else
+            {
                 Sender();
+            }
         }
 
         protected static IFittingPresetRepository GetFittingPresetRepository(Character character, bool forCorporation)
         {
             if (!forCorporation)
+            {
                 return new CharacterFittingPresetRepository(character);
+            }
 
             var corporation = character.GetPrivateCorporationOrThrow();
             return new CorporationFittingPresetRepository(corporation);

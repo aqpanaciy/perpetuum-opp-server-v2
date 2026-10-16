@@ -59,7 +59,9 @@ namespace Perpetuum.Groups.Gangs
         public bool CanKick(Character member)
         {
             if (member == Leader)
+            {
                 return true;
+            }
 
             return HasRole(member, GangRole.Assistant);
         }
@@ -77,10 +79,14 @@ namespace Perpetuum.Groups.Gangs
         public bool HasRole(Character member, GangRole role)
         {
             if (member == Leader)
+            {
                 return true;
+            }
 
             if (!_members.TryGetValue(member, out GangRole currentRole))
+            {
                 return false;
+            }
 
             return currentRole.HasFlag(role);
         }
@@ -110,10 +116,14 @@ namespace Perpetuum.Groups.Gangs
         bool IEquatable<Gang>.Equals(Gang other)
         {
             if (other == null)
+            {
                 return false;
+            }
 
             if (ReferenceEquals(this, other))
+            {
                 return true;
+            }
 
             return Id.Equals(other.Id);
         }

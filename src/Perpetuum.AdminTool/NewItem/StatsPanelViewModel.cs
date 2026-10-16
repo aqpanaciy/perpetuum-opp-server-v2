@@ -28,7 +28,9 @@ public partial class StatsPanelViewModel : ObservableObject
     {
         Rows.Clear();
         foreach (var s in cloneStats)
+        {
             Rows.Add(new NewStatRow { FieldId = (int)s.Field, NewValue = s.Value, OriginalValue = s.Value });
+        }
     }
 
     public bool HasDuplicateFields()

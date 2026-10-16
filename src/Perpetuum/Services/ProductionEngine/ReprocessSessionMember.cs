@@ -129,7 +129,9 @@ namespace Perpetuum.Services.ProductionEngine
                 foreach (var component in _components)
                 {
                     if (component.realAmount <= 0)
+                    {
                         continue;
+                    }
 
                     var resultItem = (Item)Entity.Factory.CreateWithRandomEID(component.definition);
                     resultItem.Owner = _item.Owner;
@@ -149,7 +151,9 @@ namespace Perpetuum.Services.ProductionEngine
 
                 var configComponents = ProductionComponentCollector.Collect(_item);
                 if (configComponents.Count == 0)
+                {
                     return;
+                }
 
                 var sumAmount = configComponents.Sum(r => r.Amount);
                 var randomPool = new List<int>(sumAmount);

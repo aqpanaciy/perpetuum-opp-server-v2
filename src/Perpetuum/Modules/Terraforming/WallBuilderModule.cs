@@ -36,7 +36,9 @@ namespace Perpetuum.Modules.Terraforming
         private static void ForceGrowWall(IZone zone, Position position)
         {
             if (zone == null)
+            {
                 return;
+            }
 
             var x = position.intX;
             var y = position.intY;
@@ -46,7 +48,9 @@ namespace Perpetuum.Modules.Terraforming
 
             var plantRule = zone.Configuration.PlantRules.GetPlantRule(plantInfo.type);
             if (plantRule == null)
+            {
                 return;
+            }
 
             plantRule.AllowedOnNonNatural.ThrowIfFalse(ErrorCodes.InvalidPlant);
 

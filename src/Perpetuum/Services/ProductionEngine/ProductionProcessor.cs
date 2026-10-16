@@ -392,7 +392,10 @@ namespace Perpetuum.Services.ProductionEngine
                 int counter = 0;
                 foreach (var pdd in _productionDescriptions.Values)
                 {
-                    if (EntityDefault.Get(pdd.definition).CategoryFlags.IsCategory(CategoryFlags.cf_mission_items)) continue;
+                    if (EntityDefault.Get(pdd.definition).CategoryFlags.IsCategory(CategoryFlags.cf_mission_items))
+                    {
+                        continue;
+                    }
 
                     _productionDescriptionCache.Add("pd" + counter++, pdd.ToDictionary());
                 }
@@ -412,7 +415,9 @@ namespace Perpetuum.Services.ProductionEngine
         {
             var facility = GetFacility(facilityEID);
             if (facility != null)
+            {
                 facility.IsOpen = state;
+            }
         }
 
         public IDictionary<string, object> Refine(Refinery refinery, Character character, Container sourceContainer, int targetDefinition, int amount)
@@ -517,7 +522,9 @@ namespace Perpetuum.Services.ProductionEngine
                 RemoveFromRunningProductions(pip);
 
                 if (replyDict == null)
+                {
                     return;
+                }
 
                 replyDict.Add(k.production, pip.ToDictionary());
 
@@ -559,7 +566,9 @@ namespace Perpetuum.Services.ProductionEngine
             _productionCheckTimer.Update(time);
 
             if (!_productionCheckTimer.Passed)
+            {
                 return;
+            }
 
             _productionCheckTimer.Reset();
 
@@ -577,7 +586,9 @@ namespace Perpetuum.Services.ProductionEngine
         private void CheckProductions()
         {
             if (_inProgress)
+            {
                 return;
+            }
 
             _inProgress = true;
 
@@ -895,7 +906,9 @@ namespace Perpetuum.Services.ProductionEngine
             var insurance = _insuranceHelper.GetInsurance(targetEid);
 
             if (insurance == null)
+            {
                 return ErrorCodes.NoError;
+            }
 
             if (insurance.corporationEid != null)
             {
@@ -930,7 +943,10 @@ namespace Perpetuum.Services.ProductionEngine
 
         public void EnqueueProductionMissionTarget(MissionTargetType targetType, Character character, int locationId, int? definition = null, int? quantity = null)
         {
-            if (locationId <= 0) return; //gamma or something unknown
+            if (locationId <= 0)
+            {
+                return; //gamma or something unknown
+            }
 
             Logger.Info("++ Enqueue mission target type " + targetType + " characterId:" + character.Id + " definition:" + definition + " quantity:" + quantity);
 
@@ -943,10 +959,14 @@ namespace Perpetuum.Services.ProductionEngine
                 };
 
             if (definition != null)
+            {
                 data.Add(k.definition, (int)definition);
+            }
 
             if (quantity != null)
+            {
                 data.Add(k.quantity, (int)quantity);
+            }
 
             _missionProcessor.EnqueueMissionTargetAsync(data);
         }
@@ -954,7 +974,9 @@ namespace Perpetuum.Services.ProductionEngine
         public static void InformProductionEvent(ProductionInProgress productionInProgress, Command command)
         {
             if (!productionInProgress.useCorporationWallet)
+            {
                 return;
+            }
 
             var replyDict = new Dictionary<string, object>();
             var productionDict = productionInProgress.ToDictionary();

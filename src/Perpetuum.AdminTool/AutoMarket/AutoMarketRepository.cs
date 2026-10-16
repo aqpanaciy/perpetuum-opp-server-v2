@@ -82,11 +82,14 @@ namespace Perpetuum.AdminTool.AutoMarket
                 "ORDER BY raw_material";
             await using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
+            {
                 result.Add(new AutoMarketRawMaterialRow
                 {
                     RawMaterialName = reader.GetString(0),
                     TotalQuantity = reader.GetInt64(1),
                 });
+            }
+
             return result;
         }
 
@@ -137,8 +140,15 @@ namespace Perpetuum.AdminTool.AutoMarket
                 await using var r = await cmd.ExecuteReaderAsync();
                 while (await r.ReadAsync())
                 {
-                    if (r.GetString(0) == "daily_plasma_budget_nic") plasmaBudget = r.GetDouble(1);
-                    if (r.GetString(0) == "daily_rawmat_budget_nic") rawmatBudget = r.GetDouble(1);
+                    if (r.GetString(0) == "daily_plasma_budget_nic")
+                    {
+                        plasmaBudget = r.GetDouble(1);
+                    }
+
+                    if (r.GetString(0) == "daily_rawmat_budget_nic")
+                    {
+                        rawmatBudget = r.GetDouble(1);
+                    }
                 }
             }
 
@@ -169,7 +179,10 @@ namespace Perpetuum.AdminTool.AutoMarket
                     "SELECT TOP 1 dynamic_price FROM fn_CalculateDynamicPlasmaPrices(1) " +
                     "WHERE plasma_type = 'def_common_reactor_plasma'";
                 await using var r = await cmd.ExecuteReaderAsync();
-                if (await r.ReadAsync()) alphaPlasmaPrice = r.IsDBNull(0) ? 0 : (double)r.GetDecimal(0);
+                if (await r.ReadAsync())
+                {
+                    alphaPlasmaPrice = r.IsDBNull(0) ? 0 : (double)r.GetDecimal(0);
+                }
             }
 
             // 2. Config params
@@ -209,7 +222,9 @@ namespace Perpetuum.AdminTool.AutoMarket
                     "GROUP BY resource_name";
                 await using var r = await cmd.ExecuteReaderAsync();
                 while (await r.ReadAsync())
+                {
                     supply[r.GetString(0)] = ((double)r.GetDecimal(3), r.GetInt64(1), r.GetInt64(2));
+                }
             }
 
             // 4. Demand data (from trade-list BOM — demand signal only)
@@ -220,7 +235,10 @@ namespace Perpetuum.AdminTool.AutoMarket
                     "SELECT raw_material, SUM(total_quantity) / 7.0 " +
                     "FROM v_trade_list_raw_material_demand GROUP BY raw_material";
                 await using var r = await cmd.ExecuteReaderAsync();
-                while (await r.ReadAsync()) demand[r.GetString(0)] = (double)r.GetDecimal(1);
+                while (await r.ReadAsync())
+                {
+                    demand[r.GetString(0)] = (double)r.GetDecimal(1);
+                }
             }
 
             // 5. Materials list — cf_organic (0x10114), cf_ore (0x20114), cf_liquid (0x40114)
@@ -232,7 +250,10 @@ namespace Perpetuum.AdminTool.AutoMarket
                     "WHERE categoryflags IN (0x10114, 0x20114, 0x40114) AND enabled = 1 AND hidden = 0 " +
                     "ORDER BY definitionname";
                 await using var r = await cmd.ExecuteReaderAsync();
-                while (await r.ReadAsync()) materials.Add(r.GetString(0));
+                while (await r.ReadAsync())
+                {
+                    materials.Add(r.GetString(0));
+                }
             }
 
             // 6. Stored prices (latest week)
@@ -243,7 +264,10 @@ namespace Perpetuum.AdminTool.AutoMarket
                     "SELECT resource_name, unit_price FROM resource_market_prices " +
                     "WHERE calculated_on = (SELECT MAX(calculated_on) FROM resource_market_prices)";
                 await using var r = await cmd.ExecuteReaderAsync();
-                while (await r.ReadAsync()) storedPrices[r.GetString(0)] = (double)r.GetDecimal(1);
+                while (await r.ReadAsync())
+                {
+                    storedPrices[r.GetString(0)] = (double)r.GetDecimal(1);
+                }
             }
 
             // 7. Weekly purchases this week per material
@@ -256,7 +280,10 @@ namespace Perpetuum.AdminTool.AutoMarket
                     "FROM automarket_rawmat_weekly_tracking WHERE week_start >= @ws " +
                     "GROUP BY definitionname";
                 await using var r = await cmd.ExecuteReaderAsync();
-                while (await r.ReadAsync()) weeklyPurchased[r.GetString(0)] = r.GetInt64(1);
+                while (await r.ReadAsync())
+                {
+                    weeklyPurchased[r.GetString(0)] = r.GetInt64(1);
+                }
             }
 
             // 8. Per-material cap overrides
@@ -265,7 +292,10 @@ namespace Perpetuum.AdminTool.AutoMarket
             {
                 cmd.CommandText = "SELECT definitionname, weekly_cap_override FROM automarket_rawmat_overrides WHERE weekly_cap_override IS NOT NULL";
                 await using var r = await cmd.ExecuteReaderAsync();
-                while (await r.ReadAsync()) capOverrides[r.GetString(0)] = r.GetInt32(1);
+                while (await r.ReadAsync())
+                {
+                    capOverrides[r.GetString(0)] = r.GetInt32(1);
+                }
             }
 
             // Compute rows
@@ -373,12 +403,15 @@ namespace Perpetuum.AdminTool.AutoMarket
                 "ORDER BY resource_name";
             await using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
+            {
                 result.Add(new AutoMarketGatherRow
                 {
                     ResourceName = reader.GetString(0),
                     PveQty = reader.GetInt64(1),
                     PvpQty = reader.GetInt64(2),
                 });
+            }
+
             return result;
         }
 
@@ -400,9 +433,11 @@ namespace Perpetuum.AdminTool.AutoMarket
                     "ORDER BY ed.definitionname";
                 await using var r = await cmd.ExecuteReaderAsync();
                 while (await r.ReadAsync())
+                {
                     result.Add(new AutoMarketOrderData(
                         r.GetInt32(0), r.GetString(1), r.GetBoolean(2),
                         r.GetDouble(3), r.GetInt32(4), r.GetString(5)));
+                }
             }
             return result;
         }

@@ -275,7 +275,11 @@ namespace Perpetuum.AdminTool.Seasons
                 "GROUP BY s.start_time";
             cmd.Parameters.AddWithValue("@seasonId", seasonId);
             var v = await cmd.ExecuteScalarAsync();
-            if (v == null || v == System.DBNull.Value) return 0.0;
+            if (v == null || v == System.DBNull.Value)
+            {
+                return 0.0;
+            }
+
             return System.Convert.ToDouble(v);
         }
 
@@ -288,11 +292,14 @@ namespace Perpetuum.AdminTool.Seasons
             cmd.CommandText = "SELECT set_id, name FROM equipment_sets ORDER BY name";
             await using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
+            {
                 result.Add(new EquipmentSetRow
                 {
                     SetId = reader.GetInt32(0),
                     Name = reader.IsDBNull(1) ? "" : reader.GetString(1),
                 });
+            }
+
             return result;
         }
 
@@ -334,7 +341,9 @@ namespace Perpetuum.AdminTool.Seasons
             }
 
             if (daily.Count == 0)
+            {
                 return [];
+            }
 
             // 3. Compute pool using same seeded Fisher-Yates as SeasonService.SelectDailyPool
             List<(int Id, string Name, SeasonActivityType ActivityType, long TargetValue)> pool;
@@ -358,7 +367,9 @@ namespace Perpetuum.AdminTool.Seasons
             }
 
             if (pool.Count == 0)
+            {
                 return [];
+            }
 
             // 4. Query completion counts for pool IDs scoped to today's day_window
             var ids = pool.Select(o => o.Id).ToList();
@@ -378,10 +389,15 @@ namespace Perpetuum.AdminTool.Seasons
                     $"GROUP BY o.id";
                 cmd.Parameters.AddWithValue("@seasonId", seasonId);
                 for (int i = 0; i < ids.Count; i++)
+                {
                     cmd.Parameters.AddWithValue($"@id{i}", ids[i]);
+                }
+
                 await using var reader = await cmd.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
+                {
                     counts[reader.GetInt32(0)] = reader.GetInt32(1);
+                }
             }
 
             // Restore display_order (shuffle randomised pool; daily is ordered by display_order)

@@ -15,7 +15,11 @@ namespace Perpetuum.AdminTool.Views
 
         private async void OnReloadClick(object sender, RoutedEventArgs e)
         {
-            if (Vm == null) return;
+            if (Vm == null)
+            {
+                return;
+            }
+
             await Vm.LoadAsync();
         }
     }

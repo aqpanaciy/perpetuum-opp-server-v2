@@ -17,12 +17,18 @@ namespace Perpetuum.AdminTool.Views
         private async void OnLoaded(object sender, RoutedEventArgs e)
         {
             if (Vm != null && Vm.Seasons.Count == 0)
+            {
                 await Vm.LoadAsync();
+            }
         }
 
         private async void OnReloadClick(object sender, RoutedEventArgs e)
         {
-            if (Vm == null) return;
+            if (Vm == null)
+            {
+                return;
+            }
+
             await Vm.LoadAsync();
         }
 

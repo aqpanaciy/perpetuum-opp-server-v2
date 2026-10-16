@@ -275,7 +275,9 @@ namespace Perpetuum.Zones.NpcSystem
                 Player killerPlayer = zone.ToPlayerOrGetOwnerPlayer(killer);
 
                 if (killerPlayer != null)
+                {
                     SeasonServiceLocator.Instance?.RecordActivity(killerPlayer.Character.Id, SeasonActivityType.NpcKill, new Perpetuum.Services.Seasons.ActivityEvent(1));
+                }
 
                 if (GetMissionGuid() != Guid.Empty)
                 {

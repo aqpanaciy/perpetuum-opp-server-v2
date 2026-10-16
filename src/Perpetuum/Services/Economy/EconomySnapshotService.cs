@@ -30,7 +30,11 @@ namespace Perpetuum.Services.Economy
 
         private void TakeSnapshotAsync()
         {
-            if (_snapshotting) return;
+            if (_snapshotting)
+            {
+                return;
+            }
+
             _snapshotting = true;
             _ = Task.Run(() =>
             {

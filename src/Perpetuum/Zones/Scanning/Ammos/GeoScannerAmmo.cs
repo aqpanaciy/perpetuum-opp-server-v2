@@ -49,11 +49,15 @@ namespace Perpetuum.Zones.Scanning.Ammos
                 }
 
                 if (_miningProbeRangeModifier == AggregateField.undefined)
+                {
                     return range;
+                }
 
                 var robot = ammo.GetParentRobot();
                 if (robot == null)
+                {
                     return range;
+                }
 
                 var rangeModifier = robot.GetPropertyModifier(_miningProbeRangeModifier);
                 rangeModifier.Modify(ref range);

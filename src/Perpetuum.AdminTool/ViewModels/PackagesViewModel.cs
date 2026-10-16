@@ -48,8 +48,16 @@ namespace Perpetuum.AdminTool.ViewModels
         {
             get
             {
-                if (SelectedPackage == null) return "";
-                if (SelectedPackageUsage.Count == 0) return "Not used by any season.";
+                if (SelectedPackage == null)
+                {
+                    return "";
+                }
+
+                if (SelectedPackageUsage.Count == 0)
+                {
+                    return "Not used by any season.";
+                }
+
                 var lines = SelectedPackageUsage
                     .Select(u => $"• {u.SeasonName} — {u.Context}: {u.Detail}")
                     .ToList();
@@ -92,7 +100,10 @@ namespace Perpetuum.AdminTool.ViewModels
             {
                 var pkgs = await _repo.LoadAllPackagesAsync();
                 Packages.Clear();
-                foreach (var p in pkgs) Packages.Add(p);
+                foreach (var p in pkgs)
+                {
+                    Packages.Add(p);
+                }
 
                 RebuildPickItems();
                 RefreshFilter();
@@ -128,20 +139,30 @@ namespace Perpetuum.AdminTool.ViewModels
             var englishNames = BuildEnglishNameMap();
             var fresh = PackageItemPickItem.BuildFilteredList(_lookups.Entities, englishNames);
             PickItems.Clear();
-            foreach (var p in fresh) PickItems.Add(p);
+            foreach (var p in fresh)
+            {
+                PickItems.Add(p);
+            }
+
             _pickNamesByDefinition = fresh.ToDictionary(p => p.Definition, p => p.DisplayName);
         }
 
         private Dictionary<string, string> BuildEnglishNameMap()
         {
             var store = _translations?.Store;
-            if (store == null) return new Dictionary<string, string>();
+            if (store == null)
+            {
+                return new Dictionary<string, string>();
+            }
+
             var map = new Dictionary<string, string>(store.Rows.Count, System.StringComparer.Ordinal);
             foreach (var row in store.Rows)
             {
                 var english = row[0];
                 if (!string.IsNullOrEmpty(english))
+                {
                     map[row.Key] = english;
+                }
             }
             return map;
         }
@@ -153,7 +174,9 @@ namespace Perpetuum.AdminTool.ViewModels
             foreach (var p in Packages)
             {
                 if (f.Length == 0 || p.Name.Contains(f, StringComparison.OrdinalIgnoreCase))
+                {
                     FilteredPackages.Add(p);
+                }
             }
         }
 
@@ -175,17 +198,27 @@ namespace Perpetuum.AdminTool.ViewModels
                 foreach (var it in items)
                 {
                     if (_pickNamesByDefinition.TryGetValue(it.Definition, out var name))
+                    {
                         it.DisplayName = name;
+                    }
                     else if (_lookups.EntityNamesByDefinition.TryGetValue(it.Definition, out var fallback))
+                    {
                         it.DisplayName = fallback;
+                    }
                     else
+                    {
                         it.DisplayName = $"(def {it.Definition})";
+                    }
+
                     it.SelectedPickItem = PickItems.FirstOrDefault(p => p.Definition == it.Definition);
                     SelectedPackageItems.Add(it);
                 }
 
                 var usage = await _repo.LoadSeasonUsageAsync(SelectedPackage.Id);
-                foreach (var u in usage) SelectedPackageUsage.Add(u);
+                foreach (var u in usage)
+                {
+                    SelectedPackageUsage.Add(u);
+                }
             }
             catch (Exception ex)
             {
@@ -211,7 +244,11 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void SaveNewPackage()
         {
-            if (SelectedPackage == null || !SelectedPackage.IsNew) return;
+            if (SelectedPackage == null || !SelectedPackage.IsNew)
+            {
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(SelectedPackage.Name))
             {
                 MessageBox.Show("Package name cannot be empty.", "Validation",
@@ -228,7 +265,11 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void DeletePackage()
         {
-            if (SelectedPackage == null) return;
+            if (SelectedPackage == null)
+            {
+                return;
+            }
+
             if (!CanDeleteSelected)
             {
                 MessageBox.Show(
@@ -241,10 +282,15 @@ namespace Perpetuum.AdminTool.ViewModels
                 $"Delete package '{SelectedPackage.Name}' (id {SelectedPackage.Id})? This is destructive.",
                 "Delete package",
                 MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (ok != MessageBoxResult.Yes) return;
+            if (ok != MessageBoxResult.Yes)
+            {
+                return;
+            }
 
             if (SelectedPackage.Id > 0)
+            {
                 _queue.Add(PackageChanges.BuildDeletePackage(SelectedPackage.Id));
+            }
 
             var row = SelectedPackage;
             SelectedPackage = null;
@@ -296,15 +342,24 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void RemoveItem(PackageItemRow? row)
         {
-            if (row == null || SelectedPackage == null) return;
+            if (row == null || SelectedPackage == null)
+            {
+                return;
+            }
+
             var ok = MessageBox.Show(
                 $"Remove item '{row.DisplayName}' x{row.Quantity}?",
                 "Remove item",
                 MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (ok != MessageBoxResult.Yes) return;
+            if (ok != MessageBoxResult.Yes)
+            {
+                return;
+            }
 
             if (row.Id > 0)
+            {
                 _queue.Add(PackageChanges.BuildDeletePackageItem(row.Id));
+            }
 
             SelectedPackageItems.Remove(row);
             SelectedPackage.ItemCount = System.Math.Max(0, SelectedPackage.ItemCount - 1);

@@ -15,7 +15,11 @@ namespace Perpetuum.AdminTool.Views
         {
             InitializeComponent();
             ViewModel = new AddFlockRowViewModel(lookups) { PresenceId = suggestedPresenceId };
-            foreach (var p in presencePicks) ViewModel.PresencePicks.Add(p);
+            foreach (var p in presencePicks)
+            {
+                ViewModel.PresencePicks.Add(p);
+            }
+
             DataContext = ViewModel;
         }
 

@@ -26,7 +26,9 @@ namespace Perpetuum.Modules.Terraforming
         {
             var terrainLock = GetLock() as TerrainLock;
             if (terrainLock == null)
+            {
                 return;
+            }
 
             var player = (ParentRobot as Player).ThrowIfNull(ErrorCodes.WTFErrorMedicalAttentionSuggested);
 

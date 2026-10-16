@@ -214,8 +214,14 @@ namespace Perpetuum.AdminTool.ViewModels
         {
             if (TryParseHHmm(text, out var ts))
             {
-                if (isStart) StartTime = DateTime.SpecifyKind(StartTime.Date + ts, DateTimeKind.Utc);
-                else EndTime = DateTime.SpecifyKind(EndTime.Date + ts, DateTimeKind.Utc);
+                if (isStart)
+                {
+                    StartTime = DateTime.SpecifyKind(StartTime.Date + ts, DateTimeKind.Utc);
+                }
+                else
+                {
+                    EndTime = DateTime.SpecifyKind(EndTime.Date + ts, DateTimeKind.Utc);
+                }
             }
             ValidateStep1();
         }
@@ -223,11 +229,27 @@ namespace Perpetuum.AdminTool.ViewModels
         private static bool TryParseHHmm(string text, out TimeSpan result)
         {
             result = TimeSpan.Zero;
-            if (string.IsNullOrWhiteSpace(text)) return false;
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return false;
+            }
+
             var parts = text.Trim().Split(':');
-            if (parts.Length != 2) return false;
-            if (!int.TryParse(parts[0], out var h) || !int.TryParse(parts[1], out var m)) return false;
-            if (h < 0 || h > 23 || m < 0 || m > 59) return false;
+            if (parts.Length != 2)
+            {
+                return false;
+            }
+
+            if (!int.TryParse(parts[0], out var h) || !int.TryParse(parts[1], out var m))
+            {
+                return false;
+            }
+
+            if (h < 0 || h > 23 || m < 0 || m > 59)
+            {
+                return false;
+            }
+
             result = new TimeSpan(h, m, 0);
             return true;
         }
@@ -235,22 +257,39 @@ namespace Perpetuum.AdminTool.ViewModels
         private void ValidateStep1()
         {
             if (string.IsNullOrWhiteSpace(Name))
+            {
                 Step1Validation = "Season name is required.";
+            }
             else if (!TryParseHHmm(StartTimeText, out _))
+            {
                 Step1Validation = "Start time must be in HH:mm format (UTC).";
+            }
             else if (!TryParseHHmm(EndTimeText, out _))
+            {
                 Step1Validation = "End time must be in HH:mm format (UTC).";
+            }
             else if (EndTime <= StartTime)
+            {
                 Step1Validation = "End time must be after start time.";
+            }
             else if (IsRecurring && RecurrenceGapDays < 1)
+            {
                 Step1Validation = "Gap between runs must be at least 1 day.";
+            }
             else
+            {
                 Step1Validation = "";
+            }
+
             OnPropertyChanged(nameof(Step1Validation));
         }
 
         [RelayCommand]
-        private void Back() { if (CanGoBack) CurrentStep--; }
+        private void Back() { if (CanGoBack)
+            {
+                CurrentStep--;
+            }
+        }
 
         [RelayCommand]
         private void Next()
@@ -258,9 +297,15 @@ namespace Perpetuum.AdminTool.ViewModels
             if (CurrentStep == 1)
             {
                 ValidateStep1();
-                if (!string.IsNullOrEmpty(Step1Validation)) return;
+                if (!string.IsNullOrEmpty(Step1Validation))
+                {
+                    return;
+                }
             }
-            if (CanGoNext) CurrentStep++;
+            if (CanGoNext)
+            {
+                CurrentStep++;
+            }
         }
 
         [RelayCommand]
@@ -282,7 +327,10 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void RemoveObjectiveRow(SeasonObjectiveRow? row)
         {
-            if (row != null) Objectives.Remove(row);
+            if (row != null)
+            {
+                Objectives.Remove(row);
+            }
         }
 
         [RelayCommand]
@@ -305,7 +353,10 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void RemoveTierRow(SeasonTierRow? row)
         {
-            if (row != null) Tiers.Remove(row);
+            if (row != null)
+            {
+                Tiers.Remove(row);
+            }
         }
 
         [RelayCommand]
@@ -327,14 +378,21 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void RemoveLeaderboardRow(SeasonLeaderboardRewardRow? row)
         {
-            if (row != null) LeaderboardRewards.Remove(row);
+            if (row != null)
+            {
+                LeaderboardRewards.Remove(row);
+            }
         }
 
         [RelayCommand]
         private void Finish()
         {
             ValidateStep1();
-            if (!string.IsNullOrEmpty(Step1Validation)) return;
+            if (!string.IsNullOrEmpty(Step1Validation))
+            {
+                return;
+            }
+
             _queue.Add(BuildSeasonScript());
             _onComplete();
         }
@@ -381,10 +439,25 @@ namespace Perpetuum.AdminTool.ViewModels
 
             var parts = new List<string> { "season" };
             var activeRates = ActivityRates.Count(r => r.PointsPerUnit > 0);
-            if (activeRates > 0) parts.Add($"{activeRates} rates");
-            if (Objectives.Count > 0) parts.Add($"{Objectives.Count} objectives");
-            if (Tiers.Count > 0) parts.Add($"{Tiers.Count} tiers");
-            if (LeaderboardRewards.Count > 0) parts.Add($"{LeaderboardRewards.Count} leaderboard entries");
+            if (activeRates > 0)
+            {
+                parts.Add($"{activeRates} rates");
+            }
+
+            if (Objectives.Count > 0)
+            {
+                parts.Add($"{Objectives.Count} objectives");
+            }
+
+            if (Tiers.Count > 0)
+            {
+                parts.Add($"{Tiers.Count} tiers");
+            }
+
+            if (LeaderboardRewards.Count > 0)
+            {
+                parts.Add($"{LeaderboardRewards.Count} leaderboard entries");
+            }
 
             return new RawSqlChange($"seasons: insert '{Name}' with {string.Join(", ", parts)}", sb.ToString());
         }

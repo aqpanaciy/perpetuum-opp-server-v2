@@ -23,7 +23,7 @@ namespace Perpetuum.AdminTool.Seasons
             {
                 PackageId = value.Id;
                 EquipmentSetId = null;
-                _selectedEquipmentSet = null;
+                SelectedEquipmentSet = null;
                 OnPropertyChanged(nameof(SelectedEquipmentSet));
             }
         }
@@ -34,7 +34,7 @@ namespace Perpetuum.AdminTool.Seasons
             {
                 EquipmentSetId = value.SetId;
                 PackageId = null;
-                _selectedPackage = null;
+                SelectedPackage = null;
                 OnPropertyChanged(nameof(SelectedPackage));
             }
         }

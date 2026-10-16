@@ -94,14 +94,22 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public void RemoveSelected()
         {
-            if (Store == null || SelectedRow == null) return;
+            if (Store == null || SelectedRow == null)
+            {
+                return;
+            }
+
             Store.RemoveRow(SelectedRow);
             SelectedRow = null;
         }
 
         public void Save()
         {
-            if (Store == null) return;
+            if (Store == null)
+            {
+                return;
+            }
+
             try
             {
                 Store.Save();

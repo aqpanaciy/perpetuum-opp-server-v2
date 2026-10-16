@@ -106,7 +106,9 @@ namespace Perpetuum.IO
             var dest = CreatePath(targetPath);
 
             if (File.Exists(dest))
+            {
                 File.Delete(dest);
+            }
 
             File.Move(src, dest);
         }

@@ -36,10 +36,14 @@ namespace Perpetuum.Zones.NpcSystem.Flocks
         private void ModifyRespawnMultiplier()
         {
             if (Configuration.FlockMemberCount <= 1)
+            {
                 return;
+            }
 
             if (!_allowMultiplierChange)
+            {
                 return;
+            }
 
             if (MembersCount == 0)
             {
@@ -51,7 +55,9 @@ namespace Perpetuum.Zones.NpcSystem.Flocks
             }
 
             if (MembersCount != Configuration.FlockMemberCount)
+            {
                 return;
+            }
 
             //all alive
             respawnMultiplier = (respawnMultiplier * 1.1).Clamp(respawnMultiplierLow);
@@ -79,7 +85,9 @@ namespace Perpetuum.Zones.NpcSystem.Flocks
         public override void Update(TimeSpan time)
         {
             if (!Presence.Configuration.IsRespawnAllowed)
+            {
                 return;
+            }
 
             RespawnAllDeadNpcs(time);
         }
@@ -89,21 +97,29 @@ namespace Perpetuum.Zones.NpcSystem.Flocks
         private void RespawnAllDeadNpcs(TimeSpan time)
         {
             if (IsMaxSpawnCountReached)
+            {
                 return;
+            }
 
             ModifyRespawnMultiplier();
 
             //kinn van-e minden kello member?
             if (MembersCount >= Configuration.FlockMemberCount)
+            {
                 return;
+            }
 
             if (_nextSpawnTime == null)
+            {
                 _nextSpawnTime = GetNextSpawnTime();
+            }
 
             _nextSpawnTime.Update(time);
 
             if (!_nextSpawnTime.Expired)
+            {
                 return;
+            }
 
             CreateMemberInZone();
             _nextSpawnTime = null;
@@ -118,7 +134,9 @@ namespace Perpetuum.Zones.NpcSystem.Flocks
         {
             //tehet meg ennek a flocknak be?
             if (IsMaxSpawnCountReached)
+            {
                 return;
+            }
 
             BossInfo?.OnRespawn();
             base.CreateMemberInZone();
@@ -134,7 +152,9 @@ namespace Perpetuum.Zones.NpcSystem.Flocks
             get
             {
                 if (Configuration.TotalSpawnCount == 0)
+                {
                     return false; //spawn forever
+                }
 
                 return MembersCount >= Configuration.TotalSpawnCount;
             }

@@ -15,18 +15,34 @@ namespace Perpetuum.AdminTool.Views
 
         private async void OnReloadClick(object sender, RoutedEventArgs e)
         {
-            if (Vm == null) return;
+            if (Vm == null)
+            {
+                return;
+            }
+
             await Vm.ReloadAsync();
         }
 
         private void OnNewClick(object sender, RoutedEventArgs e)
         {
-            if (Vm == null) return;
+            if (Vm == null)
+            {
+                return;
+            }
+
             while (true)
             {
                 var win = new NewTemplateWindow { Owner = Window.GetWindow(this) };
-                if (win.ShowDialog() != true) return;
-                if (Vm.TryAddNew(win.Inputs.Name, out var error)) return;
+                if (win.ShowDialog() != true)
+                {
+                    return;
+                }
+
+                if (Vm.TryAddNew(win.Inputs.Name, out var error))
+                {
+                    return;
+                }
+
                 MessageBox.Show(Window.GetWindow(this), error, "Cannot create template",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
             }
@@ -38,7 +54,11 @@ namespace Perpetuum.AdminTool.Views
 
         private async void OnStructuredEditClick(object sender, RoutedEventArgs e)
         {
-            if (Vm?.SelectedRow == null) return;
+            if (Vm?.SelectedRow == null)
+            {
+                return;
+            }
+
             var row = Vm.SelectedRow;
 
             if (row.IsQueued)
@@ -68,7 +88,11 @@ namespace Perpetuum.AdminTool.Views
 
         private void OnDeleteClick(object sender, RoutedEventArgs e)
         {
-            if (Vm?.SelectedRow == null) return;
+            if (Vm?.SelectedRow == null)
+            {
+                return;
+            }
+
             var row = Vm.SelectedRow;
 
             string prompt = row.IsNew
@@ -77,7 +101,10 @@ namespace Perpetuum.AdminTool.Views
 
             var ok = MessageBox.Show(Window.GetWindow(this), prompt, "Delete template",
                 MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (ok != MessageBoxResult.Yes) return;
+            if (ok != MessageBoxResult.Yes)
+            {
+                return;
+            }
 
             var changes = Vm.EnqueueDelete();
             Vm.RemoveRow(row);

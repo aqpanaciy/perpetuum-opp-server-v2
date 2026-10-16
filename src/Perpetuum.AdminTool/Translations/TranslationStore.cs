@@ -34,7 +34,10 @@ namespace Perpetuum.AdminTool.Translations
             Rows.Clear();
             _byKey.Clear();
 
-            if (!DirectoryExists) return;
+            if (!DirectoryExists)
+            {
+                return;
+            }
 
             var files = Directory
                 .GetFiles(DictionaryDirectory, "*.json")
@@ -45,7 +48,10 @@ namespace Perpetuum.AdminTool.Translations
             foreach (var file in files)
             {
                 var name = Path.GetFileNameWithoutExtension(file);
-                if (!int.TryParse(name, out var langId)) continue;
+                if (!int.TryParse(name, out var langId))
+                {
+                    continue;
+                }
 
                 var json = File.ReadAllText(file);
                 Dictionary<string, object>? dict;
@@ -58,7 +64,10 @@ namespace Perpetuum.AdminTool.Translations
                     // Skip malformed file rather than abort.
                     continue;
                 }
-                if (dict == null) continue;
+                if (dict == null)
+                {
+                    continue;
+                }
 
                 langs.Add(langId);
 
@@ -101,7 +110,11 @@ namespace Perpetuum.AdminTool.Translations
 
         public void RemoveRow(TranslationRow row)
         {
-            if (row == null) return;
+            if (row == null)
+            {
+                return;
+            }
+
             _byKey.Remove(row.Key);
             Rows.Remove(row);
         }
@@ -117,7 +130,11 @@ namespace Perpetuum.AdminTool.Translations
 
             // Insert keeping the list sorted.
             var index = 0;
-            while (index < Languages.Count && Languages[index] < langId) index++;
+            while (index < Languages.Count && Languages[index] < langId)
+            {
+                index++;
+            }
+
             Languages.Insert(index, langId);
             return true;
         }
@@ -142,11 +159,21 @@ namespace Perpetuum.AdminTool.Translations
                 var dict = new Dictionary<string, string>(StringComparer.Ordinal);
                 foreach (var row in Rows)
                 {
-                    if (string.IsNullOrEmpty(row.Key)) continue;
-                    if (!row.HasValue(langId)) continue;
+                    if (string.IsNullOrEmpty(row.Key))
+                    {
+                        continue;
+                    }
+
+                    if (!row.HasValue(langId))
+                    {
+                        continue;
+                    }
 
                     var val = row[langId];
-                    if (string.IsNullOrEmpty(val)) continue;
+                    if (string.IsNullOrEmpty(val))
+                    {
+                        continue;
+                    }
 
                     dict[row.Key] = val;
                 }
