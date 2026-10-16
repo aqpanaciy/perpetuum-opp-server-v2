@@ -1,6 +1,6 @@
 ![opp-server2](opp-server2.png)
 
-[![Build Perpetuum.Server Service v2](https://github.com/aqpanaciy/perpetuum-opp-server-v2/actions/workflows/dotnet.yml/badge.svg?branch=aqpanaciy)](https://github.com/aqpanaciy/perpetuum-opp-server-v2/actions/workflows/dotnet.yml)
+[![Build Perpetuum.Server Service v2](https://github.com/aqpanaciy/perpetuum-opp-server-v2/actions/workflows/dotnet.yml/badge.svg?branch=aqpanaciy)](https://github.com/aqpanaciy/perpetuum-opp-server-v2/actions/workflows/dotnet.yml)[![Codacy Badge](https://app.codacy.com/project/badge/Grade/251d7a92c6734f3da4f77f953bd95970)](https://app.codacy.com/gh/aqpanaciy/perpetuum-opp-server-v2/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/251d7a92c6734f3da4f77f953bd95970)](https://app.codacy.com/gh/aqpanaciy/perpetuum-opp-server-v2/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 
 # The Open Perpetuum Server 2
 
