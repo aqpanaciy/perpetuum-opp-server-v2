@@ -1,6 +1,6 @@
 ![opp-server2](opp-server2.png)
 
-[![Build Perpetuum.Server Service v2](https://github.com/OpenPerpetuum/PerpetuumServer2/actions/workflows/dotnet.yml/badge.svg?branch=develop)](https://github.com/OpenPerpetuum/PerpetuumServer2/actions/workflows/dotnet.yml)
+[![Build Perpetuum.Server Service v2](https://github.com/aqpanaciy/perpetuum-opp-server-v2/actions/workflows/dotnet.yml/badge.svg?branch=aqpanaciy)](https://github.com/aqpanaciy/perpetuum-opp-server-v2/actions/workflows/dotnet.yml)
 
 # The Open Perpetuum Server 2
 
