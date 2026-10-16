@@ -1,3 +1,6 @@
+SET QUOTED_IDENTIFIER ON
+GO
+
 -- IMPROVEMENT-018: add scoring_mode to seasons
 -- 0 = ActivityAndGlobal (default, preserves existing behaviour)
 -- 1 = ObjectivesOnly
