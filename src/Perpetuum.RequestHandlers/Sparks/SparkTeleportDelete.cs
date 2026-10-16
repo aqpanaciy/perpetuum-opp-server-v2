@@ -33,7 +33,7 @@ namespace Perpetuum.RequestHandlers.Sparks
                     var info = _sparkTeleportHelper.GetSparkTeleportDescriptionInfos(character);
                     Message.Builder.FromRequest(request).WithData(info).Send();
                 });
-                
+
                 scope.Complete();
             }
         }

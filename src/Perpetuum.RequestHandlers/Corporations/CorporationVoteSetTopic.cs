@@ -15,7 +15,7 @@ namespace Perpetuum.RequestHandlers.Corporations
 
                 var corporation = character.GetPrivateCorporationOrThrow();
                 corporation.SetVoteTopic(character, voteID, topic);
-                
+
                 scope.Complete();
             }
         }

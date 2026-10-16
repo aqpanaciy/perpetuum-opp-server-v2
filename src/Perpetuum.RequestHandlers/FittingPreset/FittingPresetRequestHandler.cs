@@ -16,7 +16,8 @@ namespace Perpetuum.RequestHandlers.FittingPreset
             {
                 var result = repo.GetAll().ToDictionary("p", p => p.ToDictionary());
                 Message.Builder.FromRequest(request).WithData(result).Send();
-            };
+            }
+            ;
 
             if (Transaction.Current != null)
             {

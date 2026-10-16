@@ -43,11 +43,11 @@ namespace Perpetuum.Zones.Scanning.Modules
             if (npc == null)
                 return;
 
-            player.MissionHandler.EnqueueMissionEventInfo(new ScanContainerEventInfo(player,npc,target.CurrentPosition));
-            
+            player.MissionHandler.EnqueueMissionEventInfo(new ScanContainerEventInfo(player, npc, target.CurrentPosition));
+
         }
 
-        private class ContainerScanner : IEntityVisitor<Robot>,IEntityVisitor<Npc>,IEntityVisitor<LootContainer>
+        private class ContainerScanner : IEntityVisitor<Robot>, IEntityVisitor<Npc>, IEntityVisitor<LootContainer>
         {
             public ContainerScanner()
             {

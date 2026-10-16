@@ -13,7 +13,7 @@ namespace Perpetuum.RequestHandlers.TechTree
         private readonly ITechTreeService _techTreeService;
         private readonly ITechTreeInfoService _infoService;
 
-        public TechTreeUnlock(ITechTreeService techTreeService,ITechTreeInfoService infoService)
+        public TechTreeUnlock(ITechTreeService techTreeService, ITechTreeInfoService infoService)
         {
             _techTreeService = techTreeService;
             _infoService = infoService;
@@ -37,7 +37,7 @@ namespace Perpetuum.RequestHandlers.TechTree
                     logEvent.CorporationEid = corporationEid;
                     ownerEid = corporationEid;
 
-                    Transaction.Current.OnCommited(() => SendInfoToCorporation(_techTreeService,corporationEid));
+                    Transaction.Current.OnCommited(() => SendInfoToCorporation(_techTreeService, corporationEid));
                 }
 
                 var points = new TechTreePointsHandler(ownerEid);
@@ -94,7 +94,7 @@ namespace Perpetuum.RequestHandlers.TechTree
 
                 points.AddAvailablePointsToDictionary(result);
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

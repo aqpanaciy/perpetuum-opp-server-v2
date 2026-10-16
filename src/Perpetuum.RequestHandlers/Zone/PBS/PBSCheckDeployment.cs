@@ -32,7 +32,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
             character.GetPrivateCorporationOrThrow()
                 .GetMemberRole(character)
                 .IsAnyRole(CorporationRole.CEO, CorporationRole.DeputyCEO, CorporationRole.editPBS)
-                .ThrowIfFalse(ErrorCodes.InsufficientPrivileges,gex => gex.SetData(info));
+                .ThrowIfFalse(ErrorCodes.InsufficientPrivileges, gex => gex.SetData(info));
 
             var position = new Position(x, y).Center;
 
@@ -41,27 +41,27 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
 
             List<Position> badSlopes;
             List<Position> badBlocks;
-            if ((ec = PBSHelper.CheckZoneForDeployment(request.Zone,position,ed, out badSlopes, out badBlocks, true )) != ErrorCodes.NoError)
+            if ((ec = PBSHelper.CheckZoneForDeployment(request.Zone, position, ed, out badSlopes, out badBlocks, true)) != ErrorCodes.NoError)
             {
 
                 info.Add(k.zoneID, request.Zone.Id);
 
                 if (badBlocks.Count > 0)
                 {
-                    var array = badBlocks.SelectMany(p => new[] {p.intX, p.intY}).ToArray();
+                    var array = badBlocks.SelectMany(p => new[] { p.intX, p.intY }).ToArray();
                     info.Add(k.blocks, array);
                 }
 
                 if (badSlopes.Count > 0)
                 {
-                    var array = badSlopes.SelectMany(p => new[] {p.intX, p.intY}).ToArray();
+                    var array = badSlopes.SelectMany(p => new[] { p.intX, p.intY }).ToArray();
                     info.Add(k.slope, array);
                 }
 
                 throw PerpetuumException.Create(ec).SetData(info);
             }
 
-            request.Zone.CreateBeam(BeamType.artifact_found,builder => builder.WithPosition(position).WithVisibility(200).WithDuration(1337));
+            request.Zone.CreateBeam(BeamType.artifact_found, builder => builder.WithPosition(position).WithVisibility(200).WithDuration(1337));
 
             var result = new Dictionary<string, object>
             {

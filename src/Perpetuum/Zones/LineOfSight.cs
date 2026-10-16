@@ -25,11 +25,11 @@ namespace Perpetuum.Zones
 
         public static bool Debug { private get; set; }
 
-        private const double MAX_DISTANCE  = 40.0;
+        private const double MAX_DISTANCE = 40.0;
         private const double MAX_AMPLITUDE = 16.0;
 
         [Conditional("DEBUG")]
-        private static void OnDebugLOS(IZone zone,BeamType beamType, Position position,bool aligned)
+        private static void OnDebugLOS(IZone zone, BeamType beamType, Position position, bool aligned)
         {
             if (!Debug)
                 return;
@@ -39,7 +39,7 @@ namespace Perpetuum.Zones
                 zone.CreateAlignedDebugBeam(beamType, zone.FixZ(position));
                 return;
             }
-            
+
             zone.CreateDebugBeam(beamType, position);
         }
 
@@ -66,12 +66,12 @@ namespace Perpetuum.Zones
         {
             var ab = cylinderEnd - cylinderStart;
             var ao = start - cylinderStart;
-            var aoxAb = Vector3.Cross(ao,ab);
-            var vxAb = Vector3.Cross(dir,ab);
-            var ab2 = Vector3.Dot(ab,ab);
-            var a = Vector3.Dot(vxAb,vxAb);
-            var b = 2 * Vector3.Dot(vxAb,aoxAb);
-            var c = Vector3.Dot(aoxAb,aoxAb) - (radius * radius * ab2);
+            var aoxAb = Vector3.Cross(ao, ab);
+            var vxAb = Vector3.Cross(dir, ab);
+            var ab2 = Vector3.Dot(ab, ab);
+            var a = Vector3.Dot(vxAb, vxAb);
+            var b = 2 * Vector3.Dot(vxAb, aoxAb);
+            var c = Vector3.Dot(aoxAb, aoxAb) - (radius * radius * ab2);
             var d = b * b - 4 * a * c;
             var time = ((-b - Math.Sqrt(d)) / (2 * a));
             return Math.Abs(time);
@@ -114,42 +114,42 @@ namespace Perpetuum.Zones
 
             var lastAltitude = zone.Terrain.Altitude.GetAltitudeAsDouble(origin) + 2;
 
-            var lx = (int) origin.X;
-            var ly = (int) origin.Y;
+            var lx = (int)origin.X;
+            var ly = (int)origin.Y;
 
-            for (var i = 0.0f;i <= distance;i += 0.3f)
+            for (var i = 0.0f; i <= distance; i += 0.3f)
             {
                 var p = origin + direction * i;
 
-                OnDebugLOS(zone,BeamType.orange_20sec,(Position)p,true);
+                OnDebugLOS(zone, BeamType.orange_20sec, (Position)p, true);
 
                 var dx = Math.Abs((int)p.X - lx);
                 var dy = Math.Abs((int)p.Y - ly);
 
                 if (dx >= 1 || dy >= 1)
                 {
-                    lx = (int) p.X;
-                    ly = (int) p.Y;
+                    lx = (int)p.X;
+                    ly = (int)p.Y;
 
                     var blockingInfo = zone.Terrain.Blocks.GetValue(p);
-                    var altitude = GetAltitude(zone,p,ref lastAltitude);
+                    var altitude = GetAltitude(zone, p, ref lastAltitude);
                     var blockingHeight = blockingInfo.Height + altitude;
 
                     if (ballistic)
                     {
                         var x = i / distance;
-                        var maxAmp = (Math.Min(distance,MAX_DISTANCE) / MAX_DISTANCE) * MAX_AMPLITUDE;
-                        var amp = (-Math.Sin((x * Math.PI) + Math.PI)) * (Math.Pow(x,0.5) * 1.5) * maxAmp;
+                        var maxAmp = (Math.Min(distance, MAX_DISTANCE) / MAX_DISTANCE) * MAX_AMPLITUDE;
+                        var amp = (-Math.Sin((x * Math.PI) + Math.PI)) * (Math.Pow(x, 0.5) * 1.5) * maxAmp;
 
                         p.Z += (float)amp;
                     }
 
-                    OnDebugLOS(zone,BeamType.red_20sec,(Position)p,false);
+                    OnDebugLOS(zone, BeamType.red_20sec, (Position)p, false);
 
                     if (blockingHeight < p.Z)
                         continue;
 
-                    OnDebugLOS(zone,BeamType.blue_20sec,(Position)p,false);
+                    OnDebugLOS(zone, BeamType.blue_20sec, (Position)p, false);
 
                     var losResult = new LOSResult
                     {
@@ -165,7 +165,7 @@ namespace Perpetuum.Zones
             return LOSResult.None;
         }
 
-        private static double GetAltitude(IZone zone,Vector3 position,ref double lastAltitude)
+        private static double GetAltitude(IZone zone, Vector3 position, ref double lastAltitude)
         {
             var altitude = zone.Terrain.Altitude.GetAltitudeAsDouble(position);
 

@@ -31,7 +31,7 @@ namespace Perpetuum.Zones.Artifacts.Scanners
             else
             {
 
-                var reader = new ZoneArtifactReader(player,ArtifactReadMode.Persistent);
+                var reader = new ZoneArtifactReader(player, ArtifactReadMode.Persistent);
 
                 var cr = new CompositeArtifactReader(reader);
 
@@ -39,26 +39,26 @@ namespace Perpetuum.Zones.Artifacts.Scanners
                 var uniqueGuids = targets.Select(t => t.MyZoneMissionInProgress.missionGuid).Distinct().ToList();
                 foreach (var missionGuid in uniqueGuids)
                 {
-                    cr.AddReader( new MissionArtifactReader(missionGuid));
+                    cr.AddReader(new MissionArtifactReader(missionGuid));
                 }
-                
-                artifactRepository = new ZoneArtifactRepository(_zone,cr);
+
+                artifactRepository = new ZoneArtifactRepository(_zone, cr);
 
                 var cg = new CompositeArtifactGenerator(new PersistentArtifactGenerator(_zone, artifactRepository, player));
 
                 foreach (var target in targets)
                 {
-                    cg.AddGenerator(new MissionArtifactGenerator(target,artifactRepository));
+                    cg.AddGenerator(new MissionArtifactGenerator(target, artifactRepository));
                 }
 
                 artifactGenerator = cg;
                 artifactLootGenerator = new ArtifactLootGenerator(artifactRepository);
             }
 
-            var scanner = new ArtifactScanner(_zone, artifactRepository, artifactGenerator ,artifactLootGenerator);
+            var scanner = new ArtifactScanner(_zone, artifactRepository, artifactGenerator, artifactLootGenerator);
             return scanner;
         }
 
-       
+
     }
 }

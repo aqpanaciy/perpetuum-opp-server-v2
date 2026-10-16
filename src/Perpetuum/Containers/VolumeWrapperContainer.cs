@@ -14,7 +14,7 @@ namespace Perpetuum.Containers
     /// <summary>
     /// A container which reflects the volume of the contained items
     /// </summary>
-    public class VolumeWrapperContainer : Container 
+    public class VolumeWrapperContainer : Container
     {
         private Character _principalCharacter = Character.None;
 
@@ -43,7 +43,7 @@ namespace Perpetuum.Containers
             set
             {
                 _principalCharacter = value;
-                DynamicProperties.Update(k.principal,value.Id);
+                DynamicProperties.Update(k.principal, value.Id);
             }
         }
 
@@ -60,7 +60,7 @@ namespace Perpetuum.Containers
             {
                 info.Add(k.assignmentID, AssignmentId);
             }
-            
+
             return info;
         }
 
@@ -79,7 +79,7 @@ namespace Perpetuum.Containers
         public void SetRandomName()
         {
             var nameString = FastRandom.NextString(3);
-            var nameNumber = FastRandom.NextInt(0 , 999);
+            var nameNumber = FastRandom.NextInt(0, 999);
             Name = $"{nameString.ToUpper()}-{nameNumber}";
 
         }
@@ -89,11 +89,11 @@ namespace Perpetuum.Containers
             get { return DynamicProperties.GetOrAdd<int>(k.assignmentID); }
             set
             {
-                DynamicProperties.Update(k.assignmentID,value);
+                DynamicProperties.Update(k.assignmentID, value);
             }
         }
 
-        public Dictionary<string,object> GetAssignmentInfo()
+        public Dictionary<string, object> GetAssignmentInfo()
         {
             var result = ToDictionary();
 
@@ -138,7 +138,7 @@ namespace Perpetuum.Containers
         {
             if (IsRepackaged)
                 return;
-            
+
             if (!IsDeleteAllowed())
             {
                 base.OnDeleteFromDb();
@@ -153,10 +153,10 @@ namespace Perpetuum.Containers
             var lista = new List<LootItem>();
             foreach (var item in GetItems())
             {
-                var resultQuantity = (int) (Math.Round(item.Quantity*FastRandom.NextDouble()));
+                var resultQuantity = (int)(Math.Round(item.Quantity * FastRandom.NextDouble()));
                 var resutlDefinition = item.Definition;
 
-                if (resultQuantity <= 0) 
+                if (resultQuantity <= 0)
                     continue;
 
                 var lootItem = LootItemBuilder.Create(resutlDefinition).SetQuantity(resultQuantity).SetRepackaged(item.ED.AttributeFlags.Repackable).Build();
@@ -169,12 +169,12 @@ namespace Perpetuum.Containers
         public void CheckSubmitConditionsAndThrowIfFailed()
         {
             string.IsNullOrEmpty(Name).ThrowIfTrue(ErrorCodes.ContainerHasNoName);
-            Name.Length.ThrowIfLess(3,ErrorCodes.ContainerHasNoName);
+            Name.Length.ThrowIfLess(3, ErrorCodes.ContainerHasNoName);
 
             IsInAssignment().ThrowIfTrue(ErrorCodes.ContainerInAssignment);
             IsRepackaged.ThrowIfTrue(ErrorCodes.ContainerHasToBeUnPacked);
 
-            Quantity.ThrowIfNotEqual(1,ErrorCodes.ItemHasToBeSingle);
+            Quantity.ThrowIfNotEqual(1, ErrorCodes.ItemHasToBeSingle);
             GetItems().Any().ThrowIfFalse(ErrorCodes.NoItemsToTransport);
         }
 

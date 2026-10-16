@@ -30,7 +30,7 @@ namespace Perpetuum.RequestHandlers.Intrusion
 
                 var siteEids = outposts.Select(s => s.Eid).ToArray();
 
-                var result = new Dictionary<string,object>
+                var result = new Dictionary<string, object>
                                  {
                                      {k.zoneID, zone.Id},
                                      {k.intrusionState, state},

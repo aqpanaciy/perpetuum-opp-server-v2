@@ -27,7 +27,7 @@ namespace Perpetuum.Zones.Finders.PositionFinders
         protected Position FindClosestWalkable(IZone zone, Position pos)
         {
             var finder = new ClosestWalkablePositionFinder(zone, pos, _slope);
-            if(finder.Find(out Position p))
+            if (finder.Find(out Position p))
             {
                 return p;
             }

@@ -21,7 +21,7 @@ namespace Perpetuum.Zones.PBS
     {
         private readonly IEntityServices _entityServices;
         private bool _successfulSummon;
-        
+
         public PBSEgg(IEntityServices entityServices)
         {
             _entityServices = entityServices;
@@ -72,7 +72,7 @@ namespace Perpetuum.Zones.PBS
                         PBSHelper.CreatePBSDockingBase(dockingBase);
 
                     deployableItem.Owner = corporation.Eid;
-                    deployableItem.Orientation = FastRandom.NextInt(0, 3)*0.25;
+                    deployableItem.Orientation = FastRandom.NextInt(0, 3) * 0.25;
                     deployableItem.CurrentPosition = CurrentPosition.Center;
 
                     if (deployableItem is PBSTurret turret)
@@ -85,11 +85,11 @@ namespace Perpetuum.Zones.PBS
                         // itt mindent insertalunk
                         deployableItem.Save();
                     }
-                    
+
                     Logger.Info("node saved to sql " + deployableItem);
 
                     Logger.Info("pbs insert start in zoneuser entities: " + deployableItem);
-                    zone.UnitService.AddUserUnit(deployableItem,centerTile);
+                    zone.UnitService.AddUserUnit(deployableItem, centerTile);
 
                     Logger.Info("pbs log starting " + deployableItem);
                     PBSHelper.WritePBSLog(PBSLogType.deployed, deployableItem.Eid, deployableItem.Definition, deployableItem.Owner, DeployerPlayer.Character.Id, background: false, zoneId: zone.Id);
@@ -113,7 +113,7 @@ namespace Perpetuum.Zones.PBS
                         Logger.Info("terrain stuff done, sending update. " + deployableItem);
 
                         //send update
-                        ((IPBSObject) deployableItem).SendNodeUpdate();
+                        ((IPBSObject)deployableItem).SendNodeUpdate();
 
                         zone.CreateBeam(BeamType.red_20sec,
                             builder =>
@@ -136,7 +136,7 @@ namespace Perpetuum.Zones.PBS
 
         private void SetStartCore(Unit unit)
         {
-            if (unit is IPBSAcceptsCore || unit is IPBSCorePump )
+            if (unit is IPBSAcceptsCore || unit is IPBSCorePump)
             {
                 unit.Core = 0;
             }
@@ -146,7 +146,7 @@ namespace Perpetuum.Zones.PBS
         {
             //the egg WILL build this pbsNode after activation
             var pbsNodeEntityDefault = TargetPBSNodeDefault;
-            
+
             if (pbsNodeEntityDefault == EntityDefault.None)
             {
                 Logger.Error("pbsNodeDefinition was not found:" + pbsNodeEntityDefault + " in egg:" + Definition + " " + ED.Name);
@@ -172,7 +172,7 @@ namespace Perpetuum.Zones.PBS
             }
 
             //kiveve amiket lehet kivulre pakolni
-            if (! PBSHelper.IsPlaceableOutsideOfBase(pbsNodeEntityDefault.CategoryFlags))
+            if (!PBSHelper.IsPlaceableOutsideOfBase(pbsNodeEntityDefault.CategoryFlags))
             {
                 //checks for corporation's docking base in range
                 PBSHelper.ValidatePBSNodePlacing(zone, spawnPosition, owner, pbsNodeEntityDefault).ThrowIfError();
@@ -210,7 +210,7 @@ namespace Perpetuum.Zones.PBS
         {
             return PBSHelper.LazyInitConstructionRadiusByEgg(this, ref _constructionRadius);
         }
-        
+
 
         public Player DeployerPlayer { get; set; }
 
@@ -218,7 +218,7 @@ namespace Perpetuum.Zones.PBS
         {
             if (enterType == ZoneEnterType.Deploy)
             {
-                PBSHelper.OnPBSEggDeployed(Zone, this); 
+                PBSHelper.OnPBSEggDeployed(Zone, this);
             }
 
             base.OnEnterZone(zone, enterType);

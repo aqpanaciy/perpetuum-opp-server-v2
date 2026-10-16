@@ -25,14 +25,14 @@ namespace Perpetuum.Zones.Scanning.Results
                                                         values (@ownerid,@creation,@zoneid,@materialtype,@x1,@y1,@x2,@y2,@scanAccuracy);select cast(scope_identity() as int)")
                 .SetParameter("@ownerId", _owner.Id)
                 .SetParameter("@creation", DateTime.Now)
-                .SetParameter("@zoneid",result.ZoneId)
+                .SetParameter("@zoneid", result.ZoneId)
                 .SetParameter("@materialType", (byte)result.MaterialType)
                 .SetParameter("@x1", result.Area.X1)
                 .SetParameter("@y1", result.Area.Y1)
                 .SetParameter("@x2", result.Area.X2)
                 .SetParameter("@y2", result.Area.Y2)
-                .SetParameter("@scanAccuracy",result.ScanAccuracy)
-                .SetParameter("@quality",result.Quality)
+                .SetParameter("@scanAccuracy", result.ScanAccuracy)
+                .SetParameter("@quality", result.Quality)
                 .ExecuteScalar<int>().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
 
             result.Id = id;
@@ -41,7 +41,7 @@ namespace Perpetuum.Zones.Scanning.Results
         public void DeleteById(int id)
         {
             Db.Query().CommandText("delete mineralscan where ownerid=@characterID and id = @id")
-                .SetParameter("@id",id)
+                .SetParameter("@id", id)
                 .SetParameter("@characterID", _owner.Id)
                 .ExecuteNonQuery();
         }
@@ -49,15 +49,15 @@ namespace Perpetuum.Zones.Scanning.Results
         public void DeleteAll()
         {
             Db.Query().CommandText("delete mineralscan where ownerid=@characterID")
-                .SetParameter("@characterID",_owner.Id)
+                .SetParameter("@characterID", _owner.Id)
                 .ExecuteNonQuery();
         }
 
         public void MoveToFolderById(int id, string folder)
         {
             Db.Query().CommandText("update mineralscan set folder = @folder where ownerid = @ownerId and id = @id")
-                .SetParameter("@id",id)
-                .SetParameter("@ownerId",_owner.Id)
+                .SetParameter("@id", id)
+                .SetParameter("@ownerId", _owner.Id)
                 .SetParameter("@folder", folder)
                 .ExecuteNonQuery().ThrowIfZero(ErrorCodes.SQLUpdateError);
         }
@@ -79,7 +79,7 @@ namespace Perpetuum.Zones.Scanning.Results
         public List<MineralScanResult> GetAll()
         {
             return Db.Query().CommandText("select * from mineralscan where ownerid = @ownerId")
-                .SetParameter("@ownerId",_owner.Id)
+                .SetParameter("@ownerId", _owner.Id)
                 .Execute()
                 .Select(CreateFromRecord)
                 .ToList();
@@ -102,7 +102,7 @@ namespace Perpetuum.Zones.Scanning.Results
             var x2 = record.GetValue<int>("x2");
             var y2 = record.GetValue<int>("y2");
 
-            result.Area = new Area(x1,y1,x2,y2);
+            result.Area = new Area(x1, y1, x2, y2);
             result.ScanAccuracy = record.GetValue<double>("scanaccuracy");
 
             return result;

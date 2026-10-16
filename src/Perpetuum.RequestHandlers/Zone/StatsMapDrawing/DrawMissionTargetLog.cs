@@ -19,7 +19,7 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
     {
         private void DrawMissionTargetLog(IRequest request)
         {
-            var randomCategories = new []
+            var randomCategories = new[]
             {
                 MissionCategory.Combat, MissionCategory.Transport, MissionCategory.Exploration, MissionCategory.Harvesting,
                 MissionCategory.Mining, MissionCategory.Production, MissionCategory.CombatExploration, MissionCategory.ComplexProduction
@@ -27,22 +27,22 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
 
             var locationsOnZone = _missionDataCache.GetAllLocations.Where(l => l.ZoneConfig.Id == _zone.Id).ToList();
             var allmissions = _missionDataCache.GetAllLiveRandomMissionTemplates.ToList();
-            
+
             var tasks = new List<Task>();
             foreach (var category in randomCategories)
             {
                 var randomMissions = allmissions.Where(m => m.missionCategory == category).ToList();
-                
+
                 Logger.Info("----------------------");
                 Logger.Info(randomMissions.Count + " missions in category " + category);
 
                 var cpus = Environment.ProcessorCount;
-                
+
                 foreach (var missionLocation in locationsOnZone)
                 {
                     var location = missionLocation;
                     var category1 = category;
-                    var oneTask = Task.Factory.StartNew(() => { DrawOneCategory(request,location, category1); }, new CancellationToken(),MissionResolveTester.ResolveTestTaskCreationOptions,TaskScheduler.Default);
+                    var oneTask = Task.Factory.StartNew(() => { DrawOneCategory(request, location, category1); }, new CancellationToken(), MissionResolveTester.ResolveTestTaskCreationOptions, TaskScheduler.Default);
                     tasks.Add(oneTask);
 
                     if (tasks.Count(tsk => !tsk.IsCompleted) < cpus) continue;
@@ -64,7 +64,7 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
             Logger.Info("drawing finished of mission target success log");
             Logger.Info("--------------------------------------------------");
             SendDrawFunctionFinished(request);
-            
+
         }
 
         internal class MissionTargetSuccessLogEntry
@@ -83,10 +83,10 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
                 {
                     EventTime = record.GetValue<DateTime>("eventtime"),
                     point = new Point(record.GetValue<int>("x"), record.GetValue<int>("y")),
-                    targetType = (MissionTargetType) record.GetValue<int>("targettype"),
+                    targetType = (MissionTargetType)record.GetValue<int>("targettype"),
                     guid = record.GetValue<Guid>("guid"),
                     locationEid = record.GetValue<long>("locationeid"),
-                    category = (MissionCategory) record.GetValue<int>("missioncategory")
+                    category = (MissionCategory)record.GetValue<int>("missioncategory")
                 };
 
                 return mtsle;
@@ -94,13 +94,13 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
         }
 
 
-        private void DrawOneCategory(IRequest request,MissionLocation missionLocation, MissionCategory category)
+        private void DrawOneCategory(IRequest request, MissionLocation missionLocation, MissionCategory category)
         {
             const string query = "SELECT * FROM dbo.missiontargetslog WHERE zoneid=@zoneId and locationeid=@locationEid and missioncategory=@category";
 
             var entries = Db.Query().CommandText(query)
                 .SetParameter("@zoneId", _zone.Id)
-                .SetParameter("@category", (int) category)
+                .SetParameter("@category", (int)category)
                 .SetParameter("@locationEid", missionLocation.LocationEid)
                 .Execute()
                 .Select(MissionTargetSuccessLogEntry.FromRecord).ToArray();
@@ -112,7 +112,7 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
             }
 
             var bitmap = _zone.CreatePassableBitmap(_passableColor, _islandColor);
-            DrawEntriesOnBitmap(entries,bitmap);
+            DrawEntriesOnBitmap(entries, bitmap);
 
             var ft = _zone.GetUnit(missionLocation.LocationEid);
             var littleText = "locationID:" + missionLocation.id;
@@ -127,15 +127,15 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
             var idString = $"{missionLocation.id:0000}";
 
             var fname = "_" + category1 + "_LOC" + idString + "_";
-            SendBitmapFinished(request,fname);
-            _saveBitmapHelper.SaveBitmap(_zone,bitmap, fname);
+            SendBitmapFinished(request, fname);
+            _saveBitmapHelper.SaveBitmap(_zone, bitmap, fname);
         }
 
         private void DrawEntriesOnBitmap(MissionTargetSuccessLogEntry[] entries, Bitmap background)
         {
             var eventSeries = entries.GroupBy(t => t.guid);
 
-            
+
             var g = Graphics.FromImage(background);
             var pen = new Pen(new SolidBrush(Color.FromArgb(25, Color.FromArgb(200, 200, 200))), 1.1f);
 
@@ -266,11 +266,11 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
             var bitmap = _zone.CreateBitmap();
             if (entries.Length == 0)
             {
-                Logger.Info("no entry on zone:" + _zone.Id );
+                Logger.Info("no entry on zone:" + _zone.Id);
                 return bitmap;
             }
 
-            
+
             DrawEntriesOnBitmap(entries, bitmap);
 
             return bitmap;

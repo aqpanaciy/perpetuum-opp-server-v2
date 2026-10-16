@@ -9,7 +9,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
         public void HandleRequest(IZoneRequest request)
         {
             var eid = request.Data.GetOrDefault<long>(k.eid);
-            
+
             var info = new Dictionary<string, object>();
 
             var unit = request.Zone.GetUnit(eid);

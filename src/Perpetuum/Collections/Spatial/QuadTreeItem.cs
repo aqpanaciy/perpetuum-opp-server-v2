@@ -7,7 +7,7 @@ namespace Perpetuum.Collections.Spatial
         public int Y { get; set; }
         public T Value { get; set; }
 
-        public QuadTreeItem(QuadTreeNode<T> node,int x, int y, T value)
+        public QuadTreeItem(QuadTreeNode<T> node, int x, int y, T value)
         {
             Node = node;
             X = x;

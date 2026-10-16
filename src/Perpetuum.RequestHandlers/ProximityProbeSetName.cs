@@ -33,7 +33,7 @@ namespace Perpetuum.RequestHandlers
                     probe.ReloadRegistration();
                     probe.SendUpdateToAllPossibleMembers();
                 });
-                
+
                 scope.Complete();
             }
         }

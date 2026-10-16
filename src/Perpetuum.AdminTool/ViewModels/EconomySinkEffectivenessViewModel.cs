@@ -11,10 +11,10 @@ namespace Perpetuum.AdminTool.ViewModels
     {
         private readonly EconomySinkRepository _repo;
 
-        [ObservableProperty] private bool   _isLoading;
+        [ObservableProperty] private bool _isLoading;
         [ObservableProperty] private string _statusMessage = "";
-        [ObservableProperty] private bool   _statusIsError;
-        [ObservableProperty] private int    _activePlayerCount;
+        [ObservableProperty] private bool _statusIsError;
+        [ObservableProperty] private int _activePlayerCount;
         [ObservableProperty] private double _insuranceCoveragePct;
 
         public ObservableCollection<EconomySinkRow> SinkRows { get; } = new();
@@ -24,14 +24,14 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand(CanExecute = nameof(CanRefresh))]
         public async Task RefreshAsync()
         {
-            IsLoading     = true;
+            IsLoading = true;
             StatusMessage = "Loading...";
             StatusIsError = false;
             try
             {
                 var data = await _repo.LoadAsync();
 
-                ActivePlayerCount    = data.ActivePlayerCount;
+                ActivePlayerCount = data.ActivePlayerCount;
                 InsuranceCoveragePct = data.InsuranceCoveragePct;
 
                 SinkRows.Clear();

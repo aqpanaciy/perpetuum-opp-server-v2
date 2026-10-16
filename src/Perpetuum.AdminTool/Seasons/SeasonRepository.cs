@@ -91,16 +91,16 @@ namespace Perpetuum.AdminTool.Seasons
             {
                 result.Add(new SeasonObjectiveRow
                 {
-                    Id           = reader.GetInt32(0),
-                    SeasonId     = reader.GetInt32(1),
-                    Name         = reader.IsDBNull(2) ? "" : reader.GetString(2),
-                    Description  = reader.IsDBNull(3) ? "" : reader.GetString(3),
+                    Id = reader.GetInt32(0),
+                    SeasonId = reader.GetInt32(1),
+                    Name = reader.IsDBNull(2) ? "" : reader.GetString(2),
+                    Description = reader.IsDBNull(3) ? "" : reader.GetString(3),
                     ActivityType = (SeasonActivityType)reader.GetInt32(4),
-                    TargetValue  = reader.GetInt64(5),
-                    BonusPoints  = reader.GetInt32(6),
+                    TargetValue = reader.GetInt64(5),
+                    BonusPoints = reader.GetInt32(6),
                     DisplayOrder = reader.GetInt32(7),
-                    IsDaily      = !reader.IsDBNull(8) && reader.GetBoolean(8),
-                    PackageId    = reader.IsDBNull(9) ? (int?)null : reader.GetInt32(9),
+                    IsDaily = !reader.IsDBNull(8) && reader.GetBoolean(8),
+                    PackageId = reader.IsDBNull(9) ? (int?)null : reader.GetInt32(9),
                     TargetDefinitionId = reader.IsDBNull(10) ? (int?)null : reader.GetInt32(10),
                     EquipmentSetId = reader.IsDBNull(11) ? (int?)null : reader.GetInt32(11),
                 });
@@ -124,12 +124,12 @@ namespace Perpetuum.AdminTool.Seasons
             {
                 result.Add(new SeasonTierRow
                 {
-                    Id             = reader.GetInt32(0),
-                    SeasonId       = reader.GetInt32(1),
-                    TierNumber     = reader.GetInt32(2),
-                    TierName       = reader.IsDBNull(3) ? "" : reader.GetString(3),
+                    Id = reader.GetInt32(0),
+                    SeasonId = reader.GetInt32(1),
+                    TierNumber = reader.GetInt32(2),
+                    TierName = reader.IsDBNull(3) ? "" : reader.GetString(3),
                     PointsRequired = reader.GetInt32(4),
-                    PackageId      = reader.IsDBNull(5) ? (int?)null : reader.GetInt32(5),
+                    PackageId = reader.IsDBNull(5) ? (int?)null : reader.GetInt32(5),
                     EquipmentSetId = reader.IsDBNull(6) ? (int?)null : reader.GetInt32(6),
                 });
             }
@@ -151,11 +151,11 @@ namespace Perpetuum.AdminTool.Seasons
             {
                 result.Add(new SeasonLeaderboardRewardRow
                 {
-                    Id             = reader.GetInt32(0),
-                    SeasonId       = reader.GetInt32(1),
-                    RankMin        = reader.GetInt32(2),
-                    RankMax        = reader.GetInt32(3),
-                    PackageId      = reader.IsDBNull(4) ? (int?)null : reader.GetInt32(4),
+                    Id = reader.GetInt32(0),
+                    SeasonId = reader.GetInt32(1),
+                    RankMin = reader.GetInt32(2),
+                    RankMax = reader.GetInt32(3),
+                    PackageId = reader.IsDBNull(4) ? (int?)null : reader.GetInt32(4),
                     EquipmentSetId = reader.IsDBNull(5) ? (int?)null : reader.GetInt32(5),
                 });
             }
@@ -291,7 +291,7 @@ namespace Perpetuum.AdminTool.Seasons
                 result.Add(new EquipmentSetRow
                 {
                     SetId = reader.GetInt32(0),
-                    Name  = reader.IsDBNull(1) ? "" : reader.GetString(1),
+                    Name = reader.IsDBNull(1) ? "" : reader.GetString(1),
                 });
             return result;
         }

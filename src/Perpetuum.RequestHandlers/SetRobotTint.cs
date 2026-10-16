@@ -21,7 +21,7 @@ namespace Perpetuum.RequestHandlers
 
                 var result = new Dictionary<string, object> { { k.robot, robot.ToDictionary() } };
                 Message.Builder.FromRequest(request).WithData(result).WrapToResult().Send();
-                
+
                 scope.Complete();
             }
         }

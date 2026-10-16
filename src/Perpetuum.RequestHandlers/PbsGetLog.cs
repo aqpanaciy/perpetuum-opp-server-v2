@@ -13,7 +13,7 @@ namespace Perpetuum.RequestHandlers
             var zoneId = request.Data.GetOrDefault<int>(k.zoneID);
 
             var corporationEid = request.Session.Character.CorporationEid;
-            
+
             DefaultCorporationDataCache.IsCorporationDefault(corporationEid).ThrowIfTrue(ErrorCodes.CharacterMustBeInPrivateCorporation);
 
             var role = Corporation.GetRoleFromSql(request.Session.Character);
@@ -25,6 +25,6 @@ namespace Perpetuum.RequestHandlers
             Message.Builder.FromRequest(request).WithData(new Dictionary<string, object> { { k.history, history } }).WrapToResult().Send();
         }
     }
- 
+
 
 }

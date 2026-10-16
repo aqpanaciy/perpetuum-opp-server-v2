@@ -31,7 +31,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
                 _extractionTypes = Db.Query().CommandText("select name,extractionType from minerals").Execute().ToDictionary(r =>
                 {
                     return r.GetValue<string>("name").ToEnum<MaterialType>();
-                },r =>
+                }, r =>
                 {
                     return (MineralExtractionType)r.GetValue<int>("extractionType");
                 });
@@ -41,7 +41,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
 
             foreach (var record in records)
             {
-                var materialType = (MaterialType) record.GetValue<int>("materialtype");
+                var materialType = (MaterialType)record.GetValue<int>("materialtype");
                 var mc = new MineralConfiguration
                 {
                     ZoneId = record.GetValue<int>("zoneId"),

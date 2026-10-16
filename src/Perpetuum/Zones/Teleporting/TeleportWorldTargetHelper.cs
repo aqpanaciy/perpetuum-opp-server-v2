@@ -8,13 +8,13 @@ namespace Perpetuum.Zones.Teleporting
         private readonly IZoneManager _zoneManager;
         private readonly TeleportDescriptionBuilder.Factory _descriptionBuilderFactory;
 
-        public TeleportWorldTargetHelper(IZoneManager zoneManager,TeleportDescriptionBuilder.Factory descriptionBuilderFactory)
+        public TeleportWorldTargetHelper(IZoneManager zoneManager, TeleportDescriptionBuilder.Factory descriptionBuilderFactory)
         {
             _zoneManager = zoneManager;
             _descriptionBuilderFactory = descriptionBuilderFactory;
         }
 
-        public IEnumerable<TeleportDescription> GetWorldTargets(IZone zone,Position position,long sourceTeleporEid,int teleporRange,int collectColumnsDistance)
+        public IEnumerable<TeleportDescription> GetWorldTargets(IZone zone, Position position, long sourceTeleporEid, int teleporRange, int collectColumnsDistance)
         {
             var result = new List<TeleportDescription>();
 
@@ -26,7 +26,7 @@ namespace Perpetuum.Zones.Teleporting
             {
                 var targetWorldPos = teleportColumn.Zone.ToWorldPosition(teleportColumn.CurrentPosition);
 
-                if (!myWorldPos.IsInRangeOf2D(targetWorldPos,collectColumnsDistance))
+                if (!myWorldPos.IsInRangeOf2D(targetWorldPos, collectColumnsDistance))
                     continue;
 
                 var builder = _descriptionBuilderFactory();

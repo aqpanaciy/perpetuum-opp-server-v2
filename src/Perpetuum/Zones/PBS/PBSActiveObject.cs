@@ -15,8 +15,8 @@ namespace Perpetuum.Zones.PBS
     /// </summary>
     public abstract class PBSActiveObject : PBSObject
     {
-        private readonly Lazy<int> _cycleTime ;
-        
+        private readonly Lazy<int> _cycleTime;
+
 
         private readonly IntervalTimer _updateInterval = new IntervalTimer(TimeSpan.FromSeconds(60)); //start with a long pause
 
@@ -25,7 +25,7 @@ namespace Perpetuum.Zones.PBS
             get { return _cycleTime.Value; }
         }
 
-        protected PBSActiveObject() 
+        protected PBSActiveObject()
         {
             _cycleTime = new Lazy<int>(LazyInitCycleTime);
         }
@@ -33,10 +33,10 @@ namespace Perpetuum.Zones.PBS
         private int LazyInitCycleTime()
         {
             if (ED.Config.cycle_time != null)
-                return (int) ED.Config.cycle_time;
+                return (int)ED.Config.cycle_time;
 
             Logger.Error("consistency error. no cycle_time was defined for definition: " + Definition + " " + ED.Name);
-            return (int) TimeSpan.FromSeconds(30).TotalMilliseconds;
+            return (int)TimeSpan.FromSeconds(30).TotalMilliseconds;
         }
 
         private int _inProgress;
@@ -44,13 +44,13 @@ namespace Perpetuum.Zones.PBS
         protected override void OnUpdate(TimeSpan time)
         {
             base.OnUpdate(time);
-            
+
             _updateInterval.Update(time);
 
             if (!_updateInterval.Passed)
                 return;
 
-            _updateInterval.Interval = TimeSpan.FromMilliseconds(CycleTime + FastRandom.NextInt(-2,2));
+            _updateInterval.Interval = TimeSpan.FromMilliseconds(CycleTime + FastRandom.NextInt(-2, 2));
             _updateInterval.Reset();
 
             var onlineStatus = OnlineStatus;
@@ -62,10 +62,10 @@ namespace Perpetuum.Zones.PBS
             if (zone == null)
                 return;
 
-            if ( Interlocked.CompareExchange(ref _inProgress,1,0) == 1)
+            if (Interlocked.CompareExchange(ref _inProgress, 1, 0) == 1)
                 return;
-            
-            Task.Run(() => { PBSActiveObjectAction(zone); }).ContinueWith(t => { Interlocked.Exchange(ref _inProgress, 0);}).LogExceptions();
+
+            Task.Run(() => { PBSActiveObjectAction(zone); }).ContinueWith(t => { Interlocked.Exchange(ref _inProgress, 0); }).LogExceptions();
         }
 
         protected virtual void PBSActiveObjectAction(IZone zone) { }

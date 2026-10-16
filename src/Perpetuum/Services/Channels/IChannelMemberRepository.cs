@@ -8,8 +8,8 @@ namespace Perpetuum.Services.Channels
         bool IsMember(Channel channel, Character character);
         bool HasMembers(Channel channel);
         void Insert(Channel channel, ChannelMember member);
-        void Update(Channel channel,ChannelMember member);
-        void Delete(Channel channel,ChannelMember member);
+        void Update(Channel channel, ChannelMember member);
+        void Delete(Channel channel, ChannelMember member);
 
         IEnumerable<KeyValuePair<string, ChannelMember>> GetAllByCharacter(Character character);
 

@@ -31,7 +31,7 @@ namespace Perpetuum.RequestHandlers.Production
 
                 var result = new Dictionary<string, object> { { k.container, sourceContainer.ToDictionary() } };
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

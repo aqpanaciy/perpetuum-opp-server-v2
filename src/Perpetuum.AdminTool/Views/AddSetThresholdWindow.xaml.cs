@@ -11,8 +11,8 @@ namespace Perpetuum.AdminTool.Views
         public AddSetThresholdWindow(AddSetThresholdViewModel vm, IReadOnlySet<int> usedPieces)
         {
             InitializeComponent();
-            DataContext  = vm;
-            _usedPieces  = usedPieces;
+            DataContext = vm;
+            _usedPieces = usedPieces;
         }
 
         private void OnAddClick(object sender, RoutedEventArgs e)

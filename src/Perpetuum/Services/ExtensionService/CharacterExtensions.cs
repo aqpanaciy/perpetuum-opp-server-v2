@@ -13,7 +13,7 @@ namespace Perpetuum.Services.ExtensionService
         private readonly IExtensionReader _extensionReader;
         private readonly ObjectCache _extensions;
 
-        public CharacterExtensions(IExtensionReader extensionReader,Func<string,ObjectCache> cacheFactory)
+        public CharacterExtensions(IExtensionReader extensionReader, Func<string, ObjectCache> cacheFactory)
         {
             _extensionReader = extensionReader;
             _extensions = cacheFactory("Extensions");
@@ -24,7 +24,7 @@ namespace Perpetuum.Services.ExtensionService
             if (character == Character.None)
                 return CharacterExtensionCollection.None;
 
-            return _extensions.Get(character.Id.ToString(CultureInfo.InvariantCulture), () => new CharacterExtensionCollection(_extensionReader,character), TimeSpan.FromHours(1));
+            return _extensions.Get(character.Id.ToString(CultureInfo.InvariantCulture), () => new CharacterExtensionCollection(_extensionReader, character), TimeSpan.FromHours(1));
         }
 
         public void Remove(Character character)

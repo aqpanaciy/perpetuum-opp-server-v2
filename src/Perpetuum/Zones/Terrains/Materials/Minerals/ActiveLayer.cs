@@ -5,7 +5,7 @@ using Perpetuum.Threading.Process;
 
 namespace Perpetuum.Zones.Terrains.Materials.Minerals
 {
-    public abstract class ActiveLayer : Layer,IProcess
+    public abstract class ActiveLayer : Layer, IProcess
     {
         protected ActiveLayer(LayerType layerType, int width, int height) : base(layerType, width, height)
         {

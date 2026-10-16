@@ -24,16 +24,16 @@ namespace Perpetuum.AdminTool.AutoMarket
             await using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                var name  = reader.GetString(0);
+                var name = reader.GetString(0);
                 var value = reader.GetDouble(1);
                 AutoMarketLabels.Map.TryGetValue(name, out var meta);
                 result.Add(new AutoMarketConfigRow
                 {
-                    ParamName     = name,
-                    ParamValue    = value,
+                    ParamName = name,
+                    ParamValue = value,
                     OriginalValue = value,
-                    Label         = meta?.Label       ?? name,
-                    Description   = meta?.Description ?? "",
+                    Label = meta?.Label ?? name,
+                    Description = meta?.Description ?? "",
                 });
             }
             return result;
@@ -50,19 +50,19 @@ namespace Perpetuum.AdminTool.AutoMarket
             await using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                var name          = reader.GetString(0);
-                var amount        = reader.GetInt32(1);
-                var createSell    = reader.GetBoolean(2);
+                var name = reader.GetString(0);
+                var amount = reader.GetInt32(1);
+                var createSell = reader.GetBoolean(2);
                 var createBuyback = reader.GetBoolean(3);
                 result.Add(new AutoMarketTradeListRow
                 {
-                    DefinitionName              = name,
-                    DisplayName                 = name,
-                    Amount                      = amount,
-                    OriginalAmount              = amount,
-                    CreateSellOrders            = createSell,
-                    OriginalCreateSellOrders    = createSell,
-                    CreateBuybackOrders         = createBuyback,
+                    DefinitionName = name,
+                    DisplayName = name,
+                    Amount = amount,
+                    OriginalAmount = amount,
+                    CreateSellOrders = createSell,
+                    OriginalCreateSellOrders = createSell,
+                    CreateBuybackOrders = createBuyback,
                     OriginalCreateBuybackOrders = createBuyback,
                 });
             }
@@ -85,7 +85,7 @@ namespace Perpetuum.AdminTool.AutoMarket
                 result.Add(new AutoMarketRawMaterialRow
                 {
                     RawMaterialName = reader.GetString(0),
-                    TotalQuantity   = reader.GetInt64(1),
+                    TotalQuantity = reader.GetInt64(1),
                 });
             return result;
         }
@@ -110,8 +110,8 @@ namespace Perpetuum.AdminTool.AutoMarket
                 await using var r = await cmd.ExecuteReaderAsync();
                 await r.ReadAsync();
                 todayPlasma = (long)Math.Round(r.GetDouble(0));
-                weekPlasma  = (long)Math.Round(r.GetDouble(1));
-                allPlasma   = (long)Math.Round(r.GetDouble(2));
+                weekPlasma = (long)Math.Round(r.GetDouble(1));
+                allPlasma = (long)Math.Round(r.GetDouble(2));
             }
 
             await using (var cmd = cn.CreateCommand())
@@ -125,8 +125,8 @@ namespace Perpetuum.AdminTool.AutoMarket
                 await using var r = await cmd.ExecuteReaderAsync();
                 await r.ReadAsync();
                 todayRawmat = (long)Math.Round(r.GetDouble(0));
-                weekRawmat  = (long)Math.Round(r.GetDouble(1));
-                allRawmat   = (long)Math.Round(r.GetDouble(2));
+                weekRawmat = (long)Math.Round(r.GetDouble(1));
+                allRawmat = (long)Math.Round(r.GetDouble(2));
             }
 
             await using (var cmd = cn.CreateCommand())
@@ -174,7 +174,7 @@ namespace Perpetuum.AdminTool.AutoMarket
 
             // 2. Config params
             double anchorFraction = 0.15, dsMin = 0.25, dsMax = 4.0;
-            long   weeklyCapDefault = 500_000_000;
+            long weeklyCapDefault = 500_000_000;
             await using (var cmd = cn.CreateCommand())
             {
                 cmd.CommandText =
@@ -185,9 +185,9 @@ namespace Perpetuum.AdminTool.AutoMarket
                 {
                     switch (r.GetString(0))
                     {
-                        case "plasma_anchor_fraction":    anchorFraction   = r.GetDouble(1); break;
-                        case "resource_ds_ratio_min":     dsMin            = r.GetDouble(1); break;
-                        case "resource_ds_ratio_max":     dsMax            = r.GetDouble(1); break;
+                        case "plasma_anchor_fraction": anchorFraction = r.GetDouble(1); break;
+                        case "resource_ds_ratio_min": dsMin = r.GetDouble(1); break;
+                        case "resource_ds_ratio_max": dsMax = r.GetDouble(1); break;
                         case "weekly_rawmat_cap_default": weeklyCapDefault = (long)r.GetDouble(1); break;
                     }
                 }
@@ -285,19 +285,19 @@ namespace Perpetuum.AdminTool.AutoMarket
                     : 1.0;
 
                 var riskMultiplier = 1.0 + pvpFraction;
-                var computedPrice  = Math.Round(plasmaAnchor * sdRatio * riskMultiplier, 2);
-                var effectiveCap   = capOverrides.TryGetValue(name, out var ov) ? ov : weeklyCapDefault;
+                var computedPrice = Math.Round(plasmaAnchor * sdRatio * riskMultiplier, 2);
+                var effectiveCap = capOverrides.TryGetValue(name, out var ov) ? ov : weeklyCapDefault;
 
                 result.Add(new AutoMarketPricingTraceRow
                 {
-                    ResourceName   = name,
-                    PlasmaAnchor   = Math.Round(plasmaAnchor, 4),
-                    SdRatio        = Math.Round(sdRatio, 4),
+                    ResourceName = name,
+                    PlasmaAnchor = Math.Round(plasmaAnchor, 4),
+                    SdRatio = Math.Round(sdRatio, 4),
                     RiskMultiplier = Math.Round(riskMultiplier, 4),
-                    ComputedPrice  = computedPrice,
-                    StoredPrice    = storedPrices.TryGetValue(name, out var sp) ? sp : null,
+                    ComputedPrice = computedPrice,
+                    StoredPrice = storedPrices.TryGetValue(name, out var sp) ? sp : null,
                     BoughtThisWeek = weeklyPurchased.TryGetValue(name, out var bw) ? bw : 0,
-                    EffectiveCap   = effectiveCap,
+                    EffectiveCap = effectiveCap,
                 });
             }
             return result;
@@ -338,20 +338,20 @@ namespace Perpetuum.AdminTool.AutoMarket
             while (await reader.ReadAsync())
             {
                 var capOverride = reader.IsDBNull(3) ? (int?)null : reader.GetInt32(3);
-                var buy  = reader.GetBoolean(4);
+                var buy = reader.GetBoolean(4);
                 var sell = reader.GetBoolean(5);
                 result.Add(new AutoMarketCoveredMaterialRow
                 {
-                    DefinitionName      = reader.GetString(0),
-                    CurrentPrice        = reader.IsDBNull(1) ? 0.0 : (double)reader.GetDecimal(1),
-                    EffectiveCap        = reader.GetInt64(2),
-                    WeeklyCapOverride   = capOverride,
-                    CreateBuyOrders     = buy,
-                    CreateSellOrders    = sell,
-                    BoughtThisWeek      = reader.GetInt64(6),
+                    DefinitionName = reader.GetString(0),
+                    CurrentPrice = reader.IsDBNull(1) ? 0.0 : (double)reader.GetDecimal(1),
+                    EffectiveCap = reader.GetInt64(2),
+                    WeeklyCapOverride = capOverride,
+                    CreateBuyOrders = buy,
+                    CreateSellOrders = sell,
+                    BoughtThisWeek = reader.GetInt64(6),
                     OriginalCapOverride = capOverride,
-                    OriginalBuyOrders   = buy,
-                    OriginalSellOrders  = sell,
+                    OriginalBuyOrders = buy,
+                    OriginalSellOrders = sell,
                 });
             }
             return result;
@@ -376,8 +376,8 @@ namespace Perpetuum.AdminTool.AutoMarket
                 result.Add(new AutoMarketGatherRow
                 {
                     ResourceName = reader.GetString(0),
-                    PveQty       = reader.GetInt64(1),
-                    PvpQty       = reader.GetInt64(2),
+                    PveQty = reader.GetInt64(1),
+                    PvpQty = reader.GetInt64(2),
                 });
             return result;
         }

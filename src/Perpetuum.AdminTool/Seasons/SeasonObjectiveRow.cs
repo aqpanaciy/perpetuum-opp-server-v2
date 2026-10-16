@@ -84,9 +84,9 @@ namespace Perpetuum.AdminTool.Seasons
         {
             AvailableMaterials = ActivityType switch
             {
-                SeasonActivityType.MineralMined   => _oreAndLiquidMaterials,
+                SeasonActivityType.MineralMined => _oreAndLiquidMaterials,
                 SeasonActivityType.PlantHarvested => _organicMaterials,
-                _                                 => Array.Empty<MaterialPickItem>()
+                _ => Array.Empty<MaterialPickItem>()
             };
             if (TargetDefinitionId.HasValue &&
                 !AvailableMaterials.Any(m => m.Definition == TargetDefinitionId))

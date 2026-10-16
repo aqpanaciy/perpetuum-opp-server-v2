@@ -11,7 +11,7 @@ namespace Perpetuum.RequestHandlers.Production
         private readonly ProductionManager _productionManager;
         private readonly ProductionProcessor _productionProcessor;
 
-        public ProductionResearch(ProductionManager productionManager,ProductionProcessor productionProcessor)
+        public ProductionResearch(ProductionManager productionManager, ProductionProcessor productionProcessor)
         {
             _productionManager = productionManager;
             _productionProcessor = productionProcessor;
@@ -31,7 +31,7 @@ namespace Perpetuum.RequestHandlers.Production
 
                 var replyDict = _productionProcessor.ResearchItem(researchLab, character, container, itemEid, researchKitEid, useCorporationWallet);
                 Message.Builder.FromRequest(request).WithData(replyDict).Send();
-                
+
                 scope.Complete();
             }
         }

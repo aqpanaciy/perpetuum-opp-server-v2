@@ -67,7 +67,7 @@ namespace Perpetuum.RequestHandlers.Corporations
 
                 dockingBase.AddCentralBank(TransactionType.hangarRent, rentInfo.price);
                 Message.Builder.FromRequest(request).WithData(corporateHangar.ToDictionary()).Send();
-                
+
                 scope.Complete();
             }
         }

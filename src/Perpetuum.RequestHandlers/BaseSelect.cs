@@ -22,7 +22,7 @@ namespace Perpetuum.RequestHandlers
                 character.ZonePosition = null;
 
                 Message.Builder.FromRequest(request).WithData(new Dictionary<string, object> { { k.baseEID, baseEID } }).Send();
-                
+
                 scope.Complete();
             }
         }

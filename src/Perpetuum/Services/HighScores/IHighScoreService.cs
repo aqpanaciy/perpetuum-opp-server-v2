@@ -8,6 +8,6 @@ namespace Perpetuum.Services.HighScores
     {
         IEnumerable<HighScore> GetHighScores(DateTimeRange range);
         HighScore GetCharacterHighScores(int characterID, DateTimeRange range);
-        void UpdateHighScore(Player killer,Unit victim);
+        void UpdateHighScore(Player killer, Unit victim);
     }
 }

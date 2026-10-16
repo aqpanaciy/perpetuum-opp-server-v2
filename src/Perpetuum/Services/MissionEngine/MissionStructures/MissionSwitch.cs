@@ -18,9 +18,9 @@ namespace Perpetuum.Services.MissionEngine.MissionStructures
 
         public void CanUseAndCheckError(Player player)
         {
-            var ec =CanUse(player).ThrowIfError();
+            var ec = CanUse(player).ThrowIfError();
 
-           
+
             /*
             switch (ec)
             {
@@ -79,7 +79,7 @@ namespace Perpetuum.Services.MissionEngine.MissionStructures
             }
 
         }
-        
+
     }
 
 }

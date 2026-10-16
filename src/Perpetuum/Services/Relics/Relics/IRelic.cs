@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Perpetuum.Services.Relics
 {
 
-    public interface IRelic 
+    public interface IRelic
     {
         void Init(RelicInfo info, IZone zone, Position position, RelicLootItems lootItems);
         void SetLoots(RelicLootItems lootItems);

@@ -6,6 +6,6 @@ namespace Perpetuum.Zones.CombatLogs
 {
     public interface ICombatLogSaver
     {
-        void Save(IZone zone, Player owner, Unit killer,IEnumerable<CombatSummary> summaries);
+        void Save(IZone zone, Player owner, Unit killer, IEnumerable<CombatSummary> summaries);
     }
 }

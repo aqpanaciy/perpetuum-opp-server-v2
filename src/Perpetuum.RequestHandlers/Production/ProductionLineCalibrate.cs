@@ -27,7 +27,7 @@ namespace Perpetuum.RequestHandlers.Production
 
                 var replyDict = mill.CalibrateLine(character, calibrationEid, container);
                 Message.Builder.FromRequest(request).WithData(replyDict).Send();
-                
+
                 scope.Complete();
             }
         }

@@ -12,7 +12,7 @@ namespace Perpetuum.RequestHandlers.Corporations
         private readonly IAccountRepository _accountRepository;
         private readonly MtProductHelper _mtProductHelper;
 
-        public CorporationRename(IAccountManager accountManager,IAccountRepository accountRepository,MtProductHelper mtProductHelper)
+        public CorporationRename(IAccountManager accountManager, IAccountRepository accountRepository, MtProductHelper mtProductHelper)
         {
             _accountManager = accountManager;
             _accountRepository = accountRepository;
@@ -26,7 +26,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                 var corpName = request.Data.GetOrDefault<string>(k.name).Trim();
                 var nick = request.Data.GetOrDefault<string>(k.nick).Trim();
                 var character = request.Session.Character;
-            
+
                 //get corp and role check
                 var corporation = character.GetCorporation().CheckAccessAndThrowIfFailed(character, CorporationRole.CEO, CorporationRole.DeputyCEO);
 
@@ -53,12 +53,12 @@ namespace Perpetuum.RequestHandlers.Corporations
                 var product = _mtProductHelper.GetByAccountTransactionType(AccountTransactionType.CorporationRename);
 
                 var account = _accountManager.Repository.Get(request.Session.AccountId).ThrowIfNull(ErrorCodes.AccountNotFound);
-                var wallet = _accountManager.GetWallet(account,AccountTransactionType.CorporationRename);
-                wallet.Balance -= product.price; 
+                var wallet = _accountManager.GetWallet(account, AccountTransactionType.CorporationRename);
+                wallet.Balance -= product.price;
 
-                var e = new AccountTransactionLogEvent(account,AccountTransactionType.CorporationRename) {Credit = wallet.Balance, CreditChange = -product.price};
+                var e = new AccountTransactionLogEvent(account, AccountTransactionType.CorporationRename) { Credit = wallet.Balance, CreditChange = -product.price };
                 _accountManager.LogTransaction(e);
-            
+
                 corporation.SetName(corpName, nick);
 
                 _accountRepository.Update(account);
@@ -73,7 +73,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                     var corpInfo = corporation.GetInfoDictionaryForMember(character);
                     Message.Builder.SetCommand(Commands.CorporationGetMyInfo).WithData(corpInfo).ToCharacters(corporation.GetCharacterMembers()).Send();
                 });
-                
+
                 scope.Complete();
             }
         }

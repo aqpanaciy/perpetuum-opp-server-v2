@@ -96,14 +96,14 @@ namespace Perpetuum.IO
             return Path.Combine("layers", filename);
         }
 
-        public static void WriteLayer<T>(this IFileSystem fileSystem, string filename,T[] data) where T:struct
+        public static void WriteLayer<T>(this IFileSystem fileSystem, string filename, T[] data) where T : struct
         {
             fileSystem.WriteAllBytes(CreateLayerPath(filename), data.ToByteArray());
         }
 
         public static void MoveLayerFile(this IFileSystem fileSystem, string sourceFilename, string targetFilename)
         {
-            fileSystem.MoveFile(CreateLayerPath(sourceFilename),CreateLayerPath(targetFilename));
+            fileSystem.MoveFile(CreateLayerPath(sourceFilename), CreateLayerPath(targetFilename));
         }
 
         public static string CreatePath(this IFileSystem fileSystem, params string[] paths)

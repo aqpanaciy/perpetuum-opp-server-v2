@@ -11,34 +11,34 @@ namespace Perpetuum.AdminTool.ViewModels
 {
     public partial class AutoMarketStatisticsViewModel : ObservableObject
     {
-        private readonly AutoMarketRepository   _repo;
+        private readonly AutoMarketRepository _repo;
         private readonly TranslationsViewModel? _translations;
         private const int EnglishLangId = 0;
 
-        [ObservableProperty] private bool   _isLoading;
+        [ObservableProperty] private bool _isLoading;
         [ObservableProperty] private string _statusMessage = "";
-        [ObservableProperty] private bool   _statusIsError;
+        [ObservableProperty] private bool _statusIsError;
 
-        public ObservableCollection<AutoMarketNicFlowRow>      NicFlow         { get; } = new();
-        public ObservableCollection<AutoMarketPricingTraceRow> PricingTrace    { get; } = new();
-        public ObservableCollection<AutoMarketGatherRow>       GatherBreakdown { get; } = new();
+        public ObservableCollection<AutoMarketNicFlowRow> NicFlow { get; } = new();
+        public ObservableCollection<AutoMarketPricingTraceRow> PricingTrace { get; } = new();
+        public ObservableCollection<AutoMarketGatherRow> GatherBreakdown { get; } = new();
 
         public AutoMarketStatisticsViewModel(AutoMarketRepository repo, TranslationsViewModel? translations = null)
         {
-            _repo         = repo;
+            _repo = repo;
             _translations = translations;
         }
 
         [RelayCommand(CanExecute = nameof(CanRefresh))]
         public async Task RefreshAsync()
         {
-            IsLoading     = true;
+            IsLoading = true;
             StatusMessage = "Loading statistics...";
             StatusIsError = false;
             try
             {
-                var nicTask    = _repo.LoadNicFlowAsync();
-                var priceTask  = _repo.LoadPricingTraceAsync();
+                var nicTask = _repo.LoadNicFlowAsync();
+                var priceTask = _repo.LoadPricingTraceAsync();
                 var gatherTask = _repo.LoadGatherBreakdownAsync();
                 await Task.WhenAll(nicTask, priceTask, gatherTask);
 

@@ -30,7 +30,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                 Message.Builder.FromRequest(request)
                     .WithData(corporateHangar.ToDictionary())
                     .Send();
-                
+
                 scope.Complete();
             }
         }

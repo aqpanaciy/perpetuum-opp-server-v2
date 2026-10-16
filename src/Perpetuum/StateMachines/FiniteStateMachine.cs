@@ -2,7 +2,7 @@ using System;
 
 namespace Perpetuum.StateMachines
 {
-    public class FiniteStateMachine<T> where T:class,IState
+    public class FiniteStateMachine<T> where T : class, IState
     {
         [CanBeNull]
         public T Current { get; private set; }

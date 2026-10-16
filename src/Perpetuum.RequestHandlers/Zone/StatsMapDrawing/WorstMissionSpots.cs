@@ -16,9 +16,9 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
             _addtoradius = 0; //init the mf
             var b = _zone.CreatePassableBitmap(_passableColor, _islandColor);
 
-            var terminalSpots =MissionSpot.GetTerminalSpotsFromZone(_zone);
-            var spotInfos = MissionSpot.GetMissionSpotsFromUnitsOnZone(_zone,true);
-            var randomPointsInfos = MissionSpot.GetRandomPointSpotsFromTargets(_zone.Configuration,true);
+            var terminalSpots = MissionSpot.GetTerminalSpotsFromZone(_zone);
+            var spotInfos = MissionSpot.GetMissionSpotsFromUnitsOnZone(_zone, true);
+            var randomPointsInfos = MissionSpot.GetRandomPointSpotsFromTargets(_zone.Configuration, true);
 
             var allSpots = terminalSpots.Concat(spotInfos).Concat(randomPointsInfos).ToList();
 
@@ -29,13 +29,13 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
                 var stat = missionSpot.CountSelectableSpots(allSpots);
                 spotStats.Add(stat);
             }
-            
-            WriteReportByType(MissionSpotType.randompoint, spotStats,b);
-            WriteReportByType(MissionSpotType.mswitch, spotStats,b);
-            WriteReportByType(MissionSpotType.kiosk, spotStats,b);
-            WriteReportByType(MissionSpotType.itemsupply, spotStats,b);
 
-            
+            WriteReportByType(MissionSpotType.randompoint, spotStats, b);
+            WriteReportByType(MissionSpotType.mswitch, spotStats, b);
+            WriteReportByType(MissionSpotType.kiosk, spotStats, b);
+            WriteReportByType(MissionSpotType.itemsupply, spotStats, b);
+
+
             b.WithGraphics(g => g.DrawString("switch", new Font("Tahoma", 15), new SolidBrush(_switchColor), new PointF(20, 60)));
             b.WithGraphics(g => g.DrawString("item submit/kiosk", new Font("Tahoma", 15), new SolidBrush(_kioskColor), new PointF(20, 80)));
             b.WithGraphics(g => g.DrawString("item supply", new Font("Tahoma", 15), new SolidBrush(_itemSupplyColor), new PointF(20, 100)));
@@ -52,15 +52,15 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
             var lines = new List<string>(spotStats.Count);
             var ordered = spotStats.OrderBy(s => s.GetAmountByType(missionSpotType)).ToArray();
 
-            
+
             foreach (var missionSpotStat in ordered)
             {
-               var amount = missionSpotStat.GetAmountByType(missionSpotType);
+                var amount = missionSpotStat.GetAmountByType(missionSpotType);
 
                 if (amount < 3)
                 {
                     var color = GetColorBySpotType(missionSpotType);
-                    DrawEllipseOnPoint(color,3+_addtoradius,missionSpotStat.position,bitmap);
+                    DrawEllipseOnPoint(color, 3 + _addtoradius, missionSpotStat.position, bitmap);
                 }
 
                 var message = amount + " " + missionSpotType + " around " + missionSpotStat.type + " at gotoxy " + missionSpotStat.position.intX + " " + missionSpotStat.position.intY;
@@ -69,7 +69,7 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
             }
 
             _addtoradius += 3;
-            _fileSystem.WriteAllLines("worstSpots_" + missionSpotType + "_z" + _zone.Id + "_.txt",lines);
+            _fileSystem.WriteAllLines("worstSpots_" + missionSpotType + "_z" + _zone.Id + "_.txt", lines);
         }
 
         private Color GetColorBySpotType(MissionSpotType missionSpotType)

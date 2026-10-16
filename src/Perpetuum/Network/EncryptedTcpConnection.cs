@@ -7,10 +7,10 @@ namespace Perpetuum.Network
         public byte outEncodingByte = 0xCA;
         public byte outIncrement = 0x5B;
 
-        public byte inDecodingByte  = 0xAC;
+        public byte inDecodingByte = 0xAC;
         public byte inIncrement = 0xB5;
 
-        public EncryptedTcpConnection(Socket socket) : base(socket) {}
+        public EncryptedTcpConnection(Socket socket) : base(socket) { }
 
         protected override void OnProcessReceivedRawData(byte[] data, int length)
         {
@@ -23,7 +23,7 @@ namespace Perpetuum.Network
             return data;
         }
 
-        private static void ProcessData(byte[] data,int length,ref byte code,byte increment)
+        private static void ProcessData(byte[] data, int length, ref byte code, byte increment)
         {
             unchecked
             {

@@ -34,28 +34,28 @@ namespace Perpetuum.RequestHandlers
                                   victim = @isVictim and (attacker = @isAttacker or killer = @isKiller)";
 
             var killReports = Db.Query().CommandText(sqlCmd)
-                .SetParameter("@characterId",character.Id)
-                .SetParameter("@dateTo",dateTo)
-                .SetParameter("@dateFrom",dateFrom)
-                .SetParameter("@isVictim",isVictim)
-                .SetParameter("@isAttacker",isAttacker)
-                .SetParameter("@isKiller",isKiller)
+                .SetParameter("@characterId", character.Id)
+                .SetParameter("@dateTo", dateTo)
+                .SetParameter("@dateFrom", dateFrom)
+                .SetParameter("@isVictim", isVictim)
+                .SetParameter("@isAttacker", isAttacker)
+                .SetParameter("@isKiller", isKiller)
                 .Execute()
                 .RecordsToDictionary(valueConverter: kvp =>
                 {
                     switch (kvp.Key)
                     {
                         case "data":
-                        {
-                            // data-t genxystring-re konvertaljuk,h
-                            // a dataconverter jo helyre rakja
-                            return GenxyString.FromObject(kvp.Value);
-                        }
+                            {
+                                // data-t genxystring-re konvertaljuk,h
+                                // a dataconverter jo helyre rakja
+                                return GenxyString.FromObject(kvp.Value);
+                            }
                         case "guid":
-                        {
-                            // reportid -> guid -> byte array
-                            return ((Guid)kvp.Value).ToByteArray();
-                        }
+                            {
+                                // reportid -> guid -> byte array
+                                return ((Guid)kvp.Value).ToByteArray();
+                            }
                     }
 
                     return kvp.Value;

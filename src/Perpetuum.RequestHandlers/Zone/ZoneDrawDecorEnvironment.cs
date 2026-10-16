@@ -12,7 +12,7 @@ namespace Perpetuum.RequestHandlers.Zone
                 var decorId = request.Data.GetOrDefault<int>(k.ID);
                 request.Zone.DecorHandler.DrawDecorEnvironment(decorId).ThrowIfError();
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

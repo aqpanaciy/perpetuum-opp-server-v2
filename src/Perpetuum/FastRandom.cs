@@ -46,7 +46,7 @@ namespace Perpetuum
             }
             finally
             {
-                if ( lockTaken )
+                if (lockTaken)
                     _spinLock.Exit();
             }
         }
@@ -58,12 +58,12 @@ namespace Perpetuum
 
         public static float NextFloat()
         {
-            return (float) NextDouble();
+            return (float)NextDouble();
         }
 
-        public static float NextFloat(float min,float max)
+        public static float NextFloat(float min, float max)
         {
-            return (float) NextDouble(min,max);
+            return (float)NextDouble(min, max);
         }
 
         public static double NextDouble()
@@ -121,9 +121,9 @@ namespace Perpetuum
             return NextTimeSpan(range.Min, range.Max);
         }
 
-        public static TimeSpan NextTimeSpan(TimeSpan min,TimeSpan max)
+        public static TimeSpan NextTimeSpan(TimeSpan min, TimeSpan max)
         {
-            return TimeSpan.FromTicks(min.Ticks +  NextLong(max.Ticks - min.Ticks));
+            return TimeSpan.FromTicks(min.Ticks + NextLong(max.Ticks - min.Ticks));
         }
 
         public static TimeSpan NextTimeSpan(TimeSpan max)

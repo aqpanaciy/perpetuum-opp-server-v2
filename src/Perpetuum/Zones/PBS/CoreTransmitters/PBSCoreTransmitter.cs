@@ -32,7 +32,7 @@ namespace Perpetuum.Zones.PBS.CoreTransmitters
         {
             var info = base.GetDebugInfo();
             _corePumpHandler.AddToDictionary(info);
-           
+
             return info;
         }
 
@@ -40,7 +40,7 @@ namespace Perpetuum.Zones.PBS.CoreTransmitters
         {
             var info = base.ToDictionary();
             _corePumpHandler.AddToDictionary(info);
-            
+
             return info;
         }
     }

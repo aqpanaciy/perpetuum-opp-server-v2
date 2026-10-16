@@ -27,9 +27,9 @@ namespace Perpetuum.RequestHandlers
 
                 var publicContainer = character.GetPublicContainerWithItems();
 
-                var item = (Ice) publicContainer.GetItemOrThrow(eid,true).Unstack(1);
+                var item = (Ice)publicContainer.GetItemOrThrow(eid, true).Unstack(1);
                 var account = _accountRepository.Get(request.Session.AccountId);
-                item.Activate(account,character);
+                item.Activate(account, character);
 
                 _accountRepository.Update(account);
                 publicContainer.Save();
@@ -41,7 +41,7 @@ namespace Perpetuum.RequestHandlers
                 };
 
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

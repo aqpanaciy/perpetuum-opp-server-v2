@@ -11,7 +11,7 @@ namespace Perpetuum.RequestHandlers.Gangs
         private readonly IGangManager _gangManager;
         private readonly IGangInviteService _gangInviteService;
 
-        public GangInviteReply(IGangManager gangManager,IGangInviteService gangInviteService)
+        public GangInviteReply(IGangManager gangManager, IGangInviteService gangInviteService)
         {
             _gangManager = gangManager;
             _gangInviteService = gangInviteService;
@@ -62,7 +62,7 @@ namespace Perpetuum.RequestHandlers.Gangs
                     // membernek
                     Message.Builder.FromRequest(request).WithData(data).Send();
                 });
-                
+
                 scope.Complete();
             }
         }

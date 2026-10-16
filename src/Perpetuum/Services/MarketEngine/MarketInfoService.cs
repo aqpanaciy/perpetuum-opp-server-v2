@@ -11,7 +11,7 @@ namespace Perpetuum.Services.MarketEngine
         public const int MARKET_AVERAGE_EXPIRY_MINUTES = 60;
         public const int MARKET_CANCEL_TIME = 10; //minutes
 
-        public MarketInfoService(double margin,double fee,bool checkAveragePrice)
+        public MarketInfoService(double margin, double fee, bool checkAveragePrice)
         {
             _margin = margin;
             _fee = fee;

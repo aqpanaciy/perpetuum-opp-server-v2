@@ -15,7 +15,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
             {
                 var character = request.Session.Character;
                 var eid = request.Data.GetOrDefault<long>(k.eid);
-                var targetEffectType = (EffectType) request.Data.GetOrDefault<int>(k.effect);
+                var targetEffectType = (EffectType)request.Data.GetOrDefault<int>(k.effect);
 
                 var effectNode = request.Zone.GetUnit(eid).ThrowIfNotType<PBSEffectNode>(ErrorCodes.ItemNotFound);
 

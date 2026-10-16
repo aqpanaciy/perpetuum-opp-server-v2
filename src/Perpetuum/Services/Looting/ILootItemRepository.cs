@@ -11,7 +11,7 @@ namespace Perpetuum.Services.Looting
         void DeleteAll(LootContainer container);
         bool IsEmpty(LootContainer container);
         [CanBeNull]
-        LootItem Get(LootContainer container,Guid id);
+        LootItem Get(LootContainer container, Guid id);
         IEnumerable<LootItem> GetAll(LootContainer container);
         IEnumerable<LootItem> GetByDefinition(LootContainer container, int definition);
     }

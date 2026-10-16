@@ -34,16 +34,16 @@ namespace Perpetuum.Zones.Scanning.Results
             return $"Id: {Id}, MaterialType: {MaterialType}, Creation: {Creation}";
         }
 
-        public IDictionary<string,object> ToDictionary()
+        public IDictionary<string, object> ToDictionary()
         {
             var dictionary = new Dictionary<string, object>
             {
-                {k.ID,Id}, 
-                {k.materialProbeType, (int) MaterialProbeType.Tile}, 
-                {k.creation, Creation}, 
-                {k.zoneID, ZoneId}, 
-                {k.materialType, (int) MaterialType}, 
-                {k.area, Area}, 
+                {k.ID,Id},
+                {k.materialProbeType, (int) MaterialProbeType.Tile},
+                {k.creation, Creation},
+                {k.zoneID, ZoneId},
+                {k.materialType, (int) MaterialType},
+                {k.area, Area},
                 {k.scanAccuracy,ScanAccuracy},
                 {k.quality,Quality},
                 {k.folder, Folder},
@@ -62,7 +62,7 @@ namespace Perpetuum.Zones.Scanning.Results
             packet.AppendDouble(ScanAccuracy);
             packet.AppendUInt64Array(_scanData);
 
-            return packet;            
+            return packet;
         }
 
         public MineralScanResultItem ToItem()

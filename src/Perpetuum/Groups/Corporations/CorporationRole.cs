@@ -2,11 +2,11 @@ using System;
 
 namespace Perpetuum.Groups.Corporations
 {
-    [Flags,Serializable]
+    [Flags, Serializable]
     public enum CorporationRole
     {
-        NotDefined = 0, 
-        CEO = 1,  
+        NotDefined = 0,
+        CEO = 1,
         HRManager = 1 << 1, // 2
         CorporationDelegate = 1 << 2, //4
         Accountant = 1 << 3, //8

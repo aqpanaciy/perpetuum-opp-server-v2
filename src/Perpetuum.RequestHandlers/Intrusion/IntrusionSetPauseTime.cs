@@ -16,7 +16,7 @@ namespace Perpetuum.RequestHandlers.Intrusion
 
             var result = new Dictionary<string, object>
             {
-                {k.from,from}, 
+                {k.from,from},
                 {k.to,to}
             };
 

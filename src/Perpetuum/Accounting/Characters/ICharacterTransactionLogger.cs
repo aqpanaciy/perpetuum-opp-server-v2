@@ -5,6 +5,6 @@ namespace Perpetuum.Accounting.Characters
 {
     public interface ICharacterTransactionLogger : ILogger<TransactionLogEvent>
     {
-        
+
     }
 }

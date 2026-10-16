@@ -116,7 +116,7 @@ namespace Perpetuum
             return e[index];
         }
 
-        public static IEnumerable<T> RandomElement<T>(this IEnumerable<T> enumerable,int count)
+        public static IEnumerable<T> RandomElement<T>(this IEnumerable<T> enumerable, int count)
         {
             var e = enumerable as T[] ?? enumerable.ToArray();
             for (var i = 0; i < count; i++)
@@ -224,7 +224,7 @@ namespace Perpetuum
 
         public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> enumerable)
         {
-            var d = new Dictionary<TKey,TValue>();
+            var d = new Dictionary<TKey, TValue>();
 
             foreach (var kvp in enumerable)
             {
@@ -254,7 +254,7 @@ namespace Perpetuum
 
             foreach (var kvp in pairs)
             {
-                nv.Add(kvp.Key.ToString(),kvp.Value.ToString());
+                nv.Add(kvp.Key.ToString(), kvp.Value.ToString());
             }
 
             return nv;

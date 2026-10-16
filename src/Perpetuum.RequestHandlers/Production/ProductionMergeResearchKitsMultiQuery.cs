@@ -29,7 +29,7 @@ namespace Perpetuum.RequestHandlers.Production
 
             PBSResearchKitForgeFacility pbsResearchKitForgeFacility;
             PublicContainer publicContainer;
-            _productionManager.PrepareProductionForPublicContainer(facilityEid, character, out pbsResearchKitForgeFacility, out  publicContainer);
+            _productionManager.PrepareProductionForPublicContainer(facilityEid, character, out pbsResearchKitForgeFacility, out publicContainer);
 
             int nextLevel;
             int nextDefinition;
@@ -37,7 +37,7 @@ namespace Perpetuum.RequestHandlers.Production
             int availableQuantity;
             int searchDefinition;
 
-            pbsResearchKitForgeFacility.PrepareResearchKitMerge(publicContainer, character, target,quantity, out nextDefinition, out nextLevel, out fullPrice, out availableQuantity, out searchDefinition).ThrowIfError();
+            pbsResearchKitForgeFacility.PrepareResearchKitMerge(publicContainer, character, target, quantity, out nextDefinition, out nextLevel, out fullPrice, out availableQuantity, out searchDefinition).ThrowIfError();
 
             var result = new Dictionary<string, object>
             {

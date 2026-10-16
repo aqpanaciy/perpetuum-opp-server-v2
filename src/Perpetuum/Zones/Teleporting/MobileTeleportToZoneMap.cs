@@ -34,7 +34,8 @@ namespace Perpetuum.Zones.Teleporting
             {
                 var def = entry.GetValue<int>("sourcedefinition");
                 var zoneid = entry.GetValue<int>("zoneid");
-                dict.AddOrUpdate(def, new List<int>() { zoneid }, (listOfZones) => {
+                dict.AddOrUpdate(def, new List<int>() { zoneid }, (listOfZones) =>
+                {
                     listOfZones.Add(zoneid);
                     return listOfZones;
                 });

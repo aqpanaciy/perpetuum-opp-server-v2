@@ -38,7 +38,7 @@ namespace Perpetuum.Zones.NpcSystem.Presences.ExpiringStaticPresence
 
         public int GetMaxLevelForPresence(int presenceId)
         {
-            return _reader.GetByPresence(presenceId).Select(info=>info.Level).DefaultIfEmpty(0).Max();
+            return _reader.GetByPresence(presenceId).Select(info => info.Level).DefaultIfEmpty(0).Max();
         }
     }
 

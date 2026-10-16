@@ -11,7 +11,7 @@ using Perpetuum.Zones.Terrains.Materials.Plants;
 
 namespace Perpetuum.Zones
 {
-    public class ZoneEnterQueueService : Process,IZoneEnterQueueService
+    public class ZoneEnterQueueService : Process, IZoneEnterQueueService
     {
         public delegate IZoneEnterQueueService Factory(IZone zone);
 
@@ -40,9 +40,9 @@ namespace Perpetuum.Zones
             QueueItem[] items;
             lock (_queue)
             {
-                if ( _queue.Count == 0 )
+                if (_queue.Count == 0)
                     return;
-                
+
                 items = _queue.ToArray();
             }
 
@@ -61,7 +61,7 @@ namespace Perpetuum.Zones
 
         private void ProcessQueueAsync()
         {
-            if ( _processing || _queue.Count == 0 )
+            if (_processing || _queue.Count == 0)
                 return;
 
             Logger.Info("[Zone EQ] start processing queue. zone:" + _zone.Id + " count:" + _queue.Count);
@@ -77,7 +77,7 @@ namespace Perpetuum.Zones
             {
                 while (true)
                 {
-                    if ( !HasFreeSlot )
+                    if (!HasFreeSlot)
                         return;
 
                     QueueItem item;
@@ -96,7 +96,7 @@ namespace Perpetuum.Zones
 
                     try
                     {
-                        LoadPlayerAndSendReply(character,replyCommand);
+                        LoadPlayerAndSendReply(character, replyCommand);
                     }
                     catch (Exception ex)
                     {
@@ -120,7 +120,7 @@ namespace Perpetuum.Zones
                             Logger.Exception(ex);
                         }
 
-                        character.CreateErrorMessage(replyCommand,err).Send();
+                        character.CreateErrorMessage(replyCommand, err).Send();
                     }
 
                     Logger.Info("[Zone EQ] end processing character. zone:" + _zone.Id + " character:" + item.character + " command:" + item.replyCommand);
@@ -155,7 +155,7 @@ namespace Perpetuum.Zones
             {
                 lock (_queue)
                 {
-                    if ( _queue.Count == 0 )
+                    if (_queue.Count == 0)
                         return;
 
                     var newQ = new Queue<QueueItem>();
@@ -177,7 +177,7 @@ namespace Perpetuum.Zones
             }
             finally
             {
-                if ( changed )
+                if (changed)
                     OnQueueChanged();
             }
         }
@@ -186,14 +186,14 @@ namespace Perpetuum.Zones
 
         public void LoadPlayerAndSendReply(Character character, Command replyCommand)
         {
-            if (!_zone.TryGetPlayer(character,out Player player))
+            if (!_zone.TryGetPlayer(character, out Player player))
             {
                 Logger.Info("[Zone EQ] start loading player. zone:" + _zone.Id + " character:" + character.Id);
-                player = Player.LoadPlayerAndAddToZone(_zone,character);
+                player = Player.LoadPlayerAndAddToZone(_zone, character);
                 Logger.Info("[Zone EQ] end loading player. zone:" + _zone.Id + " character:" + character.Id);
             }
 
-            SendReplyCommand(character,player, replyCommand);
+            SendReplyCommand(character, player, replyCommand);
         }
 
         public void SendReplyCommand(Character character, Player player, Command replyCommand)
@@ -232,8 +232,8 @@ namespace Perpetuum.Zones
         {
             var result = new Dictionary<string, object>
             {
-                {k.zoneID, _zone.Id}, 
-                {k.length, MaxPlayersOnZone}, 
+                {k.zoneID, _zone.Id},
+                {k.length, MaxPlayersOnZone},
                 {k.count,_queue.Count}
             };
 

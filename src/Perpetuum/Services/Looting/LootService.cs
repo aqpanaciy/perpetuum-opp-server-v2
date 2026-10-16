@@ -30,11 +30,11 @@ namespace Perpetuum.Services.Looting
             return _flockLootInfos.GetOrEmpty(flockID);
         }
 
-        public IEnumerable<LootGeneratorItemInfo> GetIntrusionLootInfos(Outpost outpost,SAP sap)
+        public IEnumerable<LootGeneratorItemInfo> GetIntrusionLootInfos(Outpost outpost, SAP sap)
         {
             var stability = outpost.GetIntrusionSiteInfo().Stability;
-            var loots = _intrusionLootInfos.Where(i => i.siteDefinition == outpost.Definition && 
-                                                       i.sapDefinition == sap.Definition && 
+            var loots = _intrusionLootInfos.Where(i => i.siteDefinition == outpost.Definition &&
+                                                       i.sapDefinition == sap.Definition &&
                                                        i.stabilityThreshold.Min <= stability && i.stabilityThreshold.Max >= stability);
 
             foreach (var loot in loots)
@@ -130,7 +130,7 @@ namespace Perpetuum.Services.Looting
                 var stabilityThreshold = new IntRange(r.GetValue<int>("minstabilitythreshold"), r.GetValue<int>("maxstabilitythreshold"));
                 var probability = r.GetValue<double>("probability");
 
-                return new IntrusionLootInfo(siteDefinition,sapDefinition,itemDefinition,quantity,stabilityThreshold,probability);
+                return new IntrusionLootInfo(siteDefinition, sapDefinition, itemDefinition, quantity, stabilityThreshold, probability);
             }).ToArray();
 
             return x;

@@ -4,6 +4,6 @@ namespace Perpetuum.Accounting.Characters
 {
     public interface ICharacterWallet : IWallet<double>
     {
-        
+
     }
 }

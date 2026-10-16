@@ -36,13 +36,13 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
         public MissionDataCache MissionDataCache { get; set; }
         public DockingBaseHelper DockingBaseHelper { get; set; }
         public ProductionInProgress.Factory ProductionInProgressFactory { get; set; }
-        public RobotHelper RobotHelper { protected get; set; }        
+        public RobotHelper RobotHelper { protected get; set; }
 
         public override string ToString()
         {
             return $"{ED.Name} {ED.Definition} {Eid}";
         }
-        
+
         private int GetFacilityBonus()
         {
             int modifier = 0;
@@ -75,14 +75,14 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             base.OnLoadFromDb();
         }
 
-        protected virtual void InitConnected(){}
+        protected virtual void InitConnected() { }
 
         public bool IsConnected { get; private set; }
 
         public void SetConnected(bool state)
         {
             IsConnected = state;
-            Logger.Info( (state ? "++CONNECT++" : "--DISCONNECT--") +  " " +  FacilityType + " " + ED.Name + " " + ED.Definition);
+            Logger.Info((state ? "++CONNECT++" : "--DISCONNECT--") + " " + FacilityType + " " + ED.Name + " " + ED.Definition);
         }
 
         private long _storageEid;
@@ -141,7 +141,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
         {
             return _isOnTrainingZone.Value;
         }
-        
+
         private readonly Lazy<bool> _isOnTrainingZone;
 
         private bool LoadIsOnTrainingZone()
@@ -156,7 +156,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
 
         protected int GetPercentageFromAdditiveComponent(int additiveComponent)
         {
-            return (int) ((1 - (100.0/(additiveComponent + 100.0))) * 100);
+            return (int)((1 - (100.0 / (additiveComponent + 100.0))) * 100);
         }
 
         private int _productionTimeSeconds;
@@ -184,12 +184,12 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
         {
             return 0.0;
         }
-        
+
         public virtual double GetTimeExtensionBonus(Character character)
         {
             return 0.0;
         }
-        
+
         public virtual int GetSlotExtensionBonus(Character character)
         {
             return 0;
@@ -206,7 +206,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
         }
 
         private bool _isOpen = true;
-      
+
 
         public virtual bool IsOpen
         {
@@ -253,7 +253,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             var storage = DefaultSystemContainer.Create();
 
             storage.Owner = Owner;
-            
+
             AddChild(storage);
 
             StorageEid = storage.Eid; //cache storage eid
@@ -266,7 +266,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
 
         protected void MoveItemsToStorage(params Item[] itemsToReserve)
         {
-            StorageEid.ThrowIfEqual(0,ErrorCodes.ServerError);
+            StorageEid.ThrowIfEqual(0, ErrorCodes.ServerError);
 
             foreach (var item in itemsToReserve)
             {
@@ -275,9 +275,9 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             }
         }
 
-        public IDictionary<string,object> ReturnReservedItems(ProductionInProgress productionInProgress)
+        public IDictionary<string, object> ReturnReservedItems(ProductionInProgress productionInProgress)
         {
-            StorageEid.ThrowIfEqual(0,ErrorCodes.WTFErrorMedicalAttentionSuggested);
+            StorageEid.ThrowIfEqual(0, ErrorCodes.WTFErrorMedicalAttentionSuggested);
 
             var replyDict = new Dictionary<string, object>(1);
 
@@ -318,7 +318,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             return 0.0;
         }
 
-        public virtual IDictionary<string, object> EndProduction(ProductionInProgress productionInProgress,bool forced)
+        public virtual IDictionary<string, object> EndProduction(ProductionInProgress productionInProgress, bool forced)
         {
             return null;
         }
@@ -332,7 +332,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
         {
             var runningProductionCount = ProductionProcessor.RunningProductions.GetRunningProductionsByFacilityAndCharacter(character, Eid).Count();
             var maxSlotCount = RealMaxSlotsPerCharacter(character);
-            maxSlotCount.ThrowIfLess(runningProductionCount + 1,ErrorCodes.MaximumAmountOfProducionsReached);
+            maxSlotCount.ThrowIfLess(runningProductionCount + 1, ErrorCodes.MaximumAmountOfProducionsReached);
         }
 
         public void SendFacilityInfo()
@@ -357,7 +357,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             Message.Builder.SetCommand(Commands.ProductionFacilityState).WithData(result).ToCharacters(charactersToInform).Send();
         }
 
-        public virtual void OnRemoveFromGame() {}
+        public virtual void OnRemoveFromGame() { }
 
         public int MyMissionLocationId()
         {
@@ -376,7 +376,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
 
         public SystemContainer GetStorage()
         {
-            return (SystemContainer) Repository.Load(StorageEid);
+            return (SystemContainer)Repository.Load(StorageEid);
         }
 
     }

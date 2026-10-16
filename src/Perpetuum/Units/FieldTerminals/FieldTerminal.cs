@@ -14,13 +14,13 @@ using Perpetuum.Zones;
 
 namespace Perpetuum.Units.FieldTerminals
 {
- 
-    public class FieldTerminal : Unit , IUsableItem
+
+    public class FieldTerminal : Unit, IUsableItem
     {
         private readonly MissionDataCache _missionDataCache;
         private readonly DockingBaseHelper _dockingBaseHelper;
 
-        public FieldTerminal(MissionDataCache missionDataCache,DockingBaseHelper dockingBaseHelper)
+        public FieldTerminal(MissionDataCache missionDataCache, DockingBaseHelper dockingBaseHelper)
         {
             _missionDataCache = missionDataCache;
             _dockingBaseHelper = dockingBaseHelper;
@@ -75,7 +75,7 @@ namespace Perpetuum.Units.FieldTerminals
             SendInfoToCharacter(player.Character);
         }
 
-        public Dictionary<string,object> GetFieldTerminalInfo()
+        public Dictionary<string, object> GetFieldTerminalInfo()
         {
             var result = ToDictionary();
             // itt meg johet bele mindenfele
@@ -95,7 +95,7 @@ namespace Perpetuum.Units.FieldTerminals
             location?.DeleteFromDb();
 
             //delete from zone entities
-            zone.UnitService.RemoveDefaultUnit(this,false);
+            zone.UnitService.RemoveDefaultUnit(this, false);
 
             //remove it from ram, etc...
             base.OnRemovedFromZone(zone);

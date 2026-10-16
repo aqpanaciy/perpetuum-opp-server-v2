@@ -14,12 +14,12 @@ namespace Perpetuum
             return Compress(bytesToCompress, 0, bytesToCompress.Length);
         }
 
-        public static unsafe byte[] Compress(byte[] bytesToCompress,int index,int length)
+        public static unsafe byte[] Compress(byte[] bytesToCompress, int index, int length)
         {
             using (var ms = new MemoryStream())
             {
                 var gzStream = new GZipStream(ms, CompressionMode.Compress, false);
-                gzStream.Write(bytesToCompress, index,length);
+                gzStream.Write(bytesToCompress, index, length);
                 gzStream.Close();
 
                 var tmpArray = ms.GetBuffer();
@@ -36,9 +36,9 @@ namespace Perpetuum
             }
         }
 
-        public static byte[] Decompress(byte[] bytesToDecompress,int seek = 4)
+        public static byte[] Decompress(byte[] bytesToDecompress, int seek = 4)
         {
-            using (var originalStream = (Stream) new MemoryStream(bytesToDecompress))
+            using (var originalStream = (Stream)new MemoryStream(bytesToDecompress))
             {
                 originalStream.Seek(seek, SeekOrigin.Begin);
 

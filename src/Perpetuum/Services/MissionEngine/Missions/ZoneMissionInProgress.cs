@@ -22,8 +22,8 @@ namespace Perpetuum.Services.MissionEngine.Missions
         public int currentTargetOrder; //current progress of the mission - "which target ids are the current ones?"
         private readonly int? _missionLevel;
         private readonly int? _locationId;
-        
-        public int MissionLevel { get { return _missionLevel ?? 0; }}
+
+        public int MissionLevel { get { return _missionLevel ?? 0; } }
         private int LocationId { get { return _locationId ?? 0; } }
 
         public readonly int selectedRace;
@@ -37,17 +37,17 @@ namespace Perpetuum.Services.MissionEngine.Missions
             _missionDataCache = missionDataCache;
         }
 
-        private static ZoneMissionInProgress CreateFromRecord(IZone zone,IDataRecord record)
+        private static ZoneMissionInProgress CreateFromRecord(IZone zone, IDataRecord record)
         {
-           var missionGuid = record.GetValue<Guid>("missionGuid");
-           var missionId = record.GetValue<int>("missionID");
-           var currentTargetOrder = record.GetValue<int>("grouporder");
-           var missionLevel = record.GetValue<int?>("missionlevel");
-           var locationId = record.GetValue<int?>("locationid") ?? 0;
-           var selectedRace = record.GetValue<int?>("selectedRace") ?? 1;
+            var missionGuid = record.GetValue<Guid>("missionGuid");
+            var missionId = record.GetValue<int>("missionID");
+            var currentTargetOrder = record.GetValue<int>("grouporder");
+            var missionLevel = record.GetValue<int?>("missionlevel");
+            var locationId = record.GetValue<int?>("locationid") ?? 0;
+            var selectedRace = record.GetValue<int?>("selectedRace") ?? 1;
             var spreadInGang = record.GetValue<bool>("spreadingang");
 
-           return new ZoneMissionInProgress(zone, missionGuid, missionId, currentTargetOrder, missionLevel, locationId, selectedRace, spreadInGang);
+            return new ZoneMissionInProgress(zone, missionGuid, missionId, currentTargetOrder, missionLevel, locationId, selectedRace, spreadInGang);
 
         }
 
@@ -61,7 +61,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
         }
 
 
-        public static ZoneMissionInProgress CreateFromProgressUpdate(IZone zone,MissionProgressUpdate missionProgressUpdate)
+        public static ZoneMissionInProgress CreateFromProgressUpdate(IZone zone, MissionProgressUpdate missionProgressUpdate)
         {
             var missionGuid = missionProgressUpdate.missionGuid;
             var missionId = missionProgressUpdate.missionId;
@@ -71,11 +71,11 @@ namespace Perpetuum.Services.MissionEngine.Missions
             var selectedRace = missionProgressUpdate.selectedRace;
             var spreadInGang = missionProgressUpdate.spreadInGang;
 
-            return new ZoneMissionInProgress(zone, missionGuid, missionId, currentTargetOrder, missionLevel, locationId, selectedRace,spreadInGang);
+            return new ZoneMissionInProgress(zone, missionGuid, missionId, currentTargetOrder, missionLevel, locationId, selectedRace, spreadInGang);
         }
 
 
-        private ZoneMissionInProgress(IZone zone,Guid missionGuid, int missionId, int currentTargetOrder, int? missionLevel, int locationId,  int selectedRace, bool spreadInGang)
+        private ZoneMissionInProgress(IZone zone, Guid missionGuid, int missionId, int currentTargetOrder, int? missionLevel, int locationId, int selectedRace, bool spreadInGang)
         {
             this.missionGuid = missionGuid;
             this.missionId = missionId;
@@ -88,7 +88,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
 
 
         }
-        
+
 
         public override string ToString()
         {
@@ -107,9 +107,9 @@ namespace Perpetuum.Services.MissionEngine.Missions
         /// <param name="presenceManager"></param>
         /// <param name="player"></param>
         /// <returns></returns>
-        public IEnumerable<IZoneMissionTarget> LoadZoneTargets(IPresenceManager presenceManager,Player player)
+        public IEnumerable<IZoneMissionTarget> LoadZoneTargets(IPresenceManager presenceManager, Player player)
         {
-            
+
             var records =
                 Db.Query().CommandText("select * from missiontargetsarchive where characterid=@characterID and missionid=@missionID and missionguid=@guid")
                     .SetParameter("@characterID", player.Character.Id)
@@ -135,7 +135,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
                 //duplicate and apply running parameters
                 var target = targetFromCache.GetClone();
                 target.ModifyWithRecord(record);
-                
+
 
                 if (target.ValidZoneSet && target.ZoneId != _zone.Configuration.Id)
                 {
@@ -169,95 +169,95 @@ namespace Perpetuum.Services.MissionEngine.Missions
                         break;
 
                     case MissionTargetType.loot_item:
-                    {
-                        var pc = new ProgressCounter(currentProgress, target.Quantity);
-                        zoneTarget = new LootZoneTarget(_zone, player, target,  this,pc);
-                        break;
+                        {
+                            var pc = new ProgressCounter(currentProgress, target.Quantity);
+                            zoneTarget = new LootZoneTarget(_zone, player, target, this, pc);
+                            break;
 
-                    }
-                        
+                        }
+
                     case MissionTargetType.kill_definition:
-                    {
-                        var pc = new ProgressCounter(currentProgress, target.Quantity);
-                        zoneTarget = new KillZoneTarget(_zone, player, target, this, pc);
-                        break;
-                    }
+                        {
+                            var pc = new ProgressCounter(currentProgress, target.Quantity);
+                            zoneTarget = new KillZoneTarget(_zone, player, target, this, pc);
+                            break;
+                        }
 
                     case MissionTargetType.scan_mineral:
                         zoneTarget = new ScanMaterialZoneTarget(_zone, player, target, this);
                         break;
 
                     case MissionTargetType.scan_unit:
-                    {
-                        var pc = new ProgressCounter(currentProgress, target.Quantity);
-                        zoneTarget = new ScanUnitZoneTarget(_zone, player, target, this,pc);
-                        break;
-                    }
+                        {
+                            var pc = new ProgressCounter(currentProgress, target.Quantity);
+                            zoneTarget = new ScanUnitZoneTarget(_zone, player, target, this, pc);
+                            break;
+                        }
 
                     case MissionTargetType.scan_container:
-                    {
-                        var pc = new ProgressCounter(currentProgress, target.Quantity);
-                        zoneTarget = new ScanContainerZoneTarget(_zone, player, target, this,pc);
-                        break;
-                    }
+                        {
+                            var pc = new ProgressCounter(currentProgress, target.Quantity);
+                            zoneTarget = new ScanContainerZoneTarget(_zone, player, target, this, pc);
+                            break;
+                        }
 
                     case MissionTargetType.drill_mineral:
-                    {
-                        var pc = new ProgressCounter(currentProgress,target.Quantity);
-                        zoneTarget = new DrillMineralZoneTarget(_zone, player, target, this, pc);
-                        break;
-                    }
+                        {
+                            var pc = new ProgressCounter(currentProgress, target.Quantity);
+                            zoneTarget = new DrillMineralZoneTarget(_zone, player, target, this, pc);
+                            break;
+                        }
 
                     case MissionTargetType.submit_item:
-                    {
-                        var pc = new ProgressCounter(currentProgress, target.Quantity);
-                        zoneTarget = new SubmitItemZoneTarget(_zone, player, target, this,pc);
-                        break;
-                    }
+                        {
+                            var pc = new ProgressCounter(currentProgress, target.Quantity);
+                            zoneTarget = new SubmitItemZoneTarget(_zone, player, target, this, pc);
+                            break;
+                        }
 
                     case MissionTargetType.use_switch:
                         zoneTarget = new AlarmSwitchZoneTarget(_zone, player, target, this);
                         break;
 
                     case MissionTargetType.find_artifact:
-                        zoneTarget = new FindArtifactZoneTarget(_zone, player, target, this,presenceManager);
+                        zoneTarget = new FindArtifactZoneTarget(_zone, player, target, this, presenceManager);
                         break;
-                    
+
 
                     case MissionTargetType.use_itemsupply:
-                    {
-                        var pc = new ProgressCounter(currentProgress, target.Quantity);
-                        zoneTarget = new ItemSupplyZoneTarget(_zone, player, target, this, pc);
-                        break;
-                    }
+                        {
+                            var pc = new ProgressCounter(currentProgress, target.Quantity);
+                            zoneTarget = new ItemSupplyZoneTarget(_zone, player, target, this, pc);
+                            break;
+                        }
 
                     case MissionTargetType.harvest_plant:
-                    {
-                        var pc = new ProgressCounter(currentProgress, target.Quantity);
-                        zoneTarget = new HarvestPlantZoneTarget(_zone, player, target, this, pc);
-                        break;
-                    }
+                        {
+                            var pc = new ProgressCounter(currentProgress, target.Quantity);
+                            zoneTarget = new HarvestPlantZoneTarget(_zone, player, target, this, pc);
+                            break;
+                        }
 
                     case MissionTargetType.summon_npc_egg:
                         zoneTarget = new SummonNpcEggZoneTarget(_zone, player, target, this);
                         break;
 
                     case MissionTargetType.pop_npc:
-                        zoneTarget = new PopNpcZoneTarget(_zone, player, target, this,presenceManager);
+                        zoneTarget = new PopNpcZoneTarget(_zone, player, target, this, presenceManager);
                         break;
 
                     case MissionTargetType.lock_unit:
-                    {
-                        var pc = new ProgressCounter(currentProgress, target.Quantity);
-                        zoneTarget = new LockUnitZoneTarget(_zone, player, target, this, pc);
-                        break;
-                    }
-                        
+                        {
+                            var pc = new ProgressCounter(currentProgress, target.Quantity);
+                            zoneTarget = new LockUnitZoneTarget(_zone, player, target, this, pc);
+                            break;
+                        }
+
                 }
 
                 if (zoneTarget == null)
                 {
-                    Logger.Error( "no class defined for:" + target.Type);
+                    Logger.Error("no class defined for:" + target.Type);
                     continue;
                 }
 

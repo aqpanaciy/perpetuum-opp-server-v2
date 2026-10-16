@@ -7,6 +7,6 @@ namespace Perpetuum.Services.Looting
     {
         IEnumerable<LootGeneratorItemInfo> GetNpcLootInfos(int definition);
         IEnumerable<LootGeneratorItemInfo> GetFlockLootInfos(int flockID);
-        IEnumerable<LootGeneratorItemInfo> GetIntrusionLootInfos(Outpost outpost,SAP sap);
+        IEnumerable<LootGeneratorItemInfo> GetIntrusionLootInfos(Outpost outpost, SAP sap);
     }
 }

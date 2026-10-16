@@ -21,13 +21,13 @@ namespace Perpetuum
 
         public MessageBuilder()
         {
-            
+
         }
 
         private readonly IMessageSender _messageSender;
         private readonly ICorporationMessageSender _corporationMessageSender;
 
-        public MessageBuilder(GlobalConfiguration configuration,IMessageSender messageSender,ICorporationMessageSender corporationMessageSender)
+        public MessageBuilder(GlobalConfiguration configuration, IMessageSender messageSender, ICorporationMessageSender corporationMessageSender)
         {
             _configuration = configuration;
             _messageSender = messageSender;
@@ -101,7 +101,7 @@ namespace Perpetuum
         public MessageBuilder WithException(Exception ex)
         {
             if (ex is PerpetuumException gex)
-                return WithError(gex.error).SetData(k.extra,gex.Data.ToDictionary());
+                return WithError(gex.error).SetData(k.extra, gex.Data.ToDictionary());
 
             return WithError(ErrorCodes.ServerError);
         }
@@ -158,27 +158,27 @@ namespace Perpetuum
 
         public MessageBuilder ToCorporation(Corporation corporation)
         {
-            return SetupMessageSender(m => _corporationMessageSender.SendToAll(m,corporation));
+            return SetupMessageSender(m => _corporationMessageSender.SendToAll(m, corporation));
         }
 
-        public MessageBuilder ToCorporation(long corporationEid,CorporationRole role)
+        public MessageBuilder ToCorporation(long corporationEid, CorporationRole role)
         {
-            return SetupMessageSender(m => _corporationMessageSender.SendByCorporationRole(m,corporationEid,role));
+            return SetupMessageSender(m => _corporationMessageSender.SendByCorporationRole(m, corporationEid, role));
         }
 
-        public MessageBuilder ToCorporation(Corporation corporation,CorporationRole role)
+        public MessageBuilder ToCorporation(Corporation corporation, CorporationRole role)
         {
-            return SetupMessageSender(m => _corporationMessageSender.SendByCorporationRole(m,corporation,role));
+            return SetupMessageSender(m => _corporationMessageSender.SendByCorporationRole(m, corporation, role));
         }
 
         public MessageBuilder ToAccount(Account account)
         {
-            return SetupMessageSender(m => _messageSender.SendToAccount(m,account));
+            return SetupMessageSender(m => _messageSender.SendToAccount(m, account));
         }
 
         public MessageBuilder ToCharacter(Character character)
         {
-            return SetupMessageSender(m => _messageSender.SendToCharacter(m,character));
+            return SetupMessageSender(m => _messageSender.SendToCharacter(m, character));
         }
 
         public MessageBuilder ToCharacters(params Character[] characters)
@@ -188,12 +188,12 @@ namespace Perpetuum
 
         public MessageBuilder ToCharacters(IEnumerable<Character> characters)
         {
-            return SetupMessageSender(m => _messageSender.SendToCharacters(m,characters));
+            return SetupMessageSender(m => _messageSender.SendToCharacters(m, characters));
         }
 
         public MessageBuilder ToClient(ISession session)
         {
-            return SetupMessageSender(m => _messageSender.SendToClient(m,session));
+            return SetupMessageSender(m => _messageSender.SendToClient(m, session));
         }
     }
 }

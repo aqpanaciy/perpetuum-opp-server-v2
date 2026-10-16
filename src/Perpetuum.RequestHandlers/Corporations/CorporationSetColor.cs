@@ -13,7 +13,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                 var character = request.Session.Character;
                 var color = request.Data.GetOrDefault<int>(k.color);
 
-                var corporation = character.GetPrivateCorporationOrThrow().CheckAccessAndThrowIfFailed(character,CorporationRole.CEO,CorporationRole.DeputyCEO);
+                var corporation = character.GetPrivateCorporationOrThrow().CheckAccessAndThrowIfFailed(character, CorporationRole.CEO, CorporationRole.DeputyCEO);
 
                 corporation.SetColor(color);
 
@@ -21,7 +21,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                 Message.Builder.FromRequest(request).WithData(corpInfo).Send();
 
                 CorporationData.RemoveFromCache(corporation.Eid);
-                
+
                 scope.Complete();
             }
         }

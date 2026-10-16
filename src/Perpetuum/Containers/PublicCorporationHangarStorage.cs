@@ -15,7 +15,7 @@ namespace Perpetuum.Containers
         private readonly CorporationConfiguration _corporationConfiguration;
         private readonly DockingBaseHelper _dockingBaseHelper;
 
-        public PublicCorporationHangarStorage(CorporationConfiguration corporationConfiguration,DockingBaseHelper dockingBaseHelper)
+        public PublicCorporationHangarStorage(CorporationConfiguration corporationConfiguration, DockingBaseHelper dockingBaseHelper)
         {
             _corporationConfiguration = corporationConfiguration;
             _dockingBaseHelper = dockingBaseHelper;
@@ -44,13 +44,13 @@ namespace Perpetuum.Containers
 
             if (!DynamicProperties.Contains(k.hangarPrice))
             {
-                DynamicProperties.Update(k.hangarPrice,_corporationConfiguration.HangarPrice);
+                DynamicProperties.Update(k.hangarPrice, _corporationConfiguration.HangarPrice);
                 saveNeeded = true;
             }
 
             if (!DynamicProperties.Contains(k.rentPeriod))
             {
-                DynamicProperties.Update(k.rentPeriod,_corporationConfiguration.RentPeriod);
+                DynamicProperties.Update(k.rentPeriod, _corporationConfiguration.RentPeriod);
                 saveNeeded = true;
             }
 
@@ -61,7 +61,7 @@ namespace Perpetuum.Containers
 
             return new CorporationHangarRentInfo
             {
-                price = DynamicProperties.GetOrAdd<int>(k.hangarPrice), 
+                price = DynamicProperties.GetOrAdd<int>(k.hangarPrice),
                 period = TimeSpan.FromDays(DynamicProperties.GetOrAdd<int>(k.rentPeriod))
             };
         }

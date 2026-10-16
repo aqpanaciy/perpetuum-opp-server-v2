@@ -21,12 +21,12 @@ namespace Perpetuum.EntityFramework
             return reader.GetAll().FirstOrDefault(ed => ed.Name == name) ?? EntityDefault.None;
         }
 
-        public static IEnumerable<EntityDefault> GetByCategoryFlags(this IEnumerable<EntityDefault> entityDefaults,CategoryFlags categoryFlags)
+        public static IEnumerable<EntityDefault> GetByCategoryFlags(this IEnumerable<EntityDefault> entityDefaults, CategoryFlags categoryFlags)
         {
             return entityDefaults.Where(ed => ed.CategoryFlags.IsCategory(categoryFlags));
         }
 
-        public static int[] GetDefinitionsByCategoryFlag(this IEnumerable<EntityDefault> entityDefaults,CategoryFlags categoryFlags)
+        public static int[] GetDefinitionsByCategoryFlag(this IEnumerable<EntityDefault> entityDefaults, CategoryFlags categoryFlags)
         {
             return entityDefaults.GetByCategoryFlags(categoryFlags).Select(ed => ed.Definition).ToArray();
         }

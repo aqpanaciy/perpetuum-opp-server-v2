@@ -76,7 +76,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             get { return _current; }
             set
             {
-                _current = value.Clamp(0,MaxValue);
+                _current = value.Clamp(0, MaxValue);
                 _updateCounter++;
             }
         }
@@ -95,7 +95,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public bool IsEveryNTurn(int n = 1)
         {
-            return _updateCounter%n == 1;
+            return _updateCounter % n == 1;
         }
 
         public override string ToString()
@@ -169,9 +169,9 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
                 {k.targetID, MyTarget.id},
                 {k.characterID, Player.Character.Id},
                 {k.guid,MyZoneMissionInProgress.missionGuid},
-                
+
             };
-            
+
             if (_lastEventInfo?.Player != null)
             {
                 var doerCharacter = _lastEventInfo.Player.Character;
@@ -185,14 +185,14 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
                     }
                 }
             }
-            
+
             if (successEventInfo != null)
             {
                 if (successEventInfo.Player.Character != Character.None && !successEventInfo.Player.Character.Equals(Player.Character))
                 {
                     if (IsInSameGang(Player, successEventInfo.Player))
                     {
-                        dict[k.assistingCharacterID] = successEventInfo.Player.Character.Id;    
+                        dict[k.assistingCharacterID] = successEventInfo.Player.Character.Id;
                     }
                 }
 
@@ -284,7 +284,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
                 DropLootFromSecondaryDefinitionToZone(zone, position, linkedDisplayOrder);
             });
         }
-        
+
         private int GetAttachedDisplayOrderForContainer()
         {
             if (Player.MissionHandler.TryGetLinkedTargetOrderForContainer(this, out int linkedDisplayOrder))
@@ -295,7 +295,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             return -1;
         }
 
-        
+
         private int GetAttachedDisplayOrderForNpc()
         {
             if (Player.MissionHandler.TryGetLinkedTargetOrder(this, out int linkedDisplayOrder))
@@ -318,7 +318,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
                 .BuildAndAddToZone(zone, position);
             Debug.Assert(container != null, "container != null");
 
-            AttachToUnit(container, MyZoneMissionInProgress.missionGuid,linkedDisplayOrder);
+            AttachToUnit(container, MyZoneMissionInProgress.missionGuid, linkedDisplayOrder);
         }
 
         private void AttachToNpc(Npc npc)
@@ -341,7 +341,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         /// </summary>
         /// <param name="presenceManager"></param>
         /// <param name="position"></param>
-        protected void SpawnNpcOnSuccess(IPresenceManager presenceManager,Position position)
+        protected void SpawnNpcOnSuccess(IPresenceManager presenceManager, Position position)
         {
             if (!MyTarget.ValidQuantitySet)
                 return;
@@ -350,9 +350,9 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
             Task.Run(() =>
             {
-                var p = AddDirectPresenceToPosition(presenceManager,position);
+                var p = AddDirectPresenceToPosition(presenceManager, position);
 
-                var playersToThreat = new List<Player>() {Player};
+                var playersToThreat = new List<Player>() { Player };
 
                 var gang = Player.Gang;
                 if (gang != null)
@@ -361,13 +361,13 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
                 }
                 foreach (var npc in p.Flocks.GetMembers())
                 {
-                    npc.Tag(Player,TimeSpan.FromHours(1));//mission presence-ben hosszu idore vannak taggelve
+                    npc.Tag(Player, TimeSpan.FromHours(1));//mission presence-ben hosszu idore vannak taggelve
 
                     foreach (var threatPlayer in playersToThreat)
                     {
-                        npc.AddDirectThreat(threatPlayer, 10 + FastRandom.NextDouble(0, 30));    
+                        npc.AddDirectThreat(threatPlayer, 10 + FastRandom.NextDouble(0, 30));
                     }
-                    
+
                 }
 
                 Zone.CreateBeam(BeamType.teleport_storm, builder => builder.WithPosition(position).WithDuration(100000));
@@ -376,7 +376,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public const int RANDOM_POP_NPC_LIFETIME_MINUTES = 25;
 
-        private DirectPresence AddDirectPresenceToPosition(IPresenceManager presenceManager,Position successPosition)
+        private DirectPresence AddDirectPresenceToPosition(IPresenceManager presenceManager, Position successPosition)
         {
             //kamu presence config
             var configuration = new DirectPresenceConfiguration(Zone);
@@ -403,7 +403,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         {
             Db.CreateTransactionAsync(scope =>
             {
-                Player.MissionHandler.MissionProcessor.NpcPresenceExpired(Player.Character,MyZoneMissionInProgress.missionGuid,MyZoneMissionInProgress.missionId,MyTarget.id);
+                Player.MissionHandler.MissionProcessor.NpcPresenceExpired(Player.Character, MyZoneMissionInProgress.missionGuid, MyZoneMissionInProgress.missionId, MyTarget.id);
                 Logger.Info("Mission NPC presence expired " + MyZoneMissionInProgress + " onwer character:" + Player.Character.Id);
             });
         }

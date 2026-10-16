@@ -53,22 +53,22 @@ namespace Perpetuum.AdminTool.Common
             await using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                var def           = reader.GetInt32(0);
-                var name          = reader.IsDBNull(1) ? "" : reader.GetString(1);
+                var def = reader.GetInt32(0);
+                var name = reader.IsDBNull(1) ? "" : reader.GetString(1);
                 var categoryFlags = reader.IsDBNull(2) ? 0L : reader.GetInt64(2);
-                var enabled       = !reader.IsDBNull(3) && reader.GetBoolean(3);
-                var hidden        = !reader.IsDBNull(4) && reader.GetBoolean(4);
-                var tierType      = reader.GetInt32(5);
-                var tierLevel     = reader.GetInt32(6);
+                var enabled = !reader.IsDBNull(3) && reader.GetBoolean(3);
+                var hidden = !reader.IsDBNull(4) && reader.GetBoolean(4);
+                var tierType = reader.GetInt32(5);
+                var tierLevel = reader.GetInt32(6);
                 fresh.Add(new EntityPickItem
                 {
-                    Definition    = def,
-                    Name          = name,
+                    Definition = def,
+                    Name = name,
                     CategoryFlags = categoryFlags,
-                    Enabled       = enabled,
-                    Hidden        = hidden,
-                    TierType      = tierType,
-                    TierLevel     = tierLevel,
+                    Enabled = enabled,
+                    Hidden = hidden,
+                    TierType = tierType,
+                    TierLevel = tierLevel,
                 });
                 names[def] = name;
             }

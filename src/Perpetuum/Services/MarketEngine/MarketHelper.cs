@@ -20,7 +20,7 @@ namespace Perpetuum.Services.MarketEngine
         private readonly IMarketOrderRepository _marketOrderRepository;
         private readonly IEntityServices _entityServices;
 
-        public MarketHelper(MarketHandler marketHandler,DockingBaseHelper dockingBaseHelper,IMarketOrderRepository marketOrderRepository,IEntityServices entityServices)
+        public MarketHelper(MarketHandler marketHandler, DockingBaseHelper dockingBaseHelper, IMarketOrderRepository marketOrderRepository, IEntityServices entityServices)
         {
             _marketHandler = marketHandler;
             _dockingBaseHelper = dockingBaseHelper;
@@ -42,11 +42,11 @@ namespace Perpetuum.Services.MarketEngine
         }
 
         public void CashInMarketFee(Character character, bool useCorporationWallet, double pricePerPiece)
-		{
-			var wallet = character.GetWalletWithAccessCheck(useCorporationWallet, TransactionType.marketFee);
-			wallet.Balance -= pricePerPiece;
+        {
+            var wallet = character.GetWalletWithAccessCheck(useCorporationWallet, TransactionType.marketFee);
+            wallet.Balance -= pricePerPiece;
 
-		    var b = TransactionLogEvent.Builder().SetCharacter(character).SetTransactionType(TransactionType.marketFee).SetCreditBalance(wallet.Balance).SetCreditChange(-pricePerPiece);
+            var b = TransactionLogEvent.Builder().SetCharacter(character).SetTransactionType(TransactionType.marketFee).SetCreditBalance(wallet.Balance).SetCreditChange(-pricePerPiece);
 
             if (wallet is CorporationWallet corpWallet)
             {
@@ -59,13 +59,13 @@ namespace Perpetuum.Services.MarketEngine
             }
         }
 
-		public void CashIn(Character buyer, bool useBuyerCorporationWallet, double price, int definition, int quantity, TransactionType transactionType)
-		{
-			var wallet = buyer.GetWallet(useBuyerCorporationWallet, transactionType);
-			var amount = price*quantity;
-			wallet.Balance -= amount;
+        public void CashIn(Character buyer, bool useBuyerCorporationWallet, double price, int definition, int quantity, TransactionType transactionType)
+        {
+            var wallet = buyer.GetWallet(useBuyerCorporationWallet, transactionType);
+            var amount = price * quantity;
+            wallet.Balance -= amount;
 
-		    var b = TransactionLogEvent.Builder()
+            var b = TransactionLogEvent.Builder()
                                        .SetCharacter(buyer)
                                        .SetTransactionType(transactionType)
                                        .SetCreditBalance(wallet.Balance)
@@ -83,71 +83,71 @@ namespace Perpetuum.Services.MarketEngine
             }
         }
 
-        private static readonly int[] _reactorPlasmaDefinitions = {3274, 3273, 3272, 3271};
+        private static readonly int[] _reactorPlasmaDefinitions = { 3274, 3273, 3272, 3271 };
 
-		public double GetMaxReactorPlasmaPrice(int definition)
-		{
-			/*
+        public double GetMaxReactorPlasmaPrice(int definition)
+        {
+            /*
 				3274  def_thelodica_reactor_plasma 
 				3273  def_nuimqol_reactor_plasma  
 				3272  def_pelistal_reactor_plasma  
 				3271  def_common_reactor_plasma   
 			*/
 
-			var definitionsString = definition.ToString(CultureInfo.InvariantCulture);
+            var definitionsString = definition.ToString(CultureInfo.InvariantCulture);
 
-			var marketsString = _marketHandler.GetAllDefaultMarketsEids().ArrayToString();
+            var marketsString = _marketHandler.GetAllDefaultMarketsEids().ArrayToString();
 
-			var query = "SELECT MAX(price) FROM dbo.marketitems WHERE itemdefinition=" + definitionsString + " AND isSell=0 AND isvendoritem=1 AND marketeid IN (" + marketsString + ")";
+            var query = "SELECT MAX(price) FROM dbo.marketitems WHERE itemdefinition=" + definitionsString + " AND isSell=0 AND isvendoritem=1 AND marketeid IN (" + marketsString + ")";
 
-			var price = Db.Query().CommandText(query).ExecuteScalar<double>();
+            var price = Db.Query().CommandText(query).ExecuteScalar<double>();
 
-			Logger.Info("price for " + EntityDefault.Get(definition).Name + " is " + price);
+            Logger.Info("price for " + EntityDefault.Get(definition).Name + " is " + price);
 
-			return price;
-		}
+            return price;
+        }
 
-		public void InsertGammaPlasmaOrders(Market market)
-		{
-			foreach (var reactorPlasmaDefinition in _reactorPlasmaDefinitions)
-			{
-				var price = GetMaxReactorPlasmaPrice(reactorPlasmaDefinition);
-				market.InsertVendorBuyOrder(reactorPlasmaDefinition, price);
-			}
+        public void InsertGammaPlasmaOrders(Market market)
+        {
+            foreach (var reactorPlasmaDefinition in _reactorPlasmaDefinitions)
+            {
+                var price = GetMaxReactorPlasmaPrice(reactorPlasmaDefinition);
+                market.InsertVendorBuyOrder(reactorPlasmaDefinition, price);
+            }
 
             market.AddDevItemsToMarket();
-			market.AddOtherStuffToGammaMarket();
-		}
+            market.AddOtherStuffToGammaMarket();
+        }
 
         public void CreatePlasmaBuyOrdersOnExistingGammaBases()
-		{
-			const string querySelect = "SELECT eid,(SELECT definition FROM dbo.entities WHERE eid=m.parent) FROM entities m WHERE definition=10";
-			const string queryDelete = "delete marketitems where isvendoritem=1 and marketEid=@marketEid and issell=0";
+        {
+            const string querySelect = "SELECT eid,(SELECT definition FROM dbo.entities WHERE eid=m.parent) FROM entities m WHERE definition=10";
+            const string queryDelete = "delete marketitems where isvendoritem=1 and marketEid=@marketEid and issell=0";
 
-			var markets = Db.Query().CommandText(querySelect).Execute().Select(r => Market.GetOrThrow(r.GetValue<long>(0)));
+            var markets = Db.Query().CommandText(querySelect).Execute().Select(r => Market.GetOrThrow(r.GetValue<long>(0)));
 
-			foreach (var market in markets)
-			{
-				var dockingBase = market.GetDockingBase() as PBSDockingBase;
-				if (dockingBase == null)
-					continue;
+            foreach (var market in markets)
+            {
+                var dockingBase = market.GetDockingBase() as PBSDockingBase;
+                if (dockingBase == null)
+                    continue;
 
-				Logger.Info("processing market: " + market.Eid);
+                Logger.Info("processing market: " + market.Eid);
 
-				Db.Query().CommandText(queryDelete)
-					.SetParameter("@marketEid", market.Eid)
-					.ExecuteNonQuery();
+                Db.Query().CommandText(queryDelete)
+                    .SetParameter("@marketEid", market.Eid)
+                    .ExecuteNonQuery();
 
-				InsertGammaPlasmaOrders(market);
-			}
-		}
+                InsertGammaPlasmaOrders(market);
+            }
+        }
 
-		public void RemoveAll(Character character)
-		{
-			Db.Query().CommandText("delete marketitems where submittereid=@rootEid")
-				.SetParameter("@rootEid", character.Eid)
-				.ExecuteNonQuery();
-		}
+        public void RemoveAll(Character character)
+        {
+            Db.Query().CommandText("delete marketitems where submittereid=@rootEid")
+                .SetParameter("@rootEid", character.Eid)
+                .ExecuteNonQuery();
+        }
 
         public void RemoveItemsByCategoryFlags(CategoryFlags categoryFlag, bool withVendor = false)
         {
@@ -185,12 +185,12 @@ namespace Perpetuum.Services.MarketEngine
             Logger.Info("removed " + count + " vendor market items for cf:" + categoryFlag);
         }
 
-        public IDictionary<string,object> GetMarketOrdersInfo(Character character)
+        public IDictionary<string, object> GetMarketOrdersInfo(Character character)
         {
             //ez van mashol is
-            var orders = _marketOrderRepository.GetByCharacter(character).OrderBy(o => o.isSell).ToDictionary("i",o => o.ToDictionary());
+            var orders = _marketOrderRepository.GetByCharacter(character).OrderBy(o => o.isSell).ToDictionary("i", o => o.ToDictionary());
 
-            return new Dictionary<string,object>
+            return new Dictionary<string, object>
             {
                 {k.items, orders},
                 {k.maxBuyOrderCount, Market.GetMaxBuyOrderCount(character)},
@@ -200,19 +200,19 @@ namespace Perpetuum.Services.MarketEngine
 
         public bool CheckSellOrderCounts(Character character)
         {
-            var submittedItemsCount = GetMarketOrdersCount(character,true);
+            var submittedItemsCount = GetMarketOrdersCount(character, true);
             var maxSubmittedItems = Market.GetMaxSellOrderCount(character);
             return submittedItemsCount < maxSubmittedItems;
         }
 
         public bool CheckBuyOrderCounts(Character character)
         {
-            var submittedItemsCount = GetMarketOrdersCount(character,false);
+            var submittedItemsCount = GetMarketOrdersCount(character, false);
             var maxSubmittedItems = Market.GetMaxBuyOrderCount(character);
             return submittedItemsCount < maxSubmittedItems;
         }
 
-        private int GetMarketOrdersCount(Character character,bool isSell)
+        private int GetMarketOrdersCount(Character character, bool isSell)
         {
             return _marketOrderRepository.GetByCharacter(character).Count(o => o.isSell == isSell && o.forMembersOf == null);
         }
@@ -220,5 +220,5 @@ namespace Perpetuum.Services.MarketEngine
 
     }
 }
-	
+
 

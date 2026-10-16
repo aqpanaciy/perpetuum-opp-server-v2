@@ -29,12 +29,12 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
 
                 if (netVis >= 0)
                 {
-                    pbsDockingBase.NetworkMapVisibility = (PBSDockingBaseVisibility)netVis;    
+                    pbsDockingBase.NetworkMapVisibility = (PBSDockingBaseVisibility)netVis;
                 }
 
                 if (baseVis >= 0)
                 {
-                    pbsDockingBase.DockingBaseMapVisibility = (PBSDockingBaseVisibility) baseVis;
+                    pbsDockingBase.DockingBaseMapVisibility = (PBSDockingBaseVisibility)baseVis;
                 }
 
                 pbsDockingBase.Save();

@@ -41,7 +41,7 @@ namespace Perpetuum.RequestHandlers.Zone
                         {k.container, result},
                     }).Send();
                 });
-                
+
                 scope.Complete();
             }
         }

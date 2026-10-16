@@ -22,7 +22,7 @@ namespace Perpetuum.RequestHandlers.Extensions
             var character = request.Session.Character;
             var dictionary = new Dictionary<string, object>
             {
-                { k.characterID, character.Id }, 
+                { k.characterID, character.Id },
                 { k.history, GetExtensionHistory(character) }
             };
 

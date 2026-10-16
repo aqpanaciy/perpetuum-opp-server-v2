@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Perpetuum.Accounting
 {
-    public interface IAccountRepository : IRepository<int,Account>
+    public interface IAccountRepository : IRepository<int, Account>
     {
         AccessLevel GetAccessLevel(int accountId);
 
@@ -13,6 +13,6 @@ namespace Perpetuum.Accounting
         Account Get(string email, string password);
 
         IEnumerable<Account> GetBySteamId(string steamId);
-      
+
     }
 }

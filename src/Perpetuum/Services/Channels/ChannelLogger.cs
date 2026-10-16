@@ -32,10 +32,10 @@ namespace Perpetuum.Services.Channels
 
         public void MemberJoin(Character member)
         {
-            if ( member == Character.None )
+            if (member == Character.None)
                 return;
 
-            _logger.LogMessage(member," has joined the channel.");
+            _logger.LogMessage(member, " has joined the channel.");
         }
 
         public void MemberLeft(Character member)

@@ -23,7 +23,7 @@ namespace Perpetuum.Modules
         private readonly ModuleProperty bandwidthMax;
         private readonly ModuleProperty operationalRange;
         private readonly ModuleProperty lifetime;
-        
+
         private BandwidthHandler bandwidthHandler;
 
         public double BandwidthMax => bandwidthMax.Value;

@@ -10,7 +10,7 @@ namespace Perpetuum.RequestHandlers
         private readonly ITeleportDescriptionRepository _teleportDescriptionRepository;
         private readonly TeleportDescriptionBuilder.Factory _descriptionBuilderFactory;
 
-        public TeleportConnectColumns(ITeleportDescriptionRepository teleportDescriptionRepository,TeleportDescriptionBuilder.Factory descriptionBuilderFactory)
+        public TeleportConnectColumns(ITeleportDescriptionRepository teleportDescriptionRepository, TeleportDescriptionBuilder.Factory descriptionBuilderFactory)
         {
             _teleportDescriptionRepository = teleportDescriptionRepository;
             _descriptionBuilderFactory = descriptionBuilderFactory;
@@ -39,7 +39,7 @@ namespace Perpetuum.RequestHandlers
                         .ToClient(request.Session)
                         .Send();
                 });
-                
+
                 scope.Complete();
             }
         }

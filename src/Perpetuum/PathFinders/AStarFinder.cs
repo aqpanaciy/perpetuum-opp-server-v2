@@ -83,7 +83,7 @@ namespace Perpetuum.PathFinders
         protected readonly Heuristic _heuristic;
         protected readonly PathFinderNodePassableHandler _passableHandler;
 
-        public AStarFinder(Heuristic heuristic,PathFinderNodePassableHandler passableHandler)
+        public AStarFinder(Heuristic heuristic, PathFinderNodePassableHandler passableHandler)
         {
             _heuristic = heuristic;
             _passableHandler = passableHandler;
@@ -92,7 +92,7 @@ namespace Perpetuum.PathFinders
 
         public int Weight { get; set; }
 
-        public override Point[] FindPath(Point start, Point end,CancellationToken cancellationToken)
+        public override Point[] FindPath(Point start, Point end, CancellationToken cancellationToken)
         {
             if (!_passableHandler(end.X, end.Y))
                 return null;
@@ -145,7 +145,7 @@ namespace Perpetuum.PathFinders
             while (node != null)
             {
                 stack.Push(node.Location);
-                OnPathFinderDebug(node,PathFinderNodeType.Path);
+                OnPathFinderDebug(node, PathFinderNodeType.Path);
                 node = node.parent;
             }
 
@@ -163,7 +163,7 @@ namespace Perpetuum.PathFinders
 
                 if (_passableHandler(nx, ny))
                 {
-                    yield return new Node(nx,ny);
+                    yield return new Node(nx, ny);
                 }
             }
         }
@@ -191,4 +191,3 @@ namespace Perpetuum.PathFinders
         }
     }
 }
-    

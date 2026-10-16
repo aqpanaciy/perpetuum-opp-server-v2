@@ -20,7 +20,7 @@ namespace Perpetuum.Zones.NpcSystem.Presences
         private readonly StackFSM _fsm = new StackFSM();
         public Character Summoner { private get; set; }
 
-        public DynamicPoolPresence(IZone zone, IPresenceConfiguration configuration,IRandomFlockReader randomFlockReader) : base(zone, configuration)
+        public DynamicPoolPresence(IZone zone, IPresenceConfiguration configuration, IRandomFlockReader randomFlockReader) : base(zone, configuration)
         {
             _randomFlockReader = randomFlockReader;
         }
@@ -63,7 +63,7 @@ namespace Perpetuum.Zones.NpcSystem.Presences
             });
         }
 
-        private IState CreateWaveState(IEnumerable<RandomFlockInfo> flockInfos,bool isLastWave)
+        private IState CreateWaveState(IEnumerable<RandomFlockInfo> flockInfos, bool isLastWave)
         {
             var first = true;
             return AnonymousState.Create(t =>
@@ -104,7 +104,7 @@ namespace Perpetuum.Zones.NpcSystem.Presences
             {
                 timer.Update(t);
 
-                if ( !timer.Expired )
+                if (!timer.Expired)
                     return;
 
                 _fsm.Pop();

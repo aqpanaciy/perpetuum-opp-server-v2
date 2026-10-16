@@ -25,20 +25,20 @@ namespace Perpetuum.Zones.Teleporting
         public virtual bool IsEnabled
         {
             get { return true; }
-            set {  }
+            set { }
         }
 
         public static int TeleportRange
         {
-            get { return (int) DistanceConstants.MOBILE_TELEPORT_USE_RANGE; }
+            get { return (int)DistanceConstants.MOBILE_TELEPORT_USE_RANGE; }
         }
 
         public abstract IEnumerable<TeleportDescription> GetTeleportDescriptions();
 
-        public override Dictionary<string,object> ToDictionary()
+        public override Dictionary<string, object> ToDictionary()
         {
             var result = base.ToDictionary();
-            result.Add(k.enabled,IsEnabled);
+            result.Add(k.enabled, IsEnabled);
             return result;
         }
     }

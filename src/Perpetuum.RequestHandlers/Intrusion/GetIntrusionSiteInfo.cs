@@ -13,14 +13,14 @@ namespace Perpetuum.RequestHandlers.Intrusion
 
             var corporationEid = character.CorporationEid;
 
-            if(DefaultCorporationDataCache.IsCorporationDefault(corporationEid))
+            if (DefaultCorporationDataCache.IsCorporationDefault(corporationEid))
             {
                 Message.Builder.FromRequest(request).WithOk().Send();
                 return;
             }
 
             var totalDict = Outpost.GetOwnershipPrivateInfo(corporationEid);
-            
+
             var result = new Dictionary<string, object>
                              {
                                  {k.info, totalDict}

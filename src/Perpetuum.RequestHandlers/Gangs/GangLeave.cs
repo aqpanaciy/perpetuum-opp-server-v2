@@ -26,7 +26,7 @@ namespace Perpetuum.RequestHandlers.Gangs
                 _gangManager.RemoveMember(gang, character, false);
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

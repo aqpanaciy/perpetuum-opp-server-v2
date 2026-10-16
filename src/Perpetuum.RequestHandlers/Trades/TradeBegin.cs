@@ -10,7 +10,7 @@ namespace Perpetuum.RequestHandlers.Trades
         private readonly ITradeService _tradeService;
         private readonly Trade.Factory _tradeFactory;
 
-        public TradeBegin(ITradeService tradeService,Trade.Factory tradeFactory)
+        public TradeBegin(ITradeService tradeService, Trade.Factory tradeFactory)
         {
             _tradeService = tradeService;
             _tradeFactory = tradeFactory;

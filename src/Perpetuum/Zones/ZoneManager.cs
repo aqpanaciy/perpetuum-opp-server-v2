@@ -28,9 +28,9 @@ namespace Perpetuum.Zones
             }
 
             return null;
-       }
+        }
 
-        public static bool TryGetPlayer(this IZoneManager zoneManager, Character character,out Player player)
+        public static bool TryGetPlayer(this IZoneManager zoneManager, Character character, out Player player)
         {
             foreach (var zone in zoneManager.Zones)
             {

@@ -37,8 +37,8 @@ namespace Perpetuum.RequestHandlers.Sparks
                 var maxCount = _sparkTeleportHelper.GetMaxSparkTeleportCount(character);
                 if (alreadySpent + dockingBase.Zone.Configuration.SparkCost > maxCount)
                     throw new PerpetuumException(ErrorCodes.NotEnoughSparkTeleportSlots);
-            
-                character.SubtractFromWallet(TransactionType.SparkTeleportPlace,SparkTeleport.SPARK_TELEPORT_PLACE_FEE);
+
+                character.SubtractFromWallet(TransactionType.SparkTeleportPlace, SparkTeleport.SPARK_TELEPORT_PLACE_FEE);
 
                 _sparkTeleportHelper.CreateSparkTeleport(dockingBase, character);
 
@@ -47,7 +47,7 @@ namespace Perpetuum.RequestHandlers.Sparks
                     var info = _sparkTeleportHelper.GetSparkTeleportDescriptionInfos(character);
                     Message.Builder.FromRequest(request).WithData(info).Send();
                 });
-                
+
                 scope.Complete();
             }
         }

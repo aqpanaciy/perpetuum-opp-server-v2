@@ -33,13 +33,13 @@ namespace Perpetuum.RequestHandlers
                 {
                     var result = new Dictionary<string, object>
                     {
-                        {k.container, container.ToDictionary()}, 
+                        {k.container, container.ToDictionary()},
                         {k.scanResult, scanResult.ToDictionary()}
                     };
 
                     Message.Builder.FromRequest(request).WithData(result).Send();
                 });
-                
+
                 scope.Complete();
             }
         }

@@ -19,7 +19,7 @@ namespace Perpetuum.Zones.Artifacts.Generators.Loot
                 return null;
 
             var randomPosition = lootItems.Position.GetRandomPositionInRange2D(MIN_RANGE, MAX_RANGE);
-            return new ArtifactLootItems(randomPosition,lootItems.LootItems);
+            return new ArtifactLootItems(randomPosition, lootItems.LootItems);
         }
     }
 }

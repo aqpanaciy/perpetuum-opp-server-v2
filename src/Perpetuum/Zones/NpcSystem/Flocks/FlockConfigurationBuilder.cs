@@ -38,7 +38,7 @@ namespace Perpetuum.Zones.NpcSystem.Flocks
 
         public FlockConfigurationBuilder SetHomeRange(int homeRange)
         {
-            _configuration.HomeRange = homeRange.Max((int) DistanceConstants.MAX_NPC_FLOCK_HOME_RANGE);
+            _configuration.HomeRange = homeRange.Max((int)DistanceConstants.MAX_NPC_FLOCK_HOME_RANGE);
             return this;
         }
 
@@ -52,14 +52,14 @@ namespace Perpetuum.Zones.NpcSystem.Flocks
         {
             return With(c =>
             {
-                c.Name = (string) dictionary[k.name];
-                c.PresenceID = (int) dictionary[k.presenceID];
-                c.FlockMemberCount = (int) dictionary[k.flockMemberCount];
-                c.SpawnOrigin = (Position) dictionary[k.spawnOrigin];
-                c.SpawnRange = new IntRange((int) dictionary[k.spawnRangeMin], (int) dictionary[k.spawnRangeMax]);
-                c.RespawnTime = TimeSpan.FromSeconds((int) dictionary[k.respawnSeconds]);
-                c.TotalSpawnCount = (int) dictionary[k.totalSpawnCount];
-                c.RespawnMultiplierLow = (double) dictionary[k.respawnMultiplierLow];
+                c.Name = (string)dictionary[k.name];
+                c.PresenceID = (int)dictionary[k.presenceID];
+                c.FlockMemberCount = (int)dictionary[k.flockMemberCount];
+                c.SpawnOrigin = (Position)dictionary[k.spawnOrigin];
+                c.SpawnRange = new IntRange((int)dictionary[k.spawnRangeMin], (int)dictionary[k.spawnRangeMax]);
+                c.RespawnTime = TimeSpan.FromSeconds((int)dictionary[k.respawnSeconds]);
+                c.TotalSpawnCount = (int)dictionary[k.totalSpawnCount];
+                c.RespawnMultiplierLow = (double)dictionary[k.respawnMultiplierLow];
             })
             .SetHomeRange((int)dictionary[k.homeRange])
             .WithDefinition((int)dictionary[k.definition]);

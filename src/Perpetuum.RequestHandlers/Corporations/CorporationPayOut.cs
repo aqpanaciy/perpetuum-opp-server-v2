@@ -18,7 +18,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                 privateCorporation.PayOut(member, amount, character);
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

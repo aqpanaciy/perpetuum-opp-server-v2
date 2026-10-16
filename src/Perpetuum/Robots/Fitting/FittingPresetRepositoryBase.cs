@@ -16,7 +16,7 @@ namespace Perpetuum.Robots.Fitting
             preset.Id = Db.Query().CommandText("insert into robotfittingpresets (ownerEid,preset) values (@ownerEid,@preset);select cast(scope_identity() as int)")
                 .SetParameter("@ownerEid", preset.Owner)
                 .SetParameter("@preset", (string)preset.ToGenxyString())
-                .ExecuteScalar<int>().ThrowIfEqual(0,ErrorCodes.SQLInsertError);
+                .ExecuteScalar<int>().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
         }
 
         public void Update(FittingPreset preset)
@@ -24,7 +24,7 @@ namespace Perpetuum.Robots.Fitting
             Db.Query().CommandText("update robotfittingpresets set preset = @preset where id = @id")
                 .SetParameter("@id", preset.Id)
                 .SetParameter("@preset", preset.ToGenxyString())
-                .ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.SQLUpdateError);
+                .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLUpdateError);
         }
 
         public void Delete(FittingPreset preset)
@@ -37,11 +37,11 @@ namespace Perpetuum.Robots.Fitting
             Db.Query().CommandText("delete from robotfittingpresets where id = @id").SetParameter("@id", id).ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLDeleteError);
         }
 
-        public FittingPreset Get(int id,long ownerEid)
+        public FittingPreset Get(int id, long ownerEid)
         {
             var record = Db.Query().CommandText("select * from robotfittingpresets where id = @id and ownerEid = @ownerEid")
                 .SetParameter("@id", id)
-                .SetParameter("@ownerEid",ownerEid)
+                .SetParameter("@ownerEid", ownerEid)
                 .ExecuteSingleRow();
 
             if (record == null)

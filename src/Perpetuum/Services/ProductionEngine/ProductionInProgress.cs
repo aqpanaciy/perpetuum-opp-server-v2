@@ -24,13 +24,13 @@ namespace Perpetuum.Services.ProductionEngine
         {
             return productions.ToDictionary("c", p => p.ToDictionary());
         }
-        
-        public static IEnumerable<ProductionInProgress> GetByCorporation(this IEnumerable<ProductionInProgress> productions,Corporation corporation)
+
+        public static IEnumerable<ProductionInProgress> GetByCorporation(this IEnumerable<ProductionInProgress> productions, Corporation corporation)
         {
             return corporation.GetCharacterMembers().SelectMany(productions.GetCorporationPaidProductionsByCharacter);
         }
 
-        public static IEnumerable<ProductionInProgress> GetCorporationPaidProductionsByFacililtyAndCharacter(this IEnumerable<ProductionInProgress> productions,Character character, long facilityEid)
+        public static IEnumerable<ProductionInProgress> GetCorporationPaidProductionsByFacililtyAndCharacter(this IEnumerable<ProductionInProgress> productions, Character character, long facilityEid)
         {
             return productions.GetRunningProductionsByFacilityAndCharacter(character, facilityEid).Where(pip => pip.useCorporationWallet);
         }
@@ -40,11 +40,11 @@ namespace Perpetuum.Services.ProductionEngine
             return productions.GetByCharacter(character).Where(pip => pip.facilityEID == facilityEid);
         }
 
-        public static IEnumerable<ProductionInProgress> GetCorporationPaidProductionsByCharacter(this IEnumerable<ProductionInProgress> productions,Character character)
+        public static IEnumerable<ProductionInProgress> GetCorporationPaidProductionsByCharacter(this IEnumerable<ProductionInProgress> productions, Character character)
         {
             return productions.GetByCharacter(character).Where(pip => pip.useCorporationWallet);
         }
-        
+
         public static IEnumerable<ProductionInProgress> GetByCharacter(this IEnumerable<ProductionInProgress> productions, Character character)
         {
             return productions.Where(pip => pip.character == character);
@@ -71,7 +71,7 @@ namespace Perpetuum.Services.ProductionEngine
         public void Delete(ProductionInProgress pip)
         {
             Db.Query().CommandText("delete runningproductionreserveditem where runningid=@ID")
-                .SetParameter("@ID",pip.ID)
+                .SetParameter("@ID", pip.ID)
                 .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLDeleteError);
 
             Db.Query().CommandText("delete runningproduction where ID=@ID")
@@ -82,7 +82,7 @@ namespace Perpetuum.Services.ProductionEngine
         public IEnumerable<ProductionInProgress> GetAllByFacility(ProductionFacility facility)
         {
             return Db.Query().CommandText("select * from runningproduction where facilityEID = @facilityEID")
-                           .SetParameter("@facilityEID",facility.Eid)
+                           .SetParameter("@facilityEID", facility.Eid)
                            .Execute()
                            .Select(CreateProductionInProgressFromRecord)
                            .ToArray();
@@ -99,7 +99,7 @@ namespace Perpetuum.Services.ProductionEngine
             pip.ID = record.GetValue<int>("id");
             pip.character = Character.Get(record.GetValue<int>("characterID"));
             pip.resultDefinition = record.GetValue<int>("resultDefinition");
-            pip.type = (ProductionInProgressType) record.GetValue<int>("type");
+            pip.type = (ProductionInProgressType)record.GetValue<int>("type");
             pip.startTime = record.GetValue<DateTime>("startTime");
             pip.finishTime = record.GetValue<DateTime>("finishTime");
             pip.facilityEID = record.GetValue<long>("facilityEID");
@@ -141,7 +141,7 @@ namespace Perpetuum.Services.ProductionEngine
 
         public delegate ProductionInProgress Factory();
 
-        public ProductionInProgress(ItemHelper itemHelper,DockingBaseHelper dockingBaseHelper)
+        public ProductionInProgress(ItemHelper itemHelper, DockingBaseHelper dockingBaseHelper)
         {
             _itemHelper = itemHelper;
             _dockingBaseHelper = dockingBaseHelper;
@@ -205,10 +205,10 @@ namespace Perpetuum.Services.ProductionEngine
                 {
 
                     case ProductionInProgressType.massProduction:
-                        return totalProductionTimeSeconds  * pricePerSecond;
+                        return totalProductionTimeSeconds * pricePerSecond;
 
                     default:
-                        return totalProductionTimeSeconds  * pricePerSecond;
+                        return totalProductionTimeSeconds * pricePerSecond;
                 }
 
             }
@@ -285,10 +285,10 @@ namespace Perpetuum.Services.ProductionEngine
                 case ProductionInProgressType.patentMaterialEfficiencyDevelop:
                 case ProductionInProgressType.patentNofRunsDevelop:
                 case ProductionInProgressType.patentTimeEfficiencyDevelop:
-                {
-                    Logger.Error("consistency error! outdated production type. " + type);
-                    throw new PerpetuumException(ErrorCodes.ServerError);
-                }
+                    {
+                        Logger.Error("consistency error! outdated production type. " + type);
+                        throw new PerpetuumException(ErrorCodes.ServerError);
+                    }
 
                 case ProductionInProgressType.research:
                     transactionType = TransactionType.ProductionResearch;
@@ -314,8 +314,8 @@ namespace Perpetuum.Services.ProductionEngine
 
             //take his money
             creditTaken = Price; //safety for the cancel
-            
-            var wallet = character.GetWallet(useCorporationWallet,transactionType);
+
+            var wallet = character.GetWallet(useCorporationWallet, transactionType);
 
             if (wallet.Balance < Price)
                 return false;
@@ -359,7 +359,7 @@ namespace Perpetuum.Services.ProductionEngine
                 {
                     // >> to unpause state
                     ResumeProduction();
-                    
+
                 }
             }
         }
@@ -380,7 +380,7 @@ namespace Perpetuum.Services.ProductionEngine
                 return;
             }
 
-            var pauseMoment = (DateTime) pauseTime;
+            var pauseMoment = (DateTime)pauseTime;
 
             var doneBackThen = pauseMoment.Subtract(startTime);
 
@@ -408,7 +408,7 @@ namespace Perpetuum.Services.ProductionEngine
             paused = true;
             pauseTime = DateTime.Now;
 
-            var res=
+            var res =
             Db.Query().CommandText("update runningproduction set paused=1,pausetime=@pauseTime where id=@id").SetParameter("@pauseTime", pauseTime).SetParameter("@id", ID)
                 .ExecuteNonQuery();
 
@@ -433,7 +433,7 @@ namespace Perpetuum.Services.ProductionEngine
             if (!useCorporationWallet)
                 return;
 
-            var replyDict = new Dictionary<string, object> {{k.production, ToDictionary()}};
+            var replyDict = new Dictionary<string, object> { { k.production, ToDictionary() } };
 
             const CorporationRole roleMask = CorporationRole.CEO | CorporationRole.DeputyCEO | CorporationRole.ProductionManager | CorporationRole.Accountant;
             Message.Builder.SetCommand(command)
@@ -444,7 +444,7 @@ namespace Perpetuum.Services.ProductionEngine
 
         public void SendProductionEventToCorporationMembersOnCommitted(Command command)
         {
-            Transaction.Current.OnCommited(()=> SendProductionEventToCorporationMembers(command));
+            Transaction.Current.OnCommited(() => SendProductionEventToCorporationMembers(command));
         }
 
         public void InsertProductionInProgess()
@@ -456,7 +456,7 @@ namespace Perpetuum.Services.ProductionEngine
                 .SetParameter("@characterID", character.Id)
                 .SetParameter("@characterEID", character.Eid)
                 .SetParameter("@resultDefinition", resultDefinition)
-                .SetParameter("@type", (int) type)
+                .SetParameter("@type", (int)type)
                 .SetParameter("@startTime", startTime)
                 .SetParameter("@finishTime", finishTime)
                 .SetParameter("@facilityEID", facilityEID)

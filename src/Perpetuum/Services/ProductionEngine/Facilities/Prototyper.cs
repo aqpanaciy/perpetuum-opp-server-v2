@@ -15,7 +15,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
     {
         public static Prototyper CreateWithRandomEID(string definitionName)
         {
-            var prototyper = (Prototyper) Factory.CreateWithRandomEID(definitionName);
+            var prototyper = (Prototyper)Factory.CreateWithRandomEID(definitionName);
             prototyper.CreateSystemStorage();
             return prototyper;
         }
@@ -33,8 +33,8 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             infoDict.Add(k.percentageMaterial, GetPercentageFromAdditiveComponent(additiveComponentMaterial));
             infoDict.Add(k.percentageTime, GetPercentageFromAdditiveComponent(additiveComponentTime));
 
-            infoDict.Add(k.materialExtensionPoints, (int) GetMaterialExtensionBonus(character));
-            infoDict.Add(k.timeExtensionPoints, (int) GetTimeExtensionBonus(character));
+            infoDict.Add(k.materialExtensionPoints, (int)GetMaterialExtensionBonus(character));
+            infoDict.Add(k.timeExtensionPoints, (int)GetTimeExtensionBonus(character));
 
             return infoDict;
         }
@@ -66,12 +66,12 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             //collect standing
             //calc 
             //[-0.25 ... +0.25]
-            double standingRatio = GetStandingOfOwnerToCharacter(character)/40;
+            double standingRatio = GetStandingOfOwnerToCharacter(character) / 40;
 
             //
             double extensionBonus = GetSlotExtensionBonus(character);
 
-            return 1 + (int) (extensionBonus*(1 + standingRatio));
+            return 1 + (int)(extensionBonus * (1 + standingRatio));
 
         }
 
@@ -82,7 +82,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
 
         }
 
-       
+
 
 
 
@@ -92,11 +92,11 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
         }
 
 
-       
-       
 
 
-       
+
+
+
         public ProductionInProgress StartPrototype(Character character, ProductionDescription productionDescription, Container container, bool useCorporationWallet, out bool hasBonus)
         {
             var foundComponents = productionDescription.SearchForAvailableComponents(container).ToList();
@@ -109,7 +109,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             long[] reservedEids;
             ProductionHelper.ReserveComponents_noSQL(itemsNeeded, StorageEid, container, out reservedEids).ThrowIfError();
 
-            var prototypeTimeSeconds = CalculatePrototypeTimeSeconds(character,  productionDescription.definition);
+            var prototypeTimeSeconds = CalculatePrototypeTimeSeconds(character, productionDescription.definition);
 
             prototypeTimeSeconds = GetShortenedProductionTime(prototypeTimeSeconds);
 
@@ -140,32 +140,32 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             return productionInProgress;
         }
 
-        
+
         public int CalculatePrototypeTimeSeconds(Character character, int targetDefinition)
         {
             //(1+(100/( PC_EXT_PONT+100))*10 *Prototyper.productionTime *targetDefinition.CF.durationMultiplier
-            
+
             var durationModifier = ProductionDataAccess.GetProductionDuration(targetDefinition);
-            
-            var multiplier = 1 + (100/(GetAdditiveComponentForTime(character) + 100.0));
+
+            var multiplier = 1 + (100 / (GetAdditiveComponentForTime(character) + 100.0));
 
             var configPrototypeTime = GetProductionTimeSeconds();
 
-            var rawValue = multiplier * 10 * durationModifier * configPrototypeTime; 
-            
+            var rawValue = multiplier * 10 * durationModifier * configPrototypeTime;
+
             if (rawValue > int.MaxValue)
             {
-                Logger.Error("overflow in CalculatePrototypeTimeSeconds. definition:" + targetDefinition + " durationModifier:" + durationModifier + " multiplier:" + multiplier + " configPrototypeTime:"+configPrototypeTime + " characterID:" + character.Id);
+                Logger.Error("overflow in CalculatePrototypeTimeSeconds. definition:" + targetDefinition + " durationModifier:" + durationModifier + " multiplier:" + multiplier + " configPrototypeTime:" + configPrototypeTime + " characterID:" + character.Id);
                 rawValue = int.MaxValue;
             }
 
-            return (int) rawValue;
+            return (int)rawValue;
         }
 
 
         public long CalculatePrototypePrice(int prototypeTime, int targetDefinition)
         {
-            return (int) (GetPricePerSecond(targetDefinition) * prototypeTime);
+            return (int)(GetPricePerSecond(targetDefinition) * prototypeTime);
         }
 
 
@@ -175,7 +175,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             var standingComponent = GetStandingPoints(character);
             var facilityPoints = GetFacilityPoint();
 
-            return (int) (extensionComponent + facilityPoints + standingComponent);
+            return (int)(extensionComponent + facilityPoints + standingComponent);
         }
 
         private int GetAdditiveComponentForTime(Character character)
@@ -198,7 +198,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
 
             var itemLevel = hasBonus ? HasPrototyperBonus : NoPrototyperBonus;
 
-            var multiplier = (1 + (50/(GetAdditiveComponentForMaterial(character) + 100.0)))*itemLevel;
+            var multiplier = (1 + (50 / (GetAdditiveComponentForMaterial(character) + 100.0))) * itemLevel;
             return multiplier;
         }
 
@@ -207,7 +207,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             return EndPrototype(productionInProgress);
         }
 
-        private IDictionary<string,object> EndPrototype(ProductionInProgress productionInProgress)
+        private IDictionary<string, object> EndPrototype(ProductionInProgress productionInProgress)
         {
             Logger.Info("Prototype finished: " + productionInProgress);
 
@@ -225,7 +225,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             var outputDefinition = productionInProgress.resultDefinition;
 
             //load container
-            var container = (PublicContainer) Container.GetOrThrow(PublicContainerEid);
+            var container = (PublicContainer)Container.GetOrThrow(PublicContainerEid);
             container.ReloadItems(productionInProgress.character);
 
             var outputDefault = EntityDefault.Get(outputDefinition).ThrowIfEqual(EntityDefault.None, ErrorCodes.DefinitionNotSupported);
@@ -234,7 +234,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             var resultItem = container.CreateAndAddItem(outputDefinition, false, item =>
             {
                 item.Owner = productionInProgress.character.Eid;
-                item.Quantity = outputDefault.Quantity*productionInProgress.amountOfCycles;
+                item.Quantity = outputDefault.Quantity * productionInProgress.amountOfCycles;
             });
             container.Save();
 
@@ -250,7 +250,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             };
 
 
-            ProductionProcessor.EnqueueProductionMissionTarget(MissionTargetType.prototype, productionInProgress.character,MyMissionLocationId(), productionInProgress.resultDefinition);
+            ProductionProcessor.EnqueueProductionMissionTarget(MissionTargetType.prototype, productionInProgress.character, MyMissionLocationId(), productionInProgress.resultDefinition);
             return replyDict;
         }
 

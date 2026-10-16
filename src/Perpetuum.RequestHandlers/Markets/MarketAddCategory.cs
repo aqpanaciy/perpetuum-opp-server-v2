@@ -80,7 +80,7 @@ namespace Perpetuum.RequestHandlers.Markets
                 }
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

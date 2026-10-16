@@ -10,10 +10,10 @@ namespace Perpetuum.Zones.Terrains
         private BlockingFlags _blockingFlags;
         private byte _height;
 
-        public BlockingInfo(BlockingFlags blockingFlags,int height)
+        public BlockingInfo(BlockingFlags blockingFlags, int height)
         {
             _blockingFlags = blockingFlags;
-            _height = (byte) height;
+            _height = (byte)height;
         }
 
         public BlockingFlags Flags
@@ -24,7 +24,7 @@ namespace Perpetuum.Zones.Terrains
         public int Height
         {
             get { return _height; }
-            set { _height = (byte) value; }
+            set { _height = (byte)value; }
         }
 
         public bool Plant

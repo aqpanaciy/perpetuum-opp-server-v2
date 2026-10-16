@@ -53,9 +53,14 @@ public partial class ResearchPanelViewModel : ObservableObject
         foreach (var (pd, grp, x, y, ext) in clone.TechTree)
             TechTreeRows.Add(new TechTreePlacementRow
             {
-                ParentDefinition = pd, GroupId = grp, X = x, Y = y,
+                ParentDefinition = pd,
+                GroupId = grp,
+                X = x,
+                Y = y,
                 EnablerExtensionId = ext,
-                OriginalParentDefinition = pd, OriginalX = x, OriginalY = y
+                OriginalParentDefinition = pd,
+                OriginalX = x,
+                OriginalY = y
             });
 
         ResearchCostRows.Clear();
@@ -66,8 +71,10 @@ public partial class ResearchPanelViewModel : ObservableObject
         foreach (var (extId, lvl) in clone.EnablerExtensions)
             EnablerExtensionRows.Add(new EnablerExtensionRow
             {
-                ExtensionId = extId, ExtensionLevel = lvl,
-                OriginalExtensionId = extId, OriginalExtensionLevel = lvl
+                ExtensionId = extId,
+                ExtensionLevel = lvl,
+                OriginalExtensionId = extId,
+                OriginalExtensionLevel = lvl
             });
     }
 

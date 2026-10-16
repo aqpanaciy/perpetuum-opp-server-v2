@@ -6,7 +6,7 @@ namespace Perpetuum.RequestHandlers.Zone
     {
         public void HandleRequest(IZoneRequest request)
         {
-            var state = request.Data.GetOrDefault<int>(k.state)  == 1;
+            var state = request.Data.GetOrDefault<int>(k.state) == 1;
             request.Zone.TerraformHandler.Degrade = state;
         }
     }

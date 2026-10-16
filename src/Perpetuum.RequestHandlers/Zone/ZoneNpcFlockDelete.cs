@@ -30,7 +30,7 @@ namespace Perpetuum.RequestHandlers.Zone
                 //full list as result
                 var result = request.Zone.PresenceManager.GetPresences().ToDictionary("p", p => p.ToDictionary(true));
                 Message.Builder.SetCommand(Commands.ZoneListPresences).WithData(result).ToCharacter(character).Send();
-                
+
                 scope.Complete();
             }
         }

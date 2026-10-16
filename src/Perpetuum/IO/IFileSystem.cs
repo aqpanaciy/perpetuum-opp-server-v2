@@ -19,7 +19,7 @@ namespace Perpetuum.IO
         /// <param name="size">Size fo saved type</param>
         /// <returns>MD5 hash</returns>
         public byte[] WriteAllBytesAndMD5(string path, ReadOnlySpan<byte> bytes, int size);
-        void WriteAllLines(string path,IEnumerable<string> lines);
+        void WriteAllLines(string path, IEnumerable<string> lines);
 
         void AppendAllText(string path, string text);
         void AppendAllLines(string path, IEnumerable<string> lines);

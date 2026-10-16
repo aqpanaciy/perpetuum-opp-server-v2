@@ -7,7 +7,7 @@ namespace Perpetuum.Services.Sparks
     {
         public IEnumerable<SparkExtension> GetAllBySparkID(int sparkID)
         {
-            var records = Db.Query().CommandText("select * from sparkextensions where sparkid = @sparkID").SetParameter("@sparkID",sparkID).Execute();
+            var records = Db.Query().CommandText("select * from sparkextensions where sparkid = @sparkID").SetParameter("@sparkID", sparkID).Execute();
             var list = new List<SparkExtension>();
 
             foreach (var record in records)

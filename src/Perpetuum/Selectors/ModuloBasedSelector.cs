@@ -6,7 +6,7 @@ namespace Perpetuum.Selectors
     {
         private readonly int _maximumIndex;
         private int _currentIndex;
-        private readonly List<T> _list; 
+        private readonly List<T> _list;
 
         public ModuloBasedSelector(IEnumerable<T> enumerable)
         {
@@ -22,6 +22,6 @@ namespace Perpetuum.Selectors
             return _list[index];
         }
     }
-    
+
 
 }

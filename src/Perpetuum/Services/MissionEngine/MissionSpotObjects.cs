@@ -28,13 +28,13 @@ namespace Perpetuum.Services.MissionEngine
 
     public class MissionSpotStat : MissionSpot
     {
-        private readonly Dictionary<MissionSpotType, int> _selectableSpots = new Dictionary<MissionSpotType, int>(); 
+        private readonly Dictionary<MissionSpotType, int> _selectableSpots = new Dictionary<MissionSpotType, int>();
 
         public MissionSpotStat(MissionSpotType missionSpotType, Position position, int zoneId) : base(missionSpotType, position, zoneId)
         {
         }
 
-        private MissionSpotStat(MissionSpot spot) : base(spot.type,spot.position,spot.zoneId )
+        private MissionSpotStat(MissionSpot spot) : base(spot.type, spot.position, spot.zoneId)
         {
         }
 
@@ -73,7 +73,7 @@ namespace Perpetuum.Services.MissionEngine
         {
             _missionDataCache = missionDataCache;
         }
-        
+
         public MissionSpotType type;
         public Position position;
         public int zoneId;
@@ -88,14 +88,14 @@ namespace Perpetuum.Services.MissionEngine
 
         public static MissionSpot FromRecord(IDataRecord record)
         {
-            var spottype = (MissionSpotType) record.GetValue<int>("type");
+            var spottype = (MissionSpotType)record.GetValue<int>("type");
             var x = record.GetValue<int>("x");
             var y = record.GetValue<int>("y");
             var p = new Position(x, y);
             p = p.Center;
             var zoneIdSql = record.GetValue<int>("zoneid");
 
-            var si = new MissionSpot(spottype,p,zoneIdSql);
+            var si = new MissionSpot(spottype, p, zoneIdSql);
             return si;
         }
 
@@ -121,13 +121,13 @@ namespace Perpetuum.Services.MissionEngine
         private int CountSelectableByType(MissionSpotType missionSpotType, List<MissionSpot> spots)
         {
             return spots.Count(s => s.type == missionSpotType &&
-                                 position.ToPoint().ToPosition().TotalDistance2D((Point) s.position.ToPoint()) > 0.5 &&
+                                 position.ToPoint().ToPosition().TotalDistance2D((Point)s.position.ToPoint()) > 0.5 &&
                                  position.IsInRangeOf2D(s.position, s.findRadius) &&
                                  _missionDataCache.IsTargetSelectionValid(Zone, position, s.position));
         }
 
 
-   
+
 
         public void Save()
         {
@@ -167,7 +167,7 @@ namespace Perpetuum.Services.MissionEngine
 
                 switch (missionStructure.TargetType)
                 {
-                    
+
                     case MissionTargetType.use_itemsupply:
                         spotType = MissionSpotType.itemsupply;
                         break;
@@ -234,7 +234,7 @@ namespace Perpetuum.Services.MissionEngine
 
         private static List<Position> GetTerminalPositionsFromZone(IZone zone)
         {
-            return  zone.Units.Where(u => u.ED.CategoryFlags.IsCategory(CategoryFlags.cf_public_docking_base)).Select(t => t.CurrentPosition).ToList();
+            return zone.Units.Where(u => u.ED.CategoryFlags.IsCategory(CategoryFlags.cf_public_docking_base)).Select(t => t.CurrentPosition).ToList();
         }
 
         public static List<MissionSpot> GenerateMissionSpotsFromPositions(IZone zone, MissionSpotType missionSpotType, List<Position> positions)
@@ -247,18 +247,18 @@ namespace Perpetuum.Services.MissionEngine
 
                 result.Add(ms);
             }
-            
+
             return result;
         }
 
         public static List<MissionSpot> GetTerminalSpotsFromZone(IZone zone)
         {
             var positions = GetTerminalPositionsFromZone(zone);
-            return GenerateMissionSpotsFromPositions(zone,MissionSpotType.terminal, positions);
+            return GenerateMissionSpotsFromPositions(zone, MissionSpotType.terminal, positions);
         }
 
 
     }
 
-    
+
 }

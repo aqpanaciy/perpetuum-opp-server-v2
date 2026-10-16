@@ -35,7 +35,7 @@ namespace Perpetuum.IO
 
         public void WriteAllBytes(string path, byte[] bytes)
         {
-            File.WriteAllBytes(CreatePath(path),bytes);
+            File.WriteAllBytes(CreatePath(path), bytes);
         }
 
         public byte[] WriteAllBytesAndMD5(string path, ReadOnlySpan<byte> bytes, int size)
@@ -92,12 +92,12 @@ namespace Perpetuum.IO
 
         public void AppendAllText(string path, string text)
         {
-            File.AppendAllText(CreatePath(path),text);
+            File.AppendAllText(CreatePath(path), text);
         }
 
         public void AppendAllLines(string path, IEnumerable<string> lines)
         {
-            File.AppendAllLines(CreatePath(path),lines);
+            File.AppendAllLines(CreatePath(path), lines);
         }
 
         public void MoveFile(string sourcePath, string targetPath)
@@ -108,7 +108,7 @@ namespace Perpetuum.IO
             if (File.Exists(dest))
                 File.Delete(dest);
 
-            File.Move(src,dest);
+            File.Move(src, dest);
         }
 
         public void CreateDirectory(string path)

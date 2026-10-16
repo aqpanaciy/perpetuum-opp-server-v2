@@ -3,12 +3,12 @@ namespace Perpetuum.EntityFramework
     public static class EntityRepositoryExtensions
     {
         [NotNull]
-        public static Entity LoadOrThrow(this IEntityRepository repository,long eid)
+        public static Entity LoadOrThrow(this IEntityRepository repository, long eid)
         {
             return repository.Load(eid).ThrowIfNull(ErrorCodes.EntityNotFound);
         }
 
-        public static void DeleteTree(this IEntityRepository repository,long eid)
+        public static void DeleteTree(this IEntityRepository repository, long eid)
         {
             var entity = repository.LoadTree(eid, null).ThrowIfNull(ErrorCodes.EntityNotFound);
             repository.Delete(entity);
@@ -17,7 +17,8 @@ namespace Perpetuum.EntityFramework
         public static void DeleteTreeButNotRoot(this IEntityRepository repository, long eid)
         {
             var entity = repository.LoadTree(eid, null).ThrowIfNull(ErrorCodes.EntityNotFound);
-            foreach(var child in entity.Children){
+            foreach (var child in entity.Children)
+            {
                 repository.Delete(child);
             }
         }

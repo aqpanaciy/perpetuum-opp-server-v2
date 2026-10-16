@@ -10,7 +10,7 @@ namespace Perpetuum
 
         public Command()
         {
-            
+
         }
 
         public Command(string text)
@@ -20,7 +20,7 @@ namespace Perpetuum
 
         public void CheckArguments(Dictionary<string, object> data)
         {
-            if  (Arguments == null)
+            if (Arguments == null)
                 return;
 
             foreach (var argument in Arguments)

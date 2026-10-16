@@ -10,7 +10,7 @@ namespace Perpetuum.RequestHandlers.AdminTools
         private readonly IAccountRepository _accountRepository;
         private readonly ISessionManager _sessionManager;
 
-        public AccountBan(IAccountRepository accountRepository,ISessionManager sessionManager)
+        public AccountBan(IAccountRepository accountRepository, ISessionManager sessionManager)
         {
             _accountRepository = accountRepository;
             _sessionManager = sessionManager;

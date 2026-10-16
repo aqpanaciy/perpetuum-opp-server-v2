@@ -3,7 +3,7 @@ using Perpetuum.EntityFramework;
 
 namespace Perpetuum.Units
 {
-    public class UnitOptionalProperty<T> : IOptionalProperty,INotifyOptionalPropertyChanged
+    public class UnitOptionalProperty<T> : IOptionalProperty, INotifyOptionalPropertyChanged
     {
         private readonly IDynamicProperty<T> _property;
 
@@ -25,7 +25,7 @@ namespace Perpetuum.Units
 
         object IOptionalProperty.Value
         {
-            get { return Value; } 
+            get { return Value; }
         }
 
         public T Value

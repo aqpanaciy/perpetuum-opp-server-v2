@@ -18,7 +18,7 @@ namespace Perpetuum.Zones.PBS.Turrets
     /// <summary>
     /// Buildable defensive turret
     /// </summary>
-    public class PBSTurret : Turret, IPBSObject, IPBSAcceptsCore, IStandingController, IBlobableUnit,IBlobEmitter, IPBSUsesCore,IPBSEventHandler
+    public class PBSTurret : Turret, IPBSObject, IPBSAcceptsCore, IStandingController, IBlobableUnit, IBlobEmitter, IPBSUsesCore, IPBSEventHandler
     {
         private readonly IStandingHandler _standingHandler;
         private readonly BlobHandler<PBSTurret> _blobHandler;
@@ -28,12 +28,12 @@ namespace Perpetuum.Zones.PBS.Turrets
         private readonly PBSReinforceHandler<PBSTurret> _reinforceHandler;
         private readonly CoreUseHandler<PBSTurret> _coreUseHandler;
 
-        public PBSTurret(IStandingHandler standingHandler,PBSObjectHelper<PBSTurret>.Factory pbsObjectHelperFactory)
+        public PBSTurret(IStandingHandler standingHandler, PBSObjectHelper<PBSTurret>.Factory pbsObjectHelperFactory)
         {
             _standingHandler = standingHandler;
             _pbsObjectHelper = pbsObjectHelperFactory(this);
             _standingController = new PBSStandingController<PBSTurret>(this) { AlwaysEnabled = true };
-            
+
             _blobHandler = new BlobHandler<PBSTurret>(this);
             _blobEmitter = new BlobEmitter(this);
             _reinforceHandler = new PBSReinforceHandler<PBSTurret>(this);
@@ -41,10 +41,10 @@ namespace Perpetuum.Zones.PBS.Turrets
 
         }
 
-        private  double GetCoreMinimumFromModules()
+        private double GetCoreMinimumFromModules()
         {
             var maxCoreUsage = ActiveModules.Max(m => m.CoreUsage);
-            Logger.Info(ED.Name + " max module core usage " + maxCoreUsage );
+            Logger.Info(ED.Name + " max module core usage " + maxCoreUsage);
 
             return maxCoreUsage;
         }
@@ -65,7 +65,7 @@ namespace Perpetuum.Zones.PBS.Turrets
         public int ConstructionLevelCurrent => _pbsObjectHelper.ConstructionLevelCurrent;
         public void SetOnlineStatus(bool state, bool checkNofBase, bool forcedByServer = false)
         {
-            _pbsObjectHelper.SetOnlineStatus(state,checkNofBase,forcedByServer);
+            _pbsObjectHelper.SetOnlineStatus(state, checkNofBase, forcedByServer);
         }
 
         public bool OnlineStatus => _pbsObjectHelper.OnlineStatus;
@@ -80,7 +80,7 @@ namespace Perpetuum.Zones.PBS.Turrets
             set => _pbsObjectHelper.IsOrphaned = value;
         }
 
-        public event Action<Unit,bool> OrphanedStateChanged
+        public event Action<Unit, bool> OrphanedStateChanged
         {
             add => _pbsObjectHelper.OrphanedStateChanged += value;
             remove => _pbsObjectHelper.OrphanedStateChanged -= value;
@@ -143,7 +143,7 @@ namespace Perpetuum.Zones.PBS.Turrets
 
                 }
                 return err;
-            } 
+            }
         }
 
 
@@ -165,7 +165,7 @@ namespace Perpetuum.Zones.PBS.Turrets
         {
             var info = base.GetDebugInfo();
 
-            
+
             _pbsObjectHelper.AddToDictionary(info);
             _reinforceHandler.AddToDictionary(info);
             _coreUseHandler.AddToDictionary(info);
@@ -228,7 +228,7 @@ namespace Perpetuum.Zones.PBS.Turrets
             _pbsObjectHelper.OnUpdate(time);
             _reinforceHandler.OnUpdate(time);
         }
-       
+
         public bool TryCollectCoreConsumption(out double coreDemand)
         {
             coreDemand = 0;
@@ -281,14 +281,14 @@ namespace Perpetuum.Zones.PBS.Turrets
                 base.Enter();
             }
 
-            
+
             protected override void OnUpdate(TimeSpan time)
             {
                 base.OnUpdate(time);
 
                 //ez az extra energy state check azert kell, hogy ne legyen sorrendfuggo az update
                 //ha kivennenk akkor amikor atmegy warmupba akkor meg egyszer meghivja az active state updatejet es az visszakapcsolja az AIt
-                if (Owner.IsFullyConstructed() && Owner.OnlineStatus && Owner.CoreUseHandler.EnergyState == PBSEnergyState.active )
+                if (Owner.IsFullyConstructed() && Owner.OnlineStatus && Owner.CoreUseHandler.EnergyState == PBSEnergyState.active)
                 {
                     Owner.AI.ToActiveAI();
                 }

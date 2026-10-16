@@ -8,10 +8,10 @@ namespace Perpetuum.Zones.Movements
         private readonly Position _origin;
         private readonly double _range;
 
-        public RandomMovement(Position origin,double range)
+        public RandomMovement(Position origin, double range)
         {
             _origin = origin;
-            _range = range; 
+            _range = range;
         }
 
         private void SelectRandomDirection(Unit unit)
@@ -35,7 +35,7 @@ namespace Perpetuum.Zones.Movements
             var distanceTaken = Math.Min(unit.Speed * elapsed.TotalSeconds, 1.0);
 
             var nextPosition = unit.CurrentPosition.OffsetInDirection(unit.Direction, distanceTaken);
-            var isInHomeRange = nextPosition.IsInRangeOf2D(_origin,_range);
+            var isInHomeRange = nextPosition.IsInRangeOf2D(_origin, _range);
             var isWalkable = unit.IsWalkable(nextPosition);
 
             if (!isInHomeRange || !isWalkable)
@@ -45,7 +45,7 @@ namespace Perpetuum.Zones.Movements
             }
 
             unit.CurrentPosition = nextPosition;
-//            zone.CreateAlignedDebugBeam(BeamType.blue_20sec,nextPosition);
+            //            zone.CreateAlignedDebugBeam(BeamType.blue_20sec,nextPosition);
         }
     }
 }

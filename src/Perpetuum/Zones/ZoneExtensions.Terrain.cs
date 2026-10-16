@@ -18,7 +18,7 @@ namespace Perpetuum.Zones
                            .Select(r => new Position(r.GetValue<int>(0), r.GetValue<int>(1))).ToList();
         }
 
-        public static bool IsWalkableForNpc(this IZone zone,Point position, double slope = MIN_SLOPE)
+        public static bool IsWalkableForNpc(this IZone zone, Point position, double slope = MIN_SLOPE)
         {
             return zone.IsWalkableForNpc(position.X, position.Y, slope);
         }
@@ -38,7 +38,7 @@ namespace Perpetuum.Zones
 
         public static bool IsWalkable(this IZone zone, Point point, double slope = MIN_SLOPE)
         {
-            return zone.IsWalkable(point.ToPosition(),slope);
+            return zone.IsWalkable(point.ToPosition(), slope);
         }
 
         public static bool IsWalkable(this IZone zone, Position position, double slope = MIN_SLOPE)
@@ -59,12 +59,12 @@ namespace Perpetuum.Zones
 
         public static Position GetPosition(this IZone zone, Position position)
         {
-            return zone.GetPosition(position.intX,position.intY);
+            return zone.GetPosition(position.intX, position.intY);
         }
 
         public static Position GetPosition(this IZone zone, int x, int y)
         {
-            return new Position(x,y,zone.GetZ(x,y));
+            return new Position(x, y, zone.GetZ(x, y));
         }
 
         public static Position FixZ(this IZone zone, Position position)
@@ -72,12 +72,12 @@ namespace Perpetuum.Zones
             if (zone == null)
                 return position;
 
-            return new Position(position.X, position.Y,zone.GetZ(position));
+            return new Position(position.X, position.Y, zone.GetZ(position));
         }
 
-        public static double GetZ(this IZone zone,Position position)
+        public static double GetZ(this IZone zone, Position position)
         {
-            return zone.GetZ(position.intX,position.intY);
+            return zone.GetZ(position.intX, position.intY);
         }
 
         public static double GetZ(this IZone zone, int x, int y)
@@ -87,7 +87,7 @@ namespace Perpetuum.Zones
 
         public static Area CreateArea(this IZone zone, Position position, int range)
         {
-            return Area.FromRadius(position,range).Clamp(zone.Size);
+            return Area.FromRadius(position, range).Clamp(zone.Size);
         }
 
         public static void SaveLayers(this IZone zone)

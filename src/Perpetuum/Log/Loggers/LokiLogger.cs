@@ -86,7 +86,7 @@ namespace Perpetuum.Log.Loggers
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 SafeFallbackWrite(ex.Message);
             }

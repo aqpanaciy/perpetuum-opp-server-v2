@@ -48,7 +48,7 @@ namespace Perpetuum.RequestHandlers.Production
                 };
 
                 Message.Builder.SetCommand(Commands.ProductionLineList).WithData(reply).ToClient(request.Session).Send();
-                
+
                 scope.Complete();
             }
         }

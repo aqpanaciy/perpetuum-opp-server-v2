@@ -39,11 +39,11 @@ namespace Perpetuum.Services.MissionEngine.MissionDataCacheObjects
         private IDictionary<int, MissionLocation> _missionLocations;
         private IDictionary<int, int> _mineralDefinitionToAmountPerCycle;
         private IDictionary<MissionTargetType, int> _rewardByType;
-        private IDictionary<int, int> _levelToGrind; 
+        private IDictionary<int, int> _levelToGrind;
 
         private List<MissionResolveInfo> _missionResolveInfos;
         private Dictionary<string, double> _missionConstants;
-       
+
         private readonly List<ArtifactInfo> _missionArtifactInfos = new List<ArtifactInfo>();
         private readonly Dictionary<int, int> _mineralDefinitionToGeoscanDocumentDefinition = new Dictionary<int, int>();
 
@@ -61,17 +61,17 @@ namespace Perpetuum.Services.MissionEngine.MissionDataCacheObjects
             return amount;
         }
 
-       
+
         public int ScaleMaxGangMembers
         {
-            get { return (int) GetMissionConstantValue("ScaleMaxGangMembers"); }
+            get { return (int)GetMissionConstantValue("ScaleMaxGangMembers"); }
         }
 
         public double ScaleMineralLevelFractionForGangMember
         {
             get { return GetMissionConstantValue("ScaleMineralLevelFractionForGangMember"); }
         }
-        
+
         public double ScaleArtifactLevelFractionForGangMember
         {
             get { return GetMissionConstantValue("ScaleArtifactLevelFractionForGangMember"); }
@@ -86,7 +86,7 @@ namespace Perpetuum.Services.MissionEngine.MissionDataCacheObjects
         private readonly IZoneManager _zoneManager;
         private readonly IEntityDefaultReader _entityDefaultReader;
 
-        public MissionDataCache(IExtensionReader extensionReader,IZoneManager zoneManager,IEntityDefaultReader entityDefaultReader)
+        public MissionDataCache(IExtensionReader extensionReader, IZoneManager zoneManager, IEntityDefaultReader entityDefaultReader)
         {
             _extensionReader = extensionReader;
             _zoneManager = zoneManager;
@@ -110,7 +110,7 @@ namespace Perpetuum.Services.MissionEngine.MissionDataCacheObjects
             InitArtifactInfos();
             InitMissionResolveInfos();
             InitMissionConstants();
-            
+
             _missionLocations = Database.CreateCache<int, MissionLocation>("missionlocations", "id", MissionLocation.FromRecord);
 
             _targets = Database.CreateCache<int, MissionTarget>("missiontargets", "id", MissionTargetFactory.GenerateMissionTargetFromConfigRecord, MissionTarget.Filter);
@@ -140,11 +140,11 @@ namespace Perpetuum.Services.MissionEngine.MissionDataCacheObjects
             _levelToGrind = Database.CreateCache<int, int>("missiongrind", "missionlevel", r => r.GetValue<int>("amount"));
 
             _targetSeletionValidator = new Lazy<TargetSelectionValidator>(() => TargetSelectionValidator.CreateValidator(_zoneManager));
-           
+
             _dataCache = null;
         }
 
-       
+
 
         private void InitMissionConstants()
         {
@@ -207,7 +207,7 @@ namespace Perpetuum.Services.MissionEngine.MissionDataCacheObjects
         {
             get
             {
-                return  _missions.Values.Where(m => m.behaviourType == MissionBehaviourType.Random && m.title.Contains("missiontemplate")).ToList();
+                return _missions.Values.Where(m => m.behaviourType == MissionBehaviourType.Random && m.title.Contains("missiontemplate")).ToList();
             }
         }
 
@@ -351,7 +351,7 @@ namespace Perpetuum.Services.MissionEngine.MissionDataCacheObjects
         private static Dictionary<string, object> ListMissionTypes()
         {
             var counter = 0;
-            return (from t in Db.Query().CommandText("select id,name,category from missiontypes").Execute() select (object) new Dictionary<string, object> {{k.key, t.GetValue<int>(0)}, {k.name, t.GetValue<string>(1)}, {k.category, t.GetValue<string>(2)}}).ToDictionary(d => "t" + counter++);
+            return (from t in Db.Query().CommandText("select id,name,category from missiontypes").Execute() select (object)new Dictionary<string, object> { { k.key, t.GetValue<int>(0) }, { k.name, t.GetValue<string>(1) }, { k.category, t.GetValue<string>(2) } }).ToDictionary(d => "t" + counter++);
         }
 
 
@@ -451,9 +451,9 @@ namespace Perpetuum.Services.MissionEngine.MissionDataCacheObjects
         {
             var periodicMissions = GetPeriodicMissions().ToArray();
 
-            if (periodicMissions.Length>0)
+            if (periodicMissions.Length > 0)
             {
-                return  periodicMissions.Max(m => m.IsPeriodic ? m.PeriodMinutes : 0);
+                return periodicMissions.Max(m => m.IsPeriodic ? m.PeriodMinutes : 0);
             }
 
             return 0;
@@ -477,14 +477,14 @@ namespace Perpetuum.Services.MissionEngine.MissionDataCacheObjects
                 {
                     //level -1 + random template
 
-                    CollectConfigMissionByLocation(location,result,ref counter);
-                    CollectRandomMissionsByLocation(location,result,ref counter);
+                    CollectConfigMissionByLocation(location, result, ref counter);
+                    CollectRandomMissionsByLocation(location, result, ref counter);
 
                 }
                 else
                 {
                     //oldschool
-                    CollectConfigMissionByLocation(location,result,ref counter);
+                    CollectConfigMissionByLocation(location, result, ref counter);
 
                 }
 
@@ -494,7 +494,7 @@ namespace Perpetuum.Services.MissionEngine.MissionDataCacheObjects
         }
 
 
-        private void CollectConfigMissionByLocation(MissionLocation location, Dictionary<string,object> result, ref int counter )
+        private void CollectConfigMissionByLocation(MissionLocation location, Dictionary<string, object> result, ref int counter)
         {
             var maxLevel = 10; //
             for (var i = -1; i < maxLevel; i++)
@@ -566,7 +566,7 @@ namespace Perpetuum.Services.MissionEngine.MissionDataCacheObjects
 
             foreach (var pair in MissionBonus.BonusMultipliers)
             {
-                var oneEntry = new Dictionary<string, object>() {{k.bonus, pair.Key}, {k.multiplier, pair.Value}};
+                var oneEntry = new Dictionary<string, object>() { { k.bonus, pair.Key }, { k.multiplier, pair.Value } };
 
                 result.Add("b" + counter++, oneEntry);
             }
@@ -662,7 +662,7 @@ JOIN dbo.minerals m ON m.idx = mc.materialtype
         }
 
 
-       
+
 
         public static string GetCorporationPostFixByMissionCategory(MissionCategory missionCategory)
         {
@@ -886,12 +886,12 @@ JOIN dbo.minerals m ON m.idx = mc.materialtype
 
                 default:
                     return MissionExtensionSelector.none;
-                
+
 
             }
         }
 
-      
+
 
         [CanBeNull]
         public MissionTarget GetTargetByStructureUnit(Unit structureUnit)

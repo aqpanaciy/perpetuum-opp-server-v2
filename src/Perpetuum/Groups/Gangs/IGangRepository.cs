@@ -3,7 +3,7 @@ using Perpetuum.Accounting.Characters;
 
 namespace Perpetuum.Groups.Gangs
 {
-    public interface IGangRepository : IRepository<Guid,Gang>
+    public interface IGangRepository : IRepository<Guid, Gang>
     {
         void UpdateLeader(Gang gang, Character newLeader);
 

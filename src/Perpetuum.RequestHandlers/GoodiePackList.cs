@@ -9,7 +9,7 @@ namespace Perpetuum.RequestHandlers
         private readonly GoodiePackHandler _goodiePackHandler;
         private readonly IAccountRepository _accountRepository;
 
-        public GoodiePackList(GoodiePackHandler goodiePackHandler,IAccountRepository accountRepository)
+        public GoodiePackList(GoodiePackHandler goodiePackHandler, IAccountRepository accountRepository)
         {
             _goodiePackHandler = goodiePackHandler;
             _accountRepository = accountRepository;

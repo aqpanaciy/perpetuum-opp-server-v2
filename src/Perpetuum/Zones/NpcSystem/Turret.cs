@@ -54,7 +54,7 @@ namespace Perpetuum.Zones.NpcSystem
             {
                 AI.AttackHostile(unit);
             }
-            
+
             base.OnUnitEffectChanged(unit, effect, apply);
         }
 
@@ -64,7 +64,7 @@ namespace Perpetuum.Zones.NpcSystem
             base.OnUpdate(time);
         }
 
-        public void LockHostile(Unit unit,bool force = false)
+        public void LockHostile(Unit unit, bool force = false)
         {
             if (IsLocked(unit))
             {

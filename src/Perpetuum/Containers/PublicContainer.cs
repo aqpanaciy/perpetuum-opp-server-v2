@@ -16,7 +16,7 @@ namespace Perpetuum.Containers
 
         public new static PublicContainer GetOrThrow(long eid)
         {
-            return (PublicContainer) Container.GetOrThrow(eid);
+            return (PublicContainer)Container.GetOrThrow(eid);
         }
 
         public static PublicContainer CreateWithRandomEID()

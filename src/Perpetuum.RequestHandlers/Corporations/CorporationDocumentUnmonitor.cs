@@ -9,8 +9,8 @@ namespace Perpetuum.RequestHandlers.Corporations
         {
             var character = request.Session.Character;
             var documentId = request.Data.GetOrDefault<int>(k.ID);
- 
-            CorporationDocumentHelper.UnRegisterCharacterFromDocument(documentId,character);
+
+            CorporationDocumentHelper.UnRegisterCharacterFromDocument(documentId, character);
 
 #if DEBUG
             Message.Builder.FromRequest(request).WithOk().Send();

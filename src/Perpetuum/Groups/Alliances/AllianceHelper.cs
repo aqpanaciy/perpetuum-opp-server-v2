@@ -23,9 +23,9 @@ namespace Perpetuum.Groups.Alliances
                 var result = new Dictionary<string, object>
                 {
                     {k.allianceEID, record.GetValue<long>(0)},
-                    {k.name, record.GetValue<string>(1)}, 
-                    {k.defaultAlliance, record.GetValue<bool>(2)}, 
-                    {k.nick, record.GetValue<string>(3)}, 
+                    {k.name, record.GetValue<string>(1)},
+                    {k.defaultAlliance, record.GetValue<bool>(2)},
+                    {k.nick, record.GetValue<string>(3)},
                     {k.active, record.GetValue<bool>(4)},
                     {k.logoResource, record.GetValue<string>(5)}
                 };
@@ -58,12 +58,12 @@ namespace Perpetuum.Groups.Alliances
         public static AllianceRole GetAllRoles()
         {
             var result = 0;
-            foreach (var v in Enum.GetValues(typeof (AllianceRole)))
+            foreach (var v in Enum.GetValues(typeof(AllianceRole)))
             {
-                result = result | (int) v;
+                result = result | (int)v;
             }
 
-            return (AllianceRole) result;
+            return (AllianceRole)result;
         }
 
         public static Dictionary<string, object> AllianceRoleHistory(long allianceEid)
@@ -72,7 +72,7 @@ namespace Perpetuum.Groups.Alliances
             var counter = 0;
             foreach (var record in Db.Query().CommandText("select issuerID,memberID,oldrole,newrole,rolesettime from alliancerolehistory where allianceEID=@allianceEID").SetParameter("@allianceEID", allianceEid).Execute())
             {
-                var oneEntry = new Dictionary<string, object> {{k.issuerID, record.GetValue<int>(0)}, {k.memberID, record.GetValue<int>(1)}, {k.oldRole, record.GetValue<int>(2)}, {k.newRole, record.GetValue<int>(3)}, {k.date, record.GetValue<DateTime>(4)}};
+                var oneEntry = new Dictionary<string, object> { { k.issuerID, record.GetValue<int>(0) }, { k.memberID, record.GetValue<int>(1) }, { k.oldRole, record.GetValue<int>(2) }, { k.newRole, record.GetValue<int>(3) }, { k.date, record.GetValue<DateTime>(4) } };
 
                 result.Add("c" + counter++, oneEntry);
             }
@@ -86,7 +86,7 @@ namespace Perpetuum.Groups.Alliances
             var allianceName = "";
             switch (fractionString)
             {
-                
+
                 case "asi":
                     allianceName = "megacorp_ASI";
                     break;

@@ -34,17 +34,17 @@ namespace Perpetuum.Zones.NpcSystem.SafeSpawnPoints
 
         public void Delete(SafeSpawnPoint point)
         {
-            Db.Query().CommandText("delete npcsafespawnpoints where id=@id").SetParameter("@id",point.Id).ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.SQLDeleteError);
+            Db.Query().CommandText("delete npcsafespawnpoints where id=@id").SetParameter("@id", point.Id).ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLDeleteError);
         }
 
         public IEnumerable<SafeSpawnPoint> GetAll()
         {
-            return Db.Query().CommandText("select * from npcsafespawnpoints where zoneId = @zoneId").SetParameter("@zoneId",_zone.Id).Execute().Select(r =>
+            return Db.Query().CommandText("select * from npcsafespawnpoints where zoneId = @zoneId").SetParameter("@zoneId", _zone.Id).Execute().Select(r =>
             {
                 var point = new SafeSpawnPoint
                 {
-                    Id = r.GetValue<int>("id"), 
-                    ZoneId = r.GetValue<int>("zoneId"), 
+                    Id = r.GetValue<int>("id"),
+                    ZoneId = r.GetValue<int>("zoneId"),
                     Location = new Point(r.GetValue<int>("x"), r.GetValue<int>("y"))
                 };
 

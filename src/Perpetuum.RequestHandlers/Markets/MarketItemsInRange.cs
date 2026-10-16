@@ -11,7 +11,7 @@ namespace Perpetuum.RequestHandlers.Markets
         private readonly MarketHandler _marketHandler;
         private readonly IMarketOrderRepository _marketOrderRepository;
 
-        public MarketItemsInRange(MarketHandler marketHandler,IMarketOrderRepository marketOrderRepository)
+        public MarketItemsInRange(MarketHandler marketHandler, IMarketOrderRepository marketOrderRepository)
         {
             _marketHandler = marketHandler;
             _marketOrderRepository = marketOrderRepository;

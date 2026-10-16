@@ -11,7 +11,7 @@ namespace Perpetuum.Zones.Terrains
 
         public LayerTypeFlags(params LayerType[] layerTypes)
         {
-            SetMany(layerTypes,true);
+            SetMany(layerTypes, true);
         }
 
         public bool HasFlag(LayerType layerType)
@@ -27,17 +27,17 @@ namespace Perpetuum.Zones.Terrains
 
         public void SetAll(bool value)
         {
-            _flags = (byte) (value ? 255 : 0);
+            _flags = (byte)(value ? 255 : 0);
         }
 
-        public void SetMany(IList<LayerType> layerTypes,bool value)
+        public void SetMany(IList<LayerType> layerTypes, bool value)
         {
-            if ( layerTypes == null )
+            if (layerTypes == null)
                 return;
 
             for (var i = 0; i < layerTypes.Count; i++)
             {
-                Set(layerTypes[i],value);
+                Set(layerTypes[i], value);
             }
         }
 
@@ -53,7 +53,7 @@ namespace Perpetuum.Zones.Terrains
             {
                 unchecked
                 {
-                    _flags &= (byte)(~bit);                    
+                    _flags &= (byte)(~bit);
                 }
             }
         }
@@ -66,9 +66,9 @@ namespace Perpetuum.Zones.Terrains
             var tmpFlags = _flags;
             while (tmpFlags > 0)
             {
-                if ( (tmpFlags & 1) > 0 )
+                if ((tmpFlags & 1) > 0)
                 {
-                    result.Add((LayerType) index);
+                    result.Add((LayerType)index);
                 }
 
                 tmpFlags >>= 1;

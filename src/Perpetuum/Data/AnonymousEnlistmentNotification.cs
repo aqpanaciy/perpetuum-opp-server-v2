@@ -9,7 +9,7 @@ namespace Perpetuum.Data
         private readonly Action _onRollback;
         private readonly Action _onCompleted;
 
-        private AnonymousEnlistmentNotification(Action onCommit,Action onRollback,Action onCompleted)
+        private AnonymousEnlistmentNotification(Action onCommit, Action onRollback, Action onCompleted)
         {
             _onCommit = onCommit;
             _onRollback = onRollback;

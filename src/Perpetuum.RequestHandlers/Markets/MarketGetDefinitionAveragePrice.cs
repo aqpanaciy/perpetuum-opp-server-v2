@@ -11,7 +11,7 @@ namespace Perpetuum.RequestHandlers.Markets
         private readonly IMarketInfoService _marketInfoService;
         private readonly MarketHandler _marketHandler;
 
-        public MarketGetDefinitionAveragePrice(IEntityServices entityServices,IMarketInfoService marketInfoService,MarketHandler marketHandler)
+        public MarketGetDefinitionAveragePrice(IEntityServices entityServices, IMarketInfoService marketInfoService, MarketHandler marketHandler)
         {
             _entityServices = entityServices;
             _marketInfoService = marketInfoService;

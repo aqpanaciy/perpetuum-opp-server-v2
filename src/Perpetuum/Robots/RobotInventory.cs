@@ -7,7 +7,7 @@ using Perpetuum.Items;
 
 namespace Perpetuum.Robots
 {
-   
+
     /// <summary>
     /// Limited capacity inventory for a robot
     /// </summary>
@@ -19,7 +19,7 @@ namespace Perpetuum.Robots
                 base.AcceptVisitor(visitor);
         }
 
-        public override void AddItem(Item item,long issuerEid, bool doStack)
+        public override void AddItem(Item item, long issuerEid, bool doStack)
         {
             (item.IsCategory(CategoryFlags.cf_robots) && !item.IsRepackaged).ThrowIfTrue(ErrorCodes.ItemHasToBeRepackaged);
 
@@ -28,7 +28,7 @@ namespace Perpetuum.Robots
                 item.ThrowIfNotType<VolumeWrapperContainer>(ErrorCodes.ContainersAreNotSupported);
             }
 
-            base.AddItem(item,issuerEid, doStack);
+            base.AddItem(item, issuerEid, doStack);
         }
 
         public override void ReloadItems(long? issuerEid)
@@ -45,16 +45,16 @@ namespace Perpetuum.Robots
         public ErrorCodes CheckParentRobot(long? issuerEid)
         {
             var robot = GetOrLoadParentEntity() as Robot;
-            if ( robot == null )
+            if (robot == null)
                 return ErrorCodes.NoError;
-                
+
             if (issuerEid != null && robot.Owner != issuerEid)
                 return ErrorCodes.AccessDenied;
 
-            if ( !robot.IsSingleAndUnpacked )
+            if (!robot.IsSingleAndUnpacked)
                 return ErrorCodes.RobotMustbeSingleAndNonRepacked;
 
-            if ( robot.IsTrashed )
+            if (robot.IsTrashed)
                 return ErrorCodes.AccessDenied;
 
             return ErrorCodes.NoError;

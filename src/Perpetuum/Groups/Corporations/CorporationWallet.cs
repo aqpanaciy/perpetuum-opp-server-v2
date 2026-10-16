@@ -35,7 +35,7 @@ namespace Perpetuum.Groups.Corporations
 
         protected override void OnCommited(double startBalance)
         {
-            var result = new Dictionary<string, object> {{ k.wallet, (long)GetBalance() }};
+            var result = new Dictionary<string, object> { { k.wallet, (long)GetBalance() } };
             Message.Builder.SetCommand(Commands.CorporationGetMyInfo)
                 .WithData(result)
                 .ToCharacters(Corporation.GetCharacterMembers()).Send();

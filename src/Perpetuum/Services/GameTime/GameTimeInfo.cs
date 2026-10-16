@@ -45,11 +45,11 @@ namespace Perpetuum.Services.Daytime
             if (GameTimeStamp > DAY_START && GameTimeStamp < DAY_END)
             {
                 return DayState.DAY;
-            } 
+            }
             else if (GameTimeStamp > NIGHT_START || GameTimeStamp < NIGHT_END)
             {
                 return DayState.NIGHT;
-            } 
+            }
             else
             {
                 return DayState.NEUTRAL;

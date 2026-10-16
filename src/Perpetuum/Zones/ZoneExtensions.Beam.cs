@@ -50,7 +50,7 @@ namespace Perpetuum.Zones
             zone.CreateBeam(builder);
         }
 
-        public static void CreateBeam(this IZone zone,IBeamBuilder builder)
+        public static void CreateBeam(this IZone zone, IBeamBuilder builder)
         {
             if (zone == null || builder == null)
                 return;

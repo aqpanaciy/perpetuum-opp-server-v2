@@ -22,16 +22,16 @@ namespace Perpetuum.AdminTool.Economy
             await using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                var name  = reader.GetString(0);
+                var name = reader.GetString(0);
                 var value = reader.GetDouble(1);
                 InsuranceLabels.Map.TryGetValue(name, out var meta);
                 result.Add(new InsuranceConfigRow
                 {
-                    ParamName     = name,
-                    ParamValue    = value,
+                    ParamName = name,
+                    ParamValue = value,
                     OriginalValue = value,
-                    Label         = meta?.Label       ?? name,
-                    Description   = meta?.Description ?? "",
+                    Label = meta?.Label ?? name,
+                    Description = meta?.Description ?? "",
                 });
             }
             return result;
@@ -58,10 +58,10 @@ namespace Perpetuum.AdminTool.Economy
             {
                 result.Add(new InsurancePriceRow
                 {
-                    ItemName          = reader.GetString(0),
+                    ItemName = reader.GetString(0),
                     ProductionCostNic = reader.IsDBNull(1) ? 0.0 : reader.GetDouble(1),
-                    Fee               = reader.GetDouble(2),
-                    Payout            = reader.GetDouble(3),
+                    Fee = reader.GetDouble(2),
+                    Payout = reader.GetDouble(3),
                 });
             }
             return result;
@@ -72,7 +72,7 @@ namespace Perpetuum.AdminTool.Economy
             await using var cn = new SqlConnection(_connection.BuildConnectionString());
             await cn.OpenAsync();
             await using var cmd = cn.CreateCommand();
-            cmd.CommandText    = "exec usp_RecalculateInsurancePrices";
+            cmd.CommandText = "exec usp_RecalculateInsurancePrices";
             cmd.CommandTimeout = 60;
             await cmd.ExecuteNonQueryAsync();
         }

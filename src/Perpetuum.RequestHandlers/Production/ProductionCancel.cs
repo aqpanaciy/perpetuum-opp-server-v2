@@ -20,7 +20,7 @@ namespace Perpetuum.RequestHandlers.Production
                 var id = request.Data.GetOrDefault<int>(k.ID);
                 var character = request.Session.Character;
                 _productionProcessor.CancelProduction(character, id);
-                
+
                 scope.Complete();
             }
         }

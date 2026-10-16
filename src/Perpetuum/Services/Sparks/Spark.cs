@@ -22,7 +22,7 @@ namespace Perpetuum.Services.Sparks
         public List<SparkExtension> Extensions { get; set; }
         public List<Extension> RelatedExtensions { get; set; }
 
-        public Dictionary<string,object> ToDictionary()
+        public Dictionary<string, object> ToDictionary()
         {
             var info = new Dictionary<string, object>
             {
@@ -52,7 +52,7 @@ namespace Perpetuum.Services.Sparks
                 character.SetExtension(new Extension(extension.id, 0));
             }
         }
-            
+
         public void SetRelatedExtensions(Character character)
         {
             foreach (var extension in RelatedExtensions)

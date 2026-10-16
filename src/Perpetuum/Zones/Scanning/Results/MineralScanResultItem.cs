@@ -13,12 +13,12 @@ namespace Perpetuum.Zones.Scanning.Results
     public class MineralScanResultItem : Item
     {
         private static readonly EntityDefault _entityDefault = EntityDefault.GetByName(DefinitionNames.MINING_PROBE_RESULT_TILE);
-       
+
         private readonly IDynamicProperty<IDictionary<string, object>> _info;
-        
+
         public MineralScanResultItem()
         {
-            _info = DynamicProperties.GetProperty(k.probeInfo, () => (IDictionary<string, object>) new Dictionary<string, object>());
+            _info = DynamicProperties.GetProperty(k.probeInfo, () => (IDictionary<string, object>)new Dictionary<string, object>());
         }
 
         public override Dictionary<string, object> ToDictionary()
@@ -43,7 +43,7 @@ namespace Perpetuum.Zones.Scanning.Results
             result.MaterialType = dictionary.GetValue<string>(k.mineral).ToMaterialType();
             result.ZoneId = dictionary.GetValue<int>(k.zone);
             result.Creation = dictionary.GetValue<DateTime>(k.date);
-           
+
             return result;
         }
 

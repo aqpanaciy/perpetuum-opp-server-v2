@@ -32,7 +32,7 @@ namespace Perpetuum.Zones.Terrains.Materials
             public readonly ItemInfo itemInfo;
             public readonly double chance;
 
-            private RareMaterialInfo(ItemInfo itemInfo,double chance)
+            private RareMaterialInfo(ItemInfo itemInfo, double chance)
             {
                 this.itemInfo = itemInfo;
                 this.chance = chance;
@@ -43,8 +43,8 @@ namespace Perpetuum.Zones.Terrains.Materials
                 var definition = record.GetValue<int>("raredefinition");
                 var quantity = record.GetValue<int>("quantity");
                 var chance = record.GetValue<double>("chance");
-                
-                return new RareMaterialInfo(new ItemInfo(definition,quantity), chance);
+
+                return new RareMaterialInfo(new ItemInfo(definition, quantity), chance);
             }
         }
     }

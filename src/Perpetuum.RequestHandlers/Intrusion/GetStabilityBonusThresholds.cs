@@ -7,7 +7,7 @@ namespace Perpetuum.RequestHandlers.Intrusion
     {
         public void HandleRequest(IRequest request)
         {
-            var data = Outpost.StabilityBonusThresholds.ToDictionary("s",i => i.ToDictionary());
+            var data = Outpost.StabilityBonusThresholds.ToDictionary("s", i => i.ToDictionary());
             Message.Builder.FromRequest(request).WithData(data).WithEmpty().Send();
         }
     }

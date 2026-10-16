@@ -38,9 +38,9 @@ namespace Perpetuum
         [Pure]
         public static bool IsValueInEnum<T>(this int value)
         {
-            Debug.Assert(typeof (T).IsEnum, "invalid enum type (" + typeof (T) + ")");
-            Debug.Assert(Enum.GetUnderlyingType(typeof (T)) == typeof (int), $"Invalid underlying type ({Enum.GetUnderlyingType(typeof (T)).Name} != int)");
-            return Enum.GetValues(typeof (T)).Cast<int>().Any(enumValue => enumValue == value);
+            Debug.Assert(typeof(T).IsEnum, "invalid enum type (" + typeof(T) + ")");
+            Debug.Assert(Enum.GetUnderlyingType(typeof(T)) == typeof(int), $"Invalid underlying type ({Enum.GetUnderlyingType(typeof(T)).Name} != int)");
+            return Enum.GetValues(typeof(T)).Cast<int>().Any(enumValue => enumValue == value);
         }
 
         [UsedImplicitly, Pure]
@@ -51,7 +51,7 @@ namespace Perpetuum
 
         public static byte ToByte(this bool value)
         {
-            return (byte) (value ? 1 : 0);
+            return (byte)(value ? 1 : 0);
         }
 
 
@@ -60,13 +60,13 @@ namespace Perpetuum
             if (max.IsZero() || double.IsNaN(max))
                 return 0.0;
 
-            return (current/max).Clamp();
+            return (current / max).Clamp();
         }
 
 
         public static long ToFixedFloat(this double value)
         {
-            return unchecked((long) (value*0x100000000));
+            return unchecked((long)(value * 0x100000000));
         }
 
         [Pure, UsedImplicitly]
@@ -115,7 +115,7 @@ namespace Perpetuum
 
         public static int Mix(this int source, int target, double mix, bool safe = true)
         {
-            return (int) ((double) source).Mix(target, mix, safe);
+            return (int)((double)source).Mix(target, mix, safe);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Perpetuum
         /// </summary>
         public static ushort Mix(this ushort source, ushort target, double mix, bool safe = true)
         {
-            return (ushort) ((double) source).Mix(target, mix, safe);
+            return (ushort)((double)source).Mix(target, mix, safe);
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace Perpetuum
             if (safe)
                 mix = mix.Clamp();
 
-            var diff = (target - source)*mix;
+            var diff = (target - source) * mix;
             return source + diff;
         }
 
@@ -149,9 +149,9 @@ namespace Perpetuum
             if (value >= thresholdLimit + thresholdLenght)
                 return 0.0;
 
-            var remaining = (value - thresholdLimit)/thresholdLenght;
+            var remaining = (value - thresholdLimit) / thresholdLenght;
 
-            return (Math.Sin((Math.PI/2) + (remaining*Math.PI)) + 1)/2;
+            return (Math.Sin((Math.PI / 2) + (remaining * Math.PI)) + 1) / 2;
         }
 
         public static IEnumerable<decimal> SplitIntoChunks(this decimal num, int chunkSize)
@@ -160,26 +160,26 @@ namespace Perpetuum
             while (offset < num)
             {
                 var size = Math.Min(chunkSize, num - offset);
-                yield return (int) size;
+                yield return (int)size;
                 offset += size;
             }
         }
 
         public static double CosineInterpolate(this double from, double to, double m)
         {
-            var m2 = (1.0 - Math.Cos(m*Math.PI))/2;
+            var m2 = (1.0 - Math.Cos(m * Math.PI)) / 2;
             return from.LinearInterpolate(to, m2);
         }
 
         public static double LinearInterpolate(this double from, double to, double m)
         {
-            return from*(1.0 - m) + to*m;
+            return from * (1.0 - m) + to * m;
         }
 
         public static double Normalize(this double value, double min, double max)
         {
             Debug.Assert(value >= 0.0 && value <= 1.0);
-            return value*(max - min) + min;
+            return value * (max - min) + min;
         }
 
         public static bool TryGetValue<T>(this T? source, out T value) where T : struct
@@ -190,20 +190,20 @@ namespace Perpetuum
                 return false;
             }
 
-            value = (T) source;
+            value = (T)source;
             return true;
         }
 
 
         public static int RotateLeft(this int value, int count)
         {
-            uint val = (uint) value;
-            return (int) ((val << count) | (val >> (32 - count)));
+            uint val = (uint)value;
+            return (int)((val << count) | (val >> (32 - count)));
         }
 
         public static int RotateRight(this int value, int count)
         {
-            uint val = (uint) value;
+            uint val = (uint)value;
             return (int)((val >> count) | (val << (32 - count)));
         }
 

@@ -51,7 +51,7 @@ namespace Perpetuum.RequestHandlers.TechTree
 
                 points.AddAvailablePointsToDictionary(result);
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

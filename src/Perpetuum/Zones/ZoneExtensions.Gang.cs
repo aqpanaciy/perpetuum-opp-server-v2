@@ -17,7 +17,7 @@ namespace Perpetuum.Zones
             foreach (var player in zone.Players)
             {
                 var gang = player.Gang;
-                if ( gang == null )
+                if (gang == null)
                     continue;
 
                 if (gang.Id == id)

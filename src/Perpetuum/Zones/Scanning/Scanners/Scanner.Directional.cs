@@ -55,10 +55,10 @@ namespace Perpetuum.Zones.Scanning.Scanners
         private static Packet BuildPacket(MaterialType materialType, Position fromPosition, Point nearestMineralPosition, double direction, bool isInRange)
         {
             var packet = new Packet(ZoneCommand.ScanMineralDirectionalResult);
-            packet.AppendInt((int) materialType);
+            packet.AppendInt((int)materialType);
             packet.AppendPoint(fromPosition);
             packet.AppendBool(nearestMineralPosition != Point.Empty);
-            packet.AppendByte((byte) (direction*255));
+            packet.AppendByte((byte)(direction * 255));
             packet.AppendBool(isInRange);
             return packet;
         }

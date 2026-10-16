@@ -94,7 +94,7 @@ namespace Perpetuum.Zones.Decors
             return -1;
         }
 
-        public ErrorCodes FindQuaternionRotationAndMirror( ref int turns, ref bool flipX, ref bool flipY)
+        public ErrorCodes FindQuaternionRotationAndMirror(ref int turns, ref bool flipX, ref bool flipY)
         {
             if (!(Math.Abs(scale - 1) < double.Epsilon || Math.Abs(scale - (-1)) < double.Epsilon)) return ErrorCodes.DecorScaled;
 

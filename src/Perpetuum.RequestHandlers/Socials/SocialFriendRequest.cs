@@ -28,21 +28,21 @@ namespace Perpetuum.RequestHandlers.Socials
                 {
                     // ha blokkol akkor hiba van
                     case SocialState.Blocked:
-                    {
-                        throw new PerpetuumException(ErrorCodes.TargetBlockedTheRequest);
-                    }
+                        {
+                            throw new PerpetuumException(ErrorCodes.TargetBlockedTheRequest);
+                        }
                     // ha mar baratok akkor is hiba
                     case SocialState.Friend:
-                    {
-                        throw new PerpetuumException(ErrorCodes.CharacterAlreadyFriend);
-                    }
+                        {
+                            throw new PerpetuumException(ErrorCodes.CharacterAlreadyFriend);
+                        }
                     // ha mar volt baratkero akkor automatikusan baratok lesznek, elvileg ilyen nem tortenhet
                     case SocialState.FriendRequest:
-                    {
-                        mySocial.SetFriendSocialState(friendCharacter, SocialState.Friend).ThrowIfError();
-                        friendSocial.SetFriendSocialState(myCharacter, SocialState.Friend).ThrowIfError();
-                        return;
-                    }
+                        {
+                            mySocial.SetFriendSocialState(friendCharacter, SocialState.Friend).ThrowIfError();
+                            friendSocial.SetFriendSocialState(myCharacter, SocialState.Friend).ThrowIfError();
+                            return;
+                        }
                 }
 
                 mySocial.SetFriendSocialState(friendCharacter, SocialState.PendingFriendRequest, reason).ThrowIfError();

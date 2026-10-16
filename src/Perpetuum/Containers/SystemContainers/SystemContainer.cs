@@ -22,7 +22,7 @@ namespace Perpetuum.Containers.SystemContainers
         public static SystemContainer GetByName(string name)
         {
             var eid = _entityStorage[name];
-            return (SystemContainer) Repository.LoadOrThrow(eid);
+            return (SystemContainer)Repository.LoadOrThrow(eid);
         }
     }
 }

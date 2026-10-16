@@ -45,7 +45,7 @@ namespace Perpetuum.RequestHandlers
                     };
                     Message.Builder.FromRequest(request).WithData(result).WrapToResult().Send();
                 });
-                
+
                 scope.Complete();
             }
         }

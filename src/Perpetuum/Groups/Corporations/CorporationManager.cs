@@ -187,7 +187,7 @@ namespace Perpetuum.Groups.Corporations
                     {
                         var leaveDate = record.GetValue<DateTime>(0);
                         var character = Character.Get(record.GetValue<int>(1));
-                        if (character == Character.None) 
+                        if (character == Character.None)
                             continue;
 
                         if (leaveDate > DateTime.Now)
@@ -292,7 +292,7 @@ namespace Perpetuum.Groups.Corporations
         public IDictionary<string, object> GetYellowPages(long corporationeid)
         {
             var record = Db.Query().CommandText("select * from yellowpages where corporationeid=@corporationeid")
-                .SetParameter("@corporationeid",corporationeid)
+                .SetParameter("@corporationeid", corporationeid)
                 .ExecuteSingleRow();
 
             if (record == null)
@@ -303,7 +303,7 @@ namespace Perpetuum.Groups.Corporations
 
         public void DeleteYellowPages(long corporationEid)
         {
-            Db.Query().CommandText("delete yellowpages where corporationeid=@corporationeid").SetParameter("@corporationeid",corporationEid).ExecuteNonQuery();
+            Db.Query().CommandText("delete yellowpages where corporationeid=@corporationeid").SetParameter("@corporationeid", corporationEid).ExecuteNonQuery();
         }
 
         public DateTime GetJoinEnd(Character member, long corporationEID, out bool isJoinActive)
@@ -352,9 +352,9 @@ namespace Perpetuum.Groups.Corporations
 
         public ErrorCodes IsInJoinOrLeave(Character character)
         {
-            if (IsInLeavePeriod(character)) 
+            if (IsInLeavePeriod(character))
                 return ErrorCodes.CorporationMemberInLeavePeriod;
-            if (!IsJoinPeriodExpired(character,character.CorporationEid)) 
+            if (!IsJoinPeriodExpired(character, character.CorporationEid))
                 return ErrorCodes.CorporationCharacterInJoinPeriod;
 
             return ErrorCodes.NoError;
@@ -425,7 +425,7 @@ namespace Perpetuum.Groups.Corporations
             InformCorporationMemberTransferred(oldCorporation, newCorporation, member, Character.None);
         }
 
-        public void InformCorporationMemberTransferred(Corporation oldCorporation, Corporation newCorporation,Character member,Character kicker)
+        public void InformCorporationMemberTransferred(Corporation oldCorporation, Corporation newCorporation, Character member, Character kicker)
         {
             var data = new Dictionary<string, object>
             {

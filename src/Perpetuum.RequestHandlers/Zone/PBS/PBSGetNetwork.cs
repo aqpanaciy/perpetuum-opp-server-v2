@@ -15,7 +15,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
             var isAdmin = request.Session.AccessLevel.IsAdminOrGm() && request.Data.ContainsKey(k.all);
             var character = request.Session.Character;
 
-            Corporation.GetCorporationEidAndRoleFromSql(character,out long corporationEid,out CorporationRole role);
+            Corporation.GetCorporationEidAndRoleFromSql(character, out long corporationEid, out CorporationRole role);
 
             DefaultCorporationDataCache.IsCorporationDefault(corporationEid).ThrowIfTrue(ErrorCodes.CharacterMustBeInPrivateCorporation);
 
@@ -37,7 +37,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
 
             foreach (var unit in request.Zone.Units.Where(o => o is IPBSObject))
             {
-                var pbsObject = (IPBSObject) unit;
+                var pbsObject = (IPBSObject)unit;
 
                 if (isAdmin || unit.Owner == corporationEid || pbsObject.IsOrphaned)
                 {
@@ -60,14 +60,14 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
                         orphanedNodes.Add(unit);
                     }
                 }
-                
-            
+
+
             }
 
             var counter = 0;
             foreach (var node in ourNodes)
             {
-                network.Add("c"+counter++, node.ToDictionary());
+                network.Add("c" + counter++, node.ToDictionary());
             }
 
             //if we own a docking base on the zone we'll see the orphaned nodes regardless of the owner
@@ -75,7 +75,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
             {
                 foreach (var orphanedNode in orphanedNodes)
                 {
-                    network.Add("c"+counter++, orphanedNode.ToDictionary());
+                    network.Add("c" + counter++, orphanedNode.ToDictionary());
                 }
             }
 
@@ -85,6 +85,6 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
         }
 
 
-       
+
     }
 }

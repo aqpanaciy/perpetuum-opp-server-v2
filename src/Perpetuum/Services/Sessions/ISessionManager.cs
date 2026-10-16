@@ -11,7 +11,7 @@ namespace Perpetuum.Services.Sessions
         ISession GetByAccount(Account account);
         ISession GetByAccount(int accountId);
         ISession GetByCharacter(int characterid);
-        IEnumerable<ISession> Sessions { get;}
+        IEnumerable<ISession> Sessions { get; }
         IEnumerable<Character> SelectedCharacters { get; }
         bool Contains(SessionID sessionId);
         bool IsOnline(Character character);

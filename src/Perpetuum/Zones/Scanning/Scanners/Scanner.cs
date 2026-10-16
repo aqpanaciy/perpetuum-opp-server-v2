@@ -14,7 +14,7 @@ namespace Perpetuum.Zones.Scanning.Scanners
 
         public delegate Scanner Factory(IZone zone, Player player, GeoScannerModule module);
 
-        public Scanner(IZone zone,Player player,GeoScannerModule module,MaterialHelper materialHelper)
+        public Scanner(IZone zone, Player player, GeoScannerModule module, MaterialHelper materialHelper)
         {
             _zone = zone;
             _player = player;
@@ -22,10 +22,10 @@ namespace Perpetuum.Zones.Scanning.Scanners
             _materialHelper = materialHelper;
         }
 
-        private void OnMineralScanned(MaterialProbeType materialProbeType,MaterialType materialType = MaterialType.Undefined)
+        private void OnMineralScanned(MaterialProbeType materialProbeType, MaterialType materialType = MaterialType.Undefined)
         {
             var m = _materialHelper.GetMaterialInfo(materialType);
-            _player.MissionHandler.EnqueueMissionEventInfo(new ScanMaterialEventInfo(_player,m.EntityDefault.Definition,materialProbeType, _player.CurrentPosition )); 
+            _player.MissionHandler.EnqueueMissionEventInfo(new ScanMaterialEventInfo(_player, m.EntityDefault.Definition, materialProbeType, _player.CurrentPosition));
         }
     }
 }

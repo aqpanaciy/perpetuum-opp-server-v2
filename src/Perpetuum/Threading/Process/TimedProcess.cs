@@ -34,7 +34,7 @@ namespace Perpetuum.Threading.Process
     {
         private readonly TimeSpan _interval;
 
-        public TimedProcess(IProcess process,TimeSpan interval) : base(process)
+        public TimedProcess(IProcess process, TimeSpan interval) : base(process)
         {
             _interval = interval;
         }
@@ -45,7 +45,7 @@ namespace Perpetuum.Threading.Process
         {
             _elapsed += time;
 
-            if ( _elapsed < _interval )
+            if (_elapsed < _interval)
                 return;
 
             _elapsed -= _interval;

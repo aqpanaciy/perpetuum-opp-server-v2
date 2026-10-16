@@ -35,7 +35,7 @@ namespace Perpetuum.Modules.EffectModules
 
         protected override void OnApplyingEffect(Unit target)
         {
-            target.SpreadAssistThreatToNpcs(ParentRobot,new Threat(ThreatType.Support,Threat.REMOTE_SENSOR_BOOSTER));
+            target.SpreadAssistThreatToNpcs(ParentRobot, new Threat(ThreatType.Support, Threat.REMOTE_SENSOR_BOOSTER));
         }
 
         protected override void SetupEffect(EffectBuilder effectBuilder)

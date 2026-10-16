@@ -16,7 +16,7 @@ namespace Perpetuum.Data
 
         private static readonly ConcurrentDictionary<int, string> _cachedCommands = new ConcurrentDictionary<int, string>();
 
-        private static int CalculateHashCode(string command,params object[] objects)
+        private static int CalculateHashCode(string command, params object[] objects)
         {
             var result = command.GetHashCode();
 
@@ -24,7 +24,7 @@ namespace Perpetuum.Data
             while (index < objects.Length)
             {
                 var o = objects[index];
-                if ( o == null )
+                if (o == null)
                     continue;
 
                 unchecked
@@ -36,7 +36,7 @@ namespace Perpetuum.Data
                     }
                     else
                     {
-                        result = (result*397) ^ o.GetHashCode();
+                        result = (result * 397) ^ o.GetHashCode();
                     }
                 }
                 index++;
@@ -61,7 +61,7 @@ namespace Perpetuum.Data
         }
 
 
-        public static int Insert(string table ,object o)
+        public static int Insert(string table, object o)
         {
             var dictionary = ToDictionary(o);
             var sqlCmd = _cachedCommands.GetOrAdd(CalculateHashCode(CMD_INSERT, table, dictionary), _ =>
@@ -91,7 +91,7 @@ namespace Perpetuum.Data
         }
 
 
-        public static int Update(string table,object columns,object where = null)
+        public static int Update(string table, object columns, object where = null)
         {
             var columnsDictionary = ToDictionary(columns);
             var whereDictionary = ToDictionary(where);

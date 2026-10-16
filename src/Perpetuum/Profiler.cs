@@ -32,7 +32,7 @@ namespace Perpetuum
             return elapsed;
         }
 
-        public static Action<TimeSpan> CreateUpdateProfiler(TimeSpan interval,Action<TimeSpan> action)
+        public static Action<TimeSpan> CreateUpdateProfiler(TimeSpan interval, Action<TimeSpan> action)
         {
             var timer = new IntervalTimer(interval);
             var updates = 0;

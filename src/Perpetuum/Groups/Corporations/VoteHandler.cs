@@ -18,9 +18,9 @@ namespace Perpetuum.Groups.Corporations
         public Character member;
         public bool answer;
 
-        public Dictionary<string,object> ToDictionary()
+        public Dictionary<string, object> ToDictionary()
         {
-            return new Dictionary<string,object>()
+            return new Dictionary<string, object>()
             {
                 [k.memberID] = member.Id,
                 [k.answer] = answer
@@ -56,7 +56,7 @@ namespace Perpetuum.Groups.Corporations
 
         public Dictionary<string, object> ToDictionary()
         {
-            var oneVote = new Dictionary<string,object>(11)
+            var oneVote = new Dictionary<string, object>(11)
                               {
                                   {k.voteID, voteID},
                                   {k.groupEID, groupEID},
@@ -138,13 +138,13 @@ namespace Perpetuum.Groups.Corporations
             return vd;
         }
 
-        public void CastVote(Vote vote,Character character, bool voteChoice)
+        public void CastVote(Vote vote, Character character, bool voteChoice)
         {
-           Db.Query().CommandText("insert voteentries (voteid,characterid,voteentry) values (@voteID,@characterID,@voteEntry)")
-               .SetParameter("@voteID", vote.voteID)
-               .SetParameter("@characterID", character.Id)
-               .SetParameter("@voteEntry", voteChoice)
-               .ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.SQLInsertError);
+            Db.Query().CommandText("insert voteentries (voteid,characterid,voteentry) values (@voteID,@characterID,@voteEntry)")
+                .SetParameter("@voteID", vote.voteID)
+                .SetParameter("@characterID", character.Id)
+                .SetParameter("@voteEntry", voteChoice)
+                .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
         }
 
         public IEnumerable<VoteEntry> GetVoteEntries(Vote vote)
@@ -154,11 +154,11 @@ namespace Perpetuum.Groups.Corporations
                           .Execute()
                           .Select(r =>
                           {
-                            return new VoteEntry
-                            {
-                                member = Character.Get(r.GetValue<int>("characterid")),
-                                answer = r.GetValue<bool>("voteentry")
-                            };
+                              return new VoteEntry
+                              {
+                                  member = Character.Get(r.GetValue<int>("characterid")),
+                                  answer = r.GetValue<bool>("voteentry")
+                              };
                           }).ToArray();
         }
 
@@ -182,7 +182,7 @@ namespace Perpetuum.Groups.Corporations
                 .SetParameter("@voteID", vote.voteID)
                 .ExecuteNonQuery();
 
-            if ( res == 0 )
+            if (res == 0)
                 throw new PerpetuumException(ErrorCodes.SQLUpdateError);
         }
 
@@ -193,13 +193,13 @@ namespace Perpetuum.Groups.Corporations
                                            select cast(scope_identity() as int)";
 
             vote.voteID = Db.Query().CommandText(cmdText)
-                                 .SetParameter("@groupEID",vote.groupEID)
-                                 .SetParameter("@voteName",vote.voteName)
-                                 .SetParameter("@voteTopic",vote.voteTopic)
-                                 .SetParameter("@participation",vote.participation)
+                                 .SetParameter("@groupEID", vote.groupEID)
+                                 .SetParameter("@voteName", vote.voteName)
+                                 .SetParameter("@voteTopic", vote.voteTopic)
+                                 .SetParameter("@participation", vote.participation)
                                  .SetParameter("@voteType", (int)vote.voteType)
-                                 .SetParameter("@startedBy",vote.startedBy.Id)
-                                 .SetParameter("@consensusRate",vote.ConsensusRate)
+                                 .SetParameter("@startedBy", vote.startedBy.Id)
+                                 .SetParameter("@consensusRate", vote.ConsensusRate)
                                  .ExecuteScalar<int>();
         }
 
@@ -208,7 +208,7 @@ namespace Perpetuum.Groups.Corporations
             Db.Query().CommandText("update votes set votetopic=@topic where voteID=@voteID")
                    .SetParameter("@voteID", vote.voteID)
                    .SetParameter("@topic", vote.voteTopic)
-                   .ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.SQLUpdateError);
+                   .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLUpdateError);
         }
 
         public int VoteCount(long groupEID)
@@ -224,10 +224,10 @@ namespace Perpetuum.Groups.Corporations
                              .SetParameter("@voteID", vote.voteID)
                              .ExecuteNonQuery();
 
-            if ( res == 0 )
+            if (res == 0)
                 throw new PerpetuumException(ErrorCodes.SQLDeleteError);
         }
-        
+
         public int[] GetMyOpenVotes(Character character, long groupEID)
         {
             return Db.Query().CommandText("select voteid from votes where groupEID=@groupEID and voteid not in (select voteid from voteentries where characterid=@characterID)")

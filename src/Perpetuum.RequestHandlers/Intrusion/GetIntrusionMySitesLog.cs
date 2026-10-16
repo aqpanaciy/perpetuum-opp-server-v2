@@ -21,7 +21,7 @@ namespace Perpetuum.RequestHandlers.Intrusion
 
             var sapActivityDict = IntrusionHelper.GetMySitesLog(daysBack, corporationEid);
             Message.Builder.FromRequest(request)
-                .WithData(new Dictionary<string, object>{{"intrusionPublicLog", sapActivityDict},})
+                .WithData(new Dictionary<string, object> { { "intrusionPublicLog", sapActivityDict }, })
                 .Send();
         }
     }

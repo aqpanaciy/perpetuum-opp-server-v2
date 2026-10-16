@@ -29,7 +29,7 @@ namespace Perpetuum.RequestHandlers.Production
 
                 var replyDict = _productionManager.ProductionProcessor.Reprocess(character, sourceContainer, targetEiDs, reprocessor);
                 Message.Builder.FromRequest(request).WithData(replyDict).Send();
-                
+
                 scope.Complete();
             }
         }

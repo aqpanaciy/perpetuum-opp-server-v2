@@ -36,7 +36,7 @@ namespace Perpetuum.RequestHandlers.Production
 
                 var replyDict = _productionManager.ProductionProcessor.Refine(refinery, character, sourceContainer, definition, amount);
                 Message.Builder.FromRequest(request).WithData(replyDict).Send();
-                
+
                 scope.Complete();
             }
         }

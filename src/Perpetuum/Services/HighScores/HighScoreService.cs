@@ -46,8 +46,8 @@ namespace Perpetuum.Services.HighScores
                 .SetParameter("@characterID", characterID)
                 .ExecuteSingleRow();
 
-            if ( record == null )
-                return new HighScore(characterID,0);
+            if (record == null)
+                return new HighScore(characterID, 0);
 
             return CreateHighScoreFromRecord(record);
         }
@@ -79,7 +79,7 @@ namespace Perpetuum.Services.HighScores
                 .SetParameter("@characterID", killer.Character.Id)
                 .SetParameter("@killedPlayers", killedPlayers)
                 .SetParameter("@killedNPCs", killedNpcs)
-                .SetParameter("@startDate",timeRange.Start)
+                .SetParameter("@startDate", timeRange.Start)
                 .SetParameter("@endDate", timeRange.End)
                 .ExecuteSingleRow();
 

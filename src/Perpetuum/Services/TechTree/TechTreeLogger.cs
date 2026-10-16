@@ -24,14 +24,14 @@ namespace Perpetuum.Services.TechTree
                 .SetParameter("@definition", logEvent.Definition)
                 .SetParameter("@quantity", logEvent.Quantity)
                 .SetParameter("@pointType", logEvent.Points.type)
-                .SetParameter("@amount",logEvent.Points.amount)
+                .SetParameter("@amount", logEvent.Points.amount)
                 .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
         }
 
         public IEnumerable<LogEvent> GetAll(DateTime from, DateTime to)
         {
-            if ( to < from )
-                ObjectHelper.Swap(ref from,ref to);
+            if (to < from)
+                ObjectHelper.Swap(ref from, ref to);
 
             var events = GetLogEventRecords(from, to).Select(CreateLogEventFromRecord);
             return events;
@@ -44,12 +44,12 @@ namespace Perpetuum.Services.TechTree
             var type = (LogType)record.GetValue<int>("logType");
             var character = Character.Get(record.GetValue<int>("character"));
 
-            var logEvent = new LogEvent(type,character)
+            var logEvent = new LogEvent(type, character)
             {
                 CorporationEid = record.GetValue<long?>("corporationEid"),
                 Definition = record.GetValue<int>("definition"),
                 Quantity = record.GetValue<int>("quantity"),
-                Points = new Points((TechTreePointType) record.GetValue<int>("pointType"),record.GetValue<int>("amount")),
+                Points = new Points((TechTreePointType)record.GetValue<int>("pointType"), record.GetValue<int>("amount")),
                 Created = record.GetValue<DateTime>("created")
             };
 

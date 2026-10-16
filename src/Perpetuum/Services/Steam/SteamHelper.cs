@@ -13,35 +13,35 @@ namespace Perpetuum.Services.Steam
     {
         private readonly byte[] _steamKey;
 
-        [DllImport(@"sdkencryptedappticket64.dll",CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"sdkencryptedappticket64.dll", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool SteamEncryptedAppTicket_BDecryptTicket([In, Out] byte[] rgubTicketEncrypted,uint cubTicketEncrypted,[In, Out] byte[] rgubTicketDecrypted,ref uint pcubTicketDecrypted,[In, Out] byte[] rgubKey,int cubKey);
+        private static extern bool SteamEncryptedAppTicket_BDecryptTicket([In, Out] byte[] rgubTicketEncrypted, uint cubTicketEncrypted, [In, Out] byte[] rgubTicketDecrypted, ref uint pcubTicketDecrypted, [In, Out] byte[] rgubKey, int cubKey);
 
-        [DllImport(@"sdkencryptedappticket64.dll",CallingConvention = CallingConvention.Cdecl)]
-        private static extern void SteamEncryptedAppTicket_GetTicketSteamID([In] byte[] rgubTicketDecrypted,uint cubTicketDecrypted,ref ulong steamId);
+        [DllImport(@"sdkencryptedappticket64.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SteamEncryptedAppTicket_GetTicketSteamID([In] byte[] rgubTicketDecrypted, uint cubTicketDecrypted, ref ulong steamId);
 
-        [DllImport(@"sdkencryptedappticket64.dll",CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"sdkencryptedappticket64.dll", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool SteamEncryptedAppTicket_BIsTicketForApp([In] byte[] rgubTicketDecrypted,uint cubTicketDecrypted,uint nAppID);
+        private static extern bool SteamEncryptedAppTicket_BIsTicketForApp([In] byte[] rgubTicketDecrypted, uint cubTicketDecrypted, uint nAppID);
 
-        [DllImport(@"sdkencryptedappticket64.dll",CallingConvention = CallingConvention.Cdecl)]
-        private static extern uint SteamEncryptedAppTicket_GetTicketIssueTime([In] byte[] rgubTicketDecrypted,uint cubTicketDecrypted);
+        [DllImport(@"sdkencryptedappticket64.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern uint SteamEncryptedAppTicket_GetTicketIssueTime([In] byte[] rgubTicketDecrypted, uint cubTicketDecrypted);
 
-        [DllImport(@"sdkencryptedappticket64.dll",CallingConvention = CallingConvention.Cdecl)]
-        private static extern uint SteamEncryptedAppTicket_GetTicketAppID([In] byte[] rgubTicketDecrypted,uint cubTicketDecrypted);
+        [DllImport(@"sdkencryptedappticket64.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern uint SteamEncryptedAppTicket_GetTicketAppID([In] byte[] rgubTicketDecrypted, uint cubTicketDecrypted);
 
-        [DllImport(@"sdkencryptedappticket64.dll",CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"sdkencryptedappticket64.dll", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool SteamEncryptedAppTicket_BUserOwnsAppInTicket([In] byte[] rgubTicketDecrypted,uint cubTicketDecrypted,uint nAppID);
+        private static extern bool SteamEncryptedAppTicket_BUserOwnsAppInTicket([In] byte[] rgubTicketDecrypted, uint cubTicketDecrypted, uint nAppID);
 
-        [DllImport(@"sdkencryptedappticket64.dll",CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"sdkencryptedappticket64.dll", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool SteamEncryptedAppTicket_BUserIsVacBanned([In] byte[] rgubTicketDecrypted,uint cubTicketDecrypted);
+        private static extern bool SteamEncryptedAppTicket_BUserIsVacBanned([In] byte[] rgubTicketDecrypted, uint cubTicketDecrypted);
 
-        [DllImport(@"sdkencryptedappticket64.dll",CallingConvention = CallingConvention.Cdecl)]
-        private static extern byte[] SteamEncryptedAppTicket_GetUserVariableData([In] byte[] rgubTicketDecrypted,uint cubTicketDecrypted,ref uint pcubUserData);
+        [DllImport(@"sdkencryptedappticket64.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern byte[] SteamEncryptedAppTicket_GetUserVariableData([In] byte[] rgubTicketDecrypted, uint cubTicketDecrypted, ref uint pcubUserData);
 
-        public SteamManager(int steamAppId,byte[] steamKey)
+        public SteamManager(int steamAppId, byte[] steamKey)
         {
             SteamAppID = steamAppId;
             _steamKey = steamKey;
@@ -49,7 +49,7 @@ namespace Perpetuum.Services.Steam
 
         private static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
-            return new DateTime(1970,1,1,0,0,0,0).AddSeconds(unixTimeStamp).ToLocalTime();
+            return new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(unixTimeStamp).ToLocalTime();
         }
 
         public ulong GetSteamId(byte[] encryptedTicket, out DateTime ticketTime)
@@ -60,20 +60,20 @@ namespace Perpetuum.Services.Steam
 
             ticketTime = DateTime.MinValue;
 
-            var success = SteamEncryptedAppTicket_BDecryptTicket(encryptedTicket,(uint)encryptedTicket.Length,rgubTicketDecrypted,ref pcubTicketDecrypted,_steamKey,_steamKey.Length);
+            var success = SteamEncryptedAppTicket_BDecryptTicket(encryptedTicket, (uint)encryptedTicket.Length, rgubTicketDecrypted, ref pcubTicketDecrypted, _steamKey, _steamKey.Length);
             if (success)
             {
-                var timeStamp = SteamEncryptedAppTicket_GetTicketIssueTime(rgubTicketDecrypted,pcubTicketDecrypted);
+                var timeStamp = SteamEncryptedAppTicket_GetTicketIssueTime(rgubTicketDecrypted, pcubTicketDecrypted);
                 ticketTime = UnixTimeStampToDateTime(timeStamp);
 
-                var isCorrectApp = SteamEncryptedAppTicket_BIsTicketForApp(rgubTicketDecrypted,pcubTicketDecrypted,(uint) SteamAppID);
+                var isCorrectApp = SteamEncryptedAppTicket_BIsTicketForApp(rgubTicketDecrypted, pcubTicketDecrypted, (uint)SteamAppID);
                 if (isCorrectApp)
                 {
-                    var userOwnsApp = SteamEncryptedAppTicket_BUserOwnsAppInTicket(rgubTicketDecrypted,pcubTicketDecrypted,(uint) SteamAppID);
+                    var userOwnsApp = SteamEncryptedAppTicket_BUserOwnsAppInTicket(rgubTicketDecrypted, pcubTicketDecrypted, (uint)SteamAppID);
                     if (userOwnsApp)
                     {
-                        SteamEncryptedAppTicket_GetTicketSteamID(rgubTicketDecrypted,pcubTicketDecrypted,ref steamId);
-                        SteamEncryptedAppTicket_BUserOwnsAppInTicket(rgubTicketDecrypted,pcubTicketDecrypted,(uint) SteamAppID);
+                        SteamEncryptedAppTicket_GetTicketSteamID(rgubTicketDecrypted, pcubTicketDecrypted, ref steamId);
+                        SteamEncryptedAppTicket_BUserOwnsAppInTicket(rgubTicketDecrypted, pcubTicketDecrypted, (uint)SteamAppID);
                     }
                 }
             }

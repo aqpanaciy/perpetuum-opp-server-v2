@@ -19,30 +19,30 @@ namespace Perpetuum.AdminTool.Economy
             await using var cn = new SqlConnection(_connection.BuildConnectionString());
             await cn.OpenAsync();
 
-            long totalNic   = await LoadTotalNicAsync(cn);
-            var  snapshots  = await LoadSnapshotsAsync(cn);
-            var  top10      = await LoadTop10Async(cn);
-            var  top10Corps = await LoadTop10CorpAsync(cn);
-            var  balances   = await LoadAllBalancesAsync(cn);
-            long idleNic    = await LoadIdleNicAsync(cn);
+            long totalNic = await LoadTotalNicAsync(cn);
+            var snapshots = await LoadSnapshotsAsync(cn);
+            var top10 = await LoadTop10Async(cn);
+            var top10Corps = await LoadTop10CorpAsync(cn);
+            var balances = await LoadAllBalancesAsync(cn);
+            long idleNic = await LoadIdleNicAsync(cn);
 
             long medianNic = balances.Count == 0 ? 0L
                 : balances.Count % 2 == 1
                     ? balances[balances.Count / 2]
                     : (balances[balances.Count / 2 - 1] + balances[balances.Count / 2]) / 2;
-            int  top1Count   = (int)Math.Ceiling(balances.Count * 0.01);
-            long top1Nic     = top1Count > 0 ? balances.Take(top1Count).Sum() : 0L;
-            long charTotal   = balances.Count > 0 ? balances.Sum() : 0L;
+            int top1Count = (int)Math.Ceiling(balances.Count * 0.01);
+            long top1Nic = top1Count > 0 ? balances.Take(top1Count).Sum() : 0L;
+            long charTotal = balances.Count > 0 ? balances.Sum() : 0L;
             double top1Share = charTotal > 0 ? (double)top1Nic / charTotal * 100.0 : 0.0;
 
             return new EconomyMoneySupplyData
             {
-                TotalNic      = totalNic,
-                MedianNic     = medianNic,
-                Top1PctShare  = top1Share,
-                IdleNic       = idleNic,
-                SnapshotRows  = snapshots,
-                Top10Rows     = top10,
+                TotalNic = totalNic,
+                MedianNic = medianNic,
+                Top1PctShare = top1Share,
+                IdleNic = idleNic,
+                SnapshotRows = snapshots,
+                Top10Rows = top10,
                 Top10CorpRows = top10Corps,
             };
         }
@@ -94,9 +94,9 @@ namespace Perpetuum.AdminTool.Economy
             while (await r.ReadAsync())
                 rows.Add(new EconomyWealthRow
                 {
-                    Rank    = rank++,
-                    Nick    = r.GetString(0),
-                    Credit  = r.GetInt64(1),
+                    Rank = rank++,
+                    Nick = r.GetString(0),
+                    Credit = r.GetInt64(1),
                     CorpTag = r.GetString(2),
                 });
             return rows;
@@ -124,11 +124,11 @@ namespace Perpetuum.AdminTool.Economy
             while (await r.ReadAsync())
                 rows.Add(new EconomyCorporationWealthRow
                 {
-                    Rank            = rank++,
-                    Name            = r.GetString(0),
-                    Tag             = r.GetString(1),
-                    MemberCount     = r.GetInt32(2),
-                    CorpWallet      = r.GetInt64(3),
+                    Rank = rank++,
+                    Name = r.GetString(0),
+                    Tag = r.GetString(1),
+                    MemberCount = r.GetInt32(2),
+                    CorpWallet = r.GetInt64(3),
                     MemberAggregate = r.GetInt64(4),
                 });
             return rows;

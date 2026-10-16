@@ -5,6 +5,6 @@ namespace Perpetuum.Zones.ZoneEntityRepositories
 {
     public interface IZoneUnitReader
     {
-        Dictionary<Unit,Position> GetAll();
+        Dictionary<Unit, Position> GetAll();
     }
 }

@@ -19,7 +19,7 @@ namespace Perpetuum.RequestHandlers.Zone
                 var character = request.Session.Character;
                 probeBase.HasAccess(character).ThrowIfError();
                 probeBase.Kill();
-                
+
                 scope.Complete();
             }
         }

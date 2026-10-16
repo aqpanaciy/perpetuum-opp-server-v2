@@ -13,26 +13,26 @@ namespace Perpetuum.Groups.Alliances
     {
         public new static PrivateAlliance GetOrThrow(long eid)
         {
-            return (PrivateAlliance) Repository.LoadOrThrow(eid);
+            return (PrivateAlliance)Repository.LoadOrThrow(eid);
         }
 
         public static PrivateAlliance Create(AllianceDescription description)
         {
             var systemStorage = SystemContainer.GetByName(k.es_private_alliance);
             var newAlliance = Create(EntityDefault.GetByName(DefinitionNames.PRIVATE_ALLIANCE), systemStorage, description, EntityIDGenerator.Random);
-            return (PrivateAlliance) newAlliance;
+            return (PrivateAlliance)newAlliance;
         }
     }
 
     public class DefaultAlliance : Alliance
     {
     }
-  
+
 
     public abstract class Alliance : Entity
     {
         private Corporation[] _corporations;
-        
+
         public IEnumerable<Character> GetCharacterMembers()
         {
             return Corporations.SelectMany(c => c.GetCharacterMembers());
@@ -51,13 +51,13 @@ namespace Perpetuum.Groups.Alliances
                            .Select(r => Corporation.GetOrThrow(r.GetValue<long>(0))).ToArray();
         }
 
-        
+
         public bool IsCorporationMember(Corporation corporation)
         {
             return Corporations.Contains(corporation);
         }
 
-     
+
         [CanBeNull]
         public static Alliance GetByCorporation(Corporation corporation)
         {
@@ -71,15 +71,15 @@ namespace Perpetuum.Groups.Alliances
             return GetOrThrow(eid);
         }
 
-      
+
         public static Alliance GetOrThrow(long eid)
         {
             return (Alliance)Repository.LoadOrThrow(eid);
         }
 
-        protected static Alliance Create(EntityDefault entityDefault,SystemContainer container, AllianceDescription allianceDescription, EntityIDGenerator generator)
+        protected static Alliance Create(EntityDefault entityDefault, SystemContainer container, AllianceDescription allianceDescription, EntityIDGenerator generator)
         {
-            var alliance = Factory.Create(entityDefault,generator);
+            var alliance = Factory.Create(entityDefault, generator);
             alliance.Parent = container.Eid;
             Repository.Insert(alliance);
 
@@ -88,9 +88,9 @@ namespace Perpetuum.Groups.Alliances
                 .SetParameter("@name", allianceDescription.name)
                 .SetParameter("@nick", allianceDescription.nick)
                 .SetParameter("@defaultAlliance", allianceDescription.isDefault)
-                .ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.SQLInsertError);
+                .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
 
-            return (Alliance) alliance;
+            return (Alliance)alliance;
         }
 
         public IEnumerable<Character> Members

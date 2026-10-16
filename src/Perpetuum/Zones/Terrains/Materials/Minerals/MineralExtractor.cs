@@ -16,7 +16,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
 
         public List<ItemInfo> Items => _items;
 
-        public MineralExtractor(Point location,uint amount,MaterialHelper materialHelper)
+        public MineralExtractor(Point location, uint amount, MaterialHelper materialHelper)
         {
             _location = location;
             _amount = amount;
@@ -75,7 +75,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
             {
                 for (var x = node.Area.X1; x <= node.Area.X2; x++)
                 {
-                    if ( !node.HasValue(x,y))
+                    if (!node.HasValue(x, y))
                         continue;
 
                     var d = _location.SqrDistance(x, y);
@@ -95,7 +95,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
             }
 
             var m = _materialHelper.GetMaterialInfo(node.Type);
-            _items.Add(m.ToItem((int) extractedAmounts));
+            _items.Add(m.ToItem((int)extractedAmounts));
         }
 
 

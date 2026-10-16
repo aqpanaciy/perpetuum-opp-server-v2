@@ -5,7 +5,7 @@ using Perpetuum.Data;
 
 namespace Perpetuum.Zones.Artifacts.Repositories
 {
-    public class MissionArtifactReader: ArtifactReader
+    public class MissionArtifactReader : ArtifactReader
     {
         private readonly Guid _missionGuid;
 

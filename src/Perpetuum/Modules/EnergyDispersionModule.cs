@@ -12,11 +12,11 @@ namespace Perpetuum.Modules
 
         protected EnergyDispersionModule() : base(true)
         {
-            _energyDispersion = new ModuleProperty(this,AggregateField.energy_dispersion);
+            _energyDispersion = new ModuleProperty(this, AggregateField.energy_dispersion);
             AddProperty(_energyDispersion);
         }
 
-        protected void ModifyValueByReactorRadiation(Unit enemy,ref double value)
+        protected void ModifyValueByReactorRadiation(Unit enemy, ref double value)
         {
             var modifier = enemy.ReactorRadiation / _energyDispersion.Value;
 

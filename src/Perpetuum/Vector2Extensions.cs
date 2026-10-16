@@ -11,13 +11,13 @@ namespace Perpetuum
             return Vector2.DistanceSquared(source, target) <= range * range;
         }
 
-        public static IEnumerable<Vector3> LineTo(this Vector3 source,Vector3 target)
+        public static IEnumerable<Vector3> LineTo(this Vector3 source, Vector3 target)
         {
             var v = target - source;
             var n = Vector3.Normalize(v);
             var d = v.Length();
 
-            for (var i = 0;i < d;i++)
+            for (var i = 0; i < d; i++)
             {
                 yield return source + (n * i);
             }

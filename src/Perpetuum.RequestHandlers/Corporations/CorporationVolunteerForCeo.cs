@@ -35,11 +35,11 @@ namespace Perpetuum.RequestHandlers.Corporations
                     corporation.CheckMaxMemberCountAndThrowIfFailed(character);
                     corporation.CheckCeoLastActivityAndThrowIfFailed();
                     role.HasFlag(CorporationRole.CEO).ThrowIfTrue(ErrorCodes.WTFErrorMedicalAttentionSuggested);
-                    volunteerCEO = _volunteerCEOService.AddVolunteer(corporation,character);
+                    volunteerCEO = _volunteerCEOService.AddVolunteer(corporation, character);
                 }
 
                 Transaction.Current.OnCommited(() => _volunteerCEOService.SendVolunteerStatusToMembers(volunteerCEO));
-                
+
                 scope.Complete();
             }
         }

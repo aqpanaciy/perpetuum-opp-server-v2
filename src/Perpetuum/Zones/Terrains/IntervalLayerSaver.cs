@@ -13,7 +13,7 @@ namespace Perpetuum.Zones.Terrains
 
         public delegate IntervalLayerSaver<T> Factory(ILayer<T> layer, IZone zone);
 
-        public IntervalLayerSaver(ILayerFileIO layerFileIO,ILayer<T> layer, IZone zone)
+        public IntervalLayerSaver(ILayerFileIO layerFileIO, ILayer<T> layer, IZone zone)
         {
             _layerFileIO = layerFileIO;
             _layer = layer;
@@ -47,7 +47,7 @@ namespace Perpetuum.Zones.Terrains
 
         private void SaveLayer()
         {
-            _layerFileIO.SaveLayerToDisk(_zone,_layer);
+            _layerFileIO.SaveLayerToDisk(_zone, _layer);
         }
     }
 }

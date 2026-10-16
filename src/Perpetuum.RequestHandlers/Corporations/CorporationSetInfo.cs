@@ -41,7 +41,7 @@ namespace Perpetuum.RequestHandlers.Corporations
 
                 var corpInfo = corporation.GetInfoDictionaryForMember(character);
                 Message.Builder.SetCommand(Commands.CorporationGetMyInfo).WithData(corpInfo).ToCharacters(corporation.GetCharacterMembers()).Send();
-                
+
                 scope.Complete();
             }
         }

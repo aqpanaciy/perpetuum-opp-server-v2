@@ -4,11 +4,11 @@ using Perpetuum.Log;
 
 namespace Perpetuum.Items.Templates
 {
-    public class ItemTemplate<T> where T:Item
+    public class ItemTemplate<T> where T : Item
     {
         private readonly bool _repackaged;
 
-        protected ItemTemplate(int quantity,bool repackaged)
+        protected ItemTemplate(int quantity, bool repackaged)
         {
             Quantity = quantity;
             _repackaged = repackaged;
@@ -49,10 +49,10 @@ namespace Perpetuum.Items.Templates
 
         protected virtual void OnBuild(T item)
         {
-            
+
         }
 
-        public virtual Dictionary<string,object> ToDictionary()
+        public virtual Dictionary<string, object> ToDictionary()
         {
             return new Dictionary<string, object>
             {
@@ -64,7 +64,7 @@ namespace Perpetuum.Items.Templates
 
         protected static ItemTemplate<T> Create(int definition, int quantity, bool repackaged)
         {
-            return new ItemTemplate<T>(quantity,repackaged)
+            return new ItemTemplate<T>(quantity, repackaged)
             {
                 EntityDefault = EntityDefault.Get(definition)
             };

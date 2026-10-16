@@ -31,11 +31,11 @@ namespace Perpetuum.Services.RiftSystem
     {
         private IZone _zone;
 
-        public ZoneRiftConfigReader(IZone zone) 
+        public ZoneRiftConfigReader(IZone zone)
         {
             _zone = zone;
         }
-        protected ZoneRiftConfig CreateZoneRiftConfigFromRecord(IDataRecord record) 
+        protected ZoneRiftConfig CreateZoneRiftConfigFromRecord(IDataRecord record)
         {
             var id = record.GetValue<int>("id");
             var zoneid = record.GetValue<int>("zoneid");
@@ -77,11 +77,13 @@ namespace Perpetuum.Services.RiftSystem
             _maxLevel = maxLevel;
         }
 
-        public int GetMaxRifts() {
+        public int GetMaxRifts()
+        {
             return _maxRifts;
         }
 
-        public int GetMaxLevel() {
+        public int GetMaxLevel()
+        {
             return _maxLevel;
         }
     }

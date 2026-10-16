@@ -15,17 +15,17 @@ namespace Perpetuum.AdminTool.ViewModels
 {
     public partial class AutoMarketTradeListViewModel : ObservableObject
     {
-        private readonly AutoMarketRepository  _repo;
-        private readonly ChangeQueue           _queue;
-        private readonly LookupCache           _lookups;
+        private readonly AutoMarketRepository _repo;
+        private readonly ChangeQueue _queue;
+        private readonly LookupCache _lookups;
         private readonly TranslationsViewModel? _translations;
         private const int EnglishLangId = 0;
 
-        [ObservableProperty] private bool   _isLoading;
+        [ObservableProperty] private bool _isLoading;
         [ObservableProperty] private string _statusMessage = "";
-        [ObservableProperty] private bool   _statusIsError;
+        [ObservableProperty] private bool _statusIsError;
 
-        public ObservableCollection<AutoMarketTradeListRow>   Rows             { get; } = new();
+        public ObservableCollection<AutoMarketTradeListRow> Rows { get; } = new();
         public ObservableCollection<AutoMarketRawMaterialRow> DerivedMaterials { get; } = new();
 
         public AutoMarketTradeListViewModel(
@@ -34,28 +34,28 @@ namespace Perpetuum.AdminTool.ViewModels
             LookupCache lookups,
             TranslationsViewModel? translations)
         {
-            _repo         = repo;
-            _queue        = queue;
-            _lookups      = lookups;
+            _repo = repo;
+            _queue = queue;
+            _lookups = lookups;
             _translations = translations;
         }
 
         public async Task LoadAsync()
         {
-            IsLoading     = true;
+            IsLoading = true;
             StatusMessage = "";
             StatusIsError = false;
             try
             {
                 var store = _translations?.Store;
-                var rows  = await _repo.LoadTradeListAsync();
+                var rows = await _repo.LoadTradeListAsync();
                 Rows.Clear();
                 foreach (var r in rows)
                 {
                     if (store != null)
                     {
                         var tr = store.Rows.FirstOrDefault(x => x.Key == r.DefinitionName);
-                        var t  = tr?[EnglishLangId];
+                        var t = tr?[EnglishLangId];
                         if (!string.IsNullOrEmpty(t)) r.DisplayName = t;
                     }
                     Rows.Add(r);
@@ -85,7 +85,7 @@ namespace Perpetuum.AdminTool.ViewModels
         private void QueueSave(AutoMarketTradeListRow row)
         {
             var description = $"market_orders_configuration: update {row.DefinitionName}";
-            var existing    = _queue.Items.FirstOrDefault(c => c.Description == description);
+            var existing = _queue.Items.FirstOrDefault(c => c.Description == description);
             if (existing != null) _queue.Items.Remove(existing);
             _queue.Add(new RawSqlChange(
                 description,
@@ -94,8 +94,8 @@ namespace Perpetuum.AdminTool.ViewModels
                 $"create_sell_orders = {SqlLiteral.Of(row.CreateSellOrders)}, " +
                 $"create_buyback_orders = {SqlLiteral.Of(row.CreateBuybackOrders)} " +
                 $"WHERE definitionname = {SqlLiteral.Of(row.DefinitionName)}"));
-            row.OriginalAmount              = row.Amount;
-            row.OriginalCreateSellOrders    = row.CreateSellOrders;
+            row.OriginalAmount = row.Amount;
+            row.OriginalCreateSellOrders = row.CreateSellOrders;
             row.OriginalCreateBuybackOrders = row.CreateBuybackOrders;
             StatusMessage = $"{row.DisplayName} amount queued.";
         }
@@ -125,7 +125,7 @@ namespace Perpetuum.AdminTool.ViewModels
         public void AddItem(Window owner)
         {
             var existing = Rows.Select(r => r.DefinitionName).ToHashSet();
-            var vm  = new AddAutoMarketItemViewModel(_lookups, _translations, existing);
+            var vm = new AddAutoMarketItemViewModel(_lookups, _translations, existing);
             var win = new AddAutoMarketItemWindow(vm) { Owner = owner };
             if (win.ShowDialog() != true || vm.SelectedItem == null) return;
 
@@ -137,13 +137,13 @@ namespace Perpetuum.AdminTool.ViewModels
 
             Rows.Add(new AutoMarketTradeListRow
             {
-                DefinitionName              = item.DefinitionName,
-                DisplayName                 = item.DisplayName,
-                Amount                      = 1,
-                OriginalAmount              = 1,
-                CreateSellOrders            = true,
-                OriginalCreateSellOrders    = true,
-                CreateBuybackOrders         = true,
+                DefinitionName = item.DefinitionName,
+                DisplayName = item.DisplayName,
+                Amount = 1,
+                OriginalAmount = 1,
+                CreateSellOrders = true,
+                OriginalCreateSellOrders = true,
+                CreateBuybackOrders = true,
                 OriginalCreateBuybackOrders = true,
             });
             StatusMessage = $"'{item.DisplayName}' queued for insert.";

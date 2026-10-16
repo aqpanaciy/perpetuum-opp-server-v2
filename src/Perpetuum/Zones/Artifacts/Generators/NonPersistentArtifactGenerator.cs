@@ -13,7 +13,7 @@ namespace Perpetuum.Zones.Artifacts.Generators
         private readonly IArtifactRepository _repository;
         private readonly Player _player;
 
-        public NonPersistentArtifactGenerator(IZone zone,IArtifactRepository repository, Player player)
+        public NonPersistentArtifactGenerator(IZone zone, IArtifactRepository repository, Player player)
         {
             _zone = zone;
             _repository = repository;
@@ -23,7 +23,7 @@ namespace Perpetuum.Zones.Artifacts.Generators
         public void GenerateArtifacts()
         {
             var runningMissionArtifactTargets = _player.MissionHandler.GetArtifactTargets().Where(t => t.MyTarget.ZoneId == _zone.Id).ToArray();
-            
+
             var typesAlreadyCreated = new int[0];
 
             if (runningMissionArtifactTargets.Length > 0)
@@ -31,8 +31,8 @@ namespace Perpetuum.Zones.Artifacts.Generators
                 var artifactTypes = runningMissionArtifactTargets.Select(m => (int)m.GetArtifactType()).ArrayToString();
                 var cmd = $"select artifacttype from artifacts where zoneid = @zoneId and characterid = @characterId and artifacttype in ({artifactTypes})";
                 typesAlreadyCreated = Db.Query().CommandText(cmd)
-                                              .SetParameter("@zoneId",_zone.Id)
-                                              .SetParameter("@characterId",_player.Character.Id)
+                                              .SetParameter("@zoneId", _zone.Id)
+                                              .SetParameter("@characterId", _player.Character.Id)
                                               .Execute()
                                               .Select(r => r.GetValue<int>(0)).ToArray();
             }
@@ -43,8 +43,8 @@ namespace Perpetuum.Zones.Artifacts.Generators
             {
                 var cmd = $"delete from artifacts where zoneid = @zoneId and characterid = @characterId and artifacts.artifacttype in ({artifactTypesToDelete.ArrayToString()})";
                 var count = Db.Query().CommandText(cmd)
-                                   .SetParameter("@zoneId",_zone.Id)
-                                   .SetParameter("@characterId",_player.Character.Id)
+                                   .SetParameter("@zoneId", _zone.Id)
+                                   .SetParameter("@characterId", _player.Character.Id)
                                    .ExecuteNonQuery();
 
                 Logger.Info($"[Artifact] Non active mission artifact deleted. zone:{_zone.Id} player:{_player.InfoString} count:{count}");
@@ -57,13 +57,13 @@ namespace Perpetuum.Zones.Artifacts.Generators
                 var range = missionTargetFindArtifact.GetRange();
 
                 var artifactTypeInfo = _repository.GetArtifactInfo(artifactType);
-                if ( artifactTypeInfo == null )
+                if (artifactTypeInfo == null)
                     continue;
 
                 range = range - artifactTypeInfo.goalRange;
 
                 var resultPosition = _zone.FindPassablePointInRadius(position, range);
-                var artifact = new Artifact(artifactTypeInfo, resultPosition,_player.Character);
+                var artifact = new Artifact(artifactTypeInfo, resultPosition, _player.Character);
                 _repository.InsertArtifact(artifact);
 
                 Logger.Info($"[Artifact] Created for mission. zone:{_zone.Id} id:{missionTargetFindArtifact.MyZoneMissionInProgress.missionId} player:{_player.InfoString}");

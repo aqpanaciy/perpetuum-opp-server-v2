@@ -1167,9 +1167,9 @@ namespace Perpetuum.Services.MarketEngine
             // No TransactionScope — weekly cap is a soft limit; an undercounted cap is preferable to blocking.
             Db.Query()
                 .CommandText("exec sp_RecordRawMatWeeklyPurchased @week_start, @definitionname, @quantity")
-                .SetParameter("@week_start",     GetWeekStart(DateTime.UtcNow))
+                .SetParameter("@week_start", GetWeekStart(DateTime.UtcNow))
                 .SetParameter("@definitionname", definitionName)
-                .SetParameter("@quantity",       quantity)
+                .SetParameter("@quantity", quantity)
                 .ExecuteNonQuery();
         }
     }

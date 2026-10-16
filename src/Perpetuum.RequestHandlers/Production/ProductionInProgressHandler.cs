@@ -30,7 +30,7 @@ namespace Perpetuum.RequestHandlers.Production
 
                 if (memberRole.IsAnyRole(CorporationRole.ProductionManager, CorporationRole.CEO, CorporationRole.DeputyCEO, CorporationRole.Accountant))
                 {
-                    result.Add("corporation",_productionProcessor.RunningProductions.GetByCorporation(corporation).ToDictionary());
+                    result.Add("corporation", _productionProcessor.RunningProductions.GetByCorporation(corporation).ToDictionary());
                 }
             }
 

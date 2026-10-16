@@ -93,7 +93,7 @@ namespace Perpetuum.Common.Loggers.Transaction
 
         public TransactionLogEventBuilder SetItem(Item item)
         {
-            return SetItem(item.Definition,item.Quantity);
+            return SetItem(item.Definition, item.Quantity);
         }
 
 

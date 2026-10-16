@@ -10,21 +10,21 @@ namespace Perpetuum.Services.Looting
         {
             foreach (var lootItem in lootItems)
             {
-                repository.AddWithStack(container,lootItem);
+                repository.AddWithStack(container, lootItem);
             }
         }
 
         public static void AddWithStack(this ILootItemRepository repository, LootContainer container, LootItem lootItem)
         {
-            var f = repository.GetByDefinition(container,lootItem.ItemInfo.Definition).FirstOrDefault(l => Math.Abs(l.ItemInfo.Health - lootItem.ItemInfo.Health) < double.Epsilon);
+            var f = repository.GetByDefinition(container, lootItem.ItemInfo.Definition).FirstOrDefault(l => Math.Abs(l.ItemInfo.Health - lootItem.ItemInfo.Health) < double.Epsilon);
             if (f == null)
             {
-                repository.Add(container,lootItem);
+                repository.Add(container, lootItem);
                 return;
             }
 
             f.Quantity += lootItem.Quantity;
-            repository.Update(container,f);
+            repository.Update(container, f);
         }
     }
 }

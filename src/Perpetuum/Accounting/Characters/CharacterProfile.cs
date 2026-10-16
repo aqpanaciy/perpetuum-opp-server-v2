@@ -28,9 +28,9 @@ namespace Perpetuum.Accounting.Characters
         private bool trial = false;
         public int accountID;
 
-        public Dictionary<string,object> ToDictionary()
+        public Dictionary<string, object> ToDictionary()
         {
-            var dictionary = new Dictionary<string,object>
+            var dictionary = new Dictionary<string, object>
             {
                 {k.characterID, character.Id},
                 {k.rootEID,rootEID},

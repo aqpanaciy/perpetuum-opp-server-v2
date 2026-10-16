@@ -80,7 +80,7 @@ namespace Perpetuum.Zones
 
         public static IEnumerable<Unit> GetStaticUnits(this IZone zone)
         {
-            return zone.Units.NotOf().Types<Robot,ProximityDeviceBase>();
+            return zone.Units.NotOf().Types<Robot, ProximityDeviceBase>();
         }
 
         [NotNull]
@@ -90,7 +90,7 @@ namespace Perpetuum.Zones
         }
 
         [NotNull]
-        public static T GetUnitOrThrow<T>(this IZone zone, long eid) where T:Unit
+        public static T GetUnitOrThrow<T>(this IZone zone, long eid) where T : Unit
         {
             return zone.GetUnit(eid).ThrowIfNotType<T>(ErrorCodes.EntityNotFound);
         }
@@ -103,7 +103,7 @@ namespace Perpetuum.Zones
             foreach (var unit in zone.Units)
             {
                 var egg = unit as PBSEgg;
-                
+
                 int radius;
                 if (egg != null)
                 {
@@ -114,7 +114,7 @@ namespace Perpetuum.Zones
                     if (!unit.TryGetConstructionRadius(out radius))
                         continue;
                 }
-                
+
                 var inRange = position.IsWithinRangeOf2D(unit.CurrentPosition, constructionRadius + radius);
                 if (!inRange)
                     continue;
@@ -127,9 +127,9 @@ namespace Perpetuum.Zones
             return false;
         }
 
-        public static bool IsOverlappingWithCategory(this IZone zone, CategoryFlags categoryFlags,   Position position, int typeExclusiveRange)
+        public static bool IsOverlappingWithCategory(this IZone zone, CategoryFlags categoryFlags, Position position, int typeExclusiveRange)
         {
-           
+
             var unitsInCategory = zone.Units.Where(u => u.IsCategory(categoryFlags) || u is PBSEgg).ToList();
 
             var isInRange =
@@ -171,7 +171,7 @@ namespace Perpetuum.Zones
                             return true;
                         }
                     }
-                    
+
                 }
 
                 if (position.IsInRangeOf2D(unit.CurrentPosition, range))
@@ -184,7 +184,7 @@ namespace Perpetuum.Zones
             return false;
         }
 
-        public static IEnumerable<Unit> GetUnitsWithinRange2D(this IZone zone,Position position,double range)
+        public static IEnumerable<Unit> GetUnitsWithinRange2D(this IZone zone, Position position, double range)
         {
             if (zone == null)
                 return Enumerable.Empty<Unit>();
@@ -197,7 +197,7 @@ namespace Perpetuum.Zones
             return zones.SelectMany(z => z.Units);
         }
 
-        public static IEnumerable<T> GetUnits<T>(this IEnumerable<IZone> zones) where T:Unit
+        public static IEnumerable<T> GetUnits<T>(this IEnumerable<IZone> zones) where T : Unit
         {
             return zones.SelectMany(z => z.Units.OfType<T>());
         }

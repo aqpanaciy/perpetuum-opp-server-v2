@@ -25,7 +25,7 @@ namespace Perpetuum.Services.Relay
         {
             var campaignIds = GetNonRedeemedCampaignIds(account).ToArray();
 
-            if (campaignIds.IsNullOrEmpty()) 
+            if (campaignIds.IsNullOrEmpty())
                 return Enumerable.Empty<GoodiePack>();
 
             var campaignStr = campaignIds.ArrayToString();
@@ -47,14 +47,14 @@ namespace Perpetuum.Services.Relay
                     };
 
                     var items = new List<ItemInfo>();
-                    for (var i = 0;i < GoodiePack.ITEMS_COUNT;i++)
+                    for (var i = 0; i < GoodiePack.ITEMS_COUNT; i++)
                     {
                         var itemInfo = ItemInfo.None;
                         var definition = record.GetValue<int?>("item" + i);
                         if (definition != null)
                         {
                             var qty = record.GetValue<int?>("quantity" + i) ?? 1;
-                            itemInfo = new ItemInfo((int)definition,qty)
+                            itemInfo = new ItemInfo((int)definition, qty)
                             {
                                 IsRepackaged = true
                             };
@@ -100,9 +100,9 @@ namespace Perpetuum.Services.Relay
                         {k.name, r.GetValue<string>(1)}
                     };
 
-                campaigns.Add("c"+counter++, oneEntry);
+                campaigns.Add("c" + counter++, oneEntry);
             }
-            
+
             var result = new Dictionary<string, object>
                 {
                     {"goodiePacks", packs},
@@ -112,7 +112,7 @@ namespace Perpetuum.Services.Relay
             return result;
         }
 
-        public IDictionary<string,object> RedeemPackBySelection(int campaignId,Account account,Character character, bool isPackIndy)
+        public IDictionary<string, object> RedeemPackBySelection(int campaignId, Account account, Character character, bool isPackIndy)
         {
             var packs = GetGoodiePacks(account).ToArray();
             packs.IsNullOrEmpty().ThrowIfTrue(ErrorCodes.ItemNotFound);
@@ -134,7 +134,7 @@ namespace Perpetuum.Services.Relay
 
             goodiePack.ThrowIfNull(ErrorCodes.ServerError);
             Debug.Assert(goodiePack != null, "goodiePack != null");
-            return Redeem(account, character,goodiePack);
+            return Redeem(account, character, goodiePack);
         }
 
         public IDictionary<string, object> GetMyRedeemableItems(Account account)
@@ -146,49 +146,49 @@ namespace Perpetuum.Services.Relay
                 };
         }
 
-        public IDictionary<string,object> Redeem(Account account,Character character,GoodiePack goodiePack)
+        public IDictionary<string, object> Redeem(Account account, Character character, GoodiePack goodiePack)
         {
-            var result = new Dictionary<string,object>();
+            var result = new Dictionary<string, object>();
 
             if (goodiePack.Credit != null)
             {
-                character.AddToWallet(TransactionType.GoodiePackCredit,(double)goodiePack.Credit);
+                character.AddToWallet(TransactionType.GoodiePackCredit, (double)goodiePack.Credit);
             }
 
             if (goodiePack.Ep != null)
             {
                 //ExtensionHelper.AddExtensionPenaltyPoints(account, -1*(int) _ep, true);
 
-                var epData = _accountManager.GetEPData(account,character);
-                result.Add(k.extension,epData);
+                var epData = _accountManager.GetEPData(account, character);
+                result.Add(k.extension, epData);
             }
 
             var publicContainer = character.GetPublicContainerWithItems();
 
             foreach (var itemInfo in goodiePack.Items.Where(itemInfo => itemInfo != ItemInfo.None))
             {
-                publicContainer.CreateAndAddItem(itemInfo,i =>
+                publicContainer.CreateAndAddItem(itemInfo, i =>
                 {
                     i.Owner = character.Eid;
                 });
             }
 
             publicContainer.Save();
-            RedeemDone(account,goodiePack);
+            RedeemDone(account, goodiePack);
 
             var items = publicContainer.ToDictionary();
-            result.Add(k.container,items);
-            result.Add("goodiepack",goodiePack.ToDictionary());
+            result.Add(k.container, items);
+            result.Add("goodiepack", goodiePack.ToDictionary());
             return result;
         }
 
-        private void RedeemDone(Account account,GoodiePack goodiePack)
+        private void RedeemDone(Account account, GoodiePack goodiePack)
         {
             Db.Query().CommandText("update accountcampaignitems set redeemed=1,redeemdate=@now where accountid=@accountID and campaignid=@campaignID")
-                .SetParameter("@now",DateTime.Now)
-                .SetParameter("@accountID",account.Id)
-                .SetParameter("@campaignID",goodiePack.CampaignId)
-                .ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.SQLUpdateError);
+                .SetParameter("@now", DateTime.Now)
+                .SetParameter("@accountID", account.Id)
+                .SetParameter("@campaignID", goodiePack.CampaignId)
+                .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLUpdateError);
         }
     }
 
@@ -198,7 +198,7 @@ namespace Perpetuum.Services.Relay
         private readonly int _definition;
         private readonly int _quantity;
 
-        private RedeemableItemInfo(int id,int definition,int quantity)
+        private RedeemableItemInfo(int id, int definition, int quantity)
         {
             _id = id;
             _definition = definition;
@@ -223,7 +223,7 @@ namespace Perpetuum.Services.Relay
 
             if (!ed.AttributeFlags.NonStackable)
             {
-                var item = (Item) Entity.Factory.Create(_definition, EntityIDGenerator.Random);
+                var item = (Item)Entity.Factory.Create(_definition, EntityIDGenerator.Random);
                 item.Quantity = _quantity;
                 result.Add(item);
             }
@@ -241,12 +241,12 @@ namespace Perpetuum.Services.Relay
         }
 
         [NotNull]
-        public static RedeemableItemInfo LoadRedeemableItemById(int id,Account account)
+        public static RedeemableItemInfo LoadRedeemableItemById(int id, Account account)
         {
             const string selectCommandText = "select id,definition,quantity from accountredeemableitems where id=@id and accountid=@accountId and wasredeemed = 0";
             var record = Db.Query().CommandText(selectCommandText)
-                .SetParameter("@id",id)
-                .SetParameter("@accountId",account.Id)
+                .SetParameter("@id", id)
+                .SetParameter("@accountId", account.Id)
                 .ExecuteSingleRow().ThrowIfNull(ErrorCodes.ItemNotFound);
 
             return CreateFromRecord(record);
@@ -258,7 +258,7 @@ namespace Perpetuum.Services.Relay
                 .SetParameter("@id", _id)
                 .SetParameter("@characterID", character.Id)
                 .SetParameter("@now", DateTime.Now)
-                .ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.SQLUpdateError);
+                .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLUpdateError);
         }
 
         public static List<RedeemableItemInfo> GetAll(Account account)
@@ -286,6 +286,6 @@ namespace Perpetuum.Services.Relay
             this.AccountManager = accountManager;
         }
 
-        public abstract void Activate(Account account,Character character);
+        public abstract void Activate(Account account, Character character);
     }
 }

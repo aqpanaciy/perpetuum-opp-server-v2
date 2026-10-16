@@ -6,7 +6,7 @@ using Perpetuum.Zones.Blobs.BlobEmitters;
 
 namespace Perpetuum.Zones.Teleporting
 {
-    public class TeleportColumn : Teleport,IBlobEmitter
+    public class TeleportColumn : Teleport, IBlobEmitter
     {
         private readonly ITeleportDescriptionRepository _teleportDescriptionRepository;
         private const double TELEPORT_BLOB_EMISSION = 2.0;
@@ -30,7 +30,7 @@ namespace Perpetuum.Zones.Teleporting
 
         protected override void OnRemovedFromZone(IZone zone)
         {
-            zone.UnitService.RemoveDefaultUnit(this,false);
+            zone.UnitService.RemoveDefaultUnit(this, false);
 
             Repository.Delete(this);
 
@@ -81,9 +81,9 @@ namespace Perpetuum.Zones.Teleporting
             var dictionary = base.ToDictionary();
             var sourceList = GetSourceList();
 
-            if ( sourceList != null )
+            if (sourceList != null)
             {
-                dictionary.Add(k.channels,sourceList);
+                dictionary.Add(k.channels, sourceList);
             }
 
             return dictionary;

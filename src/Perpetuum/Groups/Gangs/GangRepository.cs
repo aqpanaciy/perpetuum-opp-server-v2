@@ -17,8 +17,8 @@ namespace Perpetuum.Groups.Gangs
         public void Insert(Gang gang)
         {
             var res = Db.Query().CommandText("insert into gang (id,leaderid,name) values (@id,@leaderId,@name)")
-                .SetParameter("@id",gang.Id)
-                .SetParameter("@leaderId",gang.Leader.Id)
+                .SetParameter("@id", gang.Id)
+                .SetParameter("@leaderId", gang.Leader.Id)
                 .SetParameter("@name", gang.Name)
                 .ExecuteNonQuery();
 
@@ -27,14 +27,14 @@ namespace Perpetuum.Groups.Gangs
 
             foreach (var member in gang.GetMembers())
             {
-                InsertMember(gang,member);
+                InsertMember(gang, member);
             }
         }
 
         public void InsertMember(Gang gang, Character member)
         {
             var res = Db.Query().CommandText("insert into gangmembers (gangid,memberid) values (@gangid,@memberId)")
-                .SetParameter("@gangid",gang.Id)
+                .SetParameter("@gangid", gang.Id)
                 .SetParameter("@memberId", member.Id).ExecuteNonQuery();
 
             if (res == 0)
@@ -62,14 +62,14 @@ namespace Perpetuum.Groups.Gangs
         public void Delete(Gang gang)
         {
             Db.Query().CommandText("delete from gangmembers where gangid = @gangGuid;delete from gang where id = @gangGuid")
-                .SetParameter("@gangGuid",gang.Id).ExecuteNonQuery();
+                .SetParameter("@gangGuid", gang.Id).ExecuteNonQuery();
 
         }
 
         public void UpdateLeader(Gang gang, Character newLeader)
         {
             var res = Db.Query().CommandText("update gang set leaderid = @leaderid where id = @gangGuid")
-                .SetParameter("@gangGuid",gang.Id)
+                .SetParameter("@gangGuid", gang.Id)
                 .SetParameter("@leaderId", newLeader.Id).ExecuteNonQuery();
 
             if (res == 0)
@@ -91,14 +91,14 @@ namespace Perpetuum.Groups.Gangs
             gang.Name = gangRecord.GetValue<string>(1);
 
             var records = Db.Query().CommandText("select memberid,role from gangmembers where gangid = @gangGuid")
-                .SetParameter("@gangGuid",gangID).Execute();
+                .SetParameter("@gangGuid", gangID).Execute();
 
             foreach (var record in records)
             {
                 var member = Character.Get(record.GetValue<int>(0));
                 var role = record.GetValue<GangRole>(1);
 
-                gang.SetMember(member,role);
+                gang.SetMember(member, role);
             }
 
             return gang;
@@ -107,7 +107,7 @@ namespace Perpetuum.Groups.Gangs
         public void UpdateMemberRole(Gang gang, Character member, GangRole newRole)
         {
             var res = Db.Query().CommandText("update gangmembers set role = @newRole where gangid = @gangId and memberid = @memberId")
-                .SetParameter("@gangId",gang.Id)
+                .SetParameter("@gangId", gang.Id)
                 .SetParameter("@memberId", member.Id)
                 .SetParameter("@newRole", (int)newRole)
                 .ExecuteNonQuery();

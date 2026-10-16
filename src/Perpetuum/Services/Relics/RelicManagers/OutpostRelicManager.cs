@@ -77,7 +77,7 @@ namespace Perpetuum.Services.Relics
 
         protected override Point FindRelicPosition(RelicInfo info)
         {
-            for(int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var randomPos = _outpost.CurrentPosition.GetRandomPositionInRange2D(
                     SPAWN_MINIMUM_OUTPOST_DISTANCE, SPAWN_MAXIMUM_OUTPOST_DISTANCE);
@@ -85,7 +85,7 @@ namespace Perpetuum.Services.Relics
 
                 posFinder.Find(out Position p);
                 var result = _zone.FindWalkableArea(p, _zone.Size.ToArea(), SPAWN_AREA_REQUIRED_SIZE);
-                if(result != null)
+                if (result != null)
                 {
                     return p;
                 }

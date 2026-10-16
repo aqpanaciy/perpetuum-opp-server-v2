@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers.Corporations
         private readonly IChannelManager _channelManager;
         private readonly DockingBaseHelper _dockingBaseHelper;
 
-        public CorporationSetMemberRole(ICorporationManager corporationManager,IChannelManager channelManager,DockingBaseHelper dockingBaseHelper)
+        public CorporationSetMemberRole(ICorporationManager corporationManager, IChannelManager channelManager, DockingBaseHelper dockingBaseHelper)
         {
             _corporationManager = corporationManager;
             _channelManager = channelManager;
@@ -115,7 +115,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                 }
 
                 CorporationData.RemoveFromCache(corporation.Eid);
-                
+
                 scope.Complete();
             }
         }

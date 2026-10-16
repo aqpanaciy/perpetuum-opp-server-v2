@@ -166,14 +166,14 @@ namespace Perpetuum.AdminTool.ViewModels
         private async Task ExportTemplateAsync()
         {
             if (SelectedRow == null) return;
-            IsLoading     = true;
+            IsLoading = true;
             StatusMessage = "Generating export script...";
             StatusIsError = false;
             try
             {
                 var script = await RobotExporter.ExportAsync(SelectedRow.Id, _settings.Settings.Connection);
-                var vm     = new ExportScriptViewModel($"Robot: {SelectedRow.Name}", script);
-                var win    = new ExportScriptWindow(vm) { Owner = Application.Current?.MainWindow };
+                var vm = new ExportScriptViewModel($"Robot: {SelectedRow.Name}", script);
+                var win = new ExportScriptWindow(vm) { Owner = Application.Current?.MainWindow };
                 win.ShowDialog();
                 StatusMessage = "Export complete.";
             }

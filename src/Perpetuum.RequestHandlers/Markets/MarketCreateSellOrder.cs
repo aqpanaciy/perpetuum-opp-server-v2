@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers.Markets
         private readonly IMarketInfoService _marketInfoService;
         private readonly IMarketOrderRepository _marketOrderRepository;
 
-        public MarketCreateSellOrder(MarketHandler marketHandler,MarketHelper marketHelper,IMarketInfoService marketInfoService,IMarketOrderRepository marketOrderRepository)
+        public MarketCreateSellOrder(MarketHandler marketHandler, MarketHelper marketHelper, IMarketInfoService marketInfoService, IMarketOrderRepository marketOrderRepository)
         {
             _marketHandler = marketHandler;
             _marketHelper = marketHelper;

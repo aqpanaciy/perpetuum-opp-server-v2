@@ -21,7 +21,7 @@ namespace Perpetuum.RequestHandlers.RobotTemplates
                 _robotTemplateRepository.DeleteByID(id);
 
                 SendRobotTemplateListWhenTransactionCompleted(request);
-                
+
                 scope.Complete();
             }
         }

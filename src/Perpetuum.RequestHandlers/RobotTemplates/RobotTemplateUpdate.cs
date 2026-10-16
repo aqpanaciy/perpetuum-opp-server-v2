@@ -40,7 +40,7 @@ namespace Perpetuum.RequestHandlers.RobotTemplates
 
                 _robotTemplateRepository.Update(template);
                 SendRobotTemplateListWhenTransactionCompleted(request);
-                
+
                 scope.Complete();
             }
         }

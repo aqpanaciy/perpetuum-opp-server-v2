@@ -23,7 +23,7 @@ namespace Perpetuum.Containers
                                           IEntityVisitor<VolumeWrapperContainer>,
                                           IEntityVisitor<InfiniteBoxContainer>,
                                           IEntityVisitor<LimitedBoxContainer>,
-                                          IEntityVisitor<RobotInventory>,IEntityVisitor<SystemContainer>
+                                          IEntityVisitor<RobotInventory>, IEntityVisitor<SystemContainer>
     {
         private readonly Character _character;
         private readonly ContainerAccess _access;
@@ -49,7 +49,7 @@ namespace Perpetuum.Containers
                 return ErrorCodes.CharacterHasToBeDocked;
 
             //check structure eid VS docked state
-            if ( _character.CurrentDockingBaseEid != container.StructureRoot )
+            if (_character.CurrentDockingBaseEid != container.StructureRoot)
                 return ErrorCodes.ItemOutOfRange;
 
             return ErrorCodes.NoError;
@@ -73,7 +73,7 @@ namespace Perpetuum.Containers
         {
             Visit((Container)hangar);
 
-            if ( _error != ErrorCodes.NoError )
+            if (_error != ErrorCodes.NoError)
                 return;
 
             if (hangar.IsLeaseExpired && _access != ContainerAccess.LogList)
@@ -82,11 +82,11 @@ namespace Perpetuum.Containers
                 return;
             }
 
-            if (!(_access == ContainerAccess.LogList ||_access == ContainerAccess.LogClear || _access == ContainerAccess.LogStart || 
-                  _access == ContainerAccess.List || _access == ContainerAccess.LogStop)) 
+            if (!(_access == ContainerAccess.LogList || _access == ContainerAccess.LogClear || _access == ContainerAccess.LogStart ||
+                  _access == ContainerAccess.List || _access == ContainerAccess.LogStop))
             {
                 _error = CheckDockedState(hangar);
-                if ( _error != ErrorCodes.NoError )
+                if (_error != ErrorCodes.NoError)
                     return;
             }
 
@@ -115,7 +115,7 @@ namespace Perpetuum.Containers
             //if his corporation owns this container
             //check role
             var memberRole = Corporation.GetRoleFromSql(_character);
-            if ( !hangar.HasAccess(memberRole,_access) )
+            if (!hangar.HasAccess(memberRole, _access))
                 _error = ErrorCodes.InsufficientPrivileges;
         }
 
@@ -131,32 +131,32 @@ namespace Perpetuum.Containers
             switch (_access)
             {
                 case ContainerAccess.List:
-                {
-                    if (_character != container.PrincipalCharacter)
                     {
-                        _error = ErrorCodes.OnlyPrincipalAllowed;
-                        return;
+                        if (_character != container.PrincipalCharacter)
+                        {
+                            _error = ErrorCodes.OnlyPrincipalAllowed;
+                            return;
+                        }
+                        break;
                     }
-                    break;
-                }
                 case ContainerAccess.Add:
                 case ContainerAccess.Remove:
                 case ContainerAccess.Delete:
-                {
-                    if (_character != container.PrincipalCharacter)
                     {
-                        _error = ErrorCodes.OnlyPrincipalAllowed;
-                        return;
-                    }
+                        if (_character != container.PrincipalCharacter)
+                        {
+                            _error = ErrorCodes.OnlyPrincipalAllowed;
+                            return;
+                        }
 
-                    var containerParent = container.GetOrLoadParentEntity();
-                    if (containerParent is LimitedBoxContainer || containerParent is DefaultSystemContainer)
-                    {
-                        _error = ErrorCodes.ItemRelocateFails;
-                        return;
+                        var containerParent = container.GetOrLoadParentEntity();
+                        if (containerParent is LimitedBoxContainer || containerParent is DefaultSystemContainer)
+                        {
+                            _error = ErrorCodes.ItemRelocateFails;
+                            return;
+                        }
+                        break;
                     }
-                    break;
-                }
             }
 
             Visit((Container)container);
@@ -190,7 +190,7 @@ namespace Perpetuum.Containers
         {
             _error = inventory.CheckParentRobot(_character.Eid);
 
-            if ( _error != ErrorCodes.NoError )
+            if (_error != ErrorCodes.NoError)
                 return;
 
             Visit((Container)inventory);

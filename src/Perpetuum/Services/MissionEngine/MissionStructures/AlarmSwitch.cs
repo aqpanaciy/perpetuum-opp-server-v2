@@ -65,15 +65,15 @@ namespace Perpetuum.Services.MissionEngine.MissionStructures
             x.ThrowIfNotNull(ErrorCodes.MissionAlarmAlreadyStarted, gex =>
             {
 
-               /*
-               gex.SetData( k.timeOut, (int) AlarmPeriod.TotalMilliseconds);
-               gex.SetData( k.started, registeredPlayer.registerTime);
-               gex.SetData( k.now, (long)GlobalTimer.Elapsed.TotalMilliseconds);
-               */
+                /*
+                gex.SetData( k.timeOut, (int) AlarmPeriod.TotalMilliseconds);
+                gex.SetData( k.started, registeredPlayer.registerTime);
+                gex.SetData( k.now, (long)GlobalTimer.Elapsed.TotalMilliseconds);
+                */
 
-            });     
+            });
 
-            var rp = new RegisteredPlayer(player,_alarmPeriod);
+            var rp = new RegisteredPlayer(player, _alarmPeriod);
 
             ImmutableInterlocked.Update(ref _registeredPlayers, p =>
             {
@@ -82,11 +82,11 @@ namespace Perpetuum.Services.MissionEngine.MissionStructures
 
             CreateInteractionBeam(player);
 
-            player.SendStartProgressBar(this,_alarmPeriod,_elapsed);
+            player.SendStartProgressBar(this, _alarmPeriod, _elapsed);
         }
-        
+
         private readonly IntervalTimer _alarmTimer = new IntervalTimer(TimeSpan.FromSeconds(2));
-        
+
         private TimeSpan _elapsed;
 
         protected override void OnUpdate(TimeSpan time)
@@ -147,13 +147,13 @@ namespace Perpetuum.Services.MissionEngine.MissionStructures
             base.OnUpdate(time);
         }
 
-        
 
-        
-        protected virtual void OnPeriodOver([NotNull]Player player)
+
+
+        protected virtual void OnPeriodOver([NotNull] Player player)
         {
-            player.MissionHandler.EnqueueMissionEventInfo(new SwitchEventInfo(player,this, CurrentPosition));
-            
+            player.MissionHandler.EnqueueMissionEventInfo(new SwitchEventInfo(player, this, CurrentPosition));
+
             CreateSuccessBeam(player);
 
             var info = BaseInfoToDictionary();
@@ -172,13 +172,13 @@ namespace Perpetuum.Services.MissionEngine.MissionStructures
             {
                 this.player = player;
                 _timer = new TimeTracker(time);
-                
+
             }
-           
+
             public void Update(TimeSpan elapsed)
             {
                 _timer.Update(elapsed);
-                
+
             }
 
             public TimeTracker Timer
@@ -191,7 +191,7 @@ namespace Perpetuum.Services.MissionEngine.MissionStructures
                 //not passed yet, is he standing nearby?
                 return alarmSwitch.IsInRangeOf3D(player, DistanceConstants.ALARMSWITCH_STAYCLOSE_DISTANCE);
             }
-           
+
         }
     }
 

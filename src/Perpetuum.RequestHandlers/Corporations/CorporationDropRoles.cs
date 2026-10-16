@@ -30,7 +30,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                 CorporationData.RemoveFromCache(corporation.Eid);
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

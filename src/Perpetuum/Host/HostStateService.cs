@@ -23,16 +23,16 @@ namespace Perpetuum.Host
             }
         }
 
-        public event Action<IHostStateService,HostState> StateChanged;
+        public event Action<IHostStateService, HostState> StateChanged;
 
         private void OnStateChanged(HostState state)
         {
             Logger.Info($">>>> Perpetuum Server State : [{_state}]");
             try
             {
-                StateChanged?.Invoke(this,state);
+                StateChanged?.Invoke(this, state);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Exception(ex);
             }

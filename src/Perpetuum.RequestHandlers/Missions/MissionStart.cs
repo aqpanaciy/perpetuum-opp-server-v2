@@ -13,7 +13,7 @@ namespace Perpetuum.RequestHandlers.Missions
         private readonly MissionProcessor _missionProcessor;
         private readonly MissionDataCache _missionDataCache;
 
-        public MissionStart(MissionProcessor missionProcessor,MissionDataCache missionDataCache)
+        public MissionStart(MissionProcessor missionProcessor, MissionDataCache missionDataCache)
         {
             _missionProcessor = missionProcessor;
             _missionDataCache = missionDataCache;
@@ -52,7 +52,7 @@ namespace Perpetuum.RequestHandlers.Missions
                 var result = _missionProcessor.MissionStartForRequest(character, missionCategory, level, location);
 
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

@@ -20,7 +20,7 @@ namespace Perpetuum.Zones.Artifacts.Scanners
         private readonly IArtifactGenerator _artifactGenerator;
         private readonly IArtifactLootGenerator _artifactLootGenerator;
 
-        public ArtifactScanner(IZone zone,IArtifactRepository artifactRepository,IArtifactGenerator artifactGenerator,IArtifactLootGenerator artifactLootGenerator)
+        public ArtifactScanner(IZone zone, IArtifactRepository artifactRepository, IArtifactGenerator artifactGenerator, IArtifactLootGenerator artifactLootGenerator)
         {
             _zone = zone;
             _artifactRepository = artifactRepository;
@@ -78,10 +78,10 @@ namespace Perpetuum.Zones.Artifacts.Scanners
             return scanResults;
         }
 
-        private void CreateLoots(Player player,Artifact artifact)
+        private void CreateLoots(Player player, Artifact artifact)
         {
             var lootItems = _artifactLootGenerator.GenerateLoot(artifact);
-            if ( lootItems == null )
+            if (lootItems == null)
                 return;
 
             LootContainer.Create().SetOwner(player).SetEnterBeamType(BeamType.artifact_found).AddLoot(lootItems.LootItems).BuildAndAddToZone(_zone, lootItems.Position);
@@ -95,10 +95,10 @@ namespace Perpetuum.Zones.Artifacts.Scanners
         private void SpawnNpcs(Player player, Artifact artifact)
         {
             //do the standard stuff if the presence is set
-            if (artifact.Info.npcPresenceId == null) 
+            if (artifact.Info.npcPresenceId == null)
                 return;
 
-            var presence = _zone.AddDynamicPresenceToPosition((int) artifact.Info.npcPresenceId, artifact.Position);
+            var presence = _zone.AddDynamicPresenceToPosition((int)artifact.Info.npcPresenceId, artifact.Position);
 
             foreach (var npc in presence.Flocks.GetMembers())
             {
@@ -106,7 +106,7 @@ namespace Perpetuum.Zones.Artifacts.Scanners
                                                             TimeSpan.FromHours(1); //mission presence-ben hosszu idore vannak taggelve
 
                 npc.Tag(player, duration);
-                npc.AddDirectThreat(player,40 + FastRandom.NextDouble(0.0, 3.0));
+                npc.AddDirectThreat(player, 40 + FastRandom.NextDouble(0.0, 3.0));
             }
 
             _zone.CreateBeam(BeamType.teleport_storm, b => b.WithPosition(artifact.Position).WithDuration(TimeSpan.FromSeconds(100)));

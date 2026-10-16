@@ -4,7 +4,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
     {
         public virtual void VisitLayer(Layer layer)
         {
-            
+
         }
     }
 
@@ -12,7 +12,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
     {
         public virtual void VisitMineralLayer(MineralLayer layer)
         {
-            VisitLayer(layer);            
+            VisitLayer(layer);
         }
 
         public virtual void VisitLiquidLayer(LiquidLayer layer)

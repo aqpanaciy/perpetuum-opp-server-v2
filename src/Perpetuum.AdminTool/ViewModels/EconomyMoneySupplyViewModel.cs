@@ -11,16 +11,16 @@ namespace Perpetuum.AdminTool.ViewModels
     {
         private readonly EconomyMoneySupplyRepository _repo;
 
-        [ObservableProperty] private bool   _isLoading;
+        [ObservableProperty] private bool _isLoading;
         [ObservableProperty] private string _statusMessage = "";
-        [ObservableProperty] private bool   _statusIsError;
-        [ObservableProperty] private long   _totalNic;
-        [ObservableProperty] private long   _medianNic;
+        [ObservableProperty] private bool _statusIsError;
+        [ObservableProperty] private long _totalNic;
+        [ObservableProperty] private long _medianNic;
         [ObservableProperty] private double _top1PctShare;
-        [ObservableProperty] private long   _idleNic;
+        [ObservableProperty] private long _idleNic;
 
-        public ObservableCollection<EconomySnapshotRow>          SnapshotRows  { get; } = new();
-        public ObservableCollection<EconomyWealthRow>            Top10Rows     { get; } = new();
+        public ObservableCollection<EconomySnapshotRow> SnapshotRows { get; } = new();
+        public ObservableCollection<EconomyWealthRow> Top10Rows { get; } = new();
         public ObservableCollection<EconomyCorporationWealthRow> Top10CorpRows { get; } = new();
 
         public EconomyMoneySupplyViewModel(EconomyMoneySupplyRepository repo) => _repo = repo;
@@ -28,17 +28,17 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand(CanExecute = nameof(CanRefresh))]
         public async Task RefreshAsync()
         {
-            IsLoading     = true;
+            IsLoading = true;
             StatusMessage = "Loading...";
             StatusIsError = false;
             try
             {
                 var data = await _repo.LoadAsync();
 
-                TotalNic     = data.TotalNic;
-                MedianNic    = data.MedianNic;
+                TotalNic = data.TotalNic;
+                MedianNic = data.MedianNic;
                 Top1PctShare = data.Top1PctShare;
-                IdleNic      = data.IdleNic;
+                IdleNic = data.IdleNic;
 
                 SnapshotRows.Clear();
                 foreach (var r in data.SnapshotRows) SnapshotRows.Add(r);

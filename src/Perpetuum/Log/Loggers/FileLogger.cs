@@ -8,7 +8,7 @@ namespace Perpetuum.Log.Loggers
 {
     public class FileLogger<T> : BufferedLogger<T> where T : ILogEvent
     {
-        private readonly ILogEventFormatter<T,string> _formatter;
+        private readonly ILogEventFormatter<T, string> _formatter;
         private readonly IFileSystem _fileSystem;
         private readonly Func<string> _pathFactory;
 
@@ -23,11 +23,11 @@ namespace Perpetuum.Log.Loggers
 
         protected override void Flush(T[] logEvents)
         {
-            if ( logEvents.Length == 0 )
+            if (logEvents.Length == 0)
                 return;
 
             var path = _pathFactory();
-            
+
             var directoryPath = Path.GetDirectoryName(path);
             if (directoryPath == null)
                 return;
@@ -45,7 +45,7 @@ namespace Perpetuum.Log.Loggers
             {
                 try
                 {
-                    _fileSystem.AppendAllText(path,builder.ToString());
+                    _fileSystem.AppendAllText(path, builder.ToString());
                     return;
                 }
                 catch (Exception ex)

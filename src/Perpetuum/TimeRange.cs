@@ -17,7 +17,7 @@ namespace Perpetuum
             get { return _max; }
         }
 
-        public TimeRange(TimeSpan min,TimeSpan max)
+        public TimeRange(TimeSpan min, TimeSpan max)
         {
             if (min < max)
             {
@@ -33,7 +33,7 @@ namespace Perpetuum
 
         public static TimeRange FromLength(TimeSpan min, TimeSpan length)
         {
-            return new TimeRange(min,min + length);
+            return new TimeRange(min, min + length);
         }
 
         public bool Equals(TimeRange other)
@@ -45,14 +45,14 @@ namespace Perpetuum
         {
             if (ReferenceEquals(null, obj))
                 return false;
-            return obj is TimeRange && Equals((TimeRange) obj);
+            return obj is TimeRange && Equals((TimeRange)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (_min.GetHashCode()*397) ^ _max.GetHashCode();
+                return (_min.GetHashCode() * 397) ^ _max.GetHashCode();
             }
         }
 

@@ -17,7 +17,7 @@ namespace Perpetuum.RequestHandlers.Zone
             var decorIds =
                 Db.Query().CommandText(q)
                     .SetParameter("@definition", definition)
-                    .SetParameter("@zoneId",request.Zone.Id)
+                    .SetParameter("@zoneId", request.Zone.Id)
                     .Execute()
                     .Select(r => DataRecordExtensions.GetValue<int>(r, 0)).ToArray();
 

@@ -22,7 +22,7 @@ namespace Perpetuum.Groups.Corporations.Applications
             CorporationEID = corporation.Eid;
         }
 
-        public Dictionary<string, object > ToDictionary()
+        public Dictionary<string, object> ToDictionary()
         {
             return new Dictionary<string, object>
             {
@@ -33,9 +33,9 @@ namespace Perpetuum.Groups.Corporations.Applications
             };
         }
 
-        private static readonly IConverter<IDataRecord,CorporationApplication> _converter = new Converter();
+        private static readonly IConverter<IDataRecord, CorporationApplication> _converter = new Converter();
 
-        private class Converter : IConverter<IDataRecord,CorporationApplication>
+        private class Converter : IConverter<IDataRecord, CorporationApplication>
         {
             public CorporationApplication Convert(IDataRecord record)
             {
@@ -62,7 +62,7 @@ namespace Perpetuum.Groups.Corporations.Applications
         {
             Db.Query().CommandText("delete from corporationApplication where characterID=@characterID and corporationEID = @corporationEid")
                     .SetParameter("@characterID", Character.Id)
-                    .SetParameter("@corporationEid",CorporationEID)
+                    .SetParameter("@corporationEid", CorporationEID)
                     .ExecuteNonQuery();
         }
 

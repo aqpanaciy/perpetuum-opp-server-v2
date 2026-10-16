@@ -12,9 +12,9 @@ namespace Perpetuum.Services.Relay
         public int usersCount;
         public int maxUsers;
 
-        public Dictionary<string,object> ToDictionary()
+        public Dictionary<string, object> ToDictionary()
         {
-            return new Dictionary<string,object>
+            return new Dictionary<string, object>
             {
                 {k.state,(int)state},
                 {k.name,name},

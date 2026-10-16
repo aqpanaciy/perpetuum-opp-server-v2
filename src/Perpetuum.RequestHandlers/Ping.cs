@@ -10,7 +10,7 @@ namespace Perpetuum.RequestHandlers
             //if not then it's a reply to the relay's ping
             if (!request.Data.ContainsKey(k.state))
                 return;
-            
+
             request.Data[k.state] = "response";
             Message.Builder.FromRequest(request).WithData(request.Data).Send();
         }

@@ -34,7 +34,7 @@ namespace Perpetuum.RequestHandlers.RobotTemplates
 
                 var result = publicContainer.ToDictionary();
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

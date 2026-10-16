@@ -15,7 +15,7 @@ namespace Perpetuum.Data
         /// </summary>
         public static IDictionary<TKey, TValue> CreateCache<TKey, TValue>(string table, string columnKey, string columnValue)
         {
-            return CreateCache<TKey,TValue>(table, columnKey, r => r.GetValue<TValue>(columnValue));
+            return CreateCache<TKey, TValue>(table, columnKey, r => r.GetValue<TValue>(columnValue));
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Perpetuum.Data
             });
         }
 
-        private static Dictionary<TKey, TV> LoadTableToDictionary<TKey,TV>(string table, string columnKey, Func<IDataRecord, TV> valueFactory, Func<IDataRecord, bool> selector, Func<TKey, TKey> keyFactory)
+        private static Dictionary<TKey, TV> LoadTableToDictionary<TKey, TV>(string table, string columnKey, Func<IDataRecord, TV> valueFactory, Func<IDataRecord, bool> selector, Func<TKey, TKey> keyFactory)
         {
             var records = Db.Query().CommandText($"select * from {table}").Execute();
 

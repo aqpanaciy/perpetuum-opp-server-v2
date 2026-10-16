@@ -12,7 +12,7 @@ namespace Perpetuum.RequestHandlers
         private readonly ISteamManager _steamManager;
         private readonly IAccountRepository _accountRepository;
 
-        public SteamListAccounts(ISteamManager steamManager,IAccountRepository accountRepository)
+        public SteamListAccounts(ISteamManager steamManager, IAccountRepository accountRepository)
         {
             _steamManager = steamManager;
             _accountRepository = accountRepository;
@@ -34,7 +34,8 @@ namespace Perpetuum.RequestHandlers
                     accounts.Add(newAccount);
                 }
 
-                Transaction.Current.OnCommited(() => {
+                Transaction.Current.OnCommited(() =>
+                {
                     var accountInfos = accounts.ToDictionary("a", a => a.ToDictionary());
                     Message.Builder.FromRequest(request).WithData(accountInfos).Send();
                 });

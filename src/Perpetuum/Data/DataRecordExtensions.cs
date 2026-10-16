@@ -32,7 +32,7 @@ namespace Perpetuum.Data
             return (T)record.GetValue(index);
         }
 
-        public static T GetValueOrDefault<T>(this IDataRecord record,string name,T defaultValue = default(T))
+        public static T GetValueOrDefault<T>(this IDataRecord record, string name, T defaultValue = default(T))
         {
             if (record.TryGetValue(name, out T value))
                 return value;
@@ -40,7 +40,7 @@ namespace Perpetuum.Data
             return defaultValue;
         }
 
-        public static T GetValueOrDefault<T>(this IDataRecord record,string name,Func<T> valueFactory)
+        public static T GetValueOrDefault<T>(this IDataRecord record, string name, Func<T> valueFactory)
         {
             if (record.TryGetValue(name, out T value))
                 return value;
@@ -57,7 +57,7 @@ namespace Perpetuum.Data
                 var index = record.GetOrdinal(name);
                 if (!record.IsDBNull(index))
                 {
-                    result = GetValue<T>(record, (int) index);
+                    result = GetValue<T>(record, (int)index);
                 }
             }
 
@@ -111,7 +111,7 @@ namespace Perpetuum.Data
             }
         }
 
-        public static string ToInsertString(this IDataRecord record, string tableName, string exceptColumn =null)
+        public static string ToInsertString(this IDataRecord record, string tableName, string exceptColumn = null)
         {
             var dict = RecordToDictionary(record);
             return dict.ToInsertString(tableName, exceptColumn);

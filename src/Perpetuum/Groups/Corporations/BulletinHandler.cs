@@ -28,7 +28,7 @@ namespace Perpetuum.Groups.Corporations
                 [k.groupEID] = groupEID,
                 [k.title] = title,
                 [k.started] = startDate,
-                [k.startedBy] =  startedBy
+                [k.startedBy] = startedBy
             };
             return dictionary;
         }
@@ -112,7 +112,8 @@ namespace Perpetuum.Groups.Corporations
                                  .Execute();
 
             var counter = 0;
-            return (from b in records select (object) new Dictionary<string, object>
+            return (from b in records
+                    select (object)new Dictionary<string, object>
             {
                 {k.bulletinID, b.GetValue<int>(0)},
                 { k.title, b.GetValue<string>(1)}
@@ -124,14 +125,14 @@ namespace Perpetuum.Groups.Corporations
         {
             var counter = 0;
             var entries = new Dictionary<string, object>();
-            
+
             var records = Db.Query().CommandText("select entryID,characterID,entrytext,entrydate from bulletinentries where bulletinID=@bulletinID")
                                  .SetParameter("@bulletinID", bulletinID)
                                  .Execute();
 
             foreach (var record in records)
-           {
-               var oneEntry = new Dictionary<string, object>(4)
+            {
+                var oneEntry = new Dictionary<string, object>(4)
                                   {
                                       {k.entryID, record.GetValue<int>(0)},
                                       {k.characterID, record.GetValue<int>(1)},
@@ -139,8 +140,8 @@ namespace Perpetuum.Groups.Corporations
                                       {k.date, record.GetValue<DateTime>(3)}
                                   };
 
-               entries.Add("b"+counter++, oneEntry);
-           }
+                entries.Add("b" + counter++, oneEntry);
+            }
 
             return new Dictionary<string, object>(2)
             {
@@ -149,7 +150,7 @@ namespace Perpetuum.Groups.Corporations
             };
         }
 
-        public Dictionary<string, object > GetNewBulletinEntries(DateTime startTime, long groupEID)
+        public Dictionary<string, object> GetNewBulletinEntries(DateTime startTime, long groupEID)
         {
 
             var records = Db.Query().CommandText("select entryID,characterID,entrytext,entrydate,e.bulletinid,b.title from bulletinentries e join bulletins b on b.bulletinid=e.bulletinid where entrydate>@startTime and e.bulletinid in (select bulletinid from bulletins where groupEID=@groupEID)")
@@ -159,7 +160,7 @@ namespace Perpetuum.Groups.Corporations
 
             var count = 0;
             return (from r in records
-                 select (object) new Dictionary<string, object>
+                    select (object)new Dictionary<string, object>
                                      {
                                          {k.entryID, r.GetValue<int>(0)},
                                          {k.characterID, r.GetValue<int>(1)},
@@ -180,13 +181,13 @@ namespace Perpetuum.Groups.Corporations
                             .ExecuteScalar<int>();
 
             var bd = new BulletinDescription
-                         {
-                            bulletinID = bulletinID,
-                            title= title,
-                            groupEID=groupEID,
-                            startDate= DateTime.Now,
-                            startedBy=startedBy.Id
-                         };
+            {
+                bulletinID = bulletinID,
+                title = title,
+                groupEID = groupEID,
+                startDate = DateTime.Now,
+                startedBy = startedBy.Id
+            };
             return bd;
         }
 
@@ -218,14 +219,14 @@ namespace Perpetuum.Groups.Corporations
                              .SetParameter("@entryID", entryID)
                              .ExecuteNonQuery();
 
-            if ( res == 0 )
+            if (res == 0)
                 throw new PerpetuumException(ErrorCodes.SQLDeleteError);
         }
 
         public int CountEntries(int bulletinID)
         {
             return Db.Query().CommandText("select count(*) from bulletinentries where bulletinID=@bulletinID")
-                          .SetParameter("@bulletinID",bulletinID)
+                          .SetParameter("@bulletinID", bulletinID)
                           .ExecuteScalar<int>();
         }
 

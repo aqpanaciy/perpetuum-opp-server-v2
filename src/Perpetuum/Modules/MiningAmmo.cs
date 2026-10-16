@@ -28,7 +28,7 @@ namespace Perpetuum.Modules
                              };
         }
 
-        public MiningAmmo() 
+        public MiningAmmo()
         {
             miningCycleTimeModifier = new MiningCycleTimeModifierProperty(this);
             AddProperty(miningCycleTimeModifier);
@@ -36,9 +36,9 @@ namespace Perpetuum.Modules
 
         public MaterialType MaterialType => ED.Options.MineralLayer.ToMaterialType();
 
-        private static bool TryGetMiningAmmoModifier(MaterialType materialType,out MiningAmmoModifier miningAmmoModifier)
+        private static bool TryGetMiningAmmoModifier(MaterialType materialType, out MiningAmmoModifier miningAmmoModifier)
         {
-            return _modifiers.TryGetValue(materialType,out miningAmmoModifier);
+            return _modifiers.TryGetValue(materialType, out miningAmmoModifier);
         }
 
         private struct MiningAmmoModifier
@@ -46,7 +46,7 @@ namespace Perpetuum.Modules
             public readonly AggregateField cycleTimeModifier;
             public readonly AggregateField amountModifier;
 
-            public MiningAmmoModifier(AggregateField cycleTimeModifier,AggregateField amountModifier)
+            public MiningAmmoModifier(AggregateField cycleTimeModifier, AggregateField amountModifier)
             {
                 this.cycleTimeModifier = cycleTimeModifier;
                 this.amountModifier = amountModifier;
@@ -56,7 +56,7 @@ namespace Perpetuum.Modules
         public void ApplyMiningAmountModifier(ref ItemPropertyModifier propertyModifier)
         {
             MiningAmmoModifier modifier;
-            if (!TryGetMiningAmmoModifier(MaterialType, out modifier)) 
+            if (!TryGetMiningAmmoModifier(MaterialType, out modifier))
                 return;
 
             var parentRobot = GetParentRobot();
@@ -69,7 +69,7 @@ namespace Perpetuum.Modules
 
         private class MiningCycleTimeModifierProperty : AmmoProperty<MiningAmmo>
         {
-            public MiningCycleTimeModifierProperty(MiningAmmo ammo) : base(ammo,AggregateField.mining_cycle_time_modifier)
+            public MiningCycleTimeModifierProperty(MiningAmmo ammo) : base(ammo, AggregateField.mining_cycle_time_modifier)
             {
             }
 

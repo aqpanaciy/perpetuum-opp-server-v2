@@ -13,15 +13,15 @@ namespace Perpetuum.Services.ExtensionService
 
         private CharacterExtensionCollection()
         {
-            _extensions = new Extension[0];  
+            _extensions = new Extension[0];
         }
 
-        public CharacterExtensionCollection(IExtensionReader extensionReader,Character character)
+        public CharacterExtensionCollection(IExtensionReader extensionReader, Character character)
         {
-            _extensions = GetAll(extensionReader,character);
+            _extensions = GetAll(extensionReader, character);
         }
 
-        private Extension[] GetAll(IExtensionReader extensionReader,Character character)
+        private Extension[] GetAll(IExtensionReader extensionReader, Character character)
         {
             return Db.Query().CommandText("select extensionid,extensionlevel from characterextensions where characterid = @characterId")
                 .SetParameter("@characterId", character.Id)

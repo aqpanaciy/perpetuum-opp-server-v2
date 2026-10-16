@@ -32,21 +32,21 @@ namespace Perpetuum.Services.Channels
                 .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
         }
 
-        public void Update(Channel channel,ChannelMember member)
+        public void Update(Channel channel, ChannelMember member)
         {
             const string cmd = "update channelmembers set role = @newRole where memberId = @memberId and channelId = @channelId";
 
             Db.Query().CommandText(cmd)
-                .SetParameter("@newRole",member.role)
-                .SetParameter("@memberId",member.character.Id)
-                .SetParameter("@channelId",channel.Id)
+                .SetParameter("@newRole", member.role)
+                .SetParameter("@memberId", member.character.Id)
+                .SetParameter("@channelId", channel.Id)
                 .ExecuteNonQuery().ThrowIfZero(ErrorCodes.SQLUpdateError);
         }
 
-        public void Delete(Channel channel,ChannelMember member)
+        public void Delete(Channel channel, ChannelMember member)
         {
             Db.Query().CommandText("delete channelmembers where memberid = @memberId and channelid = @channelId")
-                .SetParameter("@memberId",member.character.Id)
+                .SetParameter("@memberId", member.character.Id)
                 .SetParameter("@channelId", channel.Id)
                 .ExecuteNonQuery().ThrowIfZero(ErrorCodes.SQLDeleteError);
         }
@@ -63,7 +63,7 @@ namespace Perpetuum.Services.Channels
                         name = r.GetValue<string>(0),
                         role = (ChannelMemberRole)r.GetValue<int>(1)
                     };
-                }).ToDictionary(a => a.name, a => new ChannelMember(character,a.role));
+                }).ToDictionary(a => a.name, a => new ChannelMember(character, a.role));
 
             return x;
         }
@@ -87,7 +87,7 @@ namespace Perpetuum.Services.Channels
                 return null;
 
             var role = (ChannelMemberRole)record.GetValue<int>(0);
-            return new ChannelMember(character,role);
+            return new ChannelMember(character, role);
         }
     }
 }

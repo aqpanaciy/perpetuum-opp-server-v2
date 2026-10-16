@@ -10,7 +10,7 @@ namespace Perpetuum.RequestHandlers
         private readonly GoodiePackHandler _goodiePackHandler;
         private readonly IAccountRepository _accountRepository;
 
-        public GoodiePackRedeem(GoodiePackHandler goodiePackHandler,IAccountRepository accountRepository)
+        public GoodiePackRedeem(GoodiePackHandler goodiePackHandler, IAccountRepository accountRepository)
         {
             _goodiePackHandler = goodiePackHandler;
             _accountRepository = accountRepository;
@@ -27,7 +27,7 @@ namespace Perpetuum.RequestHandlers
                 var character = request.Session.Character;
                 var result = _goodiePackHandler.RedeemPackBySelection(campaignId, account, character, isPackIndy);
                 Message.Builder.FromRequest(request).WithData(result).WithEmpty().Send();
-                
+
                 scope.Complete();
             }
         }

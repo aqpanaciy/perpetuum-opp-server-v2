@@ -12,7 +12,7 @@ namespace Perpetuum.Items.Templates
         [CanBeNull]
         private readonly ItemTemplate<Ammo> _ammo;
 
-        private ModuleTemplate(int slot,ItemTemplate<Ammo> ammo) : base(1,false)
+        private ModuleTemplate(int slot, ItemTemplate<Ammo> ammo) : base(1, false)
         {
             _slot = slot;
             _ammo = ammo;
@@ -23,7 +23,7 @@ namespace Perpetuum.Items.Templates
             get { return _slot; }
         }
 
-        public override Dictionary<string,object> ToDictionary()
+        public override Dictionary<string, object> ToDictionary()
         {
             var dictionary = base.ToDictionary();
             dictionary[k.slot] = _slot;
@@ -47,7 +47,7 @@ namespace Perpetuum.Items.Templates
                 return Create(definition, slot, null);
 
             var ammo = ItemTemplate<Ammo>.Create(ammoDefinition, dictionary.GetOrDefault(k.ammoQuantity, 0), false);
-            return Create(definition, slot,ammo);
+            return Create(definition, slot, ammo);
         }
 
         protected override bool OnValidate(Module module)
@@ -86,9 +86,9 @@ namespace Perpetuum.Items.Templates
             base.OnBuild(module);
         }
 
-        private static ModuleTemplate Create(int definition, int slot,ItemTemplate<Ammo> ammo)
+        private static ModuleTemplate Create(int definition, int slot, ItemTemplate<Ammo> ammo)
         {
-            return new ModuleTemplate(slot,ammo) { EntityDefault = EntityDefault.Get(definition) };
+            return new ModuleTemplate(slot, ammo) { EntityDefault = EntityDefault.Get(definition) };
         }
     }
 }

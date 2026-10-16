@@ -15,7 +15,7 @@ namespace Perpetuum.Zones.Scanning.Modules
 
         public MineralScanResult LastScanResult { get; set; }
 
-        public GeoScannerModule(CategoryFlags ammoCategoryFlags,Scanner.Factory scannerFactory) : base(ammoCategoryFlags)
+        public GeoScannerModule(CategoryFlags ammoCategoryFlags, Scanner.Factory scannerFactory) : base(ammoCategoryFlags)
         {
             _scannerFactory = scannerFactory;
             _miningProbeAccuracy = new MiningProbeAccuracy(this);
@@ -60,7 +60,7 @@ namespace Perpetuum.Zones.Scanning.Modules
             var player = (Player)ParentRobot;
 
             var zone = player.Zone;
-            if (zone == null) 
+            if (zone == null)
                 return;
 
             var ammo = GetAmmo();

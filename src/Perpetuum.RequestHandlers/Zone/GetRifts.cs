@@ -16,8 +16,8 @@ namespace Perpetuum.RequestHandlers.Zone
             {
                 var d = new Dictionary<string, object>
                 {
-                    [k.x] = (int) r.CurrentPosition.X,
-                    [k.y] = (int) r.CurrentPosition.Y
+                    [k.x] = (int)r.CurrentPosition.X,
+                    [k.y] = (int)r.CurrentPosition.Y
                 };
 
                 var e = r.EffectHandler.GetEffectsByType(EffectType.effect_despawn_timer).FirstOrDefault();

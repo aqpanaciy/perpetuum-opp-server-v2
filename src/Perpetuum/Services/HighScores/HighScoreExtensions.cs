@@ -6,9 +6,9 @@ namespace Perpetuum.Services.HighScores
 {
     public static class HighScoreExtensions
     {
-        public static Task UpdateHighScoreAsync(this IHighScoreService service,Player killer, Unit victim)
+        public static Task UpdateHighScoreAsync(this IHighScoreService service, Player killer, Unit victim)
         {
-            return Task.Run(() => service.UpdateHighScore(killer,victim));
+            return Task.Run(() => service.UpdateHighScore(killer, victim));
         }
     }
 }

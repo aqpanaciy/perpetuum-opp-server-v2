@@ -14,7 +14,7 @@ namespace Perpetuum.Units
 
             foreach (var property in p)
             {
-                stream.AppendByte((byte) property.Type);
+                stream.AppendByte((byte)property.Type);
                 stream.AppendObject(property.Value);
             }
         }

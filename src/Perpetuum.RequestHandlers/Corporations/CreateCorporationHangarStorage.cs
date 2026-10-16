@@ -39,7 +39,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                 mainHangar.Save();
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

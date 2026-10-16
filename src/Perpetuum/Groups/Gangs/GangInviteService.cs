@@ -25,7 +25,7 @@ namespace Perpetuum.Groups.Gangs
 
         public void AddInvite(GangInviteInfo inviteInfo)
         {
-            ImmutableInterlocked.Update(ref _invites,i => i.Add(inviteInfo));
+            ImmutableInterlocked.Update(ref _invites, i => i.Add(inviteInfo));
         }
 
         public void RemoveInvite(GangInviteInfo inviteInfo)

@@ -15,13 +15,13 @@ namespace Perpetuum.AdminTool.ViewModels
         private static readonly HashSet<int> PlasmaIds = new() { 3271, 3272, 3273, 3274 };
         private const int EnglishLangId = 0;
 
-        private readonly AutoMarketRepository   _repo;
+        private readonly AutoMarketRepository _repo;
         private readonly TranslationsViewModel? _translations;
-        private List<AutoMarketOrderRow>         _allOrders = new();
+        private List<AutoMarketOrderRow> _allOrders = new();
 
-        [ObservableProperty] private bool    _isLoading;
-        [ObservableProperty] private string  _statusMessage = "";
-        [ObservableProperty] private bool    _statusIsError;
+        [ObservableProperty] private bool _isLoading;
+        [ObservableProperty] private string _statusMessage = "";
+        [ObservableProperty] private bool _statusIsError;
         [ObservableProperty] private string? _orderTypeFilter;
         [ObservableProperty] private string? _categoryFilter;
 
@@ -34,30 +34,30 @@ namespace Perpetuum.AdminTool.ViewModels
 
         // Instance forwarders for WPF binding (avoids XAML build-time x:Static resolution issues)
         public IReadOnlyList<string?> OrderTypeOptionsList => OrderTypeOptions;
-        public IReadOnlyList<string?> CategoryOptionsList  => CategoryOptions;
+        public IReadOnlyList<string?> CategoryOptionsList => CategoryOptions;
 
         public AutoMarketOrdersViewModel(AutoMarketRepository repo, TranslationsViewModel? translations)
         {
-            _repo         = repo;
+            _repo = repo;
             _translations = translations;
         }
 
         [RelayCommand(CanExecute = nameof(CanRefresh))]
         public async Task RefreshAsync()
         {
-            IsLoading     = true;
+            IsLoading = true;
             StatusMessage = "Loading orders...";
             StatusIsError = false;
             try
             {
-                var raw   = await _repo.LoadOrdersAsync();
+                var raw = await _repo.LoadOrdersAsync();
                 var store = _translations?.Store;
 
                 string Translate(string defName)
                 {
                     if (string.IsNullOrEmpty(defName) || store == null) return defName;
                     var row = store.Rows.FirstOrDefault(r => r.Key == defName);
-                    var t   = row?[EnglishLangId];
+                    var t = row?[EnglishLangId];
                     return string.IsNullOrEmpty(t) ? defName : t;
                 }
 
@@ -67,20 +67,20 @@ namespace Perpetuum.AdminTool.ViewModels
 
                 _allOrders = raw.Select(d =>
                 {
-                    var category  = PlasmaIds.Contains(d.ItemDefinition) ? "Plasma"
-                                  : prodItems.Contains(d.DefinitionName)  ? "Production Item"
+                    var category = PlasmaIds.Contains(d.ItemDefinition) ? "Plasma"
+                                  : prodItems.Contains(d.DefinitionName) ? "Production Item"
                                   : "Raw Material";
-                    var orderType = d.IsSell                          ? "Sell"
-                                  : category == "Production Item"     ? "Buyback"
+                    var orderType = d.IsSell ? "Sell"
+                                  : category == "Production Item" ? "Buyback"
                                   : "Buy";
                     return new AutoMarketOrderRow
                     {
                         DisplayName = Translate(d.DefinitionName),
-                        OrderType   = orderType,
-                        Price       = d.Price,
-                        Amount      = d.Quantity,
-                        MarketName  = Translate(d.MarketDefinitionName),
-                        Category    = category,
+                        OrderType = orderType,
+                        Price = d.Price,
+                        Amount = d.Quantity,
+                        MarketName = Translate(d.MarketDefinitionName),
+                        Category = category,
                     };
                 }).ToList();
 
@@ -96,15 +96,15 @@ namespace Perpetuum.AdminTool.ViewModels
         }
 
         private bool CanRefresh() => !IsLoading;
-        partial void OnIsLoadingChanged(bool _)           => RefreshCommand.NotifyCanExecuteChanged();
-        partial void OnOrderTypeFilterChanged(string? _)  => ApplyFilter();
-        partial void OnCategoryFilterChanged(string? _)   => ApplyFilter();
+        partial void OnIsLoadingChanged(bool _) => RefreshCommand.NotifyCanExecuteChanged();
+        partial void OnOrderTypeFilterChanged(string? _) => ApplyFilter();
+        partial void OnCategoryFilterChanged(string? _) => ApplyFilter();
 
         private void ApplyFilter()
         {
             var filtered = _allOrders.AsEnumerable();
             if (OrderTypeFilter != null) filtered = filtered.Where(r => r.OrderType == OrderTypeFilter);
-            if (CategoryFilter  != null) filtered = filtered.Where(r => r.Category  == CategoryFilter);
+            if (CategoryFilter != null) filtered = filtered.Where(r => r.Category == CategoryFilter);
             FilteredOrders.Clear();
             foreach (var r in filtered) FilteredOrders.Add(r);
         }

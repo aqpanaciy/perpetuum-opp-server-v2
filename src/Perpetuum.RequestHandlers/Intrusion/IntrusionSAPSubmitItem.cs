@@ -16,9 +16,9 @@ namespace Perpetuum.RequestHandlers.Intrusion
 
                 var character = request.Session.Character;
                 var player = request.Zone.GetPlayerOrThrow(character);
-                var sap = (SpecimenProcessingSAP) request.Zone.GetUnit(sapEid).ThrowIfNull(ErrorCodes.AttackPointWasNotFound);
+                var sap = (SpecimenProcessingSAP)request.Zone.GetUnit(sapEid).ThrowIfNull(ErrorCodes.AttackPointWasNotFound);
                 sap.SubmitItem(player, itemEid);
-                
+
                 scope.Complete();
             }
         }

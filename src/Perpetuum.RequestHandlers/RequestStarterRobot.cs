@@ -15,10 +15,10 @@ namespace Perpetuum.RequestHandlers
                 var character = request.Session.Character;
 
                 var nextAvailable = character.NextAvailableRobotRequestTime;
-                nextAvailable.ThrowIfGreater(DateTime.Now, ErrorCodes.StarterRobotRequestTimerIsStillRunning,gex => gex.SetData("nextAvailable",nextAvailable));
+                nextAvailable.ThrowIfGreater(DateTime.Now, ErrorCodes.StarterRobotRequestTimerIsStillRunning, gex => gex.SetData("nextAvailable", nextAvailable));
 
                 var dockingBase = character.GetCurrentDockingBase();
-                var robot = dockingBase.CreateStarterRobotForCharacter(character,true).ThrowIfNull(ErrorCodes.StarterRobotFound);
+                var robot = dockingBase.CreateStarterRobotForCharacter(character, true).ThrowIfNull(ErrorCodes.StarterRobotFound);
 
                 Transaction.Current.OnCommited(() =>
                 {

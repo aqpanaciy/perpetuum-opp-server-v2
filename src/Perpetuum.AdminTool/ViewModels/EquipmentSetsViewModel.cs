@@ -34,12 +34,12 @@ namespace Perpetuum.AdminTool.ViewModels
         private EquipmentSetRow? _selectedSet;
 
         public bool HasSelection => SelectedSet != null;
-        public bool CanRename    => SelectedSet is { IsNew: false };
+        public bool CanRename => SelectedSet is { IsNew: false };
 
-        public ObservableCollection<EquipmentSetRow>          Sets                  { get; } = new();
-        public ObservableCollection<EquipmentSetMemberRow>    Members               { get; } = new();
-        public ObservableCollection<EquipmentSetThresholdRow> Thresholds            { get; } = new();
-        public ObservableCollection<AggregateFieldPickItem>   AggregateFieldOptions { get; } = new();
+        public ObservableCollection<EquipmentSetRow> Sets { get; } = new();
+        public ObservableCollection<EquipmentSetMemberRow> Members { get; } = new();
+        public ObservableCollection<EquipmentSetThresholdRow> Thresholds { get; } = new();
+        public ObservableCollection<AggregateFieldPickItem> AggregateFieldOptions { get; } = new();
 
         public EquipmentSetsViewModel(
             EquipmentSetRepository repo,
@@ -47,9 +47,9 @@ namespace Perpetuum.AdminTool.ViewModels
             LookupCache lookups,
             TranslationsViewModel translations)
         {
-            _repo         = repo;
-            _queue        = queue;
-            _lookups      = lookups;
+            _repo = repo;
+            _queue = queue;
+            _lookups = lookups;
             _translations = translations;
         }
 
@@ -62,14 +62,14 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public async Task ReloadAsync()
         {
-            IsLoading     = true;
+            IsLoading = true;
             StatusMessage = "";
             StatusIsError = false;
             try
             {
-                var sets   = await _repo.LoadAllSetsAsync();
+                var sets = await _repo.LoadAllSetsAsync();
                 var fields = await _repo.LoadAggregateFieldsAsync();
-                var store  = _translations.Store;
+                var store = _translations.Store;
 
                 Sets.Clear();
                 foreach (var s in sets) Sets.Add(s);
@@ -117,8 +117,8 @@ namespace Perpetuum.AdminTool.ViewModels
             IsLoading = true;
             try
             {
-                var store      = _translations.Store;
-                var members    = await _repo.LoadMembersAsync(set.SetId);
+                var store = _translations.Store;
+                var members = await _repo.LoadMembersAsync(set.SetId);
                 var thresholds = await _repo.LoadThresholdsAsync(set.SetId);
 
                 foreach (var m in members)
@@ -131,8 +131,8 @@ namespace Perpetuum.AdminTool.ViewModels
                     }
                     Members.Add(new EquipmentSetMemberRow
                     {
-                        SetId          = m.SetId,
-                        Definition     = m.Definition,
+                        SetId = m.SetId,
+                        Definition = m.Definition,
                         DefinitionName = m.DefinitionName,
                         TranslatedName = translated,
                     });
@@ -143,13 +143,13 @@ namespace Perpetuum.AdminTool.ViewModels
                     var field = AggregateFieldOptions.FirstOrDefault(f => f.Id == t.AggregateFieldId);
                     var row = new EquipmentSetThresholdRow
                     {
-                        SetId                  = t.SetId,
-                        RequiredPieces         = t.RequiredPieces,
-                        OriginalRequiredPieces  = t.RequiredPieces,
-                        AggregateFieldId       = t.AggregateFieldId,
-                        FieldSystemName        = field?.Name ?? t.AggregateFieldId.ToString(),
-                        FieldDisplay           = field?.Display ?? t.AggregateFieldId.ToString(),
-                        BonusValue             = t.BonusValue,
+                        SetId = t.SetId,
+                        RequiredPieces = t.RequiredPieces,
+                        OriginalRequiredPieces = t.RequiredPieces,
+                        AggregateFieldId = t.AggregateFieldId,
+                        FieldSystemName = field?.Name ?? t.AggregateFieldId.ToString(),
+                        FieldDisplay = field?.Display ?? t.AggregateFieldId.ToString(),
+                        BonusValue = t.BonusValue,
                     };
                     row.PropertyChanged += OnThresholdPropertyChanged;
                     Thresholds.Add(row);
@@ -213,7 +213,7 @@ namespace Perpetuum.AdminTool.ViewModels
             var row = new EquipmentSetRow { SetId = 0, Name = name };
             Sets.Add(row);
             SelectedSet = row;
-            NewSetName  = "";
+            NewSetName = "";
             SetStatus($"'{name}' queued for insert. Commit to persist.", isError: false);
         }
 
@@ -223,7 +223,7 @@ namespace Perpetuum.AdminTool.ViewModels
         private void DeleteSet()
         {
             if (SelectedSet == null) return;
-            var memberCount    = Members.Count;
+            var memberCount = Members.Count;
             var thresholdCount = Thresholds.Count;
             var msg =
                 $"Delete set '{SelectedSet.Name}'?\n\n" +
@@ -266,7 +266,7 @@ namespace Perpetuum.AdminTool.ViewModels
         {
             if (SelectedSet == null) return;
             var assigned = Members.Select(m => m.Definition).ToHashSet();
-            var vm  = new AddSetMemberViewModel(_lookups, _translations, assigned);
+            var vm = new AddSetMemberViewModel(_lookups, _translations, assigned);
             var win = new AddSetMemberWindow(vm) { Owner = owner };
             if (win.ShowDialog() != true || vm.SelectedItem == null) return;
 
@@ -274,8 +274,8 @@ namespace Perpetuum.AdminTool.ViewModels
             _queue.Add(EquipmentSetChanges.BuildInsertMember(SelectedSet.SetId, SelectedSet.Name, item.Definition));
             Members.Add(new EquipmentSetMemberRow
             {
-                SetId          = SelectedSet.SetId,
-                Definition     = item.Definition,
+                SetId = SelectedSet.SetId,
+                Definition = item.Definition,
                 DefinitionName = item.DefinitionName,
                 TranslatedName = item.TranslatedName,
             });
@@ -297,19 +297,19 @@ namespace Perpetuum.AdminTool.ViewModels
         {
             if (SelectedSet == null) return;
             var usedPieces = Thresholds.Select(t => t.RequiredPieces).ToHashSet();
-            var vm  = new AddSetThresholdViewModel(AggregateFieldOptions);
+            var vm = new AddSetThresholdViewModel(AggregateFieldOptions);
             var win = new AddSetThresholdWindow(vm, usedPieces) { Owner = owner };
             if (win.ShowDialog() != true || vm.SelectedField == null) return;
 
             var row = new EquipmentSetThresholdRow
             {
-                SetId                  = SelectedSet.SetId,
-                RequiredPieces         = vm.RequiredPieces,
+                SetId = SelectedSet.SetId,
+                RequiredPieces = vm.RequiredPieces,
                 OriginalRequiredPieces = vm.RequiredPieces,
-                AggregateFieldId       = vm.SelectedField.Id,
-                FieldSystemName        = vm.SelectedField.Name,
-                FieldDisplay           = vm.SelectedField.Display,
-                BonusValue             = vm.BonusValue,
+                AggregateFieldId = vm.SelectedField.Id,
+                FieldSystemName = vm.SelectedField.Name,
+                FieldDisplay = vm.SelectedField.Display,
+                BonusValue = vm.BonusValue,
             };
             row.PropertyChanged += OnThresholdPropertyChanged;
             _queue.Add(EquipmentSetChanges.BuildUpsertThreshold(

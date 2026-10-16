@@ -34,7 +34,7 @@ namespace Perpetuum.Services.MissionEngine.AdministratorObjects
         private readonly IStandingHandler _standingHandler;
         private readonly MissionInProgress.Factory _missionInProgressFactory;
 
-        public MissionAdministrator(MissionProcessor missionProcessor,MissionDataCache missionDataCache,IStandingHandler standingHandler,MissionInProgress.Factory missionInProgressFactory)
+        public MissionAdministrator(MissionProcessor missionProcessor, MissionDataCache missionDataCache, IStandingHandler standingHandler, MissionInProgress.Factory missionInProgressFactory)
         {
             _missionProcessor = missionProcessor;
             _missionDataCache = missionDataCache;
@@ -105,10 +105,10 @@ where ml.finished is NULL and c.active=1";
                 var shiftedExpiry =
                     //offset exiry dates
                     Db.Query().CommandText("UPDATE missionlog SET expire=DATEADD(MINUTE,@offlineMinutes , expire ) WHERE finished IS NULL")
-                        .SetParameter("@offlineMinutes", (int) offlinePeriod.TotalMinutes)
+                        .SetParameter("@offlineMinutes", (int)offlinePeriod.TotalMinutes)
                         .ExecuteNonQuery();
 
-                Logger.Info( shiftedExpiry + " missions' expiry date got offseted with " + offlinePeriod);
+                Logger.Info(shiftedExpiry + " missions' expiry date got offseted with " + offlinePeriod);
 
 
                 var missionRecords = Db.Query().CommandText(queryStr).Execute().ToList();
@@ -265,7 +265,7 @@ where ml.finished is NULL and c.active=1";
                                 Logger.Info("mission expired: " + expiredMission);
 
                                 expiredMission.OnMissionExpired(_missionProcessor);
-                                
+
                             }
 
                             scope.Complete();
@@ -295,13 +295,13 @@ where ml.finished is NULL and c.active=1";
             if (HasCharacterRunningMissions(character))
             {
                 var missionsInPrgs = GetOrCreateMissionInProgressCollector(character).GetMissionsInProgress().ToList();
-                
-                var result = new Dictionary<string,object>(missionsInPrgs.Count);
+
+                var result = new Dictionary<string, object>(missionsInPrgs.Count);
 
                 var counter = 0;
                 foreach (var missionInProgress in missionsInPrgs)
                 {
-                    if (excludeSoloMissions && !missionInProgress.spreadInGang) 
+                    if (excludeSoloMissions && !missionInProgress.spreadInGang)
                         continue;
 
                     var oneEntry = missionInProgress.ToDictionary();
@@ -339,7 +339,7 @@ where ml.finished is NULL and c.active=1";
         {
             //obtain my info
             var missionsInfo = GetRunningMissionsInfo(character);
-            
+
             var bonusDict = new Dictionary<string, object>();
             MissionBonusCollector missionBonusCollector;
             if (_missionBonuses.TryGetValue(character.Id, out missionBonusCollector))
@@ -399,7 +399,7 @@ where ml.finished is NULL and c.active=1";
         {
             Logger.Info("Attempting to start mission. " + mission + " lvl:" + level + " location:" + location + " spreading:" + spreadInGang + " characterID:" + character.Id);
 
-            if (!TryCreateMission(character, spreadInGang, mission, location,level, out missionInProgress))
+            if (!TryCreateMission(character, spreadInGang, mission, location, level, out missionInProgress))
             {
                 if (mission.behaviourType == MissionBehaviourType.Config)
                 {
@@ -410,7 +410,7 @@ where ml.finished is NULL and c.active=1";
                 Logger.Warning("random mission failed to resolve. " + mission + " characterID:" + character.Id);
                 return false;
             }
-       
+
             AdministrateNewMission(missionInProgress);
 
             return true;
@@ -445,11 +445,11 @@ where ml.finished is NULL and c.active=1";
             else
             {
                 //lookup based on location
-                missionInProgress.SetIssuerCorporationAndAllianceByLocation();    
+                missionInProgress.SetIssuerCorporationAndAllianceByLocation();
             }
 
             missionInProgress.SetRewardDivider();
-            
+
             //add targets in progress
             var success = missionInProgress.CreateAndSolveTargets(mission);
             return success;
@@ -475,7 +475,7 @@ where ml.finished is NULL and c.active=1";
 
             //add the owner for sure
             missionInProgress.ForceAddParticipant();
-            
+
             missionInProgress.SendZoneNewMission();
 
         }
@@ -499,7 +499,7 @@ where ml.finished is NULL and c.active=1";
             }
 
             //on level 0 there is no bonus collector allocated
-            var extBonus = character.GetExtensionBonusByName(ExtensionNames.MISSION_BONUS_LEVEL_MOD) +1;
+            var extBonus = character.GetExtensionBonusByName(ExtensionNames.MISSION_BONUS_LEVEL_MOD) + 1;
             result *= extBonus;
 
             return result;
@@ -516,7 +516,7 @@ where ml.finished is NULL and c.active=1";
                 return;
 
             var container = missionInProgress.myLocation.GetContainer;
-           
+
             var startItems = new List<Item>();
 
             foreach (var itemInfo in mission.StartItems)
@@ -557,11 +557,11 @@ where ml.finished is NULL and c.active=1";
             if (startItems.Count <= 0)
                 return;
 
-            
+
             var startItemsDict = startItems.ToDictionary("i", i => i.ToDictionary());
             var result = new Dictionary<string, object>(2)
             {
-                {k.locationID, missionInProgress.myLocation.id}, 
+                {k.locationID, missionInProgress.myLocation.id},
                 {k.startItems, startItemsDict},
             };
 
@@ -574,7 +574,7 @@ where ml.finished is NULL and c.active=1";
             });
         }
 
-       
+
 
         public bool FindMissionInProgressByMissionId(Character character, int missionId, out MissionInProgress missionInProgress)
         {

@@ -17,7 +17,7 @@ namespace Perpetuum.Zones.Eggs
     /// <summary>
     /// Base class for a summonable object
     /// </summary>
-    public abstract class Egg : Unit,IUsableItem
+    public abstract class Egg : Unit, IUsableItem
     {
         private readonly StackFSM _fsm;
         private Summoner[] _summoners = new Summoner[0];
@@ -38,7 +38,7 @@ namespace Perpetuum.Zones.Eggs
 
         protected TimeSpan DespawnTime
         {
-            set => _despawnHelper = UnitDespawnHelper.Create(this,value);
+            set => _despawnHelper = UnitDespawnHelper.Create(this, value);
         }
 
         private Player[] SummonerPlayers
@@ -63,7 +63,7 @@ namespace Perpetuum.Zones.Eggs
                 RemoveFromZone();
             }
         }
-     
+
         private void AddSummoner(Summoner summoner)
         {
             ImmutableInterlocked.Update(ref _summoners, current =>
@@ -97,7 +97,7 @@ namespace Perpetuum.Zones.Eggs
             get
             {
                 if (ED.Config.activationTime != null)
-                    return TimeSpan.FromMilliseconds((int) ED.Config.activationTime);
+                    return TimeSpan.FromMilliseconds((int)ED.Config.activationTime);
 
                 Logger.Error("activationTime is not defined for " + Definition + " " + ED.Name);
                 return TimeSpan.FromSeconds(30);
@@ -108,26 +108,26 @@ namespace Perpetuum.Zones.Eggs
         {
             base.OnUpdate(time);
 
-            _despawnHelper?.Update(time,this);
+            _despawnHelper?.Update(time, this);
 
             _fsm.Update(time);
         }
 
         public void UseItem(Player player)
         {
-            var summoner = new Summoner(this,player);
+            var summoner = new Summoner(this, player);
             summoner.Validate().ThrowIfError();
             AddSummoner(summoner);
         }
 
         private void StartProgressBar()
         {
-            SummonerPlayers.SendStartProgressBar(this,SummonTime);
+            SummonerPlayers.SendStartProgressBar(this, SummonTime);
         }
 
         private void EndProgressBar()
         {
-            SummonerPlayers.SendEndProgressBar(this,false);
+            SummonerPlayers.SendEndProgressBar(this, false);
         }
 
         private class WaitForSummonersState : IState

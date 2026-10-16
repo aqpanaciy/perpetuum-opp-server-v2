@@ -16,8 +16,8 @@ namespace Perpetuum.Modules
 {
     public class BlobEmissionModulatorModule : ActiveModule
     {
-        private const int    BLOB_EMITTER_DEFINITION = 2870;
-        private const int    BLOB_EMITTER_HEIGHT = 7;
+        private const int BLOB_EMITTER_DEFINITION = 2870;
+        private const int BLOB_EMITTER_HEIGHT = 7;
         private const double BLOB_EMITTER_DEPLOY_RANGE = 15;
 
         private readonly BlobEmissionProperty _blobEmission;

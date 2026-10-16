@@ -11,12 +11,12 @@ namespace Perpetuum.Converters
             return converter.Convert;
         }
 
-        public static IEnumerable<TOut> ConvertAll<T, TOut>(this IEnumerable<T> enumerable,IConverter<T, TOut> converter)
+        public static IEnumerable<TOut> ConvertAll<T, TOut>(this IEnumerable<T> enumerable, IConverter<T, TOut> converter)
         {
             return enumerable.Select(converter.Convert);
         }
 
-        public static IEnumerable<TOut> ConvertAll<T, TOut>(this IEnumerable<T> enumerable,Converter<T, TOut> converter)
+        public static IEnumerable<TOut> ConvertAll<T, TOut>(this IEnumerable<T> enumerable, Converter<T, TOut> converter)
         {
             return enumerable.Select(e => converter(e));
         }

@@ -29,13 +29,13 @@ namespace Perpetuum.RequestHandlers
                     throw new PerpetuumException(ErrorCodes.ItemNotFound);
 
                 var publicContainer = character.GetPublicContainerWithItems();
-                shop.Buy(publicContainer,character, entryId, quantity);
+                shop.Buy(publicContainer, character, entryId, quantity);
 
                 publicContainer.Save();
 
                 var result = publicContainer.ToDictionary();
-                Message.Builder.FromRequest(request).WithData(new Dictionary<string, object> {{k.container, result}}).Send();
-                
+                Message.Builder.FromRequest(request).WithData(new Dictionary<string, object> { { k.container, result } }).Send();
+
                 scope.Complete();
             }
         }

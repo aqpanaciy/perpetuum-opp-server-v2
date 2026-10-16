@@ -17,7 +17,7 @@ namespace Perpetuum.Services.Relay
 
         public List<ItemInfo> Items { get; set; } = new List<ItemInfo>(ITEMS_COUNT);
 
-        public Dictionary<string,object> ToDictionary()
+        public Dictionary<string, object> ToDictionary()
         {
             var dictionary = new Dictionary<string, object>
             {

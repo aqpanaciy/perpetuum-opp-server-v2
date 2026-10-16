@@ -20,7 +20,7 @@ namespace Perpetuum.RequestHandlers.Zone
                 var lista = request.Zone.Environment.ListEnvironmentDescriptions();
                 result.Add(k.definition, lista);
                 Message.Builder.SetCommand(Commands.ZoneEnvironmentDescriptionList).WithData(result).ToClient(request.Session).Send();
-                
+
                 scope.Complete();
             }
         }

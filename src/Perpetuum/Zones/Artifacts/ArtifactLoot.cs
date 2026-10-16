@@ -32,7 +32,7 @@ namespace Perpetuum.Zones.Artifacts
         public ArtifactLoot(IDataRecord record)
         {
             Definition = record.GetValue<int>("definition");
-            Quantity = new IntRange(record.GetValue<int>("minquantity"),record.GetValue<int>("maxquantity"));
+            Quantity = new IntRange(record.GetValue<int>("minquantity"), record.GetValue<int>("maxquantity"));
             Chance = record.GetValue<double>("chance");
             Packed = record.GetValue<bool>("packed");
         }

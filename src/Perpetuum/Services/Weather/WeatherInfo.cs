@@ -59,10 +59,10 @@ namespace Perpetuum.Services.Weather
 
         public WeatherState getWeatherState()
         {
-            if(Current > BAD_WEATHER && Next > BAD_WEATHER)
+            if (Current > BAD_WEATHER && Next > BAD_WEATHER)
             {
                 return WeatherState.BAD_WEATHER;
-            } 
+            }
             else if (Current < GOOD_WEATHER && Next < GOOD_WEATHER)
             {
                 return WeatherState.GOOD_WEATHER;

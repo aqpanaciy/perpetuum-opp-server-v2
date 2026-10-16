@@ -16,7 +16,7 @@ namespace Perpetuum.RequestHandlers.Corporations
         private readonly IZoneManager _zoneManager;
         private readonly ICharacterProfileRepository _characterProfiles;
 
-        public CorporationRemoveMember(ICorporationManager corporationManager,IChannelManager channelManager,IZoneManager zoneManager,ICharacterProfileRepository characterProfiles)
+        public CorporationRemoveMember(ICorporationManager corporationManager, IChannelManager channelManager, IZoneManager zoneManager, ICharacterProfileRepository characterProfiles)
         {
             _corporationManager = corporationManager;
             _channelManager = channelManager;
@@ -93,7 +93,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                 });
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

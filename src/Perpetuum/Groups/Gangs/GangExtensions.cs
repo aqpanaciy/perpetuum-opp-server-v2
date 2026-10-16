@@ -16,7 +16,7 @@ namespace Perpetuum.Groups.Gangs
             return false;
         }
 
-        public static bool IsMember(this Gang gang,Player player)
+        public static bool IsMember(this Gang gang, Player player)
         {
             if (gang == null)
                 return false;

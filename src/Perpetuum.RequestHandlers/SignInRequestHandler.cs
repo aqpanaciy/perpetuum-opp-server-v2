@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers
         private readonly IAccountRepository _accountRepository;
         private readonly ILoginQueueService _loginQueueService;
 
-        protected SignInRequestHandler(IRelayStateService relayStateService,ISessionManager sessionManager,IAccountRepository accountRepository,ILoginQueueService loginQueueService)
+        protected SignInRequestHandler(IRelayStateService relayStateService, ISessionManager sessionManager, IAccountRepository accountRepository, ILoginQueueService loginQueueService)
         {
             _relayStateService = relayStateService;
             _sessionManager = sessionManager;
@@ -70,9 +70,9 @@ namespace Perpetuum.RequestHandlers
 
             if (account.State.HasFlag(AccountState.banned))
             {
-                account.BanTime?.Add(account.BanLength).ThrowIfGreater(DateTime.Now,ErrorCodes.AccountBanned,gex => gex.SetData("banNote",account.BanNote)
-                    .SetData("banTime",account.BanTime)
-                    .SetData("banLength",(int)account.BanLength.TotalSeconds));
+                account.BanTime?.Add(account.BanLength).ThrowIfGreater(DateTime.Now, ErrorCodes.AccountBanned, gex => gex.SetData("banNote", account.BanNote)
+                    .SetData("banTime", account.BanTime)
+                    .SetData("banLength", (int)account.BanLength.TotalSeconds));
 
                 //auto remove ban if period expired
                 account.State &= AccountState.banned;

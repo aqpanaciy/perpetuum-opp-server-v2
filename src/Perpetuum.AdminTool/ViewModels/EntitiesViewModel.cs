@@ -271,18 +271,18 @@ namespace Perpetuum.AdminTool.ViewModels
         private async Task ExportEntityAsync()
         {
             if (SelectedRow == null) return;
-            IsLoading     = true;
+            IsLoading = true;
             StatusMessage = "Generating export script...";
             StatusIsError = false;
             try
             {
-                var conn   = _settings.Settings.Connection;
+                var conn = _settings.Settings.Connection;
                 await using var cn = new SqlConnection(conn.BuildConnectionString());
                 await cn.OpenAsync();
                 var itemChanges = await ItemExporter.ExportAsync(SelectedRow.Definition, cn);
                 var script = SqlScriptBuilder.Build(itemChanges);
-                var vm     = new ExportScriptViewModel($"Item: {SelectedRow.DefinitionName}", script);
-                var win    = new ExportScriptWindow(vm) { Owner = Application.Current?.MainWindow };
+                var vm = new ExportScriptViewModel($"Item: {SelectedRow.DefinitionName}", script);
+                var win = new ExportScriptWindow(vm) { Owner = Application.Current?.MainWindow };
                 win.ShowDialog();
                 StatusMessage = "Export complete.";
             }

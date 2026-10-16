@@ -15,16 +15,16 @@ namespace Perpetuum.Zones.Intrusion
         {
             bonusType = (StabilityBonusType)record.GetValue<int>("bonustype");
             threshold = record.GetValue<int>("threshold");
-            effectType = (EffectType) (record.GetValue<int?>("effecttype") ?? 0);
+            effectType = (EffectType)(record.GetValue<int?>("effecttype") ?? 0);
         }
 
         public IDictionary<string, object> ToDictionary()
         {
             return new Dictionary<string, object>
                        {
-                           {k.categoryFlags, (long) CategoryFlags.cf_outpost}, 
-                           {k.bonusType, (int) bonusType}, 
-                           {k.threshold, threshold}, 
+                           {k.categoryFlags, (long) CategoryFlags.cf_outpost},
+                           {k.bonusType, (int) bonusType},
+                           {k.threshold, threshold},
                            {k.effectType, (int) effectType}
                        };
         }

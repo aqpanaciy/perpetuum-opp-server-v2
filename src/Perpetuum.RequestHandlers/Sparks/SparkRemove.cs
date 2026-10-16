@@ -36,7 +36,7 @@ namespace Perpetuum.RequestHandlers.Sparks
                 }
 
                 _sparkHelper.SendSparksList(request);
-                
+
                 scope.Complete();
             }
         }

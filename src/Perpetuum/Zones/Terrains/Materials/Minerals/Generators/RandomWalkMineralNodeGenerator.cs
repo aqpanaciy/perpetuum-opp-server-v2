@@ -13,10 +13,10 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals.Generators
 
         private int BrushSize { get; set; }
 
-        protected override Dictionary<Point,double> GenerateNoise(Position startPosition)
+        protected override Dictionary<Point, double> GenerateNoise(Position startPosition)
         {
             var closed = new HashSet<Point>();
-            var tiles = new Dictionary<Point,double>();
+            var tiles = new Dictionary<Point, double>();
 
             var q = new Queue<Point>();
             q.Enqueue(startPosition);
@@ -29,7 +29,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals.Generators
 
                 foreach (var point in current.FloodFill(IsValid).Take(BrushSize * BrushSize))
                 {
-                    tiles.AddOrUpdate(point,1,c => c + 1);
+                    tiles.AddOrUpdate(point, 1, c => c + 1);
 
                     if (tiles.Count >= MaxTiles)
                         return tiles;

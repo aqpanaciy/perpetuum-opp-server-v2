@@ -34,7 +34,7 @@ namespace Perpetuum.Services.Economy
             _snapshotting = true;
             _ = Task.Run(() =>
             {
-                try   { TakeSnapshot(); }
+                try { TakeSnapshot(); }
                 catch (Exception ex) { Logger.Exception(ex); }
                 finally { _snapshotting = false; }
             });

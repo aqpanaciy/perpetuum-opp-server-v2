@@ -7,7 +7,7 @@ namespace Perpetuum.RequestHandlers.Markets
     {
         private readonly IMarketRobotPriceWriter _robotPriceWriter;
 
-        public MarketSetState(IMarketRobotPriceWriter robotPriceWriter,IMarketInfoService marketInfoService) : base(marketInfoService)
+        public MarketSetState(IMarketRobotPriceWriter robotPriceWriter, IMarketInfoService marketInfoService) : base(marketInfoService)
         {
             _robotPriceWriter = robotPriceWriter;
         }

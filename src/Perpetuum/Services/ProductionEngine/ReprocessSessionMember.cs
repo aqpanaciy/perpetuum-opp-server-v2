@@ -128,10 +128,10 @@ namespace Perpetuum.Services.ProductionEngine
                 //make the resulting components
                 foreach (var component in _components)
                 {
-                    if (component.realAmount <= 0) 
+                    if (component.realAmount <= 0)
                         continue;
 
-                    var resultItem = (Item) Entity.Factory.CreateWithRandomEID(component.definition);
+                    var resultItem = (Item)Entity.Factory.CreateWithRandomEID(component.definition);
                     resultItem.Owner = _item.Owner;
                     resultItem.Quantity = component.realAmount;
 
@@ -148,7 +148,7 @@ namespace Perpetuum.Services.ProductionEngine
                 Logger.Info("creating random components for " + _item.Eid);
 
                 var configComponents = ProductionComponentCollector.Collect(_item);
-                if (configComponents.Count == 0) 
+                if (configComponents.Count == 0)
                     return;
 
                 var sumAmount = configComponents.Sum(r => r.Amount);
@@ -166,9 +166,9 @@ namespace Perpetuum.Services.ProductionEngine
 
                 var chosenComponent = configComponents.First(r => r.EntityDefault.Definition == chosenDefinition);
 
-                var resultItem = (Item) Entity.Factory.CreateWithRandomEID(chosenComponent.EntityDefault.Definition);
+                var resultItem = (Item)Entity.Factory.CreateWithRandomEID(chosenComponent.EntityDefault.Definition);
                 resultItem.Owner = _item.Owner;
-                resultItem.Quantity = chosenComponent.Amount*_item.Quantity;
+                resultItem.Quantity = chosenComponent.Amount * _item.Quantity;
 
                 container.AddItem(resultItem, true);
 
@@ -192,7 +192,7 @@ namespace Perpetuum.Services.ProductionEngine
             var counter = 0;
             var oneResult = new Dictionary<string, object>
                                 {
-                                    {k.eid, _item.Eid}, 
+                                    {k.eid, _item.Eid},
                                     {k.health, _healthRatio}
                                 };
 

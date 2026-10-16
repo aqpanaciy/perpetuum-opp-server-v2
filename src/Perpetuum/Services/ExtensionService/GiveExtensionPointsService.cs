@@ -62,8 +62,8 @@ AND c.inUse=1
 AND e.eventtime >= @now
 ")
                     .SetParameter("@now", now)
-                    .SetParameter("@basePoints",BASEPOINTS)
-                    .SetParameter("@bonusPoints",BONUSPOINTS)
+                    .SetParameter("@basePoints", BASEPOINTS)
+                    .SetParameter("@bonusPoints", BONUSPOINTS)
                     .Execute()
                     .GroupBy(r => r.GetValue<int>(1))
                 )

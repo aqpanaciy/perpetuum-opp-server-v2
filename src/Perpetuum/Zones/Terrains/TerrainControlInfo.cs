@@ -20,7 +20,7 @@ namespace Perpetuum.Zones.Terrains
         public bool Roaming
         {
             get { return HasFlags(TerrainControlFlags.Roaming); }
-            set { SetFlags(TerrainControlFlags.Roaming,value); }
+            set { SetFlags(TerrainControlFlags.Roaming, value); }
         }
 
         public bool Highway
@@ -32,12 +32,12 @@ namespace Perpetuum.Zones.Terrains
         public bool PBSHighway
         {
             get { return HasFlags(TerrainControlFlags.PBSHighway); }
-            set { SetFlags(TerrainControlFlags.PBSHighway, value);}
+            set { SetFlags(TerrainControlFlags.PBSHighway, value); }
         }
 
         public bool IsAnyHighway
         {
-            get { return ((int)_flags & (int) TerrainControlFlags.HighWayCombo) > 0; }
+            get { return ((int)_flags & (int)TerrainControlFlags.HighWayCombo) > 0; }
         }
 
         public bool SyndicateArea
@@ -47,8 +47,8 @@ namespace Perpetuum.Zones.Terrains
 
         public bool TerraformProtected
         {
-            get {return HasFlags(TerrainControlFlags.TerraformProtected); }
-            set { SetFlags(TerrainControlFlags.TerraformProtected,value); }
+            get { return HasFlags(TerrainControlFlags.TerraformProtected); }
+            set { SetFlags(TerrainControlFlags.TerraformProtected, value); }
         }
 
         public bool PBSTerraformProtected
@@ -86,7 +86,7 @@ namespace Perpetuum.Zones.Terrains
         public bool ConcreteB
         {
             private get { return _flags.HasFlag(TerrainControlFlags.ConcreteB); }
-            set { SetFlags(TerrainControlFlags.ConcreteB,value); }
+            set { SetFlags(TerrainControlFlags.ConcreteB, value); }
         }
 
         private bool HasFlags(TerrainControlFlags flags)
@@ -94,7 +94,7 @@ namespace Perpetuum.Zones.Terrains
             return ((int)_flags & ((int)flags)) > 0;
         }
 
-        public void SetFlags(TerrainControlFlags f,bool value)
+        public void SetFlags(TerrainControlFlags f, bool value)
         {
             _flags = value ? (TerrainControlFlags)((ushort)_flags | (ushort)f) : (TerrainControlFlags)((ushort)_flags & ~((ushort)f));
         }

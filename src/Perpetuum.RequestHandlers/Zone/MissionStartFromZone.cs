@@ -13,7 +13,7 @@ namespace Perpetuum.RequestHandlers.Zone
         private readonly MissionDataCache _missionDataCache;
         private readonly MissionProcessor _missionProcessor;
 
-        public MissionStartFromZone(MissionDataCache missionDataCache,MissionProcessor missionProcessor)
+        public MissionStartFromZone(MissionDataCache missionDataCache, MissionProcessor missionProcessor)
         {
             _missionDataCache = missionDataCache;
             _missionProcessor = missionProcessor;
@@ -32,10 +32,10 @@ namespace Perpetuum.RequestHandlers.Zone
                 var player = request.Zone.GetPlayerOrThrow(character);
 
                 var fieldTerminal = request.Zone.GetUnitOrThrow<FieldTerminal>(eid);
-                fieldTerminal.IsInRangeOf3D(player,DistanceConstants.FIELD_TERMINAL_USE).ThrowIfFalse(ErrorCodes.ItemOutOfRange);
+                fieldTerminal.IsInRangeOf3D(player, DistanceConstants.FIELD_TERMINAL_USE).ThrowIfFalse(ErrorCodes.ItemOutOfRange);
 
                 var location = _missionDataCache.GetLocationByEid(eid).ThrowIfNull(ErrorCodes.InvalidMissionLocation);
-                _missionProcessor.MissionStartFromFieldTerminal(character,location.id,(MissionCategory)category,level);
+                _missionProcessor.MissionStartFromFieldTerminal(character, location.id, (MissionCategory)category, level);
 
                 scope.Complete();
             }

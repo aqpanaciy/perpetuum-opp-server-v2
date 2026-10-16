@@ -6,7 +6,7 @@ using Perpetuum.Zones.PBS.DockingBases;
 
 namespace Perpetuum.Services.MarketEngine
 {
-    public class ProfitingOwnerSelector : IEntityVisitor<Outpost>,IEntityVisitor<PBSDockingBase>
+    public class ProfitingOwnerSelector : IEntityVisitor<Outpost>, IEntityVisitor<PBSDockingBase>
     {
         private Corporation _owner;
 

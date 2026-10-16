@@ -10,7 +10,7 @@ namespace Perpetuum
         public readonly int id;
         public readonly int level;
 
-        public Extension(int id,int level)
+        public Extension(int id, int level)
         {
             this.id = id;
             this.level = level;
@@ -21,7 +21,7 @@ namespace Perpetuum
             return $"Id: {id}, Level: {level}";
         }
 
-        public Dictionary<string,object> ToDictionary()
+        public Dictionary<string, object> ToDictionary()
         {
             return new Dictionary<string, object>
                 {
@@ -38,14 +38,14 @@ namespace Perpetuum
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj is Extension && Equals((Extension) obj);
+            return obj is Extension && Equals((Extension)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (id*397) ^ level;
+                return (id * 397) ^ level;
             }
         }
 
@@ -63,7 +63,7 @@ namespace Perpetuum
         {
             var id = record.GetValue<int>("extensionid");
             var level = record.GetValue<int>("extensionlevel");
-            return new Extension(id,level);
+            return new Extension(id, level);
         }
     }
 }

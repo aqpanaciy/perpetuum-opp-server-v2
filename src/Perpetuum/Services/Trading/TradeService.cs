@@ -5,20 +5,20 @@ namespace Perpetuum.Services.Trading
 {
     public class TradeService : ITradeService
     {
-        private readonly ConcurrentDictionary<Character,Trade> _trades = new ConcurrentDictionary<Character, Trade>();
+        private readonly ConcurrentDictionary<Character, Trade> _trades = new ConcurrentDictionary<Character, Trade>();
 
         public void ClearTrade(Character character)
         {
             Trade trade;
-            if (!_trades.TryRemove(character, out trade)) 
+            if (!_trades.TryRemove(character, out trade))
                 return;
 
-            lock(trade.commonSync)
+            lock (trade.commonSync)
             {
                 trade.State = TradeState.Cancel;
                 trade.SendFinishCommand();
 
-                if (!_trades.TryRemove(trade.trader, out trade)) 
+                if (!_trades.TryRemove(trade.trader, out trade))
                     return;
 
                 trade.State = TradeState.Cancel;

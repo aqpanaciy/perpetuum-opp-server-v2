@@ -21,9 +21,9 @@ namespace Perpetuum.Services.Social
         {
             return new Dictionary<string, object>
             {
-                {"characterId", character.Id}, 
-                {"socialState", (int) socialState}, 
-                {"note", note}, 
+                {"characterId", character.Id},
+                {"socialState", (int) socialState},
+                {"note", note},
                 {"lastStateUpdate", lastStateUpdate}
             };
         }

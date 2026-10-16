@@ -34,7 +34,7 @@ namespace Perpetuum.RequestHandlers.Gangs
                 _gangManager.RemoveMember(gang, member, true);
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

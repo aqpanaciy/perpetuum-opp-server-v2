@@ -16,11 +16,11 @@ namespace Perpetuum.Zones.Terrains.Materials.Plants
             return rules.ToDictionary("p", r => r.ToDictionary());
         }
 
-       
+
 
         public static PlantType GetWinnerPlantTypeBasedOnFertility(this PlantRule[] rules)
         {
-            var list = new List<PlantType>(rules.Length*rules.Length);
+            var list = new List<PlantType>(rules.Length * rules.Length);
 
             foreach (var plantRule in rules.Where(r => !r.PlayerSeeded))
             {
@@ -36,7 +36,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Plants
         // index -> count
         public static PlantType GetSpreadingBasedWinnerPlantType(this PlantRule[] rules, Dictionary<PlantType, int> neighbouringPlants)
         {
-            var list = new List<PlantType>(neighbouringPlants.Count*neighbouringPlants.Count);
+            var list = new List<PlantType>(neighbouringPlants.Count * neighbouringPlants.Count);
 
             foreach (var kvp in neighbouringPlants)
             {

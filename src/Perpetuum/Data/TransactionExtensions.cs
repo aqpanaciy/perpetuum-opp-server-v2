@@ -21,7 +21,7 @@ namespace Perpetuum.Data
             Debug.Assert(transaction != null, "transaction != null");
 
             var commited = false;
-            transaction.EnlistVolatile(() => commited = true,null, () =>
+            transaction.EnlistVolatile(() => commited = true, null, () =>
             {
                 try
                 {
@@ -38,7 +38,7 @@ namespace Perpetuum.Data
         {
             Debug.Assert(transaction != null, "transaction != null");
             var n = AnonymousEnlistmentNotification.Create(onCommit, onRollback, onCompleted);
-            transaction.EnlistVolatile(n,EnlistmentOptions.None);
+            transaction.EnlistVolatile(n, EnlistmentOptions.None);
         }
     }
 }

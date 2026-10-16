@@ -11,7 +11,7 @@ namespace Perpetuum.Services.Sparks
         private readonly ISparkExtensionsReader _sparkExtensionsReader;
         private readonly IExtensionReader _extensionReader;
 
-        public SparkRepository(ISparkExtensionsReader sparkExtensionsReader,IExtensionReader extensionReader)
+        public SparkRepository(ISparkExtensionsReader sparkExtensionsReader, IExtensionReader extensionReader)
         {
             _sparkExtensionsReader = sparkExtensionsReader;
             _extensionReader = extensionReader;

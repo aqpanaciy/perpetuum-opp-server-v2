@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Perpetuum.Services.ExtensionService
 {
- 
+
     public class ExtensionPoints
     {
         public readonly Dictionary<int, int[]> points = new Dictionary<int, int[]>

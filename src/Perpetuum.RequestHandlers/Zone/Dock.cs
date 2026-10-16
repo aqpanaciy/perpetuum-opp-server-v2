@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers.Zone
                 var character = request.Session.Character;
                 var player = request.Zone.GetPlayer(character).ThrowIfNull(ErrorCodes.PlayerNotFound);
                 player.CheckDockingConditionsAndThrow(baseEid);
-                
+
                 scope.Complete();
             }
         }

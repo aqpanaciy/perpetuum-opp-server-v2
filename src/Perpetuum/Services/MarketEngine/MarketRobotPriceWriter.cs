@@ -14,7 +14,7 @@ namespace Perpetuum.Services.MarketEngine
         private readonly IEntityDefaultReader _entityDefaultReader;
         private readonly IRobotTemplateRelations _robotTemplateRelations;
 
-        public MarketRobotPriceWriter(IEntityDefaultReader entityDefaultReader,IRobotTemplateRelations robotTemplateRelations)
+        public MarketRobotPriceWriter(IEntityDefaultReader entityDefaultReader, IRobotTemplateRelations robotTemplateRelations)
         {
             _entityDefaultReader = entityDefaultReader;
             _robotTemplateRelations = robotTemplateRelations;

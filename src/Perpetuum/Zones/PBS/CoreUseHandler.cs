@@ -44,7 +44,7 @@ namespace Perpetuum.Zones.PBS
         /// On Zone enter called
         /// 
         /// </summary>
-        public void Init() 
+        public void Init()
         {
             CoreMinimum = _sourceUnit.ED.Config.CoreConsumption;
             _sm.ChangeState(new DelayedStartState<T>(_sourceUnit));
@@ -65,12 +65,12 @@ namespace Perpetuum.Zones.PBS
             _sm.Update(time);
         }
 
-       
+
 
         public double GetKickStartCoreRatio()
         {
             if (_sourceUnit.ED.Config.coreKickStartThreshold != null)
-                return (double) _sourceUnit.ED.Config.coreKickStartThreshold;
+                return (double)_sourceUnit.ED.Config.coreKickStartThreshold;
 
             //Logger.Error("no coreKickStartThreshold defined for " + _sourceUnit.EntityDefault.Name);
             return 0.7;
@@ -106,12 +106,12 @@ namespace Perpetuum.Zones.PBS
         private TimeSpan GetCycleTimeMs()
         {
             if (_sourceUnit.ED.Config.cycle_time != null)
-                return TimeSpan.FromMilliseconds((double) _sourceUnit.ED.Config.cycle_time);
+                return TimeSpan.FromMilliseconds((double)_sourceUnit.ED.Config.cycle_time);
 
             Logger.Error("consistency error. no cycle_time was defined for definition: " + _sourceUnit.Definition + " " + _sourceUnit.ED.Name);
             return TimeSpan.FromSeconds(30);
         }
-       
+
     }
 
 
@@ -130,14 +130,14 @@ namespace Perpetuum.Zones.PBS
 
         }
 
-        
+
         public virtual void VisitWarmUpState(IEnergyState state) { }
 
         public virtual void VisitActiveState(IEnergyState state) { }
 
     }
 
-   
+
 
 
     public interface IEnergyState : IState
@@ -230,7 +230,7 @@ namespace Perpetuum.Zones.PBS
             }
         }
 
-        protected virtual void OnActiveCycle()  { }
+        protected virtual void OnActiveCycle() { }
     }
 
 
@@ -324,7 +324,7 @@ namespace Perpetuum.Zones.PBS
 
     public class DelayedStartState<T> : CoreStateBase<T> where T : Unit, IPBSUsesCore, IPBSObject
     {
-        private readonly  IntervalTimer _timer = new IntervalTimer(TimeSpan.FromSeconds(30+FastRandom.NextInt(0,15)));
+        private readonly IntervalTimer _timer = new IntervalTimer(TimeSpan.FromSeconds(30 + FastRandom.NextInt(0, 15)));
 
         public DelayedStartState(T owner) : base(owner)
         {
@@ -347,9 +347,9 @@ namespace Perpetuum.Zones.PBS
             if (Owner.Core < Owner.CoreUseHandler.CoreMinimum)
             {
                 Owner.CoreUseHandler.ToWarmUpState();
-                return; 
+                return;
             }
-            
+
             Owner.CoreUseHandler.ToActiveState();
 
         }
@@ -358,5 +358,5 @@ namespace Perpetuum.Zones.PBS
 
 }
 
-   
+
 

@@ -35,7 +35,7 @@ namespace Perpetuum.Zones.Terrains.Terraforming.Operations
         {
             VisitTerraformingOperation(operation);
         }
-        
+
         public virtual void VisitSingleTileTerraformingOperation(SimpleTileTerraformingOperation operation)
         {
             VisitTerraformingOperation(operation);
@@ -49,10 +49,10 @@ namespace Perpetuum.Zones.Terrains.Terraforming.Operations
         private readonly int _plantDamage;
         private ushort[] _buffer;
         private Area _bufferArea;
-       
+
         protected abstract int ProduceDirection(IZone zone, int x, int y);
 
-        public Area TerraformArea { get;  set; }
+        public Area TerraformArea { get; set; }
 
         /// <summary>
         /// 
@@ -73,8 +73,8 @@ namespace Perpetuum.Zones.Terrains.Terraforming.Operations
         };
 
         protected Position CenterPosition { get; private set; }
-       
-        protected TerraformingOperation(Position centerPosition,int plantDamage)
+
+        protected TerraformingOperation(Position centerPosition, int plantDamage)
         {
             _plantDamage = plantDamage;
             CenterPosition = centerPosition;
@@ -96,7 +96,7 @@ namespace Perpetuum.Zones.Terrains.Terraforming.Operations
         /// <param name="terrain"></param>
         public void Prepare(IZone zone)
         {
-            var preparedArea = new Area(TerraformArea.X1 - 1, TerraformArea.Y1 - 1, TerraformArea.X2,TerraformArea.Y2).Clamp(zone.Size);
+            var preparedArea = new Area(TerraformArea.X1 - 1, TerraformArea.Y1 - 1, TerraformArea.X2, TerraformArea.Y2).Clamp(zone.Size);
             zone.Players.WithinArea(preparedArea).Any().ThrowIfTrue(ErrorCodes.PlayerInTerraformArea);
         }
 
@@ -144,21 +144,21 @@ namespace Perpetuum.Zones.Terrains.Terraforming.Operations
             });
         }
 
-       
-        
+
+
 
         public virtual void DoTerraform(IZone zone)
         {
             _bufferArea = TerraformArea.AddBorder(1);
             FillBufferWithCurrentAltitude(zone);
-            
+
             //do the terraforming in a buffer
             TerraformArea.ForEachXY((x, y) =>
             {
                 var bufferOffset = CalculateBufferOffset(x, y);
                 var originalAltitude = _buffer[bufferOffset];
 
-                var direction = ProduceDirection(zone, x,y);
+                var direction = ProduceDirection(zone, x, y);
                 if (direction == 0) { return; }
 
                 //makes sure it maximizes the terrain change 
@@ -186,16 +186,16 @@ namespace Perpetuum.Zones.Terrains.Terraforming.Operations
 
             //there it will start checking for terrain conditions and plants
             //and if all good -> do the set
-            ProcessAreaHelper(zone,(x, y) =>
+            ProcessAreaHelper(zone, (x, y) =>
             {
-                zone.Terrain.Altitude.UpdateValue(x,y,current => _buffer[CalculateBufferOffset(x, y)]);
+                zone.Terrain.Altitude.UpdateValue(x, y, current => _buffer[CalculateBufferOffset(x, y)]);
             });
         }
 
         private bool TryDoOperationAndCheckAffectedBySlope(IZone zone, int direction, int x, int y)
         {
             var bufferOffset = CalculateBufferOffset(x, y);
-            var newAltitude = (ushort)(_buffer[bufferOffset] + direction).Clamp(ushort.MinValue,ushort.MaxValue);
+            var newAltitude = (ushort)(_buffer[bufferOffset] + direction).Clamp(ushort.MinValue, ushort.MaxValue);
 
             //write new altitude into the buffer so the surrounding can check it without any exception ifs...
             _buffer[bufferOffset] = newAltitude;
@@ -245,7 +245,7 @@ namespace Perpetuum.Zones.Terrains.Terraforming.Operations
             {
                 return true;
             }
-            
+
             return false;
 
         }

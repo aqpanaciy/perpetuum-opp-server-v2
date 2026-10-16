@@ -46,7 +46,7 @@ namespace Perpetuum.Services.Sparks.Teleports
 
             Transaction.Current.OnCommited(() =>
             {
-                var data = new Dictionary<string, object> { { k.description,sparkTeleport.ToDictionary() } };
+                var data = new Dictionary<string, object> { { k.description, sparkTeleport.ToDictionary() } };
 
                 Message.Builder.SetCommand(Commands.SparkTeleportBaseDeleted)
                     .WithData(data)

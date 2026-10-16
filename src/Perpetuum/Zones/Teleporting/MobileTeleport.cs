@@ -37,7 +37,7 @@ namespace Perpetuum.Zones.Teleporting
 
         public void SetDespawnTime(TimeSpan despawnTime)
         {
-            _despawnHelper = UnitDespawnHelper.Create(this,despawnTime);
+            _despawnHelper = UnitDespawnHelper.Create(this, despawnTime);
         }
 
         public override IEnumerable<TeleportDescription> GetTeleportDescriptions()
@@ -89,7 +89,7 @@ namespace Perpetuum.Zones.Teleporting
         public override Dictionary<string, object> ToDictionary()
         {
             var result = base.ToDictionary();
-            var dictionary = GetTeleportDescriptions().ToDictionary("t",d => d.ToDictionary());
+            var dictionary = GetTeleportDescriptions().ToDictionary("t", d => d.ToDictionary());
             result.Add(k.targets, dictionary);
             return result;
         }
@@ -101,11 +101,11 @@ namespace Perpetuum.Zones.Teleporting
             _despawnHelper.Update(time, this);
         }
 
-        public virtual void CheckDeploymentAndThrow(IZone zone, Position spawnPosition )
+        public virtual void CheckDeploymentAndThrow(IZone zone, Position spawnPosition)
         {
             zone.Units.OfType<DockingBase>().WithinRange(spawnPosition, DistanceConstants.MOBILE_TELEPORT_MIN_DISTANCE_TO_DOCKINGBASE).Any().ThrowIfTrue(ErrorCodes.MobileTeleportsAreNotDeployableNearBases);
             zone.Units.OfType<Teleport>().WithinRange(spawnPosition, DistanceConstants.MOBILE_TELEPORT_MIN_DISTANCE_TO_TELEPORT).Any().ThrowIfTrue(ErrorCodes.TeleportIsInRange);
-            
+
 
         }
     }

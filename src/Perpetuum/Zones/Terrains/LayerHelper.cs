@@ -16,22 +16,22 @@ namespace Perpetuum.Zones.Terrains
         {
             using (new TerrainUpdateMonitor(zone))
             {
-                foreach (var rule in zone.Configuration.PlantRules.OrderBy(p=>(int)p.Type))
+                foreach (var rule in zone.Configuration.PlantRules.OrderBy(p => (int)p.Type))
                 {
                     for (byte i = 0; i < rule.GrowingStates.Count; i++)
                     {
                         var tmpI = i;
-                        zone.Terrain.Plants.UpdateValue(x,y + i,pi =>
+                        zone.Terrain.Plants.UpdateValue(x, y + i, pi =>
                         {
                             pi.type = rule.Type;
                             pi.state = tmpI;
                             return pi;
                         });
 
-                        if (!rule.HasBlockingState) 
+                        if (!rule.HasBlockingState)
                             continue;
 
-                        zone.Terrain.Blocks.UpdateValue(x,y + i,bi =>
+                        zone.Terrain.Blocks.UpdateValue(x, y + i, bi =>
                         {
                             bi.Height = rule.GetBlockingHeight(tmpI);
                             return bi;
@@ -67,17 +67,17 @@ namespace Perpetuum.Zones.Terrains
             }
         }
 
-        private static void UpdateControlInfoWithinRange(IZone zone, Position position, int radius,Func<TerrainControlInfo,TerrainControlInfo> updater)
+        private static void UpdateControlInfoWithinRange(IZone zone, Position position, int radius, Func<TerrainControlInfo, TerrainControlInfo> updater)
         {
             ProcessCircleHardEdge(zone, position, radius, (x, y) =>
             {
-                zone.Terrain.Controls.UpdateValue(x,y,updater);
+                zone.Terrain.Controls.UpdateValue(x, y, updater);
             });
         }
 
-        public static void SetTerrafomProtectionCircle(IZone zone,Position position, int radius, bool state = true)
+        public static void SetTerrafomProtectionCircle(IZone zone, Position position, int radius, bool state = true)
         {
-            UpdateControlInfoWithinRange(zone,position,radius, ci =>
+            UpdateControlInfoWithinRange(zone, position, radius, ci =>
             {
                 ci.PBSTerraformProtected = state;
                 return ci;
@@ -88,7 +88,7 @@ namespace Perpetuum.Zones.Terrains
         {
             ProcessCircleHardEdge(zone, position, radius, (x, y) =>
             {
-                zone.Terrain.Controls.UpdateValue(x,y,ci =>
+                zone.Terrain.Controls.UpdateValue(x, y, ci =>
                 {
                     if (FastRandom.NextDouble() > 0.5)
                     {
@@ -108,7 +108,7 @@ namespace Perpetuum.Zones.Terrains
         {
             ProcessCircleHardEdge(zone, position, radius, (x, y) =>
             {
-                zone.Terrain.Plants.UpdateValue(x,y,pi =>
+                zone.Terrain.Plants.UpdateValue(x, y, pi =>
                 {
                     if (pi.type == PlantType.Wall) return pi;
 
@@ -116,7 +116,7 @@ namespace Perpetuum.Zones.Terrains
 
                     if (plantRule != null && plantRule.IsBlocking(pi.state))
                     {
-                        zone.Terrain.Blocks.UpdateValue(x,y, bi =>
+                        zone.Terrain.Blocks.UpdateValue(x, y, bi =>
                         {
                             if (!bi.Plant)
                                 return bi;
@@ -138,7 +138,7 @@ namespace Perpetuum.Zones.Terrains
         {
             ProcessCircleHardEdge(zone, position, radius, (x, y) =>
             {
-                zone.Terrain.Controls.UpdateValue(x,y,ci =>
+                zone.Terrain.Controls.UpdateValue(x, y, ci =>
                 {
                     ci.ConcreteA = false;
                     ci.ConcreteB = false;
@@ -146,6 +146,6 @@ namespace Perpetuum.Zones.Terrains
                 });
             });
         }
-     
+
     }
 }

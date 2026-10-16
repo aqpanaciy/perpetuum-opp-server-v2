@@ -15,11 +15,11 @@
         ///              ..
         /// 
         /// </summary>
-        public SimpleTileTerraformingOperation(Position centerPosition,int terrainChangeAmount, int plantDamage, int radius,int falloff) : base(centerPosition, plantDamage)
+        public SimpleTileTerraformingOperation(Position centerPosition, int terrainChangeAmount, int plantDamage, int radius, int falloff) : base(centerPosition, plantDamage)
         {
             _terrainChangeAmount = terrainChangeAmount;
             var a = Area.FromRadius(centerPosition, (radius - 1).Clamp(0, 5));
-            TerraformArea = new Area(a.X1,a.Y1,a.X2 + 1,a.Y2 + 1);
+            TerraformArea = new Area(a.X1, a.Y1, a.X2 + 1, a.Y2 + 1);
 
             _nearRadius = (radius - falloff).Clamp(0, int.MaxValue);
             _farRadius = radius;
@@ -30,7 +30,7 @@
         {
             visitor.VisitSingleTileTerraformingOperation(this);
         }
-        
+
         protected override int ProduceDirection(IZone zone, int x, int y)
         {
             var multiplier = 1.0;
@@ -39,10 +39,10 @@
 
             if (TerraformArea.Width > 2)
             {
-                multiplier = MathHelper.DistanceFalloff(_nearRadius, _farRadius, cp.intX+1, cp.intY+1, x + 0.5, y + 0.5);
+                multiplier = MathHelper.DistanceFalloff(_nearRadius, _farRadius, cp.intX + 1, cp.intY + 1, x + 0.5, y + 0.5);
             }
 
-            return (int) (_terrainChangeAmount*multiplier);
+            return (int)(_terrainChangeAmount * multiplier);
         }
     }
 

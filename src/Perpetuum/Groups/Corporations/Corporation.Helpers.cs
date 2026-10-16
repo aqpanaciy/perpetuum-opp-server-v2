@@ -24,7 +24,7 @@ namespace Perpetuum.Groups.Corporations
 
         protected static Corporation Create(EntityDefault entityDefault, SystemContainer container, CorporationDescription corporationDescription, EntityIDGenerator generator)
         {
-            var corporation = Factory.Create(entityDefault,generator);
+            var corporation = Factory.Create(entityDefault, generator);
             corporation.Parent = container.Eid;
             corporation.Save();
 
@@ -47,7 +47,7 @@ namespace Perpetuum.Groups.Corporations
         public int GetMaximumProbeAmount()
         {
             const int maxProbesExtensionId = 330;
-            return  CEO.GetExtensionLevel(maxProbesExtensionId);
+            return CEO.GetExtensionLevel(maxProbesExtensionId);
         }
 
         // TODO: Find a way to use joins instead of this
@@ -56,7 +56,7 @@ namespace Perpetuum.Groups.Corporations
             var probeDefinitions = EntityServices.Defaults.GetAll().GetDefinitionsByCategoryFlag(CategoryFlags.cf_proximity_probes);
             var queryStr = $"SELECT eid FROM entities WHERE owner=@corporationEID and definition in ({probeDefinitions.ArrayToString()})";
 
-            return  Db.Query().CommandText(queryStr).SetParameter("@corporationEID",Eid)
+            return Db.Query().CommandText(queryStr).SetParameter("@corporationEID", Eid)
                 .Execute()
                 .Select(r => r.GetValue<long>(0))
                 .ToArray();

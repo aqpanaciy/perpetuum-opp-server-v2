@@ -12,9 +12,9 @@ namespace Perpetuum.RequestHandlers.TransportAssignments
         {
             var eid = request.Data.GetOrDefault<long>(k.eid);
 
-            var volumeWrapperContainer = (VolumeWrapperContainer) Container.GetOrThrow(eid);
+            var volumeWrapperContainer = (VolumeWrapperContainer)Container.GetOrThrow(eid);
             var character = request.Session.Character;
-            volumeWrapperContainer.Owner.ThrowIfNotEqual(character.Eid,ErrorCodes.AccessDenied);
+            volumeWrapperContainer.Owner.ThrowIfNotEqual(character.Eid, ErrorCodes.AccessDenied);
 
             var result = volumeWrapperContainer.GetAssignmentInfo();
             Message.Builder.FromRequest(request).WithData(result).Send();

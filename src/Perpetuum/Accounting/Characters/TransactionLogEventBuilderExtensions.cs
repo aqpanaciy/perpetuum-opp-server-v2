@@ -4,7 +4,7 @@ namespace Perpetuum.Accounting.Characters
 {
     public static class TransactionLogEventBuilderExtensions
     {
-        public static TransactionLogEventBuilder SetCharacter(this TransactionLogEventBuilder builder,Character character)
+        public static TransactionLogEventBuilder SetCharacter(this TransactionLogEventBuilder builder, Character character)
         {
             return builder.SetCharacter(character.Id);
         }

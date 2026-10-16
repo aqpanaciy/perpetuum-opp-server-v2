@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Perpetuum.Log.Formatters
 {
-    public class DefaultLogEventFormatter : ILogEventFormatter<LogEvent,string>
+    public class DefaultLogEventFormatter : ILogEventFormatter<LogEvent, string>
     {
         public string Format(LogEvent logEvent)
         {
@@ -14,20 +14,20 @@ namespace Perpetuum.Log.Formatters
             switch (logEvent.LogType)
             {
                 case LogType.Info:
-                {
-                    logType = "INF";
-                    break;
-                }
+                    {
+                        logType = "INF";
+                        break;
+                    }
                 case LogType.Warning:
-                {
-                    logType = "WRN";
-                    break;
-                }
+                    {
+                        logType = "WRN";
+                        break;
+                    }
                 case LogType.Error:
-                {
-                    logType = "ERR";
-                    break;
-                }
+                    {
+                        logType = "ERR";
+                        break;
+                    }
             }
 
             var sb = new StringBuilder();
@@ -36,7 +36,7 @@ namespace Perpetuum.Log.Formatters
 
             if (logEvent.ThrownException != null)
             {
-                CreateExceptionString(sb,logEvent.ThrownException);
+                CreateExceptionString(sb, logEvent.ThrownException);
             }
 
             return sb.ToString();

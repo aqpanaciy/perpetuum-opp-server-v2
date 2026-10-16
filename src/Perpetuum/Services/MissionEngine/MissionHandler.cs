@@ -24,9 +24,9 @@ namespace Perpetuum.Services.MissionEngine
     /// </summary>
     public class MissionHandler
     {
-        private readonly ConcurrentDictionary<int,IZoneMissionTarget> _cachedMissionTargets = new ConcurrentDictionary<int,IZoneMissionTarget>();
+        private readonly ConcurrentDictionary<int, IZoneMissionTarget> _cachedMissionTargets = new ConcurrentDictionary<int, IZoneMissionTarget>();
         private readonly ConcurrentQueue<MissionEventInfo> _enqueuedMissionEventInfos = new ConcurrentQueue<MissionEventInfo>();
-        private readonly ConcurrentDictionary<int,ZoneMissionInProgress> _runningMissions = new ConcurrentDictionary<int,ZoneMissionInProgress>();
+        private readonly ConcurrentDictionary<int, ZoneMissionInProgress> _runningMissions = new ConcurrentDictionary<int, ZoneMissionInProgress>();
 
         private readonly IZone _zone;
         private readonly Player _player;
@@ -36,7 +36,7 @@ namespace Perpetuum.Services.MissionEngine
 
         public MissionProcessor MissionProcessor => _missionProcessor;
 
-        public MissionHandler(IZone zone, Player player,MissionProcessor missionProcessor)
+        public MissionHandler(IZone zone, Player player, MissionProcessor missionProcessor)
         {
             _zone = zone;
             _player = player;
@@ -86,7 +86,7 @@ namespace Perpetuum.Services.MissionEngine
 #if DEBUG
             Logger.Info("trying to get linket target's order for " + sourceTargeType + " " + eventSourceTarget.MyTarget);
 #endif
-            
+
             //do search based on assumptions
 
             if (eventSourceTarget.MyTarget.ValidPrimaryLinkSet)
@@ -138,15 +138,15 @@ namespace Perpetuum.Services.MissionEngine
 #if DEBUG
             Logger.Info("trying to get linket target's order for " + eventSourceTarget.MyTarget.Type + " " + eventSourceTarget.MyTarget);
 #endif
-            
-                //look for a loot item target which is primary linket to the event source
-                linkedTarget = _cachedMissionTargets.Values.FirstOrDefault(zt =>
-                    !zt.IsCompleted &&
-                    zt.MyTarget.targetSecondaryAsMyPrimary &&
-                    zt.MyTarget.Type == MissionTargetType.loot_item &&
-                    zt.MyTarget.ValidPrimaryLinkSet &&
-                    zt.MyTarget.PrimaryDefinitionLinkId == eventSourceTarget.MyTarget.id
-                    );
+
+            //look for a loot item target which is primary linket to the event source
+            linkedTarget = _cachedMissionTargets.Values.FirstOrDefault(zt =>
+                !zt.IsCompleted &&
+                zt.MyTarget.targetSecondaryAsMyPrimary &&
+                zt.MyTarget.Type == MissionTargetType.loot_item &&
+                zt.MyTarget.ValidPrimaryLinkSet &&
+                zt.MyTarget.PrimaryDefinitionLinkId == eventSourceTarget.MyTarget.id
+                );
 #if DEBUG
             if (linkedTarget != null)
             {
@@ -179,14 +179,14 @@ namespace Perpetuum.Services.MissionEngine
             foreach (var missionZoneInProgress in ZoneMissionInProgress.GetRunningMissionsSql(_zone, _player.Character.Id))
             {
                 _runningMissions.Add(missionZoneInProgress.missionId, missionZoneInProgress);
-                
-                var targets = missionZoneInProgress.LoadZoneTargets(_zone.PresenceManager,_player).ToArray();
+
+                var targets = missionZoneInProgress.LoadZoneTargets(_zone.PresenceManager, _player).ToArray();
 
                 foreach (var missionTarget in targets)
                 {
                     _cachedMissionTargets.Add(missionTarget.Id, missionTarget);
                 }
-                
+
             }
 
             Logger.Info(_cachedMissionTargets.Count + " mission targets loaded for player:" + _player.Character.Id);
@@ -226,13 +226,13 @@ namespace Perpetuum.Services.MissionEngine
 
             var membersOnZone = _zone.GetGangMembers(gang).ToList();
 
-/*
-            if (missionEventInfo.MissionTargetType == MissionTargetType.drill_mineral ||
-                missionEventInfo.MissionTargetType == MissionTargetType.harvest_plant ||
-                missionEventInfo.MissionTargetType == MissionTargetType.scan_mineral
-                )
-            
- */
+            /*
+                        if (missionEventInfo.MissionTargetType == MissionTargetType.drill_mineral ||
+                            missionEventInfo.MissionTargetType == MissionTargetType.harvest_plant ||
+                            missionEventInfo.MissionTargetType == MissionTargetType.scan_mineral
+                            )
+
+             */
 
             // check myself first
             if (AnyTargetForEventInfo(missionEventInfo))
@@ -331,7 +331,7 @@ namespace Perpetuum.Services.MissionEngine
             //return _cachedMissionTargets.Values.OfType<FindArtifactZoneTarget>().Where(t => !t.IsCompleted && t.IsMyTurn).ToList();
         }
 
-        
+
 
         public bool HasAnyCachedTarget()
         {
@@ -364,7 +364,7 @@ namespace Perpetuum.Services.MissionEngine
             {
                 Logger.DebugInfo("mission targetorder advancing" + missionProgressUpdate);
 
-                if (_runningMissions.TryGetValue(missionProgressUpdate.missionId,out ZoneMissionInProgress mzp))
+                if (_runningMissions.TryGetValue(missionProgressUpdate.missionId, out ZoneMissionInProgress mzp))
                 {
                     mzp.SetCurrentTargetOrder(missionProgressUpdate);
                 }
@@ -393,17 +393,17 @@ namespace Perpetuum.Services.MissionEngine
         public void MissionNew(MissionProgressUpdate missionProgressUpdate)
         {
             var missionZoneProgress = ZoneMissionInProgress.CreateFromProgressUpdate(_zone, missionProgressUpdate);
-            
+
             _runningMissions[missionProgressUpdate.missionId] = missionZoneProgress;
 
-            var targets = missionZoneProgress.LoadZoneTargets(_zone.PresenceManager,_player);
+            var targets = missionZoneProgress.LoadZoneTargets(_zone.PresenceManager, _player);
 
             foreach (var missionTarget in targets)
             {
                 _cachedMissionTargets.Add(missionTarget.Id, missionTarget);
             }
 
-            
+
         }
 
 
@@ -421,7 +421,7 @@ namespace Perpetuum.Services.MissionEngine
             var success = false;
 
             var submitTargets = CollectTargetsFromAllGangMembers(MissionTargetType.submit_item)
-                .Cast<SubmitItemZoneTarget>().Where(t=>t.MyZoneMissionInProgress.missionGuid == guid);
+                .Cast<SubmitItemZoneTarget>().Where(t => t.MyZoneMissionInProgress.missionGuid == guid);
 
             foreach (var targetSubmitItem in submitTargets)
             {
@@ -446,7 +446,7 @@ namespace Perpetuum.Services.MissionEngine
                     success = true;
                     break;
                 }
-                
+
             }
 
             return success;
@@ -457,7 +457,7 @@ namespace Perpetuum.Services.MissionEngine
             var targets = new List<IZoneMissionTarget>(CurrentTargetsByType(missionTargetType));
 
             var gang = _player.Gang;
-            if (gang == null) 
+            if (gang == null)
                 return targets;
 
             var affectedPlayers = _zone.GetGangMembers(gang).Where(p => p != _player).ToList();
@@ -493,9 +493,9 @@ namespace Perpetuum.Services.MissionEngine
             return info;
         }
 
-        private static Dictionary<string,object> GetDefinitionAndQuantityInfo(IZoneMissionTarget target)
+        private static Dictionary<string, object> GetDefinitionAndQuantityInfo(IZoneMissionTarget target)
         {
-            var info = new Dictionary<string,object>
+            var info = new Dictionary<string, object>
             {
                 {k.definition, target.MyTarget.Definition},
                 {k.quantity, target.MyTarget.Quantity},
@@ -528,7 +528,7 @@ namespace Perpetuum.Services.MissionEngine
                 );
         }
 
-        
+
         /// <summary>
         /// Compares by mission structure eid 
         /// "Is it the proper moment mission wise to use this structure?"
@@ -537,14 +537,14 @@ namespace Perpetuum.Services.MissionEngine
         /// <returns></returns>
         public List<IZoneMissionTarget> GetTargetsForMissionStructure(MissionStructure missionStructure)
         {
-            return 
+            return
             CollectTargetsFromAllGangMembers(missionStructure.TargetType)
                 .Where(t => t.MyTarget.ValidMissionStructureEidSet && t.MyTarget.MissionStructureEid == missionStructure.Eid).ToList();
 
 
         }
 
-        
+
 
 
         private int _enqueMissionTargetCounter;
@@ -577,7 +577,7 @@ namespace Perpetuum.Services.MissionEngine
             if (gang == null)
                 return;
 
-            SignalParticipationAsync(_player.Character,missionGuid);
+            SignalParticipationAsync(_player.Character, missionGuid);
         }
 
         public void SignalParticipationAsync(Character doerCharacter, Guid missionGuid)

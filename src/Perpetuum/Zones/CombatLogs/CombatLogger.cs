@@ -13,11 +13,11 @@ namespace Perpetuum.Zones.CombatLogs
         private readonly Player _owner;
         private readonly ICombatLogSaver _logSaver;
         private readonly CombatSummary.Factory _combatSummaryFactory;
-        private ImmutableDictionary<Unit,CombatSummary> _summaries = ImmutableDictionary<Unit, CombatSummary>.Empty;
+        private ImmutableDictionary<Unit, CombatSummary> _summaries = ImmutableDictionary<Unit, CombatSummary>.Empty;
 
         public delegate CombatLogger Factory(Player owner);
 
-        public CombatLogger(Player owner,ICombatLogSaver logSaver,CombatSummary.Factory combatSummaryFactory)
+        public CombatLogger(Player owner, ICombatLogSaver logSaver, CombatSummary.Factory combatSummaryFactory)
         {
             _owner = owner;
             _logSaver = logSaver;
@@ -45,11 +45,11 @@ namespace Perpetuum.Zones.CombatLogs
             }
         }
 
-        public void Save(IZone zone,Unit killer)
+        public void Save(IZone zone, Unit killer)
         {
             try
             {
-                _logSaver.Save(zone,_owner, killer,_summaries.Values);
+                _logSaver.Save(zone, _owner, killer, _summaries.Values);
             }
             catch (Exception ex)
             {

@@ -30,7 +30,7 @@ namespace Perpetuum
             return dt >= _start && dt <= _end;
         }
 
-        public DateTimeRange(DateTime start,DateTime end)
+        public DateTimeRange(DateTime start, DateTime end)
         {
             if (start < end)
             {
@@ -46,7 +46,7 @@ namespace Perpetuum
 
         public static DateTimeRange FromDelta(DateTime start, TimeSpan delta)
         {
-            return new DateTimeRange(start,start + delta);
+            return new DateTimeRange(start, start + delta);
         }
 
         public bool Equals(DateTimeRange other)
@@ -58,14 +58,14 @@ namespace Perpetuum
         {
             if (ReferenceEquals(null, obj))
                 return false;
-            return obj is DateTimeRange && Equals((DateTimeRange) obj);
+            return obj is DateTimeRange && Equals((DateTimeRange)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (_start.GetHashCode()*397) ^ _end.GetHashCode();
+                return (_start.GetHashCode() * 397) ^ _end.GetHashCode();
             }
         }
 

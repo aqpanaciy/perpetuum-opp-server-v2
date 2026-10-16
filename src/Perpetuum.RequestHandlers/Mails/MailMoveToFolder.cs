@@ -15,7 +15,7 @@ namespace Perpetuum.RequestHandlers.Mails
                 var folder = request.Data.GetOrDefault<int>(k.folder);
                 MailHandler.MoveToFolder(character, mailID, folder);
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

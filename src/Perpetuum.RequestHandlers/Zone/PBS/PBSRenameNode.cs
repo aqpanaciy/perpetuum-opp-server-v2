@@ -34,7 +34,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
                     Logger.Info($"PBSRenameNode (issuer = {character.Id}) {sourceUnit}");
                     Message.Builder.FromRequest(request).WithData(sourceUnit.ToDictionary()).Send();
                 });
-                
+
                 scope.Complete();
             }
         }

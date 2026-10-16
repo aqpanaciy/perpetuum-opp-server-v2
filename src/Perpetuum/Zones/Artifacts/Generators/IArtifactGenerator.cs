@@ -5,5 +5,5 @@ namespace Perpetuum.Zones.Artifacts.Generators
         void GenerateArtifacts();
     }
 
-  
+
 }

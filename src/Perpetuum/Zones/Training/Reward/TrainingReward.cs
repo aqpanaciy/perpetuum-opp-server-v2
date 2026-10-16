@@ -11,7 +11,7 @@ namespace Perpetuum.Zones.Training.Reward
         public RobotTemplate RobotTemplate { get; private set; }
         public int RaceId { get; private set; }
 
-        public TrainingReward(int level, ItemInfo item,RobotTemplate robotTemplate,int raceId)
+        public TrainingReward(int level, ItemInfo item, RobotTemplate robotTemplate, int raceId)
         {
             Level = level;
             Item = item;

@@ -8,7 +8,7 @@ namespace Perpetuum.Services.Relay
     {
         private readonly IServerInfoManager _serverInfoManager;
 
-        public ServerInfoService(IHostStateService stateService,IServerInfoManager serverInfoManager)
+        public ServerInfoService(IHostStateService stateService, IServerInfoManager serverInfoManager)
         {
             _serverInfoManager = serverInfoManager;
 
@@ -20,7 +20,7 @@ namespace Perpetuum.Services.Relay
                 }
             };
         }
-        
+
         public override void Update(TimeSpan time)
         {
             _serverInfoManager.PostCurrentServerInfoToWebService();

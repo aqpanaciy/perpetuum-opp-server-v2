@@ -22,17 +22,17 @@ namespace Perpetuum.Zones.Training.Reward
                                                    .Execute()
                                                    .Select(r =>
                                                    {
-                                                      var level = r.GetValue<int>("level");
-                                                      var definition = r.GetValue<int>("definition");
-                                                      var quantity = r.GetValue<int>("quantity");
-                                                      var itemInfo = new ItemInfo(definition, quantity);
+                                                       var level = r.GetValue<int>("level");
+                                                       var definition = r.GetValue<int>("definition");
+                                                       var quantity = r.GetValue<int>("quantity");
+                                                       var itemInfo = new ItemInfo(definition, quantity);
 
-                                                      var robotTemplateId = r.GetValue<int>("robottemplateid");
-                                                      var template = _robotTemplateReader.Get(robotTemplateId);
+                                                       var robotTemplateId = r.GetValue<int>("robottemplateid");
+                                                       var template = _robotTemplateReader.Get(robotTemplateId);
 
-                                                      var raceId = r.GetValue<int>("raceid");
+                                                       var raceId = r.GetValue<int>("raceid");
 
-                                                      return new TrainingReward(level, itemInfo, template,raceId);
+                                                       return new TrainingReward(level, itemInfo, template, raceId);
                                                    }).ToArray());
         }
     }

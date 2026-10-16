@@ -16,7 +16,7 @@ namespace Perpetuum.Services.Sparks
             this.activationTime = activationTime;
         }
 
-        public Dictionary<string,object> ToDictionary()
+        public Dictionary<string, object> ToDictionary()
         {
             var info = new Dictionary<string, object>
             {
@@ -26,7 +26,7 @@ namespace Perpetuum.Services.Sparks
 
             if (activationTime != null)
             {
-                info.Add(k.activationTime, ((DateTime)activationTime).AddMinutes(SparkHelper.SPARK_CHANGE_MINUTES) );
+                info.Add(k.activationTime, ((DateTime)activationTime).AddMinutes(SparkHelper.SPARK_CHANGE_MINUTES));
             }
 
             return info;

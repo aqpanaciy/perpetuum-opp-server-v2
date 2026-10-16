@@ -32,6 +32,6 @@ namespace Perpetuum
         speedHacker = 1 << 21,
         privilegedTransactions = 1 << 22,
         trialAccount = 1 << 23,
-        
+
     }
 }

@@ -35,9 +35,9 @@ namespace Perpetuum.Zones.Artifacts
         {
             return new Dictionary<string, object>
                                  {
-                                         {k.ID, Id}, 
+                                         {k.ID, Id},
                                          {k.type, (int) Info.type},
-                                         {k.position, Position}, 
+                                         {k.position, Position},
                                          {k.goalRange, Info.goalRange}
                                  };
         }

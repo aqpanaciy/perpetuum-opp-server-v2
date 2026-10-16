@@ -64,7 +64,7 @@ namespace Perpetuum.RequestHandlers.Trades
                     _tradeService.ClearTrade(character);
                     throw;
                 }
-                
+
                 scope.Complete();
             }
         }

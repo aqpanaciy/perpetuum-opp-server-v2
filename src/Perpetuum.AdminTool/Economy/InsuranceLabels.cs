@@ -9,7 +9,7 @@ namespace Perpetuum.AdminTool.Economy
         internal static readonly IReadOnlyDictionary<string, LabelMeta> Map =
             new Dictionary<string, LabelMeta>
             {
-                ["fee_pct"]    = new("Fee %",    "Insurance fee charged at purchase, as a fraction of production cost (e.g. 0.10 = 10%)"),
+                ["fee_pct"] = new("Fee %", "Insurance fee charged at purchase, as a fraction of production cost (e.g. 0.10 = 10%)"),
                 ["payout_pct"] = new("Payout %", "Insurance payout on robot death, as a fraction of production cost (must be less than Fee %)"),
             };
     }

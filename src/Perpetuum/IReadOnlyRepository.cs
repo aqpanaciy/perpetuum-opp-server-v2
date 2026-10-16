@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace Perpetuum
 {
-    public interface IReadOnlyRepository<out T> : IReadOnlyRepository<int,T>
+    public interface IReadOnlyRepository<out T> : IReadOnlyRepository<int, T>
     {
     }
 
-    public interface IReadOnlyRepository<in TId,out T>
+    public interface IReadOnlyRepository<in TId, out T>
     {
         T Get(TId id);
         IEnumerable<T> GetAll();
@@ -14,14 +14,14 @@ namespace Perpetuum
 
     public static class ReadOnlyRepositoryExtensions
     {
-        public static bool TryGet<TId, T>(this IReadOnlyRepository<TId,T> repository,TId id,out T item)
+        public static bool TryGet<TId, T>(this IReadOnlyRepository<TId, T> repository, TId id, out T item)
         {
             item = repository.Get(id);
-            return !Equals(item,default(T));
+            return !Equals(item, default(T));
         }
     }
 
-    public interface IRepository<in TId,T> : IReadOnlyRepository<TId,T>
+    public interface IRepository<in TId, T> : IReadOnlyRepository<TId, T>
     {
         void Insert(T item);
         void Update(T item);

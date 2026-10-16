@@ -12,7 +12,7 @@ namespace Perpetuum.RequestHandlers.Intrusion
             var sapActivityDict = Outpost.GetIntrusionStabilityPublicLog(daysBack);
 
             Message.Builder.FromRequest(request)
-                .WithData(new Dictionary<string, object>{{"intrusionPublicLog", sapActivityDict},})
+                .WithData(new Dictionary<string, object> { { "intrusionPublicLog", sapActivityDict }, })
                 .Send();
         }
     }

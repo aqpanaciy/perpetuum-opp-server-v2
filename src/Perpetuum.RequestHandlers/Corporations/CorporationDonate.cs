@@ -11,7 +11,7 @@ namespace Perpetuum.RequestHandlers.Corporations
         private readonly ICorporationManager _corporationManager;
         private readonly CharacterWalletFactory _characterWalletFactory;
 
-        public CorporationDonate(ICorporationManager corporationManager,CharacterWalletFactory characterWalletFactory)
+        public CorporationDonate(ICorporationManager corporationManager, CharacterWalletFactory characterWalletFactory)
         {
             _corporationManager = corporationManager;
             _characterWalletFactory = characterWalletFactory;
@@ -60,7 +60,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                     .SetCreditChange(amount);
 
                 corporation.LogTransaction(builder);
-                
+
                 scope.Complete();
             }
         }

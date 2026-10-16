@@ -35,17 +35,17 @@ namespace Perpetuum.Modules.Terraforming
         /// </summary>
         private static void ForceGrowWall(IZone zone, Position position)
         {
-            if (zone == null) 
+            if (zone == null)
                 return;
 
             var x = position.intX;
             var y = position.intY;
 
             var plantInfo = zone.Terrain.Plants[x, y];
-            plantInfo.type.ThrowIfEqual(PlantType.NotDefined,ErrorCodes.NoPlantOnTile);
+            plantInfo.type.ThrowIfEqual(PlantType.NotDefined, ErrorCodes.NoPlantOnTile);
 
             var plantRule = zone.Configuration.PlantRules.GetPlantRule(plantInfo.type);
-            if ( plantRule == null )
+            if (plantRule == null)
                 return;
 
             plantRule.AllowedOnNonNatural.ThrowIfFalse(ErrorCodes.InvalidPlant);
@@ -59,7 +59,7 @@ namespace Perpetuum.Modules.Terraforming
 
                     // heal it
                     plantInfo.HealPlant(plantRule);
-                    zone.Terrain.Plants[x,y] = plantInfo;
+                    zone.Terrain.Plants[x, y] = plantInfo;
                 }
                 else
                 {
@@ -85,8 +85,8 @@ namespace Perpetuum.Modules.Terraforming
                         blockInfo.Height = 0;
                     }
 
-                    zone.Terrain.Blocks[x,y] = blockInfo;
-                    zone.Terrain.Plants[x,y] = plantInfo;
+                    zone.Terrain.Blocks[x, y] = blockInfo;
+                    zone.Terrain.Plants[x, y] = plantInfo;
                 }
             }
         }

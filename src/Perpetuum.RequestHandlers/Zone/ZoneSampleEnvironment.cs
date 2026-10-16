@@ -16,7 +16,7 @@ namespace Perpetuum.RequestHandlers.Zone
                 Dictionary<string, object> result;
                 request.Zone.Environment.SampleEnvironment(eid, range, out result).ThrowIfError();
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

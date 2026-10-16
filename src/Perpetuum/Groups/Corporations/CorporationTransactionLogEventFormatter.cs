@@ -6,7 +6,7 @@ namespace Perpetuum.Groups.Corporations
 {
     public class CorporationTransactionLogger : DbLogger<TransactionLogEvent>
     {
-        protected override void BuildCommand(TransactionLogEvent e,DbQuery query)
+        protected override void BuildCommand(TransactionLogEvent e, DbQuery query)
         {
             const string insertSqlCommand = @"insert corporationtransactions (corporationEID,memberID,amount,transactiontype,quantity,definition,targetMemberID,currentwallet,involvedCorporationEID) 
                                                                               values 

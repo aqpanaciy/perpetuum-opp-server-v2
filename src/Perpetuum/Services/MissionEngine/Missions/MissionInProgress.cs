@@ -42,7 +42,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
         private List<ArtifactInfo> _selectedArtifactInfos;
 
         private Position _searchOrigin;
-        
+
         public readonly object lockObject = new object();
 
         public Guid missionGuid;
@@ -86,7 +86,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
 
         public delegate MissionInProgress Factory(Mission mission);
 
-        public MissionInProgress(Mission mission,IStandingHandler standingHandler,IProductionDataAccess productionDataAccess,IZoneManager zoneManager)
+        public MissionInProgress(Mission mission, IStandingHandler standingHandler, IProductionDataAccess productionDataAccess, IZoneManager zoneManager)
         {
             myMission = mission;
             _standingHandler = standingHandler;
@@ -133,7 +133,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
             else
             {
                 //newschool dynamic
-                finalLevel = (int) levelFromSql;
+                finalLevel = (int)levelFromSql;
             }
 
             missionInProgress.MissionLevel = finalLevel;
@@ -199,14 +199,14 @@ namespace Perpetuum.Services.MissionEngine.Missions
             //target states
             var counter = 0;
             tempDict.Add(k.missionTargetState, (from t in _targetsInProgress.Values
-                select (object) t.ToDictionary()).ToDictionary(d => "t" + counter++));
+                                                select (object)t.ToDictionary()).ToDictionary(d => "t" + counter++));
 
             return tempDict;
         }
 
         private void AddParticipantsToInfo(Dictionary<string, object> info)
         {
-            var participants = GetParticipantsVerbose().Select(c=>c.Id).ToArray();
+            var participants = GetParticipantsVerbose().Select(c => c.Id).ToArray();
             info["participants"] = participants;
         }
 
@@ -267,12 +267,12 @@ namespace Perpetuum.Services.MissionEngine.Missions
                 double sValue;
                 if (msc.change > 0)
                 {
-                    sValue = msc.change*(1.0 + extensionBonus)*bonusMultiplier;
+                    sValue = msc.change * (1.0 + extensionBonus) * bonusMultiplier;
 
                 }
                 else
                 {
-                    sValue = msc.change*(1.0 - hitMitigationBonus);
+                    sValue = msc.change * (1.0 - hitMitigationBonus);
 
                 }
 
@@ -302,7 +302,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
             if (rewardItems.Count > 0)
             {
                 rewDict = (from r in rewardItems
-                    select (object) r.ToDictionary()).ToDictionary(d => "r" + rewardCounter++);
+                           select (object)r.ToDictionary()).ToDictionary(d => "r" + rewardCounter++);
             }
 
             return rewDict;
@@ -401,7 +401,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
 
         private void ChooseNpcRace()
         {
-            var races = new[] {1, 2, 3};
+            var races = new[] { 1, 2, 3 };
 
             if (myLocation.ZoneConfig.IsAlpha) //TODO: Fixme -- Alpha as neutral-assumption
             {
@@ -871,7 +871,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
         {
             if (!spreadInGang)
             {
-                return new List<Character> {character};
+                return new List<Character> { character };
             }
 
             return MissionProcessor.GetGangMembersCached(character);
@@ -1082,7 +1082,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
 
             foreach (var missionStandingChange in changes.Where(s => s.change > 0))
             {
-                var standingChange = -0.2*missionStandingChange.change*hitMitigationMultiplier;
+                var standingChange = -0.2 * missionStandingChange.change * hitMitigationMultiplier;
                 var origStanding = _standingHandler.GetStanding(missionStandingChange.allianceEid, character.Eid);
                 var newStanding = (origStanding + standingChange).Clamp(0, 10);
 
@@ -1211,8 +1211,8 @@ namespace Perpetuum.Services.MissionEngine.Missions
                 netStandings.Add("n" + count++, missionStandingChange.ToDictionary());
             }
             allStandingInfo.Add("grossStandings", netStandings);
-            Logger.Info("++ rewardDivider:" + Math.Round(1/rewardFraction) +  " rewardFraction: " + rewardFraction + " participants:" + participants.Count + "  " + this);
-            
+            Logger.Info("++ rewardDivider:" + Math.Round(1 / rewardFraction) + " rewardFraction: " + rewardFraction + " participants:" + participants.Count + "  " + this);
+
             var infoByCharacters = new Dictionary<string, object>(participants.Count);
 
             foreach (var currentCharacter in participants)
@@ -1235,7 +1235,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
                 {
                     var originalStanding = _standingHandler.GetStanding(standingChange.allianceEid, currentCharacter.Eid);
 
-                    var oneChange = new Dictionary<string, object> {{k.allianceEID, standingChange.allianceEid}, {"fromStanding", originalStanding}};
+                    var oneChange = new Dictionary<string, object> { { k.allianceEID, standingChange.allianceEid }, { "fromStanding", originalStanding } };
 
 #if DEBUG
                     Logger.Info("original standing: " + originalStanding);
@@ -1415,10 +1415,10 @@ namespace Perpetuum.Services.MissionEngine.Missions
         {
             var extensionBonus = myMission.GetTypeRelatedExtensionBonus(character) + 1;
 
-            var allPositiveBonus = bonusMultiplier*extensionBonus;
+            var allPositiveBonus = bonusMultiplier * extensionBonus;
 
             var rawReward = GetEstimatedReward();
-            var fineReward = extensionBonus*bonusMultiplier*rawReward;
+            var fineReward = extensionBonus * bonusMultiplier * rawReward;
             var hitMitigationBonus = myMission.GetHitMitigationBonus(character);
 
             var result = new Dictionary<string, object>()
@@ -1440,7 +1440,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
 
             if (myMission.missionCategory == MissionCategory.Transport)
             {
-                var sumVolume = _targetsInProgress.Values.Where(t => t.myTarget.ValidItemInfo && (t.myTarget.Type == MissionTargetType.use_itemsupply)).Sum(t => t.myTarget.Quantity*t.myTarget.PrimaryEntityDefault.Volume);
+                var sumVolume = _targetsInProgress.Values.Where(t => t.myTarget.ValidItemInfo && (t.myTarget.Type == MissionTargetType.use_itemsupply)).Sum(t => t.myTarget.Quantity * t.myTarget.PrimaryEntityDefault.Volume);
                 result.Add("transportVolume", sumVolume);
 
             }
@@ -1455,7 +1455,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
             get
             {
                 var level = MissionLevel + 1;
-                return level*myMission.DifficultyReward;
+                return level * myMission.DifficultyReward;
 
             }
         }
@@ -1486,7 +1486,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
         public void PayOutMission(double rewardFraction, List<Character> participants, List<Character> onlineGangMembers, Dictionary<string, object> successData)
         {
             var paymentData = new Dictionary<string, object>();
-            
+
             double rewardSum;
             double distanceReward;
             double difficultyReward;
@@ -1525,17 +1525,17 @@ namespace Perpetuum.Services.MissionEngine.Missions
                     {k.extensionMultiplier, typeRelatedBonus}
                 };
 
-                var realRewardFeePerCharacter = rewardSum*rewardFraction*typeRelatedBonus*bonusMultiplier;
+                var realRewardFeePerCharacter = rewardSum * rewardFraction * typeRelatedBonus * bonusMultiplier;
                 if (realRewardFeePerCharacter < 1)
                     continue;
 
-                var feeWithExtension = Math.Round(rewardSum*rewardFraction*typeRelatedBonus*extBonus);
-                var yourShare = Math.Round(rewardSum*rewardFraction);
+                var feeWithExtension = Math.Round(rewardSum * rewardFraction * typeRelatedBonus * extBonus);
+                var yourShare = Math.Round(rewardSum * rewardFraction);
 
                 oneCharacterPayOut.Add("grossForCharacter", realRewardFeePerCharacter);
                 oneCharacterPayOut.Add("feeWithExtensions", feeWithExtension);
                 oneCharacterPayOut.Add("yourShare", yourShare);
-                oneCharacterPayOut.Add("allExtensionsBonus", (int) Math.Ceiling(extBonus*typeRelatedBonus*100.0));
+                oneCharacterPayOut.Add("allExtensionsBonus", (int)Math.Ceiling(extBonus * typeRelatedBonus * 100.0));
 
                 var corporation = currentCharacter.GetCorporation();
 
@@ -1544,13 +1544,13 @@ namespace Perpetuum.Services.MissionEngine.Missions
                 if (corporation is PrivateCorporation)
                 {
                     //the corp is private
-                    taxRatio = corporation.TaxRate/100.0;
+                    taxRatio = corporation.TaxRate / 100.0;
 
                     if (taxRatio > 0)
                     {
                         //if corptax set
                         var corporationWallet = new CorporationWallet(corporation);
-                        var amountToCorp = Math.Round(taxRatio*realRewardFeePerCharacter);
+                        var amountToCorp = Math.Round(taxRatio * realRewardFeePerCharacter);
                         corporationWallet.Balance += amountToCorp;
 
                         oneCharacterPayOut.Add(k.tax, corporation.TaxRate);
@@ -1574,7 +1574,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
                 if (Math.Abs(taxRatio - 1.0) < double.Epsilon)
                     amountToCharacter = 0d;
                 else
-                    amountToCharacter = Math.Round((1 - taxRatio)*realRewardFeePerCharacter);
+                    amountToCharacter = Math.Round((1 - taxRatio) * realRewardFeePerCharacter);
 
                 oneCharacterPayOut.Add(k.fee, amountToCharacter);
                 paymentsPerCharacter.Add("p" + count++, oneCharacterPayOut);
@@ -1886,9 +1886,9 @@ namespace Perpetuum.Services.MissionEngine.Missions
 
                 var dist = targetInProgress.SuccessPosition.TotalDistance2D(currentPosition);
 
-                var kilometers = dist/100.0;
+                var kilometers = dist / 100.0;
 
-                var rewardForTarget = kilometers* _missionDataCache.RewardPerKilometer;
+                var rewardForTarget = kilometers * _missionDataCache.RewardPerKilometer;
 
                 rewardSum += rewardForTarget;
 
@@ -1965,8 +1965,8 @@ namespace Perpetuum.Services.MissionEngine.Missions
                     locationEid = myLocation.LocationEid,
                     missionCategory = myMission.missionCategory,
                     targetType = MissionTargetType.rnd_point,
-                    x = (int) myLocation.X,
-                    y = (int) myLocation.Y,
+                    x = (int)myLocation.X,
+                    y = (int)myLocation.Y,
                     zoneId = myLocation.ZoneConfig.Id,
                     eventTime = DateTime.Now,
                 };
@@ -1976,7 +1976,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
             }
 
 
-            MissionTargetInProgress.WriteSuccessLog(myLocation.ZoneConfig.Id, (int) myLocation.X, (int) myLocation.Y, missionGuid, MissionTargetType.rnd_point, myLocation.LocationEid, myMission.missionCategory);
+            MissionTargetInProgress.WriteSuccessLog(myLocation.ZoneConfig.Id, (int)myLocation.X, (int)myLocation.Y, missionGuid, MissionTargetType.rnd_point, myLocation.LocationEid, myMission.missionCategory);
 
         }
 
@@ -2112,7 +2112,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
             foreach (var currentCharacter in characters)
             {
                 //gangmember only on the zone where the mission was started
-                zone.GetPlayer(currentCharacter)?.EnableSelfTeleport(TimeSpan.FromMinutes(MISSION_SUCCESS_TELEPORT_MINUTES),zoneId);
+                zone.GetPlayer(currentCharacter)?.EnableSelfTeleport(TimeSpan.FromMinutes(MISSION_SUCCESS_TELEPORT_MINUTES), zoneId);
             }
         }
 
@@ -2140,7 +2140,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
         public void AddParticipant(Character doerCharacter)
         {
             if (!spreadInGang) return;
-            
+
             if (!IsParticipant(doerCharacter))
             {
                 WriteParticipant(missionGuid, doerCharacter);
@@ -2174,7 +2174,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
                 .SetParameter("@missionGuid", missionGuid)
                 .SetParameter("@characterId", doerCharacter.Id)
                 .Execute();
-            
+
         }
 
 
@@ -2230,7 +2230,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
         {
             var result = GetParticipants().Contains(doerCharacter);
 #if DEBUG
-            Logger.Info("    >>>> is mission participant: " + (result ? "YES" : "NO" )  + doerCharacter.Id);    
+            Logger.Info("    >>>> is mission participant: " + (result ? "YES" : "NO") + doerCharacter.Id);
 #endif
             return result;
         }
@@ -2249,7 +2249,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
             return true;
         }
 
-        public List<Character> FilterParticipants( List<Character> participants)
+        public List<Character> FilterParticipants(List<Character> participants)
         {
             var ownersGang = character.GetGang();
 
@@ -2299,7 +2299,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
             }
 
             // that counter is starting from 0 which means no other gangmembers online
-            _rewardDivider = GangMemberCountMaximized +1;
+            _rewardDivider = GangMemberCountMaximized + 1;
 
         }
 
@@ -2317,7 +2317,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
             if (rewardDivider <= 0) rewardDivider = 1;
             rewardFraction = 1.0 / rewardDivider;
 
-            Logger.Info("++ rewardDivider:"  + rewardDivider + " rewardFraction:" + rewardFraction + "  " + this );
+            Logger.Info("++ rewardDivider:" + rewardDivider + " rewardFraction:" + rewardFraction + "  " + this);
 
         }
 
@@ -2336,7 +2336,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
             if (myLocation.ZoneConfig.IsBeta)
                 result *= 2;
 
-            return (int) result;
+            return (int)result;
         }
     }
 }

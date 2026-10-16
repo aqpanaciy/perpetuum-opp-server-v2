@@ -18,7 +18,7 @@ namespace Perpetuum.RequestHandlers.Intrusion
                 var facilityEid = request.Data.GetOrDefault<long>(k.facility);
                 var character = request.Session.Character;
 
-                var facility = (ProductionFacility) Entity.Repository.LoadOrThrow(facilityEid);
+                var facility = (ProductionFacility)Entity.Repository.LoadOrThrow(facilityEid);
                 var outpost = facility.GetDockingBase().ThrowIfNotType<Outpost>(ErrorCodes.ItemNotFound);
 
                 var siteInfo = outpost.GetIntrusionSiteInfo();
@@ -46,7 +46,7 @@ namespace Perpetuum.RequestHandlers.Intrusion
 
                     Message.Builder.FromRequest(request).WithData(result).Send();
                 });
-                
+
                 scope.Complete();
             }
         }

@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers.Mails
                 var character = request.Session.Character;
                 MailHandler.DeleteMail(character, mailId);
                 Message.Builder.FromRequest(request).WithData(mailId).WrapToResult().Send();
-                
+
                 scope.Complete();
             }
         }

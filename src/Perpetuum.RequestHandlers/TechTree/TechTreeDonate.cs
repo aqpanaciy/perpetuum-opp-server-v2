@@ -57,8 +57,8 @@ namespace Perpetuum.RequestHandlers.TechTree
 
                 Message.Builder.FromRequest(request).WithData(result).Send();
 
-                Transaction.Current.OnCommited(() => SendInfoToCorporation(_techTreeService,corporationEid));
-                
+                Transaction.Current.OnCommited(() => SendInfoToCorporation(_techTreeService, corporationEid));
+
                 scope.Complete();
             }
         }

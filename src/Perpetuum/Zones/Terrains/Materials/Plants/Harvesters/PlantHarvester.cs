@@ -12,7 +12,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Plants.Harvesters
 
         public delegate IPlantHarvester Factory(IZone zone, double amountModifier);
 
-        public PlantHarvester(IZone zone, double amountModifier,RareMaterialHandler rareMaterialHandler,MaterialHelper materialHelper)
+        public PlantHarvester(IZone zone, double amountModifier, RareMaterialHandler rareMaterialHandler, MaterialHelper materialHelper)
         {
             _zone = zone;
             _amountModifier = amountModifier;
@@ -24,7 +24,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Plants.Harvesters
         {
             var result = new List<ItemInfo>();
 
-            _zone.Terrain.Plants.UpdateValue(position,pi =>
+            _zone.Terrain.Plants.UpdateValue(position, pi =>
             {
                 pi.type.ThrowIfEqual(PlantType.NotDefined, ErrorCodes.NoPlantOnTile);
                 var plantRule = _zone.Configuration.PlantRules.GetPlantRule(pi.type).ThrowIfNull(ErrorCodes.InvalidPlant);
@@ -60,16 +60,16 @@ namespace Perpetuum.Zones.Terrains.Materials.Plants.Harvesters
                 case PlantType.ElectroPlant:
                 case PlantType.RustBush:
                 case PlantType.TreeIron:
-                {
-                    var m = _materialHelper.GetMaterialInfo(plantRule.FruitMaterialName.ToMaterialType());
-                    amount = m.Amount;
-                    break;
-                }
+                    {
+                        var m = _materialHelper.GetMaterialInfo(plantRule.FruitMaterialName.ToMaterialType());
+                        amount = m.Amount;
+                        break;
+                    }
                 default:
-                throw new PerpetuumException(ErrorCodes.PlantNotHarvestable);
+                    throw new PerpetuumException(ErrorCodes.PlantNotHarvestable);
             }
 
-            return (int) (amount * _amountModifier);
+            return (int)(amount * _amountModifier);
         }
     }
 

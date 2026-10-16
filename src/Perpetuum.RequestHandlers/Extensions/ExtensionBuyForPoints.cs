@@ -13,7 +13,7 @@ namespace Perpetuum.RequestHandlers.Extensions
         private readonly ExtensionPoints _extensionPoints;
         private readonly IExtensionReader _extensionReader;
 
-        public ExtensionBuyForPoints(IAccountManager accountManager,ExtensionPoints extensionPoints,IExtensionReader extensionReader)
+        public ExtensionBuyForPoints(IAccountManager accountManager, ExtensionPoints extensionPoints, IExtensionReader extensionReader)
         {
             _accountManager = accountManager;
             _extensionPoints = extensionPoints;
@@ -66,18 +66,18 @@ namespace Perpetuum.RequestHandlers.Extensions
                     }
 
                     //spent extension
-                    _accountManager.AddExtensionPointsSpent(account,character,extensionPointCost,extensionId,extensionLevel);
+                    _accountManager.AddExtensionPointsSpent(account, character, extensionPointCost, extensionId, extensionLevel);
                 }
 
                 //write to sql
                 character.IncreaseExtensionLevel(extensionId, extensionLevel);
 
-                var result = _accountManager.GetEPData(account,character);
+                var result = _accountManager.GetEPData(account, character);
                 result.Add(k.extensionID, extensionId);
                 result.Add(k.extensionLevel, extensionLevel);
 
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

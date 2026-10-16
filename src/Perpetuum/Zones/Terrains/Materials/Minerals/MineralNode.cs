@@ -13,10 +13,10 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
         public delegate void MineralNodeEventHandler(MineralNode node);
 
         private readonly Area _area;
-// ReSharper disable once FieldCanBeMadeReadOnly.Local
+        // ReSharper disable once FieldCanBeMadeReadOnly.Local
         private uint[] _values; // the cake is a lie!
 
-        public MineralNode(MaterialType type,Area area)
+        public MineralNode(MaterialType type, Area area)
         {
             Type = type;
             _area = area;
@@ -24,7 +24,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
             Expirable = true;
         }
 
-        public MineralNode(MaterialType type,Area area,uint[] values) : this(type,area)
+        public MineralNode(MaterialType type, Area area, uint[] values) : this(type, area)
         {
             Debug.Assert(values.Length == area.Ground);
             InitValus(values);
@@ -68,7 +68,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
 
         private void OnExpired()
         {
-            if ( _expired )
+            if (_expired)
                 return;
 
             _expired = true;
@@ -78,8 +78,8 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
 
         private int GetOffset(int x, int y)
         {
-            Debug.Assert(_area.Contains(x,y),"invalid xy");
-            
+            Debug.Assert(_area.Contains(x, y), "invalid xy");
+
             var vx = x - _area.X1;
             var vy = y - _area.Y1;
             var offset = vy * _area.Width + vx;
@@ -160,23 +160,23 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
             if (!_area.Contains(x, y))
                 return 0;
 
-            var offset = GetOffset(x,y);
+            var offset = GetOffset(x, y);
 
             var value = _values[offset];
             return value;
         }
 
-        public void SetValue(Point p,uint value)
+        public void SetValue(Point p, uint value)
         {
-            SetValue(p.X,p.Y,value);
+            SetValue(p.X, p.Y, value);
         }
 
-        private void SetValue(int x, int y,uint value)
+        private void SetValue(int x, int y, uint value)
         {
             if (!_area.Contains(x, y))
                 return;
 
-            var offset = GetOffset(x,y);
+            var offset = GetOffset(x, y);
             _values[offset] = value;
         }
 
@@ -226,11 +226,11 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
                     if (v <= 0)
                         continue;
 
-                    var d =  p.SqrDistance(ax,ay);
+                    var d = p.SqrDistance(ax, ay);
                     if (d >= nearestDist)
                         continue;
 
-                    nearest = new Point(ax,ay);
+                    nearest = new Point(ax, ay);
                     nearestDist = d;
                 }
             }

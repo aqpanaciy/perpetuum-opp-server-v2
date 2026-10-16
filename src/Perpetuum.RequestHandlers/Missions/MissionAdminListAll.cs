@@ -26,11 +26,11 @@ namespace Perpetuum.RequestHandlers.Missions
             {
                 var oneEntry = mission.ToDictionary();
 
-                reply.Add("m"+counter++, oneEntry);
+                reply.Add("m" + counter++, oneEntry);
 
             }
 
-            Logger.Info(reply.Count +  " missions listed");
+            Logger.Info(reply.Count + " missions listed");
 
             Message.Builder.FromRequest(request).WithData(reply).Send();
         }

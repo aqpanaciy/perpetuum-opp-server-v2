@@ -56,7 +56,7 @@ namespace Perpetuum.Services.MissionEngine.MissionDataCacheObjects
             return v;
         }
 
-        public bool IsTargetSelectionValid(IZone zone,Position source, Position target)
+        public bool IsTargetSelectionValid(IZone zone, Position source, Position target)
         {
             if (_validators.Value.TryGetValue(zone.Id, out ITargetSelectionValidator validator))
             {
@@ -66,7 +66,7 @@ namespace Perpetuum.Services.MissionEngine.MissionDataCacheObjects
             return true;
         }
 
-        private static readonly int[] _manualConfig = {0, 1, 2, 6, 7, 8, 5, 3, 4};
+        private static readonly int[] _manualConfig = { 0, 1, 2, 6, 7, 8, 5, 3, 4 };
 
         public static TargetSelectionValidator CreateValidator(IZoneManager zoneManager)
         {

@@ -15,7 +15,7 @@ namespace Perpetuum.Robots
             _entityServices = entityServices;
         }
 
-        public Robot Build(long headEid,long chassisEid,long legEid,Character owner)
+        public Robot Build(long headEid, long chassisEid, long legEid, Character owner)
         {
             var chassis = RobotComponent.GetOrThrow(chassisEid);
             chassis.CheckOwnerCharacterAndCorporationAndThrowIfFailed(owner);

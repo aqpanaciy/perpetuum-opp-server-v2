@@ -39,7 +39,7 @@ namespace Perpetuum.Zones.PBS
                 pbsObject.CheckAccessAndThrowIfFailed(ParentRobot.GetCharacter());
 
                 pbsObject.ReinforceHandler.CurrentState.IsReinforced.ThrowIfTrue(ErrorCodes.NotPossibleDuringReinforce);
-                
+
                 var dockingBase = pbsObject as PBSDockingBase;
                 dockingBase?.IsDeconstructAllowed().ThrowIfError();
 
@@ -52,7 +52,7 @@ namespace Perpetuum.Zones.PBS
                 techLevel.ThrowIfGreater((int)constructionLevel.Value, ErrorCodes.TechLevelTooLow);
             }
 
-            pbsObject.ModifyConstructionLevel((int) constructionAmount.Value).ThrowIfError();
+            pbsObject.ModifyConstructionLevel((int)constructionAmount.Value).ThrowIfError();
 
             CreateBeam(unitLock.Target, BeamState.AlignToTerrain);
         }

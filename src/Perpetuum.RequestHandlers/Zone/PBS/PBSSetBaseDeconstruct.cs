@@ -17,9 +17,9 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
                 var dockingBase = request.Zone.GetUnitOrThrow<PBSDockingBase>(eid);
 
                 var character = request.Session.Character;
-                dockingBase.SetDeconstructionRight(character,state).ThrowIfError();
+                dockingBase.SetDeconstructionRight(character, state).ThrowIfError();
                 Transaction.Current.OnCommited(() => dockingBase.SendNodeUpdate());
-                
+
                 scope.Complete();
             }
         }

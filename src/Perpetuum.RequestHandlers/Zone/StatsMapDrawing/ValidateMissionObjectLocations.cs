@@ -18,9 +18,9 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
             var b = _zone.CreatePassableBitmap(_passableColor);
             var g = Graphics.FromImage(b);
             var circle = 10f;
-            
+
             var randomPointTargets = _missionDataCache.GetAllMissionTargets.Where(t => t.ZoneId == _zone.Id && t.Type == MissionTargetType.rnd_point).ToList();
-              
+
             var greebrush = new SolidBrush(Color.LawnGreen);
             var redBrush = new SolidBrush(Color.OrangeRed);
             var yellowBrush = new SolidBrush(Color.Yellow);
@@ -32,11 +32,11 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
 
                 if (CheckConditionsAroundPosition(p, randomPointBlockRadius, randomPointIslandRadius, true))
                 {
-                    g.FillEllipse(greebrush,(float)( randomPointTarget.targetPosition.X - circle ), (float)( randomPointTarget.targetPosition.Y - circle ), circle*2, circle*2);
+                    g.FillEllipse(greebrush, (float)(randomPointTarget.targetPosition.X - circle), (float)(randomPointTarget.targetPosition.Y - circle), circle * 2, circle * 2);
                 }
                 else
                 {
-                    g.FillEllipse(redBrush, (float)(randomPointTarget.targetPosition.X - circle ), (float)(randomPointTarget.targetPosition.Y - circle ), circle*2, circle*2);
+                    g.FillEllipse(redBrush, (float)(randomPointTarget.targetPosition.X - circle), (float)(randomPointTarget.targetPosition.Y - circle), circle * 2, circle * 2);
                 }
             }
 
@@ -50,7 +50,7 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
                 if (strucureTarget == null)
                 {
                     Logger.Error("no target was found for structure:" + structureUnit.Eid + " " + structureUnit.TargetType);
-                    g.FillEllipse(yellowBrush, structureUnit.CurrentPosition.intX - circle, structureUnit.CurrentPosition.intY - circle, circle*2, circle*2);
+                    g.FillEllipse(yellowBrush, structureUnit.CurrentPosition.intX - circle, structureUnit.CurrentPosition.intY - circle, circle * 2, circle * 2);
                     continue;
 
                 }

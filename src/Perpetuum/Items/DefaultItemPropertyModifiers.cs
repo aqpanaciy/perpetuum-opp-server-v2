@@ -6,15 +6,15 @@ namespace Perpetuum.Items
 {
     public static class DefaultItemPropertyModifiers
     {
-        private static readonly ILookup<int,ItemPropertyModifier> _defaultProperties;
+        private static readonly ILookup<int, ItemPropertyModifier> _defaultProperties;
 
         static DefaultItemPropertyModifiers()
         {
-            _defaultProperties = Database.CreateLookupCache<int,ItemPropertyModifier>("aggregatevalues", "definition", r =>
+            _defaultProperties = Database.CreateLookupCache<int, ItemPropertyModifier>("aggregatevalues", "definition", r =>
             {
                 var field = r.GetValue<AggregateField>("field");
                 var value = r.GetValue<double>("value");
-                return ItemPropertyModifier.Create(field,value);
+                return ItemPropertyModifier.Create(field, value);
             });
         }
 

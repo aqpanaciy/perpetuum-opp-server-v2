@@ -26,14 +26,14 @@ namespace Perpetuum.RequestHandlers.Zone
                 Db.Query().CommandText("update zoneentities set ename=@ename where eid=@eid and runtime=1")
                     .SetParameter("@ename", finalName)
                     .SetParameter("@eid", eid)
-                    .ExecuteNonQuery().ThrowIfNotEqual(1,ErrorCodes.SQLUpdateError);
+                    .ExecuteNonQuery().ThrowIfNotEqual(1, ErrorCodes.SQLUpdateError);
 
                 Transaction.Current.OnCommited(() =>
                 {
                     var target = request.Zone.GetUnitOrThrow(eid);
                     target.Name = ename;
 
-                    var buildingsDict = new Dictionary<string, object> { {"b", target.ToDictionary()}};
+                    var buildingsDict = new Dictionary<string, object> { { "b", target.ToDictionary() } };
 
                     var result = new Dictionary<string, object>
                     {
@@ -43,7 +43,7 @@ namespace Perpetuum.RequestHandlers.Zone
 
                     Message.Builder.SetCommand(Commands.ZoneGetBuildings).WithData(result).ToClient(request.Session).Send();
                 });
-                
+
                 scope.Complete();
             }
         }

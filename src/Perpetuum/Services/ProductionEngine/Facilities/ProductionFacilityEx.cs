@@ -12,16 +12,16 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
     {
         public static void OnPBSStartFacility(this ProductionFacility facility)
         {
-            if (facility.IsOpen) 
+            if (facility.IsOpen)
                 return;
-            
-            Logger.Info("    production facility received a START. " + facility );
+
+            Logger.Info("    production facility received a START. " + facility);
             SetPauseInFacility(facility, false);
         }
 
         public static void OnPBSStopFacility(this ProductionFacility facility)
         {
-            if (!facility.IsOpen) 
+            if (!facility.IsOpen)
                 return;
 
             Logger.Info("    production facility received a STOP. " + facility);
@@ -38,13 +38,13 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
                 {
                     var productions = facility.ProductionProcessor.RunningProductions.Where(p => p.facilityEID == facility.Eid).ToArray();
 
-                    foreach (var productionInProgressGroup in productions.GroupBy(p=>p.character))
+                    foreach (var productionInProgressGroup in productions.GroupBy(p => p.character))
                     {
                         var currentCharacter = productionInProgressGroup.Key;
 
                         foreach (var productionInProgress in productionInProgressGroup)
                         {
-                            productionInProgress.SetPause(isPaused);    
+                            productionInProgress.SetPause(isPaused);
                         }
 
                         NotifyClient(currentCharacter, productionInProgressGroup.ToList(), productionEvent);
@@ -53,14 +53,14 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
                     Logger.Info(productions.Length + " productions set to isPaused:" + isPaused + " in facility: " + facility);
                     scope.Complete();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Logger.Exception(ex);
                 }
             }
         }
 
-        private static void NotifyClient(Character character, IEnumerable<ProductionInProgress> affectedProductions, ProductionEvent productionEvent )
+        private static void NotifyClient(Character character, IEnumerable<ProductionInProgress> affectedProductions, ProductionEvent productionEvent)
         {
             Transaction.Current.OnCommited(() =>
             {
@@ -73,7 +73,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
                 var productions = new Dictionary<string, object>();
                 foreach (var productionInProgress in affectedProductions)
                 {
-                    productions.Add("p"+counter++, productionInProgress.ToDictionary());
+                    productions.Add("p" + counter++, productionInProgress.ToDictionary());
                 }
 
                 info.Add(k.production, productions);

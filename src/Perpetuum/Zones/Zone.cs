@@ -274,7 +274,7 @@ namespace Perpetuum.Zones
 
         private void ProcessUpdatedUnits(TimeSpan time)
         {
-            lock(_updatedUnitsLock)
+            lock (_updatedUnitsLock)
             {
                 // If there are no pending updated units, we can exit early.
                 if (_pendingUpdatedUnits.Count == 0)

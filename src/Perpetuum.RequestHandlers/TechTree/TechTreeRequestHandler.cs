@@ -9,7 +9,7 @@ namespace Perpetuum.RequestHandlers.TechTree
     {
         public abstract void HandleRequest(IRequest request);
 
-        protected static void SendInfoToCorporation(ITechTreeService techTreeService,long corporationEid)
+        protected static void SendInfoToCorporation(ITechTreeService techTreeService, long corporationEid)
         {
             var info = new Dictionary<string, object>();
             techTreeService.AddInfoToDictionary(corporationEid, info);

@@ -24,7 +24,7 @@ namespace Perpetuum.Groups.Corporations.Loggers
         private static void WriteLogEventToDb(CorporationLogEvent e)
         {
             Db.Query().CommandText("insert into corporationlog (type,corporationEid,issuerId,memberId) values (@type,@corporationEid,@issuerId,@memberId)")
-                .SetParameter("@type", (int) e.Type)
+                .SetParameter("@type", (int)e.Type)
                 .SetParameter("@corporationEid", e.Corporation.Eid)
                 .SetParameter("@issuerId", e.Issuer.Id)
                 .SetParameter("@memberId", e.Member.Id)
@@ -40,11 +40,11 @@ namespace Perpetuum.Groups.Corporations.Loggers
                                     WHERE corporationEid = @corporationEid AND timestamp between @earlier AND @later";
 
             var result = Db.Query().CommandText(sqlCmd)
-                .SetParameter("corporationEid",_corporation.Eid)
-                .SetParameter("@earlier",earlier)
-                .SetParameter("@later",later)
+                .SetParameter("corporationEid", _corporation.Eid)
+                .SetParameter("@earlier", earlier)
+                .SetParameter("@later", later)
                 .Execute()
-                .ToDictionary("c",r => new Dictionary<string, object>
+                .ToDictionary("c", r => new Dictionary<string, object>
                 {
                     {k.timestamp,((IDataRecord) r).GetValue<DateTime>("timestamp")},
                     {k.type, ((IDataRecord) r).GetValue<int>("type")},

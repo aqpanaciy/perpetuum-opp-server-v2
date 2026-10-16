@@ -19,7 +19,7 @@ namespace Perpetuum.Services.ProductionEngine
 
         public delegate ProductionDescription Factory(int definition);
 
-        public ProductionDescription(IProductionDataAccess productionDataAccess,int definition)
+        public ProductionDescription(IProductionDataAccess productionDataAccess, int definition)
         {
             _productionDataAccess = productionDataAccess;
             this.definition = definition;
@@ -131,7 +131,7 @@ namespace Perpetuum.Services.ProductionEngine
 
         public Item CreateRefineResult(long owner, Container container, int quantity, Character character)
         {
-            var resultItem = (Item) Entity.Factory.CreateWithRandomEID(definition);
+            var resultItem = (Item)Entity.Factory.CreateWithRandomEID(definition);
             resultItem.Owner = owner;
             resultItem.Quantity = quantity;
 
@@ -156,7 +156,7 @@ namespace Perpetuum.Services.ProductionEngine
                 var entity = Entity.Factory.CreateWithRandomEID(component.EntityDefault);
                 entity.Owner = character.Eid;
                 entity.Parent = container.Eid;
-                entity.Quantity = (int) (component.Amount * (1 + (FastRandom.NextDouble() * 2)));
+                entity.Quantity = (int)(component.Amount * (1 + (FastRandom.NextDouble() * 2)));
                 entity.Save();
             }
         }
@@ -177,12 +177,12 @@ namespace Perpetuum.Services.ProductionEngine
                 }
 
                 Db.Query().CommandText("update components set componentamount=@camount where definition=@definition and componentdefinition=@cdefinition")
-                    .SetParameter("@camount", (int) (component.Amount * scale))
+                    .SetParameter("@camount", (int)(component.Amount * scale))
                     .SetParameter("@cdefinition", component.EntityDefault.Definition)
                     .SetParameter("@definition", definition)
                     .ExecuteNonQuery();
 
-                Logger.Info("component " + component.EntityDefault.Definition + " scaled from: " + component.Amount + " to " + (int) (component.Amount * scale));
+                Logger.Info("component " + component.EntityDefault.Definition + " scaled from: " + component.Amount + " to " + (int)(component.Amount * scale));
             }
         }
 

@@ -22,12 +22,12 @@ namespace Perpetuum.Groups.Corporations
     {
         private readonly ITechTreeService _techTreeService;
         private readonly IChannelManager _channelManager;
-        private readonly IReadOnlyRepository<int,CharacterProfile> _characterProfiles;
+        private readonly IReadOnlyRepository<int, CharacterProfile> _characterProfiles;
         private readonly IVoteHandler _voteHandler;
         private readonly CharacterWalletFactory _characterWalletFactory;
         private readonly IMarketOrderRepository _marketOrderRepository;
 
-        public PrivateCorporation(ITechTreeService techTreeService,IChannelManager channelManager,IReadOnlyRepository<int,CharacterProfile> characterProfiles,IVoteHandler voteHandler,CharacterWalletFactory characterWalletFactory,IMarketOrderRepository marketOrderRepository)
+        public PrivateCorporation(ITechTreeService techTreeService, IChannelManager channelManager, IReadOnlyRepository<int, CharacterProfile> characterProfiles, IVoteHandler voteHandler, CharacterWalletFactory characterWalletFactory, IMarketOrderRepository marketOrderRepository)
         {
             _techTreeService = techTreeService;
             _channelManager = channelManager;
@@ -111,12 +111,12 @@ namespace Perpetuum.Groups.Corporations
                     {k.characterID, newMember.Id},
                 };
 
-                ZoneManager.Value.Zones.ForEach(z => z.UpdateCorporation(CorporationCommand.TransferMember,info));
+                ZoneManager.Value.Zones.ForEach(z => z.UpdateCorporation(CorporationCommand.TransferMember, info));
 
                 CorporationData.RemoveFromCache(oldCorporation.Eid);
                 CorporationData.RemoveFromCache(Eid);
 
-                if (_characterProfiles is CachedReadOnlyRepository<int,CharacterProfile> c)
+                if (_characterProfiles is CachedReadOnlyRepository<int, CharacterProfile> c)
                     c.Remove(newMember.Id);
 
             });
@@ -144,7 +144,7 @@ namespace Perpetuum.Groups.Corporations
                 Logger.Info("leaveCorporation: corporation is closing: eid:" + Eid);
             }
 
-            
+
 
             //freelancer corporation eid
             if (DefaultCorporation.IsFreelancerCorporation(Eid))
@@ -160,7 +160,7 @@ namespace Perpetuum.Groups.Corporations
             RemoveMember(character);
 
             //remove from documents
-            CorporationDocumentHelper.OnCorporationLeave(character,Eid);
+            CorporationDocumentHelper.OnCorporationLeave(character, Eid);
 
             _channelManager.LeaveChannel(ChannelName, character);
             _channelManager.JoinChannel(newCorporation.ChannelName, character, CorporationRole.NotDefined);
@@ -177,7 +177,7 @@ namespace Perpetuum.Groups.Corporations
                     {k.characterID, character.Id},
                 };
 
-                ZoneManager.Value.Zones.ForEach(z => z.UpdateCorporation(CorporationCommand.TransferMember,info));
+                ZoneManager.Value.Zones.ForEach(z => z.UpdateCorporation(CorporationCommand.TransferMember, info));
             });
 
             Logger.Info("characterID: " + character.Id + " left corporation: eid:" + Eid + " default corporation: eid:" + newCorporation.Eid);
@@ -205,7 +205,7 @@ namespace Perpetuum.Groups.Corporations
                 //... do other corp closing cleanup
                 Transaction.Current.OnCommited(() =>
                 {
-                    ZoneManager.Value.Zones.ForEach(z => z.UpdateCorporation(CorporationCommand.Close,new Dictionary<string,object>
+                    ZoneManager.Value.Zones.ForEach(z => z.UpdateCorporation(CorporationCommand.Close, new Dictionary<string, object>
                                 {
                                     {k.corporationEID, Eid}
                                 }));
@@ -298,9 +298,9 @@ namespace Perpetuum.Groups.Corporations
                 .Send());
         }
 
-        public void CastVote(Vote vote,Character member,bool voteChoice)
+        public void CastVote(Vote vote, Character member, bool voteChoice)
         {
-            _voteHandler.CastVote(vote,member,voteChoice);
+            _voteHandler.CastVote(vote, member, voteChoice);
             _voteHandler.EvaluateVote(vote);
         }
 
@@ -360,7 +360,7 @@ namespace Perpetuum.Groups.Corporations
 
         public void PayOut(Character member, double amount, Character issuer)
         {
-            if ( amount <= 0 )
+            if (amount <= 0)
                 return;
 
             CanPayOut(issuer).ThrowIfFalse(ErrorCodes.InsufficientPrivileges);
@@ -381,7 +381,7 @@ namespace Perpetuum.Groups.Corporations
                                   .SetCharacter(issuer)
                                   .SetInvolvedCharacter(member).Build());
 
-            var memberWallet = _characterWalletFactory(member,TransactionType.characterPayOut);
+            var memberWallet = _characterWalletFactory(member, TransactionType.characterPayOut);
             memberWallet.Balance += amount;
             member.LogTransaction(builder.SetCreditBalance(memberWallet.Balance)
                                             .SetCreditChange(amount)
@@ -395,9 +395,9 @@ namespace Perpetuum.Groups.Corporations
             return role.IsAnyRole(CorporationRole.CEO, CorporationRole.Accountant, CorporationRole.DeputyCEO);
         }
 
-        public void Transfer(PrivateCorporation target, double amount,Character issuer)
+        public void Transfer(PrivateCorporation target, double amount, Character issuer)
         {
-            if ( Eid == target.Eid )
+            if (Eid == target.Eid)
                 return;
 
             CanTransfer(issuer).ThrowIfFalse(ErrorCodes.InsufficientPrivileges);
@@ -431,7 +431,7 @@ namespace Perpetuum.Groups.Corporations
         public static PrivateCorporation Create(CorporationDescription corporationDescription)
         {
             var container = SystemContainer.GetByName(k.es_private_corporation);
-            return (PrivateCorporation)Create(EntityDefault.GetByName(DefinitionNames.PRIVATE_CORPORATION), container, corporationDescription,EntityIDGenerator.Random);
+            return (PrivateCorporation)Create(EntityDefault.GetByName(DefinitionNames.PRIVATE_CORPORATION), container, corporationDescription, EntityIDGenerator.Random);
         }
 
         [NotNull]

@@ -17,18 +17,18 @@ namespace Perpetuum.Services.MarketEngine
         public long BaseEid { get; set; }
         public double ChangeFrom { get; set; }
         public double ChangeTo { get; set; }
-        
+
 
         public IDictionary<string, object> ToDictionary()
         {
             var d = new Dictionary<string, object>
             {
-                {k.date, EventTime}, 
-                {k.characterID, CharacterId}, 
-                {k.baseEID, BaseEid}, 
-                {k.from, ChangeFrom}, 
-                {k.to, ChangeTo}, 
-                
+                {k.date, EventTime},
+                {k.characterID, CharacterId},
+                {k.baseEID, BaseEid},
+                {k.from, ChangeFrom},
+                {k.to, ChangeTo},
+
             };
 
             return d;

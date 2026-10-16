@@ -52,7 +52,7 @@ namespace Perpetuum.Reactive
 
         protected virtual void OnSubscribe(IObserver<T> observer)
         {
-            
+
         }
 
         public static Observable<T> Create(Action<IObserver<T>> onSubscribe)

@@ -30,7 +30,7 @@ namespace Perpetuum.RequestHandlers.Sparks
 
                 if (spark.changePrice > 0)
                 {
-                    character.SubtractFromWallet(TransactionType.SparkActivation,spark.changePrice);
+                    character.SubtractFromWallet(TransactionType.SparkActivation, spark.changePrice);
                 }
 
                 var unlockedSparks = _sparkHelper.GetUnlockedSparkData(character).ToArray();
@@ -49,7 +49,7 @@ namespace Perpetuum.RequestHandlers.Sparks
 
                     if (currentSpark.activationTime != null)
                     {
-                        (DateTime.Now.Subtract((DateTime) currentSpark.activationTime).TotalMinutes < SparkHelper.SPARK_CHANGE_MINUTES).ThrowIfTrue(ErrorCodes.SparkCooldownNotOver);
+                        (DateTime.Now.Subtract((DateTime)currentSpark.activationTime).TotalMinutes < SparkHelper.SPARK_CHANGE_MINUTES).ThrowIfTrue(ErrorCodes.SparkCooldownNotOver);
                     }
 
                     if (currentSpark.sparkId > 0)
@@ -62,7 +62,7 @@ namespace Perpetuum.RequestHandlers.Sparks
 
                 //return list
                 Transaction.Current.OnCommited(() => _sparkHelper.SendSparksList(request));
-                
+
                 scope.Complete();
             }
         }

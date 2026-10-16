@@ -31,7 +31,7 @@ namespace Perpetuum.RequestHandlers.Production
             productionLine.CharacterId.ThrowIfNotEqual(character.Id, ErrorCodes.AccessDenied);
 
             //query production result for the next round
-            var lineResult = mill.QueryMaterialAndTime(productionLine.GetOrCreateCalibrationProgram(mill),  character, productionLine.TargetDefinition, productionLine.GetMaterialPoints(), productionLine.GetTimePoints(), true);
+            var lineResult = mill.QueryMaterialAndTime(productionLine.GetOrCreateCalibrationProgram(mill), character, productionLine.TargetDefinition, productionLine.GetMaterialPoints(), productionLine.GetTimePoints(), true);
 
             //do fake decalibration
             var newMaterialEfficiency = productionLine.MaterialEfficiency;

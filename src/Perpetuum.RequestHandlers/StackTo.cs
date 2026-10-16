@@ -74,7 +74,7 @@ namespace Perpetuum.RequestHandlers
                 container.Save();
 
                 Message.Builder.SetCommand(Commands.ListContainer).WithData(container.ToDictionary()).ToClient(request.Session).Send();
-                
+
                 scope.Complete();
             }
         }

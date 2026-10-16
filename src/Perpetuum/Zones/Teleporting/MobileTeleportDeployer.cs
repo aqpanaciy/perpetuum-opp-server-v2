@@ -11,7 +11,7 @@ namespace Perpetuum.Zones.Teleporting
     {
         private readonly TeleportWorldTargetHelper _worldTargetHelper;
 
-        public MobileTeleportDeployer(IEntityServices entityServices,TeleportWorldTargetHelper worldTargetHelper) : base(entityServices)
+        public MobileTeleportDeployer(IEntityServices entityServices, TeleportWorldTargetHelper worldTargetHelper) : base(entityServices)
         {
             _worldTargetHelper = worldTargetHelper;
         }
@@ -22,7 +22,7 @@ namespace Perpetuum.Zones.Teleporting
         {
             var mobileTeleport = (MobileTeleport)base.CreateDeployableItem(zone, spawnPosition, player);
 
-            mobileTeleport.CheckDeploymentAndThrow(zone,spawnPosition);
+            mobileTeleport.CheckDeploymentAndThrow(zone, spawnPosition);
 
             mobileTeleport.SetDespawnTime(MobileTeleportDespawnTime);
             mobileTeleport.SetCooldownInterval(MobileTeleportCooldown);
@@ -57,10 +57,10 @@ namespace Perpetuum.Zones.Teleporting
 
                 if (dc.item_work_range == null)
                 {
-                    return (int) DistanceConstants.MOBILE_WORLD_TELEPORT_RANGE;
+                    return (int)DistanceConstants.MOBILE_WORLD_TELEPORT_RANGE;
                 }
 
-                return (int) dc.item_work_range;
+                return (int)dc.item_work_range;
             }
         }
     }

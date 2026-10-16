@@ -5,7 +5,7 @@ using Perpetuum.Units;
 
 namespace Perpetuum.Zones.Effects
 {
-    
+
     /// <summary>
     /// Corporation based effect
     /// </summary>

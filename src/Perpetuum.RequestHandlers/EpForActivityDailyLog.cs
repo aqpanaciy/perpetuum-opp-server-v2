@@ -45,7 +45,7 @@ namespace Perpetuum.RequestHandlers
                 log.Add("r" + count++, oneEntry);
             }
 
-            var result = new Dictionary<string, object> {{"dailyLog", log}};
+            var result = new Dictionary<string, object> { { "dailyLog", log } };
 
             Message.Builder.FromRequest(request).WithData(result).Send();
         }

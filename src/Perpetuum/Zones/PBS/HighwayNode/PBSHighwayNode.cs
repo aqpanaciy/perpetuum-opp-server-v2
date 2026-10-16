@@ -64,7 +64,7 @@ namespace Perpetuum.Zones.PBS.HighwayNode
         {
             var sumCore = 0.0;
             var consumption = this.GetCoreConsumption();
-            
+
             foreach (var highwayNode in GetConnectedHighwayTargets())
             {
                 if (highwayNode.IsGoodHighwayTarget())
@@ -73,7 +73,7 @@ namespace Perpetuum.Zones.PBS.HighwayNode
 
                     var distanceMultiplier = 1 + CurrentPosition.TotalDistance2D(highwayNode.CurrentPosition) / 100;
 
-                    var nodeCore = consumption*distanceMultiplier;
+                    var nodeCore = consumption * distanceMultiplier;
 
                     sumCore += nodeCore;
                 }
@@ -93,7 +93,7 @@ namespace Perpetuum.Zones.PBS.HighwayNode
         public override IDictionary<string, object> GetDebugInfo()
         {
             var info = base.GetDebugInfo();
-            
+
             _corePumpHandler.AddToDictionary(info);
             _coreUseHandler.AddToDictionary(info);
 
@@ -112,7 +112,7 @@ namespace Perpetuum.Zones.PBS.HighwayNode
             return info;
         }
 
-        
+
 
         protected override void OnConnectionCreated(PBSConnection connection)
         {
@@ -123,7 +123,7 @@ namespace Perpetuum.Zones.PBS.HighwayNode
         protected override void OnConnectionDeleted(PBSConnection pbsConnection)
         {
             RefreshAll(pbsConnection.TargetPbsObject as PBSHighwayNode);
-            
+
             base.OnConnectionDeleted(pbsConnection);
         }
 
@@ -131,10 +131,10 @@ namespace Perpetuum.Zones.PBS.HighwayNode
         {
             return ConnectionHandler.OutConnections
                 .Where(c => c.TargetPbsObject is PBSHighwayNode)
-                .Select(c => (PBSHighwayNode) c.TargetPbsObject)
+                .Select(c => (PBSHighwayNode)c.TargetPbsObject)
                 .ToList();
         }
-        
+
 
         public List<HighwaySegmentInfo> GetOutgoingLiveSegments()
         {
@@ -144,7 +144,7 @@ namespace Perpetuum.Zones.PBS.HighwayNode
             {
                 return mySegments;
             }
-            
+
             foreach (var connectedHighwayNode in GetConnectedHighwayTargets())
             {
                 if (!connectedHighwayNode.IsGoodHighwayTarget())
@@ -154,7 +154,7 @@ namespace Perpetuum.Zones.PBS.HighwayNode
                 {
                     StatPosition = CurrentPosition,
                     EndPosition = connectedHighwayNode.CurrentPosition,
-                    Radius = Math.Max( WorkRange, connectedHighwayNode.WorkRange)
+                    Radius = Math.Max(WorkRange, connectedHighwayNode.WorkRange)
                 };
 
                 mySegments.Add(i);
@@ -169,7 +169,7 @@ namespace Perpetuum.Zones.PBS.HighwayNode
             get
             {
                 if (ED.Config.item_work_range != null)
-                    return (int) ED.Config.item_work_range;
+                    return (int)ED.Config.item_work_range;
 
                 Logger.Error("no item_work_range is defined for " + ED.Name + " " + ED.Definition);
                 return 10;
@@ -188,9 +188,9 @@ namespace Perpetuum.Zones.PBS.HighwayNode
         {
             if (_coreUseHandler.EnergyState != PBSEnergyState.inactive)
             {
-                RefreshAll();    
+                RefreshAll();
             }
-            
+
             base.OnOnlineStatusChanged(onlineStatus);
         }
 
@@ -260,7 +260,7 @@ namespace Perpetuum.Zones.PBS.HighwayNode
                 base.Enter();
             }
         }
-      
+
 
         private class WarmUpEnergyState : WarmUpCoreUserNodeState<PBSHighwayNode>
         {

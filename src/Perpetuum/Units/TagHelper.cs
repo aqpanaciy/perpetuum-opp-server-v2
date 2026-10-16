@@ -7,7 +7,7 @@ namespace Perpetuum.Units
 {
     public class TagHelper
     {
-        public void DoTagging<T>(T target,Player tagger,TimeSpan duration) where T:Unit,ITaggable
+        public void DoTagging<T>(T target, Player tagger, TimeSpan duration) where T : Unit, ITaggable
         {
             var currentTagger = target.GetTagger();
 
@@ -22,7 +22,7 @@ namespace Perpetuum.Units
         }
 
         [CanBeNull]
-        public static Player GetTagger<T>(T tagable) where T:Unit,ITaggable
+        public static Player GetTagger<T>(T tagable) where T : Unit, ITaggable
         {
             var zone = tagable.Zone;
 

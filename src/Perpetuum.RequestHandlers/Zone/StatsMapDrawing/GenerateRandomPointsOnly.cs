@@ -21,7 +21,7 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
             var deletedSpots =
             Db.Query().CommandText("delete missionspotinfo where zoneid=@zoneId and type=@spotType")
                 .SetParameter("@zoneId", _zone.Id)
-                .SetParameter("@spotType", (int) MissionSpotType.randompoint )
+                .SetParameter("@spotType", (int)MissionSpotType.randompoint)
                 .ExecuteNonQuery();
 
             Logger.Info(deletedSpots + " random point spots were deleted from zone:" + _zone.Id);
@@ -32,7 +32,7 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
 
             PlaceOneType(spotInfos, MissionSpotType.randompoint, randomPointTargetAmount, randomPointDistanceInfos, staticObjects, randomPointAccuracy);
 
-            var resultBitmap = DrawResultOnBitmap(spotInfos,staticObjects);
+            var resultBitmap = DrawResultOnBitmap(spotInfos, staticObjects);
 
             SendDrawFunctionFinished(request);
 
@@ -42,8 +42,8 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
 
             //-------
 
-            
-            var deletedTargets=
+
+            var deletedTargets =
             Db.Query().CommandText("delete missiontargets where targetpositionzone=@zoneId and targettype=@targetType")
                 .SetParameter("@zoneId", _zone.Id)
                 .SetParameter("@targetType", (int)MissionTargetType.rnd_point)
@@ -56,7 +56,7 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
             {
                 MissionHelper.PlaceRandomPoint(_zone, missionSpot.position, (int)DistanceConstants.MISSION_RANDOM_POINT_FINDRADIUS_DEFAULT);
             }
-            
+
             Logger.Info("new mission targets inserted");
 
             return resultBitmap;

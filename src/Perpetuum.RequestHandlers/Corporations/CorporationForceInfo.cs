@@ -17,7 +17,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                 var corporation = Corporation.GetOrThrow(corporationEID);
                 corporation.SetPublicProfile(publicProfile);
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

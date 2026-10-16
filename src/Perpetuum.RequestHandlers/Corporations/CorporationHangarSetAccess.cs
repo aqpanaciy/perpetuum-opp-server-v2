@@ -41,7 +41,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                 corporateHangar.Save();
 
                 Message.Builder.FromRequest(request).WithData(corporateHangar.ToDictionary()).Send();
-                
+
                 scope.Complete();
             }
         }

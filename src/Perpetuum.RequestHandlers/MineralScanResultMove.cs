@@ -26,7 +26,7 @@ namespace Perpetuum.RequestHandlers
                 var repo = new MineralScanResultRepository(character);
                 foreach (var id in resultIds)
                 {
-                    repo.MoveToFolderById(id,folder);
+                    repo.MoveToFolderById(id, folder);
                 }
 
                 Transaction.Current.OnCommited(() =>
@@ -34,7 +34,7 @@ namespace Perpetuum.RequestHandlers
                     var info = new Dictionary<string, object> { { k.items, resultIds }, { k.folder, folder } };
                     Message.Builder.FromRequest(request).WithData(info).Send();
                 });
-                
+
                 scope.Complete();
             }
         }

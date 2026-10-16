@@ -8,7 +8,7 @@ namespace Perpetuum.Reactive
         private readonly Action<Exception> _onError;
         private readonly Action _onCompleted;
 
-        public AnonymousObserver(Action<T> onNext,Action<Exception> onError,Action onCompleted)
+        public AnonymousObserver(Action<T> onNext, Action<Exception> onError, Action onCompleted)
         {
             _onNext = onNext;
             _onError = onError;

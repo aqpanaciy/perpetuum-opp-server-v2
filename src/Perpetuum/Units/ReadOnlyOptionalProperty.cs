@@ -5,7 +5,7 @@ namespace Perpetuum.Units
         private readonly UnitDataType _type;
         private readonly T _value;
 
-        public ReadOnlyOptionalProperty(UnitDataType type,T value)
+        public ReadOnlyOptionalProperty(UnitDataType type, T value)
         {
             _type = type;
             _value = value;

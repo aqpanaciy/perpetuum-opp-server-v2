@@ -12,26 +12,26 @@ namespace Perpetuum.AdminTool.ViewModels
     public partial class EconomyInsuranceViewModel : ObservableObject
     {
         private readonly EconomyInsuranceRepository _repo;
-        private readonly ChangeQueue                _queue;
+        private readonly ChangeQueue _queue;
 
-        [ObservableProperty] private bool   _isLoading;
-        [ObservableProperty] private bool   _isRecalculating;
+        [ObservableProperty] private bool _isLoading;
+        [ObservableProperty] private bool _isRecalculating;
         [ObservableProperty] private string _statusMessage = "";
-        [ObservableProperty] private bool   _statusIsError;
-        [ObservableProperty] private bool   _showSinkWarning;
+        [ObservableProperty] private bool _statusIsError;
+        [ObservableProperty] private bool _showSinkWarning;
 
         public ObservableCollection<InsuranceConfigRow> ConfigRows { get; } = new();
-        public ObservableCollection<InsurancePriceRow>  PriceRows  { get; } = new();
+        public ObservableCollection<InsurancePriceRow> PriceRows { get; } = new();
 
         public EconomyInsuranceViewModel(EconomyInsuranceRepository repo, ChangeQueue queue)
         {
-            _repo  = repo;
+            _repo = repo;
             _queue = queue;
         }
 
         public async Task LoadAsync()
         {
-            IsLoading     = true;
+            IsLoading = true;
             StatusMessage = "";
             StatusIsError = false;
             try
@@ -59,7 +59,7 @@ namespace Perpetuum.AdminTool.ViewModels
         private void QueueSave(InsuranceConfigRow row)
         {
             var description = $"insurance_config: update {row.ParamName}";
-            var existing    = _queue.Items.FirstOrDefault(c => c.Description == description);
+            var existing = _queue.Items.FirstOrDefault(c => c.Description == description);
             if (existing != null) _queue.Items.Remove(existing);
             _queue.Add(new RawSqlChange(
                 description,
@@ -74,8 +74,8 @@ namespace Perpetuum.AdminTool.ViewModels
         private async Task RecalculateNowAsync()
         {
             IsRecalculating = true;
-            StatusIsError   = false;
-            StatusMessage   = "Recalculating insurance prices...";
+            StatusIsError = false;
+            StatusMessage = "Recalculating insurance prices...";
             try
             {
                 await _repo.RecalculateAsync();
@@ -106,7 +106,7 @@ namespace Perpetuum.AdminTool.ViewModels
 
         private void UpdateSinkWarning()
         {
-            var feePct    = ConfigRows.FirstOrDefault(r => r.ParamName == "fee_pct")?.ParamValue    ?? 0;
+            var feePct = ConfigRows.FirstOrDefault(r => r.ParamName == "fee_pct")?.ParamValue ?? 0;
             var payoutPct = ConfigRows.FirstOrDefault(r => r.ParamName == "payout_pct")?.ParamValue ?? 0;
             ShowSinkWarning = payoutPct >= feePct;
         }

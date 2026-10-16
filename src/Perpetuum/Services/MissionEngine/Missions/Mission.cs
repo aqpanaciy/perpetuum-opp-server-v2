@@ -72,7 +72,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
             listable = record.GetValue<bool>(k.listable);
             rewardFee = record.GetValue<double>(k.rewardFee.ToLower());
             _locationId = record.GetValue<int?>("locationid");
-            behaviourType = (MissionBehaviourType) record.GetValue<int>("behaviourtype");
+            behaviourType = (MissionBehaviourType)record.GetValue<int>("behaviourtype");
             _difficultyReward = record.GetValue<int?>("difficultyreward");
             _difficultymultiplier = record.GetValue<double?>("difficultymultiplier");
 
@@ -95,7 +95,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
         {
             LoadIssuer(record);
         }
-        
+
         /// <summary>
         /// Config missions load their issuer from the cached issuers
         /// </summary>
@@ -124,8 +124,8 @@ namespace Perpetuum.Services.MissionEngine.Missions
         {
             get { return _difficultymultiplier ?? 1; }
         }
-        
-       
+
+
         public bool ValidDifficultyRewardSet
         {
             get { return _difficultyReward != null && _difficultyReward > 0; }
@@ -172,7 +172,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
             return _myDictionary.Value;
         }
 
-      
+
         private Dictionary<string, object> GenerateMyDictionary()
         {
             return new Dictionary<string, object>
@@ -220,7 +220,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
         }
 
 
-        
+
 
         //mission extension requirements
         public IEnumerable<Extension> RequiredExtensions
@@ -323,7 +323,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
         /// <param name="character"></param>
         /// <param name="standingHandler"></param>
         /// <returns></returns>
-        public bool MatchStandingToLevel(Character character,IStandingHandler standingHandler)
+        public bool MatchStandingToLevel(Character character, IStandingHandler standingHandler)
         {
             var standing = standingHandler.GetStanding(issuerAllianceEid, character.Eid);
             return standing >= MissionLevel;
@@ -375,7 +375,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
 
         public static Mission GenerateMissionFromRecord(IDataRecord record)
         {
-            var behaviour = (MissionBehaviourType) record.GetValue<int>("behaviourtype");
+            var behaviour = (MissionBehaviourType)record.GetValue<int>("behaviourtype");
 
             switch (behaviour)
             {
@@ -397,9 +397,9 @@ namespace Perpetuum.Services.MissionEngine.Missions
         }
 
 
-        public Dictionary<string,object> GetSlimInfo()
+        public Dictionary<string, object> GetSlimInfo()
         {
-            return new Dictionary<string, object> {{k.ID, id}, {k.title, title}, {k.type, _missionType}};
+            return new Dictionary<string, object> { { k.ID, id }, { k.title, title }, { k.type, _missionType } };
 
         }
     }

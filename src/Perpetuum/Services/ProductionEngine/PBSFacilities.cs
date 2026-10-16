@@ -32,7 +32,7 @@ namespace Perpetuum.Services.ProductionEngine
         public PBSProductionFacilityHelper(T facility)
         {
             _facility = facility;
-            
+
         }
 
         private TimeSpan _lastRefresh;
@@ -44,7 +44,7 @@ namespace Perpetuum.Services.ProductionEngine
         {
             _lastRefresh = GlobalTimer.Elapsed;
 
-            Logger.Info("facility enabler received. "  + refreshInfo + " " + _facility);
+            Logger.Info("facility enabler received. " + refreshInfo + " " + _facility);
 
             _facility.SetConnected(refreshInfo.isConnected);
 
@@ -111,7 +111,7 @@ namespace Perpetuum.Services.ProductionEngine
         public void ProcessConnectionInfo(ProductionRefreshInfo refreshInfo)
         {
             _facility.SetConnected(refreshInfo.isConnected);
-            Logger.Info("facility connection changed. base:" + refreshInfo.targetPBSBaseEid + " enabler node:" + refreshInfo.senderPBSEid + (refreshInfo.isConnected ? " CON+++" : " DIS---") );
+            Logger.Info("facility connection changed. base:" + refreshInfo.targetPBSBaseEid + " enabler node:" + refreshInfo.senderPBSEid + (refreshInfo.isConnected ? " CON+++" : " DIS---"));
 
             _facility.SendFacilityInfo();
 
@@ -362,7 +362,7 @@ namespace Perpetuum.Services.ProductionEngine
     {
         private readonly PBSProductionFacilityHelper<PBSResearchKitForgeFacility> _pbsProductionFacilityHelper;
 
-        public PBSResearchKitForgeFacility() 
+        public PBSResearchKitForgeFacility()
         {
             _pbsProductionFacilityHelper = new PBSProductionFacilityHelper<PBSResearchKitForgeFacility>(this);
         }
@@ -379,7 +379,7 @@ namespace Perpetuum.Services.ProductionEngine
 
             return info;
         }
-        
+
         public void ProcessInfo(ProductionRefreshInfo refreshInfo)
         {
             _pbsProductionFacilityHelper.KeepAlive(refreshInfo);
@@ -427,16 +427,16 @@ namespace Perpetuum.Services.ProductionEngine
             var extensionComponent = GetMaterialExtensionBonus(character);
             var facilityComponent = GetFacilityPoint();
 
-            return (int) (standingComponent + extensionComponent + facilityComponent);
+            return (int)(standingComponent + extensionComponent + facilityComponent);
 
         }
 
 
         public double GetReserchKitMergePrice(int level, Character character)
         {
-            var basePrice = 1000*Math.Pow(2, level);
-            
-            var cost = basePrice*(1.0 + (50.0/(GetAdditiveComponent(character) + 100.0)));
+            var basePrice = 1000 * Math.Pow(2, level);
+
+            var cost = basePrice * (1.0 + (50.0 / (GetAdditiveComponent(character) + 100.0)));
 
             return cost;
         }
@@ -451,9 +451,9 @@ namespace Perpetuum.Services.ProductionEngine
         public ErrorCodes PrepareResearchKitMerge(
             PublicContainer publicContainer,
             Character character, long target, int quantity,
-            out int nextDefinition, 
+            out int nextDefinition,
             out int nextLevel,
-            out double fullPrice, 
+            out double fullPrice,
             out int availableQuantity,
             out int searchDefinition)
         {
@@ -464,7 +464,7 @@ namespace Perpetuum.Services.ProductionEngine
             availableQuantity = 0;
             searchDefinition = 0;
 
-            var researchKit = (ResearchKit) publicContainer.GetItem(target,true);
+            var researchKit = (ResearchKit)publicContainer.GetItem(target, true);
             if (researchKit == null)
                 return ErrorCodes.ItemNotFound;
 
@@ -499,7 +499,7 @@ namespace Perpetuum.Services.ProductionEngine
             }
 
             var pairs = sameDefinitions / 2;
-            
+
             if ((ec = ProductionHelper.FindResearchKitDefinitionByLevel(nextLevel, out nextDefinition)) != ErrorCodes.NoError)
             {
                 return ec;
@@ -513,7 +513,7 @@ namespace Perpetuum.Services.ProductionEngine
         }
 
         public ErrorCodes DoResearchKitMerge(PublicContainer publicContainer, Character character, int nextDefinition,
-            int nextLevel, double fullPrice, int availableQuantity, int searchDefinition, out Dictionary<string,object> result, bool useCorporationWallet )
+            int nextLevel, double fullPrice, int availableQuantity, int searchDefinition, out Dictionary<string, object> result, bool useCorporationWallet)
         {
 
             var ec = ErrorCodes.NoError;
@@ -521,7 +521,7 @@ namespace Perpetuum.Services.ProductionEngine
             result = new Dictionary<string, object>();
             var amountToLookFor = availableQuantity * 2;
 
-            foreach (var item in publicContainer.GetItems().Where(i=>i.Definition == searchDefinition))
+            foreach (var item in publicContainer.GetItems().Where(i => i.Definition == searchDefinition))
             {
                 if (item.Quantity <= amountToLookFor - foundQuantity)
                 {
@@ -552,7 +552,7 @@ namespace Perpetuum.Services.ProductionEngine
                 item.Quantity = availableQuantity;
             });
 
-            var wallet = character.GetWalletWithAccessCheck(useCorporationWallet, TransactionType.ResearchKitMerge,CorporationRole.ProductionManager);
+            var wallet = character.GetWalletWithAccessCheck(useCorporationWallet, TransactionType.ResearchKitMerge, CorporationRole.ProductionManager);
             wallet.Balance -= fullPrice;
 
             var b = TransactionLogEvent.Builder()
@@ -572,7 +572,7 @@ namespace Perpetuum.Services.ProductionEngine
                 character.LogTransaction(b);
             }
 
-            result = new Dictionary<string, object> { {k.container, publicContainer.ToDictionary()} };
+            result = new Dictionary<string, object> { { k.container, publicContainer.ToDictionary() } };
             return ec;
         }
     }
@@ -592,7 +592,7 @@ namespace Perpetuum.Services.ProductionEngine
             var cf = (PBSCalibrationProgramForgeFacility)Factory.CreateWithRandomEID(DefinitionNames.PBS_FACILITY_CALIBRATION_PROGRAM_FORGE);
             cf.CreateSystemStorage();
             return cf;
-        
+
         }
 
         public override Dictionary<string, object> GetFacilityInfo(Character character)
@@ -601,11 +601,11 @@ namespace Perpetuum.Services.ProductionEngine
 
             var additiveComponentTime = GetAdditiveComponentForTime(character);
             var additiveComponentPoints = GetAdditiveComponentForPoints(character);
-            
+
             info.Add(k.myPointsTime, additiveComponentTime);
             info.Add(k.myPointsPoints, additiveComponentPoints);
 
-            info.Add(k.timeExtensionPoints,(int)GetMaterialExtensionBonus(character));
+            info.Add(k.timeExtensionPoints, (int)GetMaterialExtensionBonus(character));
             info.Add(k.pointsExtensionPoints, (int)GetPointExtensionBonus(character));
 
             info.Add(k.percentageTime, GetPercentageFromAdditiveComponent(GetAdditiveComponentForTime(character)));
@@ -614,7 +614,7 @@ namespace Perpetuum.Services.ProductionEngine
             return info;
         }
 
-      
+
 
         public void ProcessInfo(ProductionRefreshInfo refreshInfo)
         {
@@ -667,8 +667,8 @@ namespace Perpetuum.Services.ProductionEngine
             var runningProductionCount = ProductionProcessor.RunningProductions.GetRunningProductionsByFacilityAndCharacter(character, Eid).Count();
             maxSlotCount.ThrowIfLess(runningProductionCount + 1, ErrorCodes.MaximumAmountOfProducionsReached);
 
-            var sourceCalibration = (CalibrationProgram) container.GetItemOrThrow(sourceEid,true).Unstack(1);
-            var targetCalibration = (CalibrationProgram) container.GetItemOrThrow(targetEid,true).Unstack(1);
+            var sourceCalibration = (CalibrationProgram)container.GetItemOrThrow(sourceEid, true).Unstack(1);
+            var targetCalibration = (CalibrationProgram)container.GetItemOrThrow(targetEid, true).Unstack(1);
 
             //no mission stuff
             sourceCalibration.ED.CategoryFlags.IsCategory(CategoryFlags.cf_random_calibration_programs).ThrowIfTrue(ErrorCodes.MissionItemCantBeForged);
@@ -683,16 +683,16 @@ namespace Perpetuum.Services.ProductionEngine
             int materialEfficiencyPoints;
             int timeEfficiencyPoints;
             CalculateResultingPoints(sourceCalibration, targetCalibration, character, out materialEfficiencyPoints, out timeEfficiencyPoints);
-            
+
             //put them to storage            
             sourceCalibration.Parent = StorageEid;
             targetCalibration.Parent = StorageEid;
 
             var targetDefinition = sourceCalibration.Definition;
 
-            var reservedEids = new []{sourceCalibration.Eid , targetCalibration.Eid};
+            var reservedEids = new[] { sourceCalibration.Eid, targetCalibration.Eid };
 
-            var forgeTimeSeconds = CalculateCPRGForgeTimeSeconds(character,  materialEfficiencyPoints);
+            var forgeTimeSeconds = CalculateCPRGForgeTimeSeconds(character, materialEfficiencyPoints);
 
             forgeTimeSeconds = GetShortenedProductionTime(forgeTimeSeconds);
 
@@ -720,9 +720,9 @@ namespace Perpetuum.Services.ProductionEngine
                     throw new PerpetuumException(ErrorCodes.CorporationNotEnoughMoney);
                 }
 
-                throw  new PerpetuumException(ErrorCodes.CharacterNotEnoughMoney);
+                throw new PerpetuumException(ErrorCodes.CharacterNotEnoughMoney);
             }
-           
+
 
             return productionInProgress;
         }
@@ -733,17 +733,17 @@ namespace Perpetuum.Services.ProductionEngine
             var extensionComponent = GetMaterialExtensionBonus(character);
             var facilityPoints = GetFacilityPoint();
 
-            return (int) (standingComponent + extensionComponent + facilityPoints);
+            return (int)(standingComponent + extensionComponent + facilityPoints);
         }
 
 
         public int CalculateCPRGForgeTimeSeconds(Character character, int resultedPoints)
         {
             //(1+(100/( STANDING+PLAYER_EXTENSION_PONT+Facility_PONT+100)) *researchlab.productionTime
-            
-            var multiplier = (1 + (100/(GetAdditiveComponentForTime(character) + 100.0)));
-            
-            return (int)( resultedPoints * 60 * 5 * multiplier);
+
+            var multiplier = (1 + (100 / (GetAdditiveComponentForTime(character) + 100.0)));
+
+            return (int)(resultedPoints * 60 * 5 * multiplier);
         }
 
         public override IDictionary<string, object> EndProduction(ProductionInProgress productionInProgress, bool forced)
@@ -751,7 +751,7 @@ namespace Perpetuum.Services.ProductionEngine
             return EndCalibrationProgramForge(productionInProgress);
         }
 
-        private IDictionary<string,object> EndCalibrationProgramForge(ProductionInProgress productionInProgress)
+        private IDictionary<string, object> EndCalibrationProgramForge(ProductionInProgress productionInProgress)
         {
             Logger.Info("Calibration program forge finished: " + productionInProgress);
 
@@ -775,10 +775,10 @@ namespace Perpetuum.Services.ProductionEngine
             var outputDefinition = productionInProgress.resultDefinition;
 
             //load container
-            var container = (PublicContainer) Container.GetOrThrow(PublicContainerEid);
+            var container = (PublicContainer)Container.GetOrThrow(PublicContainerEid);
             container.ReloadItems(productionInProgress.character);
 
-            var resultItem = (CalibrationProgram) Factory.CreateWithRandomEID(outputDefinition);
+            var resultItem = (CalibrationProgram)Factory.CreateWithRandomEID(outputDefinition);
             resultItem.Owner = productionInProgress.character.Eid;
             resultItem.Save();
 
@@ -829,15 +829,15 @@ namespace Perpetuum.Services.ProductionEngine
             var standingComponent = GetStandingPoints(character);
             var facilityPoints = GetFacilityPoint();
 
-            return (int) (extensionComponent + standingComponent + facilityPoints);
+            return (int)(extensionComponent + standingComponent + facilityPoints);
         }
 
 
-       
-        public void CalculateResultingPoints(CalibrationProgram sourceCalibration, CalibrationProgram targetCalibration,Character character, out int materialEfficiencyPoints, out int timeEfficiencyPoints)
+
+        public void CalculateResultingPoints(CalibrationProgram sourceCalibration, CalibrationProgram targetCalibration, Character character, out int materialEfficiencyPoints, out int timeEfficiencyPoints)
         {
             //betterCT.ME+weakCT.ME/3 + (1-(100/(100+STANDING+PLAYER_EXTENSION_PONT+Facility_PONT)))*25
-            
+
             var materialBase = 0;
             var timeBase = 0;
             var weakMaterial = 0;
@@ -848,21 +848,21 @@ namespace Perpetuum.Services.ProductionEngine
             {
                 materialBase = sourceCalibration.MaterialEfficiencyPoints;
                 timeBase = sourceCalibration.TimeEfficiencyPoints;
-                weakMaterial = targetCalibration.MaterialEfficiencyPoints /3;
-                weakTime = targetCalibration.TimeEfficiencyPoints /3;
+                weakMaterial = targetCalibration.MaterialEfficiencyPoints / 3;
+                weakTime = targetCalibration.TimeEfficiencyPoints / 3;
             }
             else
             {
                 materialBase = targetCalibration.MaterialEfficiencyPoints;
                 timeBase = targetCalibration.TimeEfficiencyPoints;
-                weakMaterial = sourceCalibration.MaterialEfficiencyPoints /3;
-                weakTime = sourceCalibration.TimeEfficiencyPoints/3;
+                weakMaterial = sourceCalibration.MaterialEfficiencyPoints / 3;
+                weakTime = sourceCalibration.TimeEfficiencyPoints / 3;
             }
 
-            var magic = (1 - (100.0/(100.0 + GetAdditiveComponentForPoints(character))))*50;
+            var magic = (1 - (100.0 / (100.0 + GetAdditiveComponentForPoints(character)))) * 50;
 
-            materialEfficiencyPoints = (int) (materialBase + weakMaterial + magic);
-            timeEfficiencyPoints = (int) (timeBase + weakTime + magic);
+            materialEfficiencyPoints = (int)(materialBase + weakMaterial + magic);
+            timeEfficiencyPoints = (int)(timeBase + weakTime + magic);
 
         }
 

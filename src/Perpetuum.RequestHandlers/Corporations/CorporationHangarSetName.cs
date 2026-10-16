@@ -23,7 +23,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                     .WithData(corporateHangar.ToDictionary())
                     .ToCharacters(corporation.GetCharacterMembers())
                     .Send();
-                
+
                 scope.Complete();
             }
         }

@@ -31,7 +31,7 @@ namespace Perpetuum.RequestHandlers.Production
 
                 var replyDict = _productionManager.ProductionProcessor.PrototypeStart(character, targetDefinition, container, prototyper, useCorporationWallet);
                 Message.Builder.FromRequest(request).WithData(replyDict).Send();
-                
+
                 scope.Complete();
             }
         }

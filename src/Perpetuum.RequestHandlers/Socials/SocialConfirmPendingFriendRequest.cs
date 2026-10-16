@@ -28,14 +28,14 @@ namespace Perpetuum.RequestHandlers.Socials
                 {
                     // ha blokkoltak akkor error
                     case SocialState.Blocked:
-                    {
-                        throw new PerpetuumException(ErrorCodes.CharacterIsBlocked);
-                    }
+                        {
+                            throw new PerpetuumException(ErrorCodes.CharacterIsBlocked);
+                        }
                     // ilyen nem lehet
                     case SocialState.Friend:
-                    {
-                        throw new PerpetuumException(ErrorCodes.WTFErrorMedicalAttentionSuggested);
-                    }
+                        {
+                            throw new PerpetuumException(ErrorCodes.WTFErrorMedicalAttentionSuggested);
+                        }
                 }
 
                 (friendSocialState != SocialState.FriendRequest && mySocialState != SocialState.PendingFriendRequest).ThrowIfTrue(ErrorCodes.WTFErrorMedicalAttentionSuggested);

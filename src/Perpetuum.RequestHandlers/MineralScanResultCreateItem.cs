@@ -26,7 +26,7 @@ namespace Perpetuum.RequestHandlers
                 container.Save();
 
                 Transaction.Current.OnCommited(() => Message.Builder.FromRequest(request).WithData(container.ToDictionary()).Send());
-                
+
                 scope.Complete();
             }
         }

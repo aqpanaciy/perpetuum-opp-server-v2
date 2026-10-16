@@ -9,7 +9,7 @@ namespace Perpetuum.RequestHandlers.Gangs
         private readonly IGangManager _gangManager;
         private readonly IGangInviteService _gangInviteService;
 
-        public GangDelete(IGangManager gangManager,IGangInviteService gangInviteService)
+        public GangDelete(IGangManager gangManager, IGangInviteService gangInviteService)
         {
             _gangManager = gangManager;
             _gangInviteService = gangInviteService;
@@ -28,7 +28,7 @@ namespace Perpetuum.RequestHandlers.Gangs
 
                 _gangInviteService.RemoveInvitesByGang(gang);
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

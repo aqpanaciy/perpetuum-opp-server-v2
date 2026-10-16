@@ -18,20 +18,20 @@ namespace Perpetuum.Items.Templates
             var descriptionString = GenxyConverter.Serialize(template.ToDictionary());
 
             var id = Db.Query().CommandText("insert robottemplates (name,description) values (@name,@description); select cast(scope_identity() as integer)")
-                .SetParameter("@name",template.Name)
+                .SetParameter("@name", template.Name)
                 .SetParameter("@description", descriptionString)
                 .ExecuteScalar<int>().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
 
             template.ID = id;
         }
-        
+
         public void Update(RobotTemplate template)
         {
             var descriptionString = GenxyConverter.Serialize(template.ToDictionary());
 
             Db.Query().CommandText("update robottemplates set name=@name,description=@description where id=@id")
-                .SetParameter("@id",template.ID)
-                .SetParameter("@name",template.Name)
+                .SetParameter("@id", template.ID)
+                .SetParameter("@name", template.Name)
                 .SetParameter("@description", descriptionString)
                 .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLUpdateError);
         }

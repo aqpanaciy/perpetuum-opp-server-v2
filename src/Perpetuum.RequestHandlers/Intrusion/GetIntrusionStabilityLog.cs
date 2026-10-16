@@ -23,7 +23,7 @@ namespace Perpetuum.RequestHandlers.Intrusion
             var sapActivityDict = outpost.GetIntrusionStabilityLog(daysBack);
 
             Message.Builder.FromRequest(request)
-                .WithData(new Dictionary<string, object>{{"stabilityLog", sapActivityDict},{k.siteEID, siteEid}})
+                .WithData(new Dictionary<string, object> { { "stabilityLog", sapActivityDict }, { k.siteEID, siteEid } })
                 .Send();
         }
     }

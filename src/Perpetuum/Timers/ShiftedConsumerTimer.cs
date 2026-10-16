@@ -14,7 +14,7 @@ namespace Perpetuum.Timers
         /// Timer interval
         /// </summary>
         public TimeSpan Interval => _interval;
-        
+
         /// <summary>
         /// Time accumulator
         /// </summary>
@@ -22,14 +22,14 @@ namespace Perpetuum.Timers
 
         public ShiftedConsumerTimer(int interval) : this(TimeSpan.FromMilliseconds(interval))
         {
-            
+
         }
 
         public ShiftedConsumerTimer(TimeSpan interval)
         {
             _interval = interval;
             // Random start shift
-            _elapsed = TimeSpan.FromMilliseconds(FastRandom.NextDouble()*interval.TotalMilliseconds);
+            _elapsed = TimeSpan.FromMilliseconds(FastRandom.NextDouble() * interval.TotalMilliseconds);
         }
 
         /// <summary>

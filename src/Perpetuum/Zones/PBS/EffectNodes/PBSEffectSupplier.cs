@@ -16,7 +16,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
     /// </summary>
     public class PBSEffectSupplier : PBSEffectNode
     {
-        private readonly StackFSM _fsm= new StackFSM();
+        private readonly StackFSM _fsm = new StackFSM();
 
         private static void WriteLog(string message)
         {
@@ -27,7 +27,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
         protected override void OnEnterZone(IZone zone, ZoneEnterType enterType)
         {
             base.OnEnterZone(zone, enterType);
-            
+
             _fsm.Push(new EmitState(this));
         }
 
@@ -57,7 +57,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
             WriteLog("clean up state push requested " + ED.Name + " " + Eid);
             base.OnConnectionDeleted(pbsConnection);
         }
-        
+
 
         protected override void OnUpdate(TimeSpan time)
         {
@@ -84,7 +84,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
 
             public void Exit()
             {
-                
+
             }
 
             public void Update(TimeSpan time)
@@ -93,7 +93,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
                 {
                     WriteLog("cleanup state push " + _supplier.ED.Name + " " + _supplier.Eid);
                     _supplier._fsm.Push(new CleanUpState(_supplier));
-                    
+
                 }
             }
         }
@@ -133,5 +133,5 @@ namespace Perpetuum.Zones.PBS.EffectNodes
         }
 
     }
-    
+
 }

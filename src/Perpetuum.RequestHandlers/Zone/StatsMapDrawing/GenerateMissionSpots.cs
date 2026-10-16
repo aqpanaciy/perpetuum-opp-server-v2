@@ -131,7 +131,7 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
             blockRadius = randomPointBlockRadius,
             islandRadius = randomPointIslandRadius,
             borderIncrease = randomPointToRandomPoint / 5,
-            initialBorder = (int) (randomPointToRandomPoint * 1.5),
+            initialBorder = (int)(randomPointToRandomPoint * 1.5),
         };
 
 
@@ -161,12 +161,12 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
 
             var spotInfos = new List<MissionSpot>();
 
-           
 
-            PlaceOneType(spotInfos, MissionSpotType.fieldterminal, fieldTerminalTargetAmount, fieldTerminalDistanceInfos,  staticObjects, fieldTerminalAccuracy);
-            PlaceOneType(spotInfos, MissionSpotType.mswitch, switchTargetAmount, switchDistanceInfos,  staticObjects, structureAccuracy);
-            PlaceOneType(spotInfos, MissionSpotType.kiosk, kioskTargetAmount, kioskDistanceInfos,  staticObjects, structureAccuracy);
-            PlaceOneType(spotInfos, MissionSpotType.itemsupply, itemSupplyTargetAmount, itemSupplyDistanceInfos,   staticObjects, structureAccuracy);
+
+            PlaceOneType(spotInfos, MissionSpotType.fieldterminal, fieldTerminalTargetAmount, fieldTerminalDistanceInfos, staticObjects, fieldTerminalAccuracy);
+            PlaceOneType(spotInfos, MissionSpotType.mswitch, switchTargetAmount, switchDistanceInfos, staticObjects, structureAccuracy);
+            PlaceOneType(spotInfos, MissionSpotType.kiosk, kioskTargetAmount, kioskDistanceInfos, staticObjects, structureAccuracy);
+            PlaceOneType(spotInfos, MissionSpotType.itemsupply, itemSupplyTargetAmount, itemSupplyDistanceInfos, staticObjects, structureAccuracy);
             PlaceOneType(spotInfos, MissionSpotType.randompoint, randomPointTargetAmount, randomPointDistanceInfos, staticObjects, randomPointAccuracy);
 
             var resultBitmap = DrawResultOnBitmap(spotInfos, staticObjects);
@@ -176,17 +176,17 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
             return resultBitmap;
         }
 
-        private static readonly Color _passableColor = Color.FromArgb(255,16, 26, 26);
+        private static readonly Color _passableColor = Color.FromArgb(255, 16, 26, 26);
         private static readonly Color _fieldTerminalColor = Color.White;
-        private static readonly Color _switchColor = Color.FromArgb(255,255, 82, 0);
-        private static readonly Color _kioskColor = Color.FromArgb(255,153, 206, 70);
-        private static readonly Color _itemSupplyColor = Color.FromArgb(255,48, 198, 249);
-        private static readonly Color _randomPointColor = Color.FromArgb(255,237, 144, 251);
-        private static readonly Color _dockingBaseColor = Color.FromArgb(255,21, 68, 29);
-        private static readonly Color _teleportColor = Color.FromArgb(255,74, 78, 6);
-        private static readonly Color _sapColor = Color.FromArgb(255,54, 29, 99);
-        private static readonly Color _islandColor = Color.FromArgb(255,0, 24, 59);
-        private static readonly Color _findArtifactColor = Color.FromArgb(255,255, 204, 77);
+        private static readonly Color _switchColor = Color.FromArgb(255, 255, 82, 0);
+        private static readonly Color _kioskColor = Color.FromArgb(255, 153, 206, 70);
+        private static readonly Color _itemSupplyColor = Color.FromArgb(255, 48, 198, 249);
+        private static readonly Color _randomPointColor = Color.FromArgb(255, 237, 144, 251);
+        private static readonly Color _dockingBaseColor = Color.FromArgb(255, 21, 68, 29);
+        private static readonly Color _teleportColor = Color.FromArgb(255, 74, 78, 6);
+        private static readonly Color _sapColor = Color.FromArgb(255, 54, 29, 99);
+        private static readonly Color _islandColor = Color.FromArgb(255, 0, 24, 59);
+        private static readonly Color _findArtifactColor = Color.FromArgb(255, 255, 204, 77);
         private static readonly Color _popNpcColor = Color.FromArgb(255, 105, 82, 0);
         private static readonly Color _lootColor = Color.FromArgb(255, 0, 151, 208);
         private static readonly Color _fetchItemColor = Color.FromArgb(255, 12, 137, 119);
@@ -195,7 +195,7 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
         private static readonly Color _drillMineralColor = Color.FromArgb(255, 214, 144, 126);
         private static readonly Color _harvestColor = Color.FromArgb(255, 164, 231, 72);
 
-        private Bitmap DrawResultOnBitmap(List<MissionSpot> spotInfos, Dictionary<MissionSpotType, List<Position>> staticObjects )
+        private Bitmap DrawResultOnBitmap(List<MissionSpot> spotInfos, Dictionary<MissionSpotType, List<Position>> staticObjects)
         {
             var b = _zone.CreatePassableBitmap(_passableColor);
 
@@ -232,17 +232,17 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
 
                 switch (spotType)
                 {
-                        case MissionSpotType.terminal:
-                        objectColor = Color.FromArgb( 78, 98, 44);
+                    case MissionSpotType.terminal:
+                        objectColor = Color.FromArgb(78, 98, 44);
                         radius = 12;
                         break;
 
-                        case MissionSpotType.teleport:
+                    case MissionSpotType.teleport:
                         objectColor = Color.FromArgb(31, 57, 70);
                         radius = 10;
                         break;
 
-                        case MissionSpotType.sap:
+                    case MissionSpotType.sap:
                         objectColor = Color.FromArgb(48, 22, 41);
                         radius = 8;
                         break;
@@ -290,7 +290,7 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
             var x = position.intX - radius;
             var y = position.intY - radius;
 
-            gfx.FillEllipse(new SolidBrush(color),x,y,size,size );
+            gfx.FillEllipse(new SolidBrush(color), x, y, size, size);
 
 
             /*
@@ -311,13 +311,13 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
             var gfx = Graphics.FromImage(bitmap);
             gfx.CompositingQuality = CompositingQuality.HighQuality;
             gfx.SmoothingMode = SmoothingMode.AntiAlias;
-            
+
             var size = radius * 2;
             var x = position.intX - radius;
             var y = position.intY - radius;
 
-            gfx.DrawEllipse(  new Pen(color,3), x, y, size, size);
-            
+            gfx.DrawEllipse(new Pen(color, 3), x, y, size, size);
+
         }
 
 
@@ -358,7 +358,7 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
                         return;
                     }
 
-                    attempts ++;
+                    attempts++;
                     if (attempts > maxAttempts)
                     {
                         currentBorder += borderIncrease;
@@ -374,7 +374,7 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
                     var pickedIndex = FastRandom.NextInt(freePoints.Count - 1);
                     var pickedPosition = freePoints[pickedIndex].ToPosition();
 
-                    
+
 
                     //super turbo mode, skips border check when it generates random points
                     //if (type != MissionSpotType.randompoint)
@@ -382,11 +382,11 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
 
 
                     //good if the distance is kept
-                        if (!IsKeepDistance(pickedPosition, spotInfos, distanceInfos, staticObjects, 0, currentBorder))
-                        {
-                            continue;
-                        }
-                    
+                    if (!IsKeepDistance(pickedPosition, spotInfos, distanceInfos, staticObjects, 0, currentBorder))
+                    {
+                        continue;
+                    }
+
 
                     if (!CheckConditionsAroundPosition(pickedPosition, accuracyInfo.blockRadius, accuracyInfo.islandRadius))
                     {
@@ -599,11 +599,11 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
                     bmp.SetPixel(point.X, point.Y, Color.White);
                 }
 
-                _saveBitmapHelper.SaveBitmap(_zone,bmp, fileName);
+                _saveBitmapHelper.SaveBitmap(_zone, bmp, fileName);
             });
         }
 
 
-        
+
     }
 }

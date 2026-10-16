@@ -43,7 +43,7 @@ namespace Perpetuum
             }
         }
 
-        private static void Crypt(byte[] sbox,byte[] data,int index,int length)
+        private static void Crypt(byte[] sbox, byte[] data, int index, int length)
         {
             var i = 0;
             var j = 0;
@@ -91,25 +91,25 @@ namespace Perpetuum
 
         public void Encrypt(byte[] data)
         {
-            Encrypt(data,0,data.Length);
+            Encrypt(data, 0, data.Length);
         }
 
-        public void Encrypt(byte[] data,int index,int length)
+        public void Encrypt(byte[] data, int index, int length)
         {
             lock (_outSboxLock)
             {
-                Crypt(_outSbox,data,index,length);
+                Crypt(_outSbox, data, index, length);
             }
         }
 
         public void Decrypt(ref byte[] data)
         {
-            Crypt(_inSBox,ref data);
+            Crypt(_inSBox, ref data);
         }
 
-        public void Decrypt(byte[] data,int index,int length)
+        public void Decrypt(byte[] data, int index, int length)
         {
-            Crypt(_inSBox,data,index,length);
+            Crypt(_inSBox, data, index, length);
         }
     }
 

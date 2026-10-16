@@ -24,7 +24,7 @@ using Perpetuum.Zones.ZoneEntityRepositories;
 
 namespace Perpetuum.Zones
 {
-    public interface IZone 
+    public interface IZone
     {
         [NotNull] ZoneConfiguration Configuration { get; }
         bool IsLayerEditLocked { get; set; }

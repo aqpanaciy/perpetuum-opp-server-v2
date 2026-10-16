@@ -13,7 +13,7 @@ namespace Perpetuum.RequestHandlers
         private readonly ILoggerCache _loggerCache;
         private readonly ChatLoggerFactory _chatLoggerFactory;
 
-        public Chat(ISessionManager sessionManager,ILoggerCache loggerCache,ChatLoggerFactory chatLoggerFactory)
+        public Chat(ISessionManager sessionManager, ILoggerCache loggerCache, ChatLoggerFactory chatLoggerFactory)
         {
             _sessionManager = sessionManager;
             _loggerCache = loggerCache;
@@ -30,8 +30,8 @@ namespace Perpetuum.RequestHandlers
 
             var data = new Dictionary<string, object>
             {
-                { k.sender, character.Id }, 
-                { k.target, target.Id }, 
+                { k.sender, character.Id },
+                { k.target, target.Id },
                 { k.message, message }
             };
 
@@ -59,10 +59,10 @@ namespace Perpetuum.RequestHandlers
                 ObjectHelper.Swap(ref x, ref y);
             }
 
-            var hash = (ulong) x << 32 | (uint) y;
+            var hash = (ulong)x << 32 | (uint)y;
 
             var senderNick = sender.Nick;
-                
+
             var logger = _loggerCache.GetOrAddLogger("private_" + hash, () =>
             {
                 var filename = $"{senderNick} - {target.Nick}";

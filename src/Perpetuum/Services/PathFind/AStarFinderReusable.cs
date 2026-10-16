@@ -101,7 +101,7 @@ namespace Perpetuum.PathFinders
                 if (dx > 1 || dy > 1)
                 {
                     throw new InvalidOperationException($"[AStarFinderReusable] Pathfinding logic error: move bigger than 1 cell");
-                }   
+                }
             }
         }
 

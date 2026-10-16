@@ -19,7 +19,7 @@ namespace Perpetuum.Zones.Terrains
 
         private NatureCube() { }
 
-        public NatureCube(IZone zone,Area area)
+        public NatureCube(IZone zone, Area area)
         {
             _zone = zone;
             _area = area;
@@ -29,7 +29,7 @@ namespace Perpetuum.Zones.Terrains
 
         public NatureCube Clone()
         {
-            return new NatureCube(_zone,_area)
+            return new NatureCube(_zone, _area)
             {
                 _plantInfos = _plantInfos.ToArray(),
                 _blockInfos = _blockInfos.ToArray()
@@ -395,7 +395,7 @@ namespace Perpetuum.Zones.Terrains
 
                     var gx = x + _area.X1;
                     var gy = y + _area.Y1;
-                    _zone.Terrain.Controls.UpdateValue(gx,gy,ci =>
+                    _zone.Terrain.Controls.UpdateValue(gx, gy, ci =>
                     {
                         ci.ClearAllConcrete();
                         return ci;
@@ -410,7 +410,7 @@ namespace Perpetuum.Zones.Terrains
                     plantInfo.health = (byte)(healthRatio * plantRule.Health[plantInfo.state]).Clamp(1, 255);
 
                     if (!plantRule.NotFruiting)
-                    { 
+                    {
                         //yes, fruiting
 
                         if (plantRule.FruitingState <= nextState)
@@ -560,19 +560,19 @@ namespace Perpetuum.Zones.Terrains
 
         private void DamageWall()
         {
-            if (_zone.Configuration.IsAlpha) 
+            if (_zone.Configuration.IsAlpha)
                 return; //nothing to do on alpha
 
             //on gamma we have to collect pbs data
             if (_zone.Configuration.IsGamma)
             {
-                var searchRadius = DistanceConstants.TERRAIN_DEGRADE_DISTANCE_FROM_PBS+Math.Max(_area.Width,_area.Height);
-                _intactDistance = (int)(DistanceConstants.TERRAIN_DEGRADE_DISTANCE_FROM_PBS*PBSHelper.DEGRADE_NEAR_BIAS);
+                var searchRadius = DistanceConstants.TERRAIN_DEGRADE_DISTANCE_FROM_PBS + Math.Max(_area.Width, _area.Height);
+                _intactDistance = (int)(DistanceConstants.TERRAIN_DEGRADE_DISTANCE_FROM_PBS * PBSHelper.DEGRADE_NEAR_BIAS);
                 _wallDistanceFromPBS = (int)DistanceConstants.TERRAIN_DEGRADE_DISTANCE_FROM_PBS;
                 _gradientRange = _wallDistanceFromPBS - _intactDistance;
-                _pbsPositions = _zone.GetStaticUnits().Where(o => o is IPBSObject && o.CurrentPosition.TotalDistance2D(_area.Center) < searchRadius).Select(o => o.CurrentPosition).ToList(); 
+                _pbsPositions = _zone.GetStaticUnits().Where(o => o is IPBSObject && o.CurrentPosition.TotalDistance2D(_area.Center) < searchRadius).Select(o => o.CurrentPosition).ToList();
             }
-            
+
 
             //on beta and gamma it will run    
             ForEachInCube((int x, int y, ref PlantInfo plantInfo, ref BlockingInfo blockingInfo) => DamageWallOnTile(ref plantInfo, ref blockingInfo, x, y));
@@ -585,9 +585,9 @@ namespace Perpetuum.Zones.Terrains
         private List<Position> _pbsPositions;
 
 
-        private void DamageWallOnTile(ref PlantInfo plantInfo, ref BlockingInfo blockInfo,int x,int y )
+        private void DamageWallOnTile(ref PlantInfo plantInfo, ref BlockingInfo blockInfo, int x, int y)
         {
-            if (plantInfo.type == PlantType.NotDefined) 
+            if (plantInfo.type == PlantType.NotDefined)
                 return;
 
             var plantRule = _zone.Configuration.PlantRules.GetPlantRule(plantInfo.type);
@@ -621,21 +621,21 @@ namespace Perpetuum.Zones.Terrains
                     //in fading range    
 
                     //near 1 .. far 0
-                    var chanceToSurvive = 1 -( (closestPBSDistance - _intactDistance) /  _gradientRange);
+                    var chanceToSurvive = 1 - ((closestPBSDistance - _intactDistance) / _gradientRange);
 
                     var random = FastRandom.NextDouble();
 
-                    if ( random < chanceToSurvive)
+                    if (random < chanceToSurvive)
                     {
                         //it will happen inwards more often  
-                        
+
                         //so the plant wont get unhealed as it is closer to a pbs but within the range
                         return;
                     }
                 }
             }
-           
-           
+
+
 
             plantInfo.UnHealPlant();
 
@@ -739,9 +739,9 @@ namespace Perpetuum.Zones.Terrains
             if (chance >= 0.3)
                 return;
 
-            var m = (int) plantInfo.material;
-            m = (byte) (Math.Min(m + (int) FastRandom.NextDouble(plantRule.FruitAmount*0.05, plantRule.FruitAmount*0.15).Clamp(0, 255), plantRule.FruitAmount));
-            plantInfo.material = (byte) m.Clamp(0, 255);
+            var m = (int)plantInfo.material;
+            m = (byte)(Math.Min(m + (int)FastRandom.NextDouble(plantRule.FruitAmount * 0.05, plantRule.FruitAmount * 0.15).Clamp(0, 255), plantRule.FruitAmount));
+            plantInfo.material = (byte)m.Clamp(0, 255);
         }
 
         #endregion
@@ -776,7 +776,7 @@ namespace Perpetuum.Zones.Terrains
             var gx = x + _area.X1;
             var gy = y + _area.Y1;
 
-            _zone.Terrain.Controls.UpdateValue(gx,gy,ci =>
+            _zone.Terrain.Controls.UpdateValue(gx, gy, ci =>
             {
                 ci.ClearAllConcrete();
                 return ci;
@@ -821,7 +821,7 @@ namespace Perpetuum.Zones.Terrains
             var area = Area.FromRadius(globalX, globalY, _neighbourRadius);
             var excludedTypes = GetPlayerSeededTypes;
 
-            var neighbouringPlants = GetPlantTypeCountFromRange(area,excludedTypes);
+            var neighbouringPlants = GetPlantTypeCountFromRange(area, excludedTypes);
 
             PlantType resultPlantType;
 
@@ -843,7 +843,7 @@ namespace Perpetuum.Zones.Terrains
             }
 
             return GetAllPlantRules.FirstOrDefault(p => p.Type == resultPlantType);
-            
+
         }
 
         private bool CheckKillDistance(PlantRule rule, int x, int y, NatureCube cube)
@@ -860,7 +860,7 @@ namespace Perpetuum.Zones.Terrains
                 for (var i = globalX - rule.KillDistance; i < globalX + rule.KillDistance; i++)
                 {
                     //exit if outside of the map
-                    if (i < 0 || i >= size.Width || j < 0 || j >= size.Height) 
+                    if (i < 0 || i >= size.Width || j < 0 || j >= size.Height)
                         continue;
 
                     PlantType plantType;
@@ -923,14 +923,14 @@ namespace Perpetuum.Zones.Terrains
             -2, 1
         };
 
-       
+
 
         private const int _neighbourRadius = 4;
 
-        private Dictionary<PlantType, int> GetPlantTypeCountFromRange( Area area, List<PlantType> excludedTypes)
+        private Dictionary<PlantType, int> GetPlantTypeCountFromRange(Area area, List<PlantType> excludedTypes)
         {
             var result = new Dictionary<PlantType, int>();
-            
+
             area = area.Clamp(_zone.Size);
 
             area.ForEachXY((x, y) =>
@@ -944,13 +944,13 @@ namespace Perpetuum.Zones.Terrains
                     }
                 }
             });
-            
+
             return result;
 
         }
-            
-            
-            
+
+
+
         [Conditional("DEBUG")]
         public void Check()
         {

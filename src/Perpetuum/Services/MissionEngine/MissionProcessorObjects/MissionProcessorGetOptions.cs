@@ -39,7 +39,7 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
             var availabilityDict = new Dictionary<string, object>();
             var missionAgent = location.Agent;
 
-            var missionFilter = new MissionFilter(character, periodicMissions, missionsDone, this, location,_missionDataCache);
+            var missionFilter = new MissionFilter(character, periodicMissions, missionsDone, this, location, _missionDataCache);
 
             int[] missionIdsByAgent;
             if (!_missionDataCache.GetMissionIdsByAgent(missionAgent, out missionIdsByAgent))
@@ -52,7 +52,7 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
 
             var counter = 0;
 
-            foreach (var missionCategory in Enum.GetValues(typeof (MissionCategory)).Cast<MissionCategory>())
+            foreach (var missionCategory in Enum.GetValues(typeof(MissionCategory)).Cast<MissionCategory>())
             {
                 if (rndMissionsHere.All(m => m.missionCategory != missionCategory))
                     continue;
@@ -90,7 +90,7 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
         {
             var missionAgent = location.Agent;
 
-            var missionFilter = new MissionFilter(character, periodicMissions, missionsDone, this, location,_missionDataCache);
+            var missionFilter = new MissionFilter(character, periodicMissions, missionsDone, this, location, _missionDataCache);
 
             var standing = _standingHandler.GetStanding(missionAgent.OwnerAlliance.Eid, character.Eid);
 
@@ -103,7 +103,7 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
             var counter = 0;
             var availabilityDict = new Dictionary<string, object>();
 
-            foreach (var missionCategory in Enum.GetValues(typeof (MissionCategory)).Cast<MissionCategory>())
+            foreach (var missionCategory in Enum.GetValues(typeof(MissionCategory)).Cast<MissionCategory>())
             {
                 for (var missionLevel = -1; missionLevel <= topLevel; missionLevel++)
                 {
@@ -112,7 +112,7 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
 
                     var standingBlocked = standing < missionLevel;
 
-                    var availableCount = missionsWithCategoryAndLevel.Count(m => missionFilter.IsConfigMissionAvailable(m,_standingHandler));
+                    var availableCount = missionsWithCategoryAndLevel.Count(m => missionFilter.IsConfigMissionAvailable(m, _standingHandler));
 
                     var oneEntry = new Dictionary<string, object>()
                     {

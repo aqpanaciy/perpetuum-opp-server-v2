@@ -8,7 +8,7 @@ namespace Perpetuum.Items.Templates
     {
         private readonly ItemTemplate<Item>[] _itemTemplates;
 
-        private RobotInventoryTemplate(ItemTemplate<Item>[] items) : base(1,false)
+        private RobotInventoryTemplate(ItemTemplate<Item>[] items) : base(1, false)
         {
             _itemTemplates = items ?? new ItemTemplate<Item>[0];
         }

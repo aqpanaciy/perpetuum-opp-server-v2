@@ -14,16 +14,16 @@ namespace Perpetuum.RequestHandlers.Zone
             {
                 var name = request.Data.GetOrDefault<string>(k.name);
                 var eid = request.Data.GetOrDefault<long>(k.eid);
-            
-                var gate =  request.Zone.GetUnitOrThrow(eid) as Gate;
+
+                var gate = request.Zone.GetUnitOrThrow(eid) as Gate;
                 if (gate == null)
                     throw new PerpetuumException(ErrorCodes.WTFErrorMedicalAttentionSuggested);
 
                 var character = request.Session.Character;
                 gate.Rename(character, name);
 
-                Transaction.Current.OnCommited(()=>Message.Builder.FromRequest(request).WithData(gate.ToDictionary()).Send());
-                
+                Transaction.Current.OnCommited(() => Message.Builder.FromRequest(request).WithData(gate.ToDictionary()).Send());
+
                 scope.Complete();
             }
         }

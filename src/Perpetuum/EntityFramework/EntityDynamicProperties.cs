@@ -10,7 +10,7 @@ namespace Perpetuum.EntityFramework
 
         public event Action Updated;
 
-        public ImmutableDictionary<string,object> Items
+        public ImmutableDictionary<string, object> Items
         {
             get { return _items; }
             set { ImmutableInterlocked.Update(ref _items, i => value); }
@@ -50,7 +50,7 @@ namespace Perpetuum.EntityFramework
             return _items.GetOrDefault<T>(key);
         }
 
-        public T GetOrAdd<T>(string key,T defaultValue)
+        public T GetOrAdd<T>(string key, T defaultValue)
         {
             return GetOrAdd(key, () => defaultValue);
         }
@@ -71,7 +71,7 @@ namespace Perpetuum.EntityFramework
                     return valueCreator != null ? valueCreator() : default(T);
                 });
 
-                return (T) x;
+                return (T)x;
             }
             finally
             {

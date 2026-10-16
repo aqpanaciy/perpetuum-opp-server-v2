@@ -104,7 +104,7 @@ namespace Perpetuum.AdminTool.ViewModels
         public string ReviewScoringMode => ScoringMode switch
         {
             SeasonScoringMode.ObjectivesOnly => "Objectives Only",
-            _                                => "Activity + Global Score",
+            _ => "Activity + Global Score",
         };
 
         public IReadOnlyList<ActivityTypeOption> ObjectiveActivityTypeOptions { get; } =
@@ -206,7 +206,7 @@ namespace Perpetuum.AdminTool.ViewModels
         partial void OnStartTimeChanged(DateTime value) => ValidateStep1();
         partial void OnEndTimeChanged(DateTime value) => ValidateStep1();
         partial void OnStartTimeTextChanged(string value) => ApplyTimeText(value, isStart: true);
-        partial void OnEndTimeTextChanged(string value)   => ApplyTimeText(value, isStart: false);
+        partial void OnEndTimeTextChanged(string value) => ApplyTimeText(value, isStart: false);
         partial void OnIsRecurringChanged(bool value) => ValidateStep1();
         partial void OnRecurrenceGapDaysChanged(int value) => ValidateStep1();
 
@@ -215,7 +215,7 @@ namespace Perpetuum.AdminTool.ViewModels
             if (TryParseHHmm(text, out var ts))
             {
                 if (isStart) StartTime = DateTime.SpecifyKind(StartTime.Date + ts, DateTimeKind.Utc);
-                else         EndTime   = DateTime.SpecifyKind(EndTime.Date   + ts, DateTimeKind.Utc);
+                else EndTime = DateTime.SpecifyKind(EndTime.Date + ts, DateTimeKind.Utc);
             }
             ValidateStep1();
         }
@@ -291,12 +291,12 @@ namespace Perpetuum.AdminTool.ViewModels
             var pkg = _packages.Count > 0 ? _packages[0] : null;
             var row = new SeasonTierRow
             {
-                SeasonId       = 0,
-                TierNumber     = Tiers.Count + 1,
-                TierName       = $"Tier {Tiers.Count + 1}",
+                SeasonId = 0,
+                TierNumber = Tiers.Count + 1,
+                TierName = $"Tier {Tiers.Count + 1}",
                 PointsRequired = (Tiers.Count + 1) * 1000,
-                PackageId      = pkg?.Id ?? 0,
-                IsNew          = true
+                PackageId = pkg?.Id ?? 0,
+                IsNew = true
             };
             row.SelectedPackage = pkg;
             Tiers.Add(row);
@@ -314,11 +314,11 @@ namespace Perpetuum.AdminTool.ViewModels
             var pkg = _packages.Count > 0 ? _packages[0] : null;
             var row = new SeasonLeaderboardRewardRow
             {
-                SeasonId  = 0,
-                RankMin   = 1,
-                RankMax   = 1,
+                SeasonId = 0,
+                RankMin = 1,
+                RankMax = 1,
                 PackageId = pkg?.Id ?? 0,
-                IsNew     = true
+                IsNew = true
             };
             row.SelectedPackage = pkg;
             LeaderboardRewards.Add(row);

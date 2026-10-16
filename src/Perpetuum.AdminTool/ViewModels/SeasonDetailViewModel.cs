@@ -96,8 +96,8 @@ namespace Perpetuum.AdminTool.ViewModels
         public IEnumerable<SeasonObjectiveRow> FilteredObjectives => ObjectiveFilter switch
         {
             ObjectiveFilterMode.OneTime => Objectives.Where(o => !o.IsDaily),
-            ObjectiveFilterMode.Daily   => Objectives.Where(o => o.IsDaily),
-            _                           => Objectives,
+            ObjectiveFilterMode.Daily => Objectives.Where(o => o.IsDaily),
+            _ => Objectives,
         };
 
         public bool CanActivate => !Season.IsActive;
@@ -105,8 +105,8 @@ namespace Perpetuum.AdminTool.ViewModels
         public string StatusBadge => Season.CardState switch
         {
             SeasonCardState.Active => "ACTIVE",
-            SeasonCardState.Draft  => "DRAFT",
-            SeasonCardState.Ended  => "ENDED",
+            SeasonCardState.Draft => "DRAFT",
+            SeasonCardState.Ended => "ENDED",
             _ => ""
         };
 
@@ -365,15 +365,15 @@ namespace Perpetuum.AdminTool.ViewModels
             }
             var row = new SeasonObjectiveRow
             {
-                SeasonId     = Season.Id,
-                Name         = "New Objective",
-                Description  = "",
+                SeasonId = Season.Id,
+                Name = "New Objective",
+                Description = "",
                 ActivityType = SeasonActivityType.NpcKill,
-                TargetValue  = 1,
-                BonusPoints  = 0,
+                TargetValue = 1,
+                BonusPoints = 0,
                 DisplayOrder = Objectives.Count,
-                IsNew        = true,
-                IsDaily      = ObjectiveFilter == ObjectiveFilterMode.Daily,
+                IsNew = true,
+                IsDaily = ObjectiveFilter == ObjectiveFilterMode.Daily,
             };
             row.InitializeMaterialLists(_oreAndLiquidMaterials, _organicMaterials);
             Objectives.Add(row);
@@ -432,11 +432,11 @@ namespace Perpetuum.AdminTool.ViewModels
             }
             var row = new SeasonTierRow
             {
-                SeasonId       = Season.Id,
-                TierNumber     = Tiers.Count + 1,
-                TierName       = $"Tier {Tiers.Count + 1}",
+                SeasonId = Season.Id,
+                TierNumber = Tiers.Count + 1,
+                TierName = $"Tier {Tiers.Count + 1}",
                 PointsRequired = (Tiers.Count + 1) * 1000,
-                IsNew          = true
+                IsNew = true
             };
             Tiers.Add(row);
             StatusIsError = false;
@@ -495,9 +495,9 @@ namespace Perpetuum.AdminTool.ViewModels
             var row = new SeasonLeaderboardRewardRow
             {
                 SeasonId = Season.Id,
-                RankMin  = 1,
-                RankMax  = 1,
-                IsNew    = true
+                RankMin = 1,
+                RankMax = 1,
+                IsNew = true
             };
             LeaderboardRewards.Add(row);
             StatusIsError = false;
@@ -556,14 +556,14 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand(CanExecute = nameof(CanExport))]
         private async Task ExportAsync()
         {
-            IsExporting   = true;
+            IsExporting = true;
             StatusMessage = "Generating export script...";
             StatusIsError = false;
             try
             {
                 var script = await SeasonExporter.ExportAsync(Season.Id, _connection);
-                var vm     = new ExportScriptViewModel($"Season: {Season.Name}", script);
-                var win    = new ExportScriptWindow(vm) { Owner = System.Windows.Application.Current?.MainWindow };
+                var vm = new ExportScriptViewModel($"Season: {Season.Name}", script);
+                var win = new ExportScriptWindow(vm) { Owner = System.Windows.Application.Current?.MainWindow };
                 win.ShowDialog();
                 StatusMessage = "Export complete.";
             }

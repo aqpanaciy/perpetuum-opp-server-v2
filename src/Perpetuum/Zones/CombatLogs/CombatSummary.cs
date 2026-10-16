@@ -20,7 +20,7 @@ namespace Perpetuum.Zones.CombatLogs
 
         public delegate CombatSummary Factory(Unit source);
 
-        public CombatSummary(Unit source,CombatLogHelper combatLogHelper)
+        public CombatSummary(Unit source, CombatLogHelper combatLogHelper)
         {
             _combatLogHelper = combatLogHelper;
             Source = source;
@@ -31,39 +31,39 @@ namespace Perpetuum.Zones.CombatLogs
             switch (e)
             {
                 case DamageTakenEventArgs dte:
-                {
-                    _totalDamage += dte.TotalDamage;
-                    break;
-                }
+                    {
+                        _totalDamage += dte.TotalDamage;
+                        break;
+                    }
                 case SensorJammerEventArgs sje:
-                {
-                    _sensorJammerTotal++;
+                    {
+                        _sensorJammerTotal++;
 
-                    if (sje.Success)
-                        _sensorJammerSuccess++;
+                        if (sje.Success)
+                            _sensorJammerSuccess++;
 
-                    break;
-                }
+                        break;
+                    }
                 case DemobilizerEventArgs de:
-                {
-                    _demobilizer++;
-                    break;
-                }
+                    {
+                        _demobilizer++;
+                        break;
+                    }
                 case SensorDampenerEventArgs sde:
-                {
-                    _sensorDampener++;
-                    break;
-                }
+                    {
+                        _sensorDampener++;
+                        break;
+                    }
                 case EnergyDispersionEventArgs ede:
-                {
-                    _energyDispersion += ede.Amount;
-                    break;
-                }
+                    {
+                        _energyDispersion += ede.Amount;
+                        break;
+                    }
                 case KillingBlowEventArgs kbe:
-                {
-                    _killingBlow = true;
-                    break;
-                }
+                    {
+                        _killingBlow = true;
+                        break;
+                    }
             }
         }
 

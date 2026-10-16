@@ -10,7 +10,7 @@ namespace Perpetuum.RequestHandlers.Gangs
         private readonly IGangManager _gangManager;
         private readonly IGangInviteService _gangInviteService;
 
-        public GangInvite(IGangManager gangManager,IGangInviteService gangInviteService)
+        public GangInvite(IGangManager gangManager, IGangInviteService gangInviteService)
         {
             _gangManager = gangManager;
             _gangInviteService = gangInviteService;

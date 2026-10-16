@@ -40,7 +40,7 @@ namespace Perpetuum.Modules.EffectModules
 
         protected override void OnApplyingEffect(Unit target)
         {
-            ParentRobot.SpreadAssistThreatToNpcs(ParentRobot,new Threat(ThreatType.Buff,Threat.SENSOR_BOOSTER));
+            ParentRobot.SpreadAssistThreatToNpcs(ParentRobot, new Threat(ThreatType.Buff, Threat.SENSOR_BOOSTER));
             base.OnApplyingEffect(target);
         }
     }

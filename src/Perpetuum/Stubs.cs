@@ -9,6 +9,6 @@ namespace Perpetuum
 
     public static class Stubs
     {
-        public static readonly Action None =  () => { };
+        public static readonly Action None = () => { };
     }
 }

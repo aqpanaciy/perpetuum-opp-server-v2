@@ -13,7 +13,7 @@ namespace Perpetuum.RequestHandlers.Extensions
         private readonly IAccountRepository _accountRepository;
         private readonly IExtensionReader _extensionReader;
 
-        public ExtensionRemoveLevel(IAccountManager accountManager,IAccountRepository accountRepository,IExtensionReader extensionReader)
+        public ExtensionRemoveLevel(IAccountManager accountManager, IAccountRepository accountRepository, IExtensionReader extensionReader)
         {
             _accountManager = accountManager;
             _accountRepository = accountRepository;
@@ -29,14 +29,14 @@ namespace Perpetuum.RequestHandlers.Extensions
                 var extensionId = request.Data.GetOrDefault<int>(k.extensionID);
                 var isAdmin = request.Session.AccessLevel.IsAdminOrGm();
 
-           
+
                 //only docked
                 character.IsDocked.ThrowIfFalse(ErrorCodes.CharacterHasToBeDocked);
-            
+
                 var extensionInfo = _extensionReader.GetExtensionByID(extensionId).ThrowIfNull(ErrorCodes.ExtensionNotFound);
 
                 //validate extension
-            
+
                 var currentExtensionLevel = character.GetExtensionLevel(extensionId);
 
                 //this extension is not learnt for this character yet
@@ -44,7 +44,7 @@ namespace Perpetuum.RequestHandlers.Extensions
 
                 var defaultExtensionHandler = new CharacterDefaultExtensionHelper(character);
 
-                if (defaultExtensionHandler.IsStartingExtension(extensionInfo,out int minimumLevel))
+                if (defaultExtensionHandler.IsStartingExtension(extensionInfo, out int minimumLevel))
                 {
                     (currentExtensionLevel == minimumLevel).ThrowIfTrue(ErrorCodes.ExtensionMinimumReached);
                 }
@@ -75,8 +75,8 @@ namespace Perpetuum.RequestHandlers.Extensions
                         Logger.DebugWarning($"extension:{_extensionReader.GetExtensionName(requiresExtension.id)} requires:{_extensionReader.GetExtensionName(extensionId)} on level:{requiresExtension.level} current level:{currentExtensionLevel}  requests:{requiresExtension.id}->this:{extensionId}");
                         throw PerpetuumException.Create(ErrorCodes.ExtensionIsRequired)
                             .SetData("thisNeeds", requiresExtension.id)
-                            .SetData("level",requiresExtension.level)
-                            .SetData("downgrading",extensionId);
+                            .SetData("level", requiresExtension.level)
+                            .SetData("downgrading", extensionId);
                     }
                 }
 
@@ -92,25 +92,25 @@ namespace Perpetuum.RequestHandlers.Extensions
                 //add negative spent points
                 var spentPoints1 = -1 * spentPoints;
                 var extensionLevel = currentExtensionLevel - 1;
-                _accountManager.AddExtensionPointsSpent(account,character,spentPoints1,extensionId,extensionLevel);
+                _accountManager.AddExtensionPointsSpent(account, character, spentPoints1, extensionId, extensionLevel);
 
                 //insert log
-                _accountManager.InsertExtensionRemoveLog(account,character,extensionId,currentExtensionLevel,spentPoints);
+                _accountManager.InsertExtensionRemoveLog(account, character, extensionId, currentExtensionLevel, spentPoints);
                 character.SetExtension(new Extension(extensionId, currentExtensionLevel - 1));
 
-                var price = spentPoints/60;
+                var price = spentPoints / 60;
 
                 //var priceBase = AccountWallet.GetProductPrice(AccountTransactionType.extensionRemoveLevel.ToString().ToLower());
                 //var price = currentExtensionLevel * priceBase; //current level * base price
-            
-                var wallet = _accountManager.GetWallet(account,AccountTransactionType.ExtensionRemoveLevel);
+
+                var wallet = _accountManager.GetWallet(account, AccountTransactionType.ExtensionRemoveLevel);
                 wallet.Balance -= price;
-                var e = new AccountTransactionLogEvent(account,AccountTransactionType.ExtensionRemoveLevel) { Credit = wallet.Balance, CreditChange = -price };
+                var e = new AccountTransactionLogEvent(account, AccountTransactionType.ExtensionRemoveLevel) { Credit = wallet.Balance, CreditChange = -price };
                 _accountManager.LogTransaction(e);
 
                 _accountRepository.Update(account);
 
-                var result = _accountManager.GetEPData(account,character);
+                var result = _accountManager.GetEPData(account, character);
 
                 //The amount of EP gained
                 result.Add("pointsReturned", spentPoints);
@@ -118,7 +118,7 @@ namespace Perpetuum.RequestHandlers.Extensions
                 result.Add(k.extensionLevel, currentExtensionLevel - 1);
 
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

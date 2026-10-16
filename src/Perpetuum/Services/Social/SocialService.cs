@@ -5,7 +5,7 @@ namespace Perpetuum.Services.Social
 {
     public class SocialService : ISocialService
     {
-        private ImmutableDictionary<Character,ICharacterSocial> _socials = ImmutableDictionary<Character, ICharacterSocial>.Empty;
+        private ImmutableDictionary<Character, ICharacterSocial> _socials = ImmutableDictionary<Character, ICharacterSocial>.Empty;
 
         public ICharacterSocial GetCharacterSocial(Character character)
         {
