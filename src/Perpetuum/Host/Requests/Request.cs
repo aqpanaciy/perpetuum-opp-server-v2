@@ -9,7 +9,7 @@ namespace Perpetuum.Host.Requests
         public ISession Session { get; set; }
         public Command Command { get; set; }
         public string Target { get; set; }
-        public Dictionary<string,object> Data { get; set; } = new Dictionary<string, object>();
+        public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
     }
 
     public class ZoneRequest : IZoneRequest

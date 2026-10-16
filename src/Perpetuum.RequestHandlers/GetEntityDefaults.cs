@@ -16,9 +16,9 @@ namespace Perpetuum.RequestHandlers
     {
         private readonly IMessage _message;
 
-        public GetEntityDefaults(IExtensionReader extensionReader,IEntityDefaultReader entityDefaultReader,IRobotTemplateRelations robotTemplateRelations)
+        public GetEntityDefaults(IExtensionReader extensionReader, IEntityDefaultReader entityDefaultReader, IRobotTemplateRelations robotTemplateRelations)
         {
-            var cachedEntityDefaultsInfo = entityDefaultReader.GetAll().ToDictionary("d",ed => InfoBuilder.Build(extensionReader,robotTemplateRelations,ed));
+            var cachedEntityDefaultsInfo = entityDefaultReader.GetAll().ToDictionary("d", ed => InfoBuilder.Build(extensionReader, robotTemplateRelations, ed));
             _message = Message.Builder.SetCommand(Commands.GetEntityDefaults).WithData(cachedEntityDefaultsInfo).Build();
         }
 
@@ -27,12 +27,12 @@ namespace Perpetuum.RequestHandlers
             request.Session.SendMessage(_message);
         }
 
-        private class InfoBuilder : IEntityVisitor<Entity>,IEntityVisitor<Item>,IEntityVisitor<Module>,IEntityVisitor<Robot>,IEntityVisitor<RobotComponent>
+        private class InfoBuilder : IEntityVisitor<Entity>, IEntityVisitor<Item>, IEntityVisitor<Module>, IEntityVisitor<Robot>, IEntityVisitor<RobotComponent>
         {
             private readonly IExtensionReader _extensionReader;
             private readonly Dictionary<string, object> _info;
 
-            private InfoBuilder(IExtensionReader extensionReader,Dictionary<string,object> info)
+            private InfoBuilder(IExtensionReader extensionReader, Dictionary<string, object> info)
             {
                 _extensionReader = extensionReader;
                 _info = info;
@@ -99,7 +99,7 @@ namespace Perpetuum.RequestHandlers
                     _info[k.bonus] = bonus;
             }
 
-            public static Dictionary<string, object> Build(IExtensionReader extensionReader,IRobotTemplateRelations robotTemplateRelations,EntityDefault ed)
+            public static Dictionary<string, object> Build(IExtensionReader extensionReader, IRobotTemplateRelations robotTemplateRelations, EntityDefault ed)
             {
                 var info = ed.ToDictionary();
 
@@ -119,7 +119,7 @@ namespace Perpetuum.RequestHandlers
                     var item = entity as Item;
                     item?.Initialize();
 
-                    var builder = new InfoBuilder(extensionReader,info);
+                    var builder = new InfoBuilder(extensionReader, info);
                     entity.AcceptVisitor(builder);
                 }
                 catch (Exception ex)

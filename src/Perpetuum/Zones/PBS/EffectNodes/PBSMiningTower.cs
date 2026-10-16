@@ -7,7 +7,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
     {
         public void FeedWithItems(Player player, IEnumerable<long> eids)
         {
-            PBSHelper.FeedWithItems(this,player,eids);
+            PBSHelper.FeedWithItems(this, player, eids);
         }
     }
 }

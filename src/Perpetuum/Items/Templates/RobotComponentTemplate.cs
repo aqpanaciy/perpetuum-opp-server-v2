@@ -3,11 +3,11 @@ using Perpetuum.Robots;
 
 namespace Perpetuum.Items.Templates
 {
-    public class RobotComponentTemplate<T> : ItemTemplate<T> where T:RobotComponent
+    public class RobotComponentTemplate<T> : ItemTemplate<T> where T : RobotComponent
     {
         private readonly ModuleTemplate[] _moduleTemplates;
 
-        private RobotComponentTemplate(ModuleTemplate[] moduleTemplates = null) : base(1,false)
+        private RobotComponentTemplate(ModuleTemplate[] moduleTemplates = null) : base(1, false)
         {
             _moduleTemplates = moduleTemplates ?? new ModuleTemplate[0];
         }

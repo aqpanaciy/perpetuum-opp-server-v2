@@ -7,7 +7,7 @@ namespace Perpetuum.Services.ProductionEngine
 {
     public interface IProductionDataAccess
     {
-        IDictionary<int,int> Prototypes { get; }
+        IDictionary<int, int> Prototypes { get; }
         IDictionary<int, ItemResearchLevel> ResearchLevels { get; }
         ILookup<int, ProductionComponent> ProductionComponents { get; }
         IDictionary<CategoryFlags, double> ProductionDurations { get; }

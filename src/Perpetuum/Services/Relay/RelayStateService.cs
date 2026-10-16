@@ -20,7 +20,7 @@ namespace Perpetuum.Services.Relay
             get => _state;
             set
             {
-                if ( _state == value )
+                if (_state == value)
                     return;
 
                 _state = value;

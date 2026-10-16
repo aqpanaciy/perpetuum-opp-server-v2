@@ -21,8 +21,8 @@ namespace Perpetuum.Services.Mail
             {
                 mailID = m.GetValue<long>(0),
                 sender = Character.Get(m.GetValue<int>(1)),
-                folder = (MailFolder) m.GetValue<int>(2),
-                type = (MailType) m.GetValue<int>(3),
+                folder = (MailFolder)m.GetValue<int>(2),
+                type = (MailType)m.GetValue<int>(3),
                 creation = m.GetValue<DateTime>(4),
                 wasRead = m.GetValue<bool>(5),
                 targets = GenxyConverter.DeserializeObject<int[]>(m.GetValue<string>(6)).ToCharacter().ToArray(),
@@ -40,7 +40,7 @@ namespace Perpetuum.Services.Mail
                             .SetParameter("@characterID", character.Id)
                             .ExecuteSingleRow();
 
-            if (m == null) 
+            if (m == null)
                 return null;
 
             return new MassMail
@@ -89,7 +89,7 @@ namespace Perpetuum.Services.Mail
         public static ErrorCodes DeleteMail(Character character, long[] mailIDs)
         {
             if (mailIDs.Length == 0) return ErrorCodes.NoError;
-            
+
             foreach (var id in mailIDs)
             {
                 var res = Db.Query().CommandText("delete charactermessages where mailid=@mailID and owner=@characterID")

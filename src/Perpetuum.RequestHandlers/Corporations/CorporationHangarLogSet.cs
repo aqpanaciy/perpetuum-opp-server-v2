@@ -28,7 +28,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                     .WithData(corporateHangar.ContainerLogger.LogsToDictionary())
                     .ToCharacter(character)
                     .Send();
-                
+
                 scope.Complete();
             }
         }

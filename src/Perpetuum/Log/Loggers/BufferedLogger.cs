@@ -7,7 +7,7 @@ using Perpetuum.Threading;
 
 namespace Perpetuum.Log.Loggers
 {
-    public abstract class BufferedLogger<T>: Disposable, ILogger<T> where T:ILogEvent
+    public abstract class BufferedLogger<T> : Disposable, ILogger<T> where T : ILogEvent
     {
         private readonly ConcurrentQueue<T> _logEvents = new ConcurrentQueue<T>();
         private Timer _autoFlushTimer;
@@ -24,7 +24,7 @@ namespace Perpetuum.Log.Loggers
         {
             set
             {
-                _autoFlushTimer = new Timer(x => OnFlushing(), null, value, value);            
+                _autoFlushTimer = new Timer(x => OnFlushing(), null, value, value);
             }
         }
 
@@ -55,7 +55,7 @@ namespace Perpetuum.Log.Loggers
 
         private void OnFlushing()
         {
-            if ( Interlocked.CompareExchange(ref _flushing,1,0) == 1)
+            if (Interlocked.CompareExchange(ref _flushing, 1, 0) == 1)
                 return;
 
             var logEvents = _logEvents.TakeAll().ToArray();

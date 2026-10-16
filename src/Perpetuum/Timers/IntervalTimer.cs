@@ -20,18 +20,18 @@ namespace Perpetuum.Timers
             }
         }
 
-        public IntervalTimer(int interval,bool random = false) : this(TimeSpan.FromMilliseconds(interval),random)
+        public IntervalTimer(int interval, bool random = false) : this(TimeSpan.FromMilliseconds(interval), random)
         {
-            
+
         }
 
-        public IntervalTimer(TimeSpan interval,bool random = false)
+        public IntervalTimer(TimeSpan interval, bool random = false)
         {
             Interval = interval;
 
             if (random)
             {
-                Elapsed = TimeSpan.FromMilliseconds(FastRandom.NextDouble()*interval.TotalMilliseconds);
+                Elapsed = TimeSpan.FromMilliseconds(FastRandom.NextDouble() * interval.TotalMilliseconds);
             }
         }
 

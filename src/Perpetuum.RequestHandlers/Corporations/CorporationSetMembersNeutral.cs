@@ -52,7 +52,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                     .WrapToResult()
                     .ToClient(request.Session)
                     .Send();
-                
+
                 scope.Complete();
             }
         }

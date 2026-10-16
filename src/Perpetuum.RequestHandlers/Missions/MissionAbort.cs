@@ -23,7 +23,7 @@ namespace Perpetuum.RequestHandlers.Missions
                 Guid.TryParse(guidString, out Guid missionGuid).ThrowIfFalse(ErrorCodes.SyntaxError);
 
                 _missionProcessor.AbortMissionByRequest(character, missionGuid, ErrorCodes.MissionAbortedByOwner);
-                
+
                 scope.Complete();
             }
         }

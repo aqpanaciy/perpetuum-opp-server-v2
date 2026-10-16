@@ -16,7 +16,7 @@ namespace Perpetuum.RequestHandlers.Zone.StatsMapDrawing
 
             spotInfos.AddRange(randomPointsInfos);
 
-            return  DrawResultOnBitmap(spotInfos, staticObjects);
+            return DrawResultOnBitmap(spotInfos, staticObjects);
 
         }
     }

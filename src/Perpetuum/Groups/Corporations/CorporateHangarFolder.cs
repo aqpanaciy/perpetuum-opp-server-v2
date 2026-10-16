@@ -31,7 +31,7 @@ namespace Perpetuum.Groups.Corporations
                 corporateHangar.AddChild(this);
             }
 
-            if (ParentHangar != null) 
+            if (ParentHangar != null)
                 SetLogging(ParentHangar.IsLogging(), null);
 
             base.OnLoadFromDb();
@@ -41,7 +41,7 @@ namespace Perpetuum.Groups.Corporations
         {
             CorporateHangar.CheckAllowedTypesForAddAndThrowIfFailed(item);
             // owner = corporation!
-            base.AddItem(item,Owner, doStack);
+            base.AddItem(item, Owner, doStack);
         }
 
         public override void ReloadItems(long? ownerEid)

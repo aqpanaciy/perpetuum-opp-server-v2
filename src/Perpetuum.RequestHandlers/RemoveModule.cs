@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers
         private readonly IEntityRepository _entityRepository;
         private readonly RobotHelper _robotHelper;
 
-        public RemoveModule(IEntityRepository entityRepository,RobotHelper robotHelper)
+        public RemoveModule(IEntityRepository entityRepository, RobotHelper robotHelper)
         {
             _entityRepository = entityRepository;
             _robotHelper = robotHelper;
@@ -25,8 +25,8 @@ namespace Perpetuum.RequestHandlers
             using (var scope = Db.CreateTransaction())
             {
                 var character = request.Session.Character;
-                character.IsDocked.ThrowIfFalse(ErrorCodes.CharacterHasToBeDocked); 
-            
+                character.IsDocked.ThrowIfFalse(ErrorCodes.CharacterHasToBeDocked);
+
                 var containerEid = request.Data.GetOrDefault<long>(k.containerEID);
                 var container = Container.GetWithItems(containerEid, character).ThrowIfNull(ErrorCodes.ContainerNotFound);
                 container.ThrowIfType<VolumeWrapperContainer>(ErrorCodes.AccessDenied);
@@ -50,13 +50,13 @@ namespace Perpetuum.RequestHandlers
                 {
                     var result = new Dictionary<string, object>
                     {
-                        {k.robot, robot.ToDictionary()}, 
+                        {k.robot, robot.ToDictionary()},
                         {k.container, container.ToDictionary()}
                     };
 
                     Message.Builder.FromRequest(request).WithData(result).WrapToResult().Send();
                 });
-                
+
                 scope.Complete();
             }
         }

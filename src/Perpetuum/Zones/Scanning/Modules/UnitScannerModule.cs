@@ -18,7 +18,7 @@ namespace Perpetuum.Zones.Scanning.Modules
             if (npc == null)
                 return;
 
-            player.MissionHandler.EnqueueMissionEventInfo(new ScanUnitEventInfo(player,npc,target.CurrentPosition ));
+            player.MissionHandler.EnqueueMissionEventInfo(new ScanUnitEventInfo(player, npc, target.CurrentPosition));
         }
 
         protected override IEnumerable<ItemInfo> ScanItems(Unit target)
@@ -44,7 +44,7 @@ namespace Perpetuum.Zones.Scanning.Modules
             return packet;
         }
 
-        private class UnitScanner : IEntityVisitor<Unit>,IEntityVisitor<Robot>,IEntityVisitor<Module>
+        private class UnitScanner : IEntityVisitor<Unit>, IEntityVisitor<Robot>, IEntityVisitor<Module>
         {
             public UnitScanner()
             {

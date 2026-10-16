@@ -17,7 +17,7 @@ namespace Perpetuum.Zones.Intrusion
             get { return _entityDefault; }
         }
 
-        public SAPInfo(EntityDefault entityDefault,Position position)
+        public SAPInfo(EntityDefault entityDefault, Position position)
         {
             _entityDefault = entityDefault;
             _position = position;

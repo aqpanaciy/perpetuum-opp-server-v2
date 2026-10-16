@@ -30,12 +30,12 @@ namespace Perpetuum.Groups.Corporations
         public void Insert(VolunteerCEO volunteerCEO)
         {
             var res = Db.Query().CommandText("insert corporationceotakeover (corporationeid,characterid,expiry) values (@corporationEID, @characterID,@expiry)")
-                .SetParameter("@characterID",volunteerCEO.character.Id)
-                .SetParameter("@corporationEID",volunteerCEO.corporation.Eid)
-                .SetParameter("@expiry",volunteerCEO.expiry)
+                .SetParameter("@characterID", volunteerCEO.character.Id)
+                .SetParameter("@corporationEID", volunteerCEO.corporation.Eid)
+                .SetParameter("@expiry", volunteerCEO.expiry)
                 .ExecuteNonQuery();
 
-            if(res == 0 )
+            if (res == 0)
                 throw new PerpetuumException(ErrorCodes.SQLInsertError);
         }
 
@@ -47,7 +47,7 @@ namespace Perpetuum.Groups.Corporations
         public void Delete(VolunteerCEO volunteerCEO)
         {
             var res = Db.Query().CommandText("delete corporationceotakeover where corporationeid=@corporationEID")
-                .SetParameter("@corporationEID",volunteerCEO.corporation.Eid)
+                .SetParameter("@corporationEID", volunteerCEO.corporation.Eid)
                 .ExecuteNonQuery();
             if (res == 0)
                 throw new PerpetuumException(ErrorCodes.SQLDeleteError);
@@ -60,7 +60,7 @@ namespace Perpetuum.Groups.Corporations
             {
                 character = Character.Get(record.GetValue<int>("characterid")),
                 expiry = record.GetValue<DateTime>("expiry"),
-                corporation =  (Corporation) _entityRepository.Load(corporationEid)
+                corporation = (Corporation)_entityRepository.Load(corporationEid)
             };
             return v;
         }

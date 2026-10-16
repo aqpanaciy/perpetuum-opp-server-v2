@@ -33,7 +33,7 @@ namespace Perpetuum.Zones
             return null;
         }
 
-        private class ContainerFinder : IEntityVisitor<Robot>,IEntityVisitor<FieldTerminal>
+        private class ContainerFinder : IEntityVisitor<Robot>, IEntityVisitor<FieldTerminal>
         {
             private readonly Player _player;
             private readonly long _containerEid;
@@ -72,7 +72,7 @@ namespace Perpetuum.Zones
                     return;
 
                 Container = foundContainer;
-                
+
             }
         }
     }

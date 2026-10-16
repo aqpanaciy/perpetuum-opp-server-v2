@@ -26,16 +26,16 @@ namespace Perpetuum.Services.MissionEngine
     {
         fetch_item = 1,
         loot_item = 2,
-        reach_position = 3 ,
-        kill_definition =4,
-        scan_mineral=5,
-        scan_unit=6,
-        scan_container=7,
-        drill_mineral=8,
-        submit_item=9,
-        use_switch=10,
-        find_artifact =11,
-        dock_in =12,
+        reach_position = 3,
+        kill_definition = 4,
+        scan_mineral = 5,
+        scan_unit = 6,
+        scan_container = 7,
+        drill_mineral = 8,
+        submit_item = 9,
+        use_switch = 10,
+        find_artifact = 11,
+        dock_in = 12,
         use_itemsupply = 13,
         prototype = 14, //NOT USED
         massproduce = 15, //needs ct and goes for the produced definition
@@ -43,7 +43,7 @@ namespace Perpetuum.Services.MissionEngine
         teleport = 17,
         harvest_plant = 18,
         summon_npc_egg = 19,
-        pop_npc =20,
+        pop_npc = 20,
         rnd_point = 21,
         spawn_item = 22,
         lock_unit = 23,
@@ -58,13 +58,13 @@ namespace Perpetuum.Services.MissionEngine
         rnd_drill_mineral, //109
         rnd_harvest_plant, //110
         rnd_fetch_item, //111
-        
-        
+
+
         rnd_massproduce, //112
         rnd_research, //113 
         rnd_spawn_item, //114
         rnd_lock_unit, //115
-       
+
     }
 
     public enum MissionBehaviourType
@@ -80,7 +80,7 @@ namespace Perpetuum.Services.MissionEngine
         fieldcraft,
         production,
         transport,
-        
+
     }
 
 

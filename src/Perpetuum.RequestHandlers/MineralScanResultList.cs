@@ -9,7 +9,7 @@ namespace Perpetuum.RequestHandlers
         {
             var character = request.Session.Character;
             var repo = new MineralScanResultRepository(character);
-            var result = repo.GetAll().ToDictionary("s",r => r.ToDictionary());
+            var result = repo.GetAll().ToDictionary("s", r => r.ToDictionary());
             Message.Builder.FromRequest(request).WithData(result).Send();
         }
     }

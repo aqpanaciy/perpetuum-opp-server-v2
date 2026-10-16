@@ -15,7 +15,7 @@ namespace Perpetuum.RequestHandlers.Zone
             Parallel.ForEach(workAreas, (workArea) =>
             {
                 var controlArea = zone.Terrain.Controls.GetArea(workArea);
-                for(int i=0; i< controlArea.Length; i++)
+                for (int i = 0; i < controlArea.Length; i++)
                 {
                     controlArea[i].TerraformProtected = false;
                     controlArea[i].PBSTerraformProtected = false;
@@ -27,8 +27,8 @@ namespace Perpetuum.RequestHandlers.Zone
         private void SetRadiusOnTeleports(IZoneRequest request, int radius)
         {
             var zone = request.Zone;
-            var maxX = zone.Terrain.Controls.Width-1;
-            var maxY = zone.Terrain.Controls.Height-1;
+            var maxX = zone.Terrain.Controls.Width - 1;
+            var maxY = zone.Terrain.Controls.Height - 1;
             var teleports = request.Zone.GetTeleportColumns();
             foreach (var tele in teleports)
             {
@@ -44,7 +44,7 @@ namespace Perpetuum.RequestHandlers.Zone
                 {
                     foreach (var p in workArea.GetPositions())
                     {
-                        if(!p.intX.IsInRange(0, maxY) || !p.intY.IsInRange(0, maxY))
+                        if (!p.intX.IsInRange(0, maxY) || !p.intY.IsInRange(0, maxY))
                         {
                             continue;
                         }

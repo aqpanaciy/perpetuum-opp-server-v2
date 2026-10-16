@@ -36,10 +36,10 @@ namespace Perpetuum.RequestHandlers.Intrusion
                 var role = Corporation.GetRoleFromSql(character);
                 role.IsAnyRole(CorporationRole.CEO, CorporationRole.DeputyCEO, CorporationRole.Accountant).ThrowIfFalse(ErrorCodes.InsufficientPrivileges);
 
-                siteInfo.Stability.ThrowIfLess(Outpost.DefenseNodesStabilityLimit,ErrorCodes.StabilityTooLow);
+                siteInfo.Stability.ThrowIfLess(Outpost.DefenseNodesStabilityLimit, ErrorCodes.StabilityTooLow);
 
                 outpost.SetDefenseStandingLimit(standingLimit);
-                
+
                 scope.Complete();
             }
         }

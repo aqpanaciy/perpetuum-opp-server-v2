@@ -27,7 +27,7 @@ namespace Perpetuum.RequestHandlers.Production
                 _productionProcessor.ScaleComponentsAmount(scale, targetCategoryFlag, componentCategory);
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

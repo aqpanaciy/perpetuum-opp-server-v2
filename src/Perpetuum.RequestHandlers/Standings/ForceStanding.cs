@@ -23,7 +23,7 @@ namespace Perpetuum.RequestHandlers.Standings
 
                 _standingHandler.SetStanding(source, target, value);
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

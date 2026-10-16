@@ -29,7 +29,7 @@ namespace Perpetuum.EntityFramework
         public double Volume { get; set; }
         public bool Purchasable { get; set; }
 
-        public Dictionary<Extension /* enabler */,Extension[] /* required */> EnablerExtensions { get; set; }
+        public Dictionary<Extension /* enabler */, Extension[] /* required */> EnablerExtensions { get; set; }
 
         public EntityDefaultOptions Options { get; set; }
 
@@ -43,7 +43,7 @@ namespace Perpetuum.EntityFramework
         {
             get
             {
-                if (CategoryFlags.IsCategory(CategoryFlags.cf_documents)) 
+                if (CategoryFlags.IsCategory(CategoryFlags.cf_documents))
                     return false;
 
                 //... other category flags here...

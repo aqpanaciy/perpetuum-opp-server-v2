@@ -45,12 +45,12 @@ namespace Perpetuum.RequestHandlers.Zone.Containers
 
                     var result = new Dictionary<string, object>
                     {
-                        {k.robot, player.ToDictionary()}, 
+                        {k.robot, player.ToDictionary()},
                         {k.container, container.ToDictionary()}
                     };
                     Message.Builder.FromRequest(request).WithData(result).WrapToResult().Send();
                 });
-                
+
                 scope.Complete();
             }
         }

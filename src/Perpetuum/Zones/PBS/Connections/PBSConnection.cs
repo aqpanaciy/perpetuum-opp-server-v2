@@ -36,13 +36,13 @@ namespace Perpetuum.Zones.PBS.Connections
             Id = id;
             _sourcePbsObject = source;
         }
-         public override string ToString()
-         {
-             var s = (Unit) _sourcePbsObject;
-             var t = (Unit) TargetPbsObject;
+        public override string ToString()
+        {
+            var s = (Unit)_sourcePbsObject;
+            var t = (Unit)TargetPbsObject;
 
-             return (IsOutgoing ? "OUT " : "IN ") + s.ED.Name + (IsOutgoing ? " --> " : " <-- ") + t.ED.Name;
-         }
+            return (IsOutgoing ? "OUT " : "IN ") + s.ED.Name + (IsOutgoing ? " --> " : " <-- ") + t.ED.Name;
+        }
 
         public double Weight
         {
@@ -50,8 +50,8 @@ namespace Perpetuum.Zones.PBS.Connections
             set { _weight = value.Clamp(0, 100); }
         }
 
-       
-        
+
+
 
 
         public PBSConnection(IPBSObject targetNode, IPBSObject sourceNode, bool isOutGoing)
@@ -97,7 +97,7 @@ namespace Perpetuum.Zones.PBS.Connections
             {
                 {k.type, GetDisplayType().ToString()},
                 {"direction", IsOutgoing ? "OUT" : "IN"},
-                
+
             };
 
             var unit = TargetPbsObject as Unit;
@@ -108,10 +108,10 @@ namespace Perpetuum.Zones.PBS.Connections
 
         }
 
-       
 
 
-        private void AddWeight(Dictionary<string,object> info )
+
+        private void AddWeight(Dictionary<string, object> info)
         {
             if (_sourcePbsObject is IPBSCorePump && TargetPbsObject is IPBSAcceptsCore)
             {
@@ -123,8 +123,8 @@ namespace Perpetuum.Zones.PBS.Connections
         {
             if (_sourcePbsObject is PBSHighwayNode && TargetPbsObject is PBSHighwayNode)
             {
-                var sHn = (PBSHighwayNode) _sourcePbsObject;
-                var tHn = (PBSHighwayNode) TargetPbsObject;
+                var sHn = (PBSHighwayNode)_sourcePbsObject;
+                var tHn = (PBSHighwayNode)TargetPbsObject;
 
                 if (sHn.IsGoodHighwayTarget() && tHn.IsGoodHighwayTarget())
                 {
@@ -137,7 +137,7 @@ namespace Perpetuum.Zones.PBS.Connections
             {
                 return PBSConnectionType.control;
             }
-            
+
             if (TargetPbsObject is PBSEnergyWell)
             {
                 return PBSConnectionType.control;
@@ -152,19 +152,19 @@ namespace Perpetuum.Zones.PBS.Connections
             {
                 return PBSConnectionType.energy;
             }
-            
+
             if (_sourcePbsObject is IPBSCorePump && TargetPbsObject is IPBSAcceptsCore)
             {
                 return PBSConnectionType.energy;
             }
-            
+
             if (_sourcePbsObject is IPBSCorePump)
             {
                 return PBSConnectionType.energy;
             }
-            
 
-            if (_sourcePbsObject is PBSProductionFacilityNode || (_sourcePbsObject is PBSFacilityUpgradeNode && TargetPbsObject is PBSProductionFacilityNode  ) )
+
+            if (_sourcePbsObject is PBSProductionFacilityNode || (_sourcePbsObject is PBSFacilityUpgradeNode && TargetPbsObject is PBSProductionFacilityNode))
             {
                 return PBSConnectionType.production;
             }
@@ -184,12 +184,12 @@ namespace Perpetuum.Zones.PBS.Connections
                 return PBSConnectionType.control;
             }
 
-            if (TargetPbsObject is PBSControlTower )
+            if (TargetPbsObject is PBSControlTower)
             {
                 return PBSConnectionType.control;
             }
 
-           
+
             if (_sourcePbsObject is PBSTurret)
             {
                 return PBSConnectionType.control;
@@ -220,25 +220,25 @@ namespace Perpetuum.Zones.PBS.Connections
             if (IsIncoming)
             {
                 //it is an INCOMING connection
-                TargetPbsObject.ConnectionHandler.RemoveConnectedObject(_sourcePbsObject); 
+                TargetPbsObject.ConnectionHandler.RemoveConnectedObject(_sourcePbsObject);
                 return;
             }
-            
+
             Db.Query().CommandText("delete pbsconnections where id=@id")
                 .SetParameter("@id", Id)
                 .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLDeleteError);
 
         }
 
-       
+
 
         public void InsertToDb()
         {
             if (!IsOutgoing) return;
 
             Id = Db.Query().CommandText("insert pbsconnections (sourceeid,targeteid,weight) values (@source,@target,@weight);SELECT cast(scope_identity() as int)")
-                .SetParameter("@source", ((Unit) _sourcePbsObject).Eid)
-                .SetParameter("@target", ((Unit) TargetPbsObject).Eid)
+                .SetParameter("@source", ((Unit)_sourcePbsObject).Eid)
+                .SetParameter("@target", ((Unit)TargetPbsObject).Eid)
                 .SetParameter("@weight", Weight)
                 .ExecuteScalar<int>().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
         }

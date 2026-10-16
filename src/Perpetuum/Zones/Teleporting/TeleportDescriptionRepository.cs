@@ -19,7 +19,7 @@ namespace Perpetuum.Zones.Teleporting
             Db.Query().CommandText("update teleportdescriptions set active=@active where id=@id")
                    .SetParameter("@id", description.id)
                    .SetParameter("@active", description.active)
-                   .ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.SQLUpdateError);
+                   .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLUpdateError);
         }
 
         public void Insert(TeleportDescription description)
@@ -54,11 +54,11 @@ namespace Perpetuum.Zones.Teleporting
 	@type
 ) ";
             Db.Query().CommandText(insertCommand)
-                .SetParameter("@description",description.description)
-                .SetParameter("@sourcecolumn",description.SourceTeleport?.Eid)
-                .SetParameter("@targetcolumn",description.TargetTeleport?.Eid)
-                .SetParameter("@sourcezone",description.SourceZone?.Id)
-                .SetParameter("@targetzone",description.TargetZone?.Id)
+                .SetParameter("@description", description.description)
+                .SetParameter("@sourcecolumn", description.SourceTeleport?.Eid)
+                .SetParameter("@targetcolumn", description.TargetTeleport?.Eid)
+                .SetParameter("@sourcezone", description.SourceZone?.Id)
+                .SetParameter("@targetzone", description.TargetZone?.Id)
                 .SetParameter("@type", (int)description.descriptionType)
                 .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
         }
@@ -77,7 +77,7 @@ namespace Perpetuum.Zones.Teleporting
         {
             var builder = _descriptionBuilderFactory();
             builder.SetId(record.GetValue<int>("id"))
-                .SetType((TeleportDescriptionType) record.GetValue<int>("type"))
+                .SetType((TeleportDescriptionType)record.GetValue<int>("type"))
                 .SetDescription(record.GetValue<string>("description"))
                 .SetSourceZone(record.GetValue<int?>("sourcezone") ?? -1)
                 .SetSourceTeleport(record.GetValue<long?>("sourcecolumn") ?? 0L)

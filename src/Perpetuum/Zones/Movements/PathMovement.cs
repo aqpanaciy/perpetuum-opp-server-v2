@@ -16,7 +16,7 @@ namespace Perpetuum.Zones.Movements
         {
             foreach (var point in path.Skip(1))
             {
-                _path.Enqueue(new WaypointMovement(Vector2.Add(point.ToVector2(),new Vector2(0.5f,0.5f))));
+                _path.Enqueue(new WaypointMovement(Vector2.Add(point.ToVector2(), new Vector2(0.5f, 0.5f))));
             }
         }
 
@@ -48,10 +48,10 @@ namespace Perpetuum.Zones.Movements
                 _movement.Start(unit);
             }
 
-            _movement.Update(unit,elapsed);
+            _movement.Update(unit, elapsed);
 
             if (_movement.Arrived)
                 _movement = null;
         }
     }
-} 
+}

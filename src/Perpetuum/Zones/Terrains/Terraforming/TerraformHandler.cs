@@ -50,7 +50,7 @@ namespace Perpetuum.Zones.Terrains.Terraforming
         public TerraformHandler(IZone zone)
         {
             _zone = zone;
-            _degradeArea = Area.FromRectangle(0, 0,zone.Size.Width,zone.Size.Height);
+            _degradeArea = Area.FromRectangle(0, 0, zone.Size.Width, zone.Size.Height);
             Degrade = true;
         }
 
@@ -152,12 +152,12 @@ namespace Perpetuum.Zones.Terrains.Terraforming
 
         private void SendAffectedPositions()
         {
-            var affectedTiles = new Dictionary<Point,TerraformType>();
+            var affectedTiles = new Dictionary<Point, TerraformType>();
 
             AffectedTile tile;
             while (_affectedTiles.TryTake(out tile))
             {
-                affectedTiles[new Point(tile.x,tile.y)] = tile.Type;
+                affectedTiles[new Point(tile.x, tile.y)] = tile.Type;
             }
 
             foreach (var pair in affectedTiles)

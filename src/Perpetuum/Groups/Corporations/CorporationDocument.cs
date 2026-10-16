@@ -23,8 +23,8 @@ namespace Perpetuum.Groups.Corporations
         private DateTime _creation;
         private DateTime _lastModified;
         private DateTime? _validUntil;
-       
-     
+
+
         public Character _ownerCharacter;
         public readonly CorporationDocumentType _documentType;
         public int version;
@@ -35,14 +35,14 @@ namespace Perpetuum.Groups.Corporations
         {
             _id = record.GetValue<int>("id");
             _ownerCharacter = Character.Get(record.GetValue<int>("ownercharacterid"));
-            _documentType = (CorporationDocumentType) record.GetValue<int>("documenttype");
+            _documentType = (CorporationDocumentType)record.GetValue<int>("documenttype");
             _creation = record.GetValue<DateTime>("creation");
             _lastModified = record.GetValue<DateTime>("lastmodified");
             _validUntil = record.GetValue<DateTime?>("validuntil");
             version = record.GetValue<int>("version");
         }
 
-        private CorporationDocument(int freshId,  Character character, CorporationDocumentType corporationDocumentType, DateTime? validUntil, string body)
+        private CorporationDocument(int freshId, Character character, CorporationDocumentType corporationDocumentType, DateTime? validUntil, string body)
         {
             _id = freshId;
             _creation = DateTime.Now;
@@ -119,13 +119,13 @@ namespace Perpetuum.Groups.Corporations
         }
 
         public const string InsertQuery = "insert corporationdocuments (ownercharacterid,documenttype,validuntil,body) values (@characterId,@type,@validUntil,@body)";
-        public static ErrorCodes CreateNewToSql( Character character, CorporationDocumentType corporationDocumentType,  DateTime? validUntil, string body, out CorporationDocument corporationDocument)
+        public static ErrorCodes CreateNewToSql(Character character, CorporationDocumentType corporationDocumentType, DateTime? validUntil, string body, out CorporationDocument corporationDocument)
         {
             corporationDocument = null;
             const string cmdStr = InsertQuery + ";select cast(scope_identity() as int)";
 
             var freshId =
-                Db.Query().CommandText(cmdStr).SetParameter("@characterId", character.Id).SetParameter("@type", (int) corporationDocumentType).SetParameter("@validUntil", validUntil).SetParameter("@body", body)
+                Db.Query().CommandText(cmdStr).SetParameter("@characterId", character.Id).SetParameter("@type", (int)corporationDocumentType).SetParameter("@validUntil", validUntil).SetParameter("@body", body)
                     .ExecuteScalar<int>();
 
 
@@ -135,14 +135,14 @@ namespace Perpetuum.Groups.Corporations
             }
 
 
-            corporationDocument = new CorporationDocument(freshId, character,corporationDocumentType,validUntil,body);
+            corporationDocument = new CorporationDocument(freshId, character, corporationDocumentType, validUntil, body);
 
             return ErrorCodes.NoError;
 
         }
 
 
-       public ErrorCodes Rent(Character character, bool useCorporationWallet)
+        public ErrorCodes Rent(Character character, bool useCorporationWallet)
         {
             //egyaltalan rentelheto?
             if (DocumentConfig.IsRentable)
@@ -152,7 +152,7 @@ namespace Perpetuum.Groups.Corporations
                     return ErrorCodes.ConsistencyError;
                 }
 
-                _validUntil = ((DateTime) _validUntil).AddDays(DocumentConfig.rentPeriodDays);
+                _validUntil = ((DateTime)_validUntil).AddDays(DocumentConfig.rentPeriodDays);
 
                 ErrorCodes ec;
                 if ((ec = UpdateValidUntil()) != ErrorCodes.NoError)
@@ -173,7 +173,7 @@ namespace Perpetuum.Groups.Corporations
         {
             get
             {
-                
+
                 CorporationDocumentConfig documentConfig;
                 if ((CorporationDocumentHelper.GetDocumentConfig(_documentType, out documentConfig)) != ErrorCodes.NoError)
                 {
@@ -186,7 +186,7 @@ namespace Perpetuum.Groups.Corporations
             }
         }
 
-       
+
 
         public void DeleteAllRegistered()
         {
@@ -195,12 +195,12 @@ namespace Perpetuum.Groups.Corporations
 
         }
 
-        public void SetRegistration(IEnumerable<int> registeredMembers, IEnumerable<int> writeMembers )
+        public void SetRegistration(IEnumerable<int> registeredMembers, IEnumerable<int> writeMembers)
         {
             DeleteAllRegistered();
-         
+
             if (registeredMembers.IsNullOrEmpty()) return;
-   
+
             foreach (var member in registeredMembers)
             {
 
@@ -213,7 +213,7 @@ namespace Perpetuum.Groups.Corporations
 
             foreach (var writeMember in writeMembers)
             {
-                Db.Query().CommandText("update corporationdocumentregistration set role=@role where characterid=@characterId and documentid=@documentId").SetParameter("@role", (int) ReadWriteRole.write).SetParameter("@documentId", _id).SetParameter("@characterId", writeMember)
+                Db.Query().CommandText("update corporationdocumentregistration set role=@role where characterid=@characterId and documentid=@documentId").SetParameter("@role", (int)ReadWriteRole.write).SetParameter("@documentId", _id).SetParameter("@characterId", writeMember)
                     .ExecuteNonQuery();
 
             }
@@ -267,7 +267,7 @@ namespace Perpetuum.Groups.Corporations
 
             return ErrorCodes.NoError;
         }
-        
+
     }
 
 
@@ -289,7 +289,7 @@ namespace Perpetuum.Groups.Corporations
         }
 
 
-        public Dictionary<string,object> ToDictionary()
+        public Dictionary<string, object> ToDictionary()
         {
             return new Dictionary<string, object>
                        {
@@ -298,7 +298,7 @@ namespace Perpetuum.Groups.Corporations
                            {k.rentPrice, rentPrice},
                            {k.rentPeriod, rentPeriodDays},
                            {k.maxPerCharacter, maxPerCharacter}
-                           
+
                        };
         }
 

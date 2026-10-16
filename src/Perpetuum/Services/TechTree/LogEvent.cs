@@ -8,7 +8,7 @@ namespace Perpetuum.Services.TechTree
 {
     public class LogEvent
     {
-        public LogEvent(LogType type,Character character)
+        public LogEvent(LogType type, Character character)
         {
             Type = type;
             Character = character;
@@ -27,11 +27,11 @@ namespace Perpetuum.Services.TechTree
         {
             return new Dictionary<string, object>
                 {
-                    {k.type, (int) Type}, 
-                    {k.characterID, Character.Id}, 
-                    {k.definition, Definition}, 
-                    {k.quantity, Quantity}, 
-                    {k.corporationEID, CorporationEid ?? 0L}, 
+                    {k.type, (int) Type},
+                    {k.characterID, Character.Id},
+                    {k.definition, Definition},
+                    {k.quantity, Quantity},
+                    {k.corporationEID, CorporationEid ?? 0L},
                     {k.points, Points.ToDictionary()},
                     {k.date,Created}
                 };
@@ -50,9 +50,9 @@ namespace Perpetuum.Services.TechTree
         protected override IEnumerable<IDataRecord> GetLogEventRecords(DateTime from, DateTime to)
         {
             return Db.Query().CommandText("select * from techtreelog where character = @characterId and (created between @from and @to)")
-                .SetParameter("@characterId",_character.Id)
-                .SetParameter("@from",from)
-                .SetParameter("@to",to)
+                .SetParameter("@characterId", _character.Id)
+                .SetParameter("@from", from)
+                .SetParameter("@to", to)
                 .Execute();
         }
     }
@@ -69,9 +69,9 @@ namespace Perpetuum.Services.TechTree
         protected override IEnumerable<IDataRecord> GetLogEventRecords(DateTime from, DateTime to)
         {
             return Db.Query().CommandText("select * from techtreelog where corporationEid = @corporationEid and (created between @from and @to)")
-                          .SetParameter("@corporationEid",_corporationEid)
-                          .SetParameter("@from",from)
-                          .SetParameter("@to",to).Execute();
+                          .SetParameter("@corporationEid", _corporationEid)
+                          .SetParameter("@from", from)
+                          .SetParameter("@to", to).Execute();
         }
     }
 

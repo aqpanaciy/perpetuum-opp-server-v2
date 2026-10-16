@@ -6,7 +6,7 @@ namespace Perpetuum
     {
         public static DateTimeRange ToRange(this DateTime dt, TimeSpan delta)
         {
-            return DateTimeRange.FromDelta(dt,delta);
+            return DateTimeRange.FromDelta(dt, delta);
         }
     }
 }

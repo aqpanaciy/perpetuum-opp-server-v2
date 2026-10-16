@@ -6,7 +6,7 @@ namespace Perpetuum.Zones.Environments
     {
         public List<Tile> blocksTiles;
 
-        public Dictionary<string, object > ToDictionary()
+        public Dictionary<string, object> ToDictionary()
         {
             return new Dictionary<string, object>
                        {

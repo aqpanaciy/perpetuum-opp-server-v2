@@ -11,7 +11,7 @@ namespace Perpetuum.Zones.PBS
         private readonly IEntityRepository _entityRepository;
         private readonly IntervalTimer _timer;
 
-        public PBSObjectSaver(IEntityRepository entityRepository,TimeSpan saveInterval)
+        public PBSObjectSaver(IEntityRepository entityRepository, TimeSpan saveInterval)
         {
             _entityRepository = entityRepository;
             _timer = new IntervalTimer(saveInterval);
@@ -19,13 +19,13 @@ namespace Perpetuum.Zones.PBS
 
         private bool _running;
 
-        public void Update(T pbsObject,TimeSpan time)
+        public void Update(T pbsObject, TimeSpan time)
         {
             if (_running)
                 return;
 
             _timer.Update(time);
-            if ( !_timer.Passed )
+            if (!_timer.Passed)
                 return;
             _timer.Reset();
 
@@ -34,5 +34,5 @@ namespace Perpetuum.Zones.PBS
                 .ContinueWith(t => _running = false)
                 .LogExceptions();
         }
-    }   
+    }
 }

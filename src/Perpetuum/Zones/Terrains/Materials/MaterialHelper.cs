@@ -31,7 +31,7 @@ namespace Perpetuum.Zones.Terrains.Materials
 
         public MaterialInfo GetMaterialInfo(MaterialType type)
         {
-            return _materials.GetOrDefault(type,MaterialInfo.None);
+            return _materials.GetOrDefault(type, MaterialInfo.None);
         }
     }
 }

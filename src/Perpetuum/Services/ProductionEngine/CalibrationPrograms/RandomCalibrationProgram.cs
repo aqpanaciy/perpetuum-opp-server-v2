@@ -14,7 +14,7 @@ namespace Perpetuum.Services.ProductionEngine.CalibrationPrograms
     {
         private readonly IGangManager _gangManager;
 
-        public RandomCalibrationProgram(IProductionDataAccess productionDataAccess,IGangManager gangManager) : base(productionDataAccess)
+        public RandomCalibrationProgram(IProductionDataAccess productionDataAccess, IGangManager gangManager) : base(productionDataAccess)
         {
             _gangManager = gangManager;
         }
@@ -55,7 +55,7 @@ namespace Perpetuum.Services.ProductionEngine.CalibrationPrograms
             {
                 info += " RandomTarget: " + TargetDefinition;
             }
-            
+
             return info;
         }
 
@@ -122,13 +122,13 @@ namespace Perpetuum.Services.ProductionEngine.CalibrationPrograms
         {
             get
             {
-                
+
                 var dict = GetComponentDictionary;
                 var resultList = new List<ProductionComponent>(dict.Count);
 
                 foreach (var kvp in dict)
                 {
-                    var entry = (Dictionary<string,object>)kvp.Value;
+                    var entry = (Dictionary<string, object>)kvp.Value;
 
                     var definition = (int)entry[k.definition];
                     var quantity = (int)entry[k.quantity];
@@ -159,18 +159,18 @@ namespace Perpetuum.Services.ProductionEngine.CalibrationPrograms
                     {k.quantity, productionComponent.Amount}
                 };
 
-                result.Add("c"+count++, entry);
+                result.Add("c" + count++, entry);
 
             }
 
             DynamicProperties.Set(k.components, result);
 
-            
+
         }
 
         public void SetTargetDefinition(int definition)
         {
-            DynamicProperties.Set(k.target,definition);
+            DynamicProperties.Set(k.target, definition);
             Logger.Info("target definition got set in CPRG:" + this.Eid);
         }
 

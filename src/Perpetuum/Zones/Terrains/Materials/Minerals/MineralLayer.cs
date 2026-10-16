@@ -11,7 +11,7 @@ using Perpetuum.Zones.Terrains.Materials.Minerals.Generators;
 
 namespace Perpetuum.Zones.Terrains.Materials.Minerals
 {
-    public abstract class MineralLayer : ActiveLayer,IMaterialLayer
+    public abstract class MineralLayer : ActiveLayer, IMaterialLayer
     {
         private readonly IMineralConfiguration _configuration;
         private readonly IMineralNodeRepository _nodeRepository;
@@ -19,7 +19,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
         private MineralNode[] _nodes = new MineralNode[0];
         private readonly EventListenerService _eventChannel;
 
-        protected MineralLayer(int width,int height,IMineralConfiguration configuration,IMineralNodeRepository nodeRepository,IMineralNodeGeneratorFactory nodeGeneratorFactory, EventListenerService eventListenerService) : base(LayerType.Material,width,height)
+        protected MineralLayer(int width, int height, IMineralConfiguration configuration, IMineralNodeRepository nodeRepository, IMineralNodeGeneratorFactory nodeGeneratorFactory, EventListenerService eventListenerService) : base(LayerType.Material, width, height)
         {
             _configuration = configuration;
             _nodeRepository = nodeRepository;
@@ -72,7 +72,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
             if (generator == null)
                 return;
 
-            generator.Radius = (int) Math.Sqrt(_configuration.MaxTilesPerNode / Math.PI) * 2;
+            generator.Radius = (int)Math.Sqrt(_configuration.MaxTilesPerNode / Math.PI) * 2;
             generator.MaxTiles = _configuration.MaxTilesPerNode;
             generator.TotalAmount = _configuration.TotalAmountPerNode;
             generator.MinThreshold = _configuration.MinThreshold;
@@ -93,7 +93,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
 
             foreach (var node in _nodes)
             {
-                if ( node.Area.IntersectsWith(area) )
+                if (node.Area.IntersectsWith(area))
                     nodes.Add(node);
             }
 
@@ -137,7 +137,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
         {
             ImmutableInterlocked.Update(ref _nodes, nodes =>
             {
-                var result = new List<MineralNode>(nodes) {node};
+                var result = new List<MineralNode>(nodes) { node };
                 return result.ToArray();
             });
             node.Decrease += OnNodeDecrease;
@@ -153,7 +153,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
 
                 foreach (var n in nodes)
                 {
-                    if ( n == node )
+                    if (n == node)
                         continue;
 
                     result.Add(n);

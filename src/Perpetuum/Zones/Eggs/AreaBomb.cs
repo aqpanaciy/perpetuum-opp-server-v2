@@ -36,7 +36,7 @@ namespace Perpetuum.Zones.Eggs
 
             //warning gfx beam
             //ojan beam ami egy ideig csak pulzal, ezalatt lehet elrohanni
-            zone.CreateBeam(BeamType.timebomb_activation,builder => builder.WithPosition(CurrentPosition).WithVisibility(beamDistance).WithDuration(100));
+            zone.CreateBeam(BeamType.timebomb_activation, builder => builder.WithPosition(CurrentPosition).WithVisibility(beamDistance).WithDuration(100));
 
             Task.Delay(ED.Config.ActionDelay).ContinueWith(t =>
             {

@@ -5,16 +5,16 @@
     /// </summary>
     public enum TransactionType
     {
-        hangarRent, 
-        marketBuy, 
-        warDeclaration, 
-        characterPayOut, 
-        hangarRentAuto, 
-        characterDonate, 
-        marketFee, 
-        marketSell, 
-        buyOrderDeposit, 
-        buyOrderPayBack, 
+        hangarRent,
+        marketBuy,
+        warDeclaration,
+        characterPayOut,
+        hangarRentAuto,
+        characterDonate,
+        marketFee,
+        marketSell,
+        buyOrderDeposit,
+        buyOrderPayBack,
         missionPayOut, //10
         alliaceCreate,
         corporationCreate,
@@ -34,7 +34,7 @@
         ProductionMultiItemRepair,
         ProductionPrototype,
         ProductionMassProduction,
-        MissionTax, 
+        MissionTax,
         TradeSpent, //30
         TradeGained,
         InsuranceFee, // 32
@@ -77,7 +77,7 @@
         PlayerDeath,
         ItemSupply,
         ExtensionPriceRefund,
-        SparkUnlock, 
+        SparkUnlock,
         SparkActivation, //65
         ItemDeploy, //66
         AddContainerContent, //67
@@ -90,7 +90,7 @@
         CPRGForgeDeleted, //72
         ItemShopBuy, //73
         ItemShopTake, //74
-        
+
         GoodiePackCredit, //75
 
         TransportAssignmentSubmit, //76
@@ -107,13 +107,13 @@
         MissionRewardTake, //86
 
         PBSReimburse, //87
-        
+
         LotteryOpen, //88
         LotteryRandomItemCreated, //89
         ItemRedeem, //90
         ItemShopCreditTake,
         GiftOpen,
         GiftRandomItemCreated,
-        
+
     }
 }

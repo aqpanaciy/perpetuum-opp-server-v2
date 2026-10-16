@@ -11,7 +11,7 @@ namespace Perpetuum.Log
             Timestamp = DateTime.Now;
         }
     }
-    
+
     public class LogEvent : LogEventBase
     {
         public LogType LogType { get; set; }

@@ -21,7 +21,7 @@ namespace Perpetuum.Services.Trading
 
         public delegate Trade Factory(Character owner, Character trader, object commonSync);
 
-        public Trade(Character owner, Character trader, object commonSync,CharacterWalletFactory characterWalletFactory)
+        public Trade(Character owner, Character trader, object commonSync, CharacterWalletFactory characterWalletFactory)
         {
             this.owner = owner;
             this.trader = trader;

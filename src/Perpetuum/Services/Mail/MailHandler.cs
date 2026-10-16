@@ -10,23 +10,23 @@ namespace Perpetuum.Services.Mail
     {
 
         // Returns the list of emails from the specified folder
-        public static IEnumerable<TrackedMail> ListMails(Character character,int folder)
+        public static IEnumerable<TrackedMail> ListMails(Character character, int folder)
         {
             return from mail in Db.Query().CommandText("select subject, creation, mailid, sender, type, wasread, sourceid, target from cmails where owner = @characterID and folder = @folder")
                                         .SetParameter("@characterID", character.Id)
                                         .SetParameter("@folder", folder).Execute()
                    select new TrackedMail
-                              {
-                                  subject = mail.GetValue<string>(0),
-                                  creation = mail.GetValue<DateTime>(1),
-                                  mailID = mail.GetValue<Guid>(2),
-                                  sender = Character.Get(mail.GetValue<int>(3)),
-                                  type = mail.GetValue<byte>(4),
-                                  wasRead = mail.GetValue<bool>(5),
-                                  sourceID = mail.GetValue<Guid?>(6),
-                                  folder = folder,
-                                  target = mail.GetValue<int>(7)
-                              };
+                   {
+                       subject = mail.GetValue<string>(0),
+                       creation = mail.GetValue<DateTime>(1),
+                       mailID = mail.GetValue<Guid>(2),
+                       sender = Character.Get(mail.GetValue<int>(3)),
+                       type = mail.GetValue<byte>(4),
+                       wasRead = mail.GetValue<bool>(5),
+                       sourceID = mail.GetValue<Guid?>(6),
+                       folder = folder,
+                       target = mail.GetValue<int>(7)
+                   };
         }
 
         /// <summary>
@@ -40,11 +40,11 @@ namespace Perpetuum.Services.Mail
             return Db.Query().CommandText("select folder from cmails where owner=@characterID group by folder")
                            .SetParameter("@characterID", character.Id)
                            .Execute()
-                           .Select(record => (int) record.GetValue<byte>(0));
+                           .Select(record => (int)record.GetValue<byte>(0));
         }
 
 
-        public static TrackedMail OpenMail(Character character,string mailID)
+        public static TrackedMail OpenMail(Character character, string mailID)
         {
             var mailGuid = new Guid(mailID);
 
@@ -67,13 +67,13 @@ namespace Perpetuum.Services.Mail
                 target = record.GetValue<int>(8)
             };
 
-            if (mail.wasRead) 
+            if (mail.wasRead)
                 return mail;
 
             Db.Query().CommandText("update cmails set wasread = 1 where owner = @characterID and mailid = @mailID")
                     .SetParameter("@characterID", character.Id)
                     .SetParameter("@mailID", mailGuid)
-                    .ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.SQLUpdateError);
+                    .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLUpdateError);
 
             mail.wasRead = true;
 
@@ -85,7 +85,7 @@ namespace Perpetuum.Services.Mail
             return mail;
         }
 
-        public static ErrorCodes SendMail(Character sender,Character target, string subject, string body, MailType mailType, out Guid mailID, out Guid sourceID)
+        public static ErrorCodes SendMail(Character sender, Character target, string subject, string body, MailType mailType, out Guid mailID, out Guid sourceID)
         {
             var senderGuid = sourceID = Guid.NewGuid();
             var targetGuid = mailID = Guid.NewGuid();
@@ -110,9 +110,9 @@ namespace Perpetuum.Services.Mail
             //inform target
             var eHash = new Dictionary<string, object>
                             {
-                                {k.subject, subject}, 
-                                {k.type, (int) mailType}, 
-                                {k.sender, sender}, 
+                                {k.subject, subject},
+                                {k.type, (int) mailType},
+                                {k.sender, sender},
                                 {k.folder, (int) MailFolder.inbox}
                             };
 
@@ -123,7 +123,7 @@ namespace Perpetuum.Services.Mail
 
 
 
-        public static void DeleteMail(Character character,string mailId)
+        public static void DeleteMail(Character character, string mailId)
         {
             var mailGuid = new Guid(mailId);
 
@@ -141,10 +141,10 @@ namespace Perpetuum.Services.Mail
             Db.Query().CommandText("delete from cmails where owner = @characterID and mailid = @mailID")
                     .SetParameter("@characterID", character.Id)
                     .SetParameter("@mailID", mailGuid)
-                    .ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.MailNotFound);
+                    .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.MailNotFound);
         }
 
-        public static void MoveToFolder(Character character,string mailID,int folder)
+        public static void MoveToFolder(Character character, string mailID, int folder)
         {
             folder.ThrowIfGreater(255, ErrorCodes.MailFolderIndexIsOutOfRange);
             folder.ThrowIfLess(0, ErrorCodes.MailFolderIndexIsOutOfRange);
@@ -153,24 +153,24 @@ namespace Perpetuum.Services.Mail
                     .SetParameter("@characterID", character.Id)
                     .SetParameter("@mailID", new Guid(mailID))
                     .SetParameter("@folder", folder)
-                    .ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.MailNotFound);
+                    .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.MailNotFound);
         }
 
 
-        public static void DeleteFolder(Character character,int folder)
+        public static void DeleteFolder(Character character, int folder)
         {
             Db.Query().CommandText("delete from cmails where owner=@characterID and folder = @folder")
                     .SetParameter("@characterID", character.Id)
                     .SetParameter("@folder", folder)
-                    .ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.MailNotFound);
+                    .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.MailNotFound);
         }
 
-        private static void MailEventReport(Guid mailID,Character character,Command command, IDictionary<string, object> extras = null)
+        private static void MailEventReport(Guid mailID, Character character, Command command, IDictionary<string, object> extras = null)
         {
-            if (!character.IsOnline) 
+            if (!character.IsOnline)
                 return;
 
-            var rData = new Dictionary<string, object> {{k.ID, mailID.ToString()}};
+            var rData = new Dictionary<string, object> { { k.ID, mailID.ToString() } };
 
             //transfer extra data
             rData.AddRange(extras);

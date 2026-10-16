@@ -6,12 +6,12 @@ namespace Perpetuum.EntityFramework
 {
     public struct TierInfo : IComparable<TierInfo>, IEquatable<TierInfo>
     {
-        public static readonly TierInfo None = new TierInfo(TierType.Undefined,0);
+        public static readonly TierInfo None = new TierInfo(TierType.Undefined, 0);
 
         public readonly TierType type;
         public readonly int level;
 
-        public TierInfo(TierType type,int level)
+        public TierInfo(TierType type, int level)
         {
             this.type = type;
             this.level = level;
@@ -19,7 +19,7 @@ namespace Perpetuum.EntityFramework
 
         public int CompareTo(TierInfo other)
         {
-            if ( type == other.type )
+            if (type == other.type)
                 return level.CompareTo(other.level);
 
             return type.CompareTo(other.type);
@@ -47,7 +47,7 @@ namespace Perpetuum.EntityFramework
 
         public override string ToString()
         {
-            return string.Format((string) "Type: {0}, Level: {1}", (object) type, level);
+            return string.Format((string)"Type: {0}, Level: {1}", (object)type, level);
         }
 
         public Dictionary<string, object> ToDictionary()
@@ -68,14 +68,14 @@ namespace Perpetuum.EntityFramework
         {
             if (ReferenceEquals(null, obj))
                 return false;
-            return obj is TierInfo && Equals((TierInfo) obj);
+            return obj is TierInfo && Equals((TierInfo)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return ((int) type*397) ^ level;
+                return ((int)type * 397) ^ level;
             }
         }
     }

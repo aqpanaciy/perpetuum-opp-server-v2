@@ -11,7 +11,7 @@ namespace Perpetuum.Groups.Corporations
     public enum CorporationCommand
     {
         TransferMember,
-        ChangeRole,Close
+        ChangeRole, Close
     }
 
     public class CorporationHandler
@@ -62,28 +62,28 @@ namespace Perpetuum.Groups.Corporations
                     break;
 
                 case CorporationCommand.TransferMember:
-                {
-                    characterId = (int)data[k.characterID];
-                    var fromEid = (long)data[k.from];
-                    var toEid = (long)data[k.to];
-
-
-                    if (!DefaultCorporationDataCache.IsCorporationDefault(fromEid))
                     {
-                        var fromCorporation = GetOrAddCorporation(fromEid);
-                        fromCorporation.cache_removeMember(characterId);
-                        Logger.DebugInfo($"character removed from corp on zone:{_zone.Id} characterid:{characterId} corporationEID:{fromEid}");
-                    }
+                        characterId = (int)data[k.characterID];
+                        var fromEid = (long)data[k.from];
+                        var toEid = (long)data[k.to];
 
-                    if (!DefaultCorporationDataCache.IsCorporationDefault(toEid))
-                    {
-                        var toCorporation = GetOrAddCorporation(toEid);
-                        toCorporation.cache_addOrUpdateMember(characterId, role);
-                        Logger.DebugInfo($"character added to corp on zone:{_zone.Id} characterid:{characterId} corporationEID:{toEid}");
-                    }
 
-                    break;
-                }
+                        if (!DefaultCorporationDataCache.IsCorporationDefault(fromEid))
+                        {
+                            var fromCorporation = GetOrAddCorporation(fromEid);
+                            fromCorporation.cache_removeMember(characterId);
+                            Logger.DebugInfo($"character removed from corp on zone:{_zone.Id} characterid:{characterId} corporationEID:{fromEid}");
+                        }
+
+                        if (!DefaultCorporationDataCache.IsCorporationDefault(toEid))
+                        {
+                            var toCorporation = GetOrAddCorporation(toEid);
+                            toCorporation.cache_addOrUpdateMember(characterId, role);
+                            Logger.DebugInfo($"character added to corp on zone:{_zone.Id} characterid:{characterId} corporationEID:{toEid}");
+                        }
+
+                        break;
+                    }
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(corporationCommand));

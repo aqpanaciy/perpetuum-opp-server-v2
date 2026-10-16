@@ -34,7 +34,7 @@ namespace Perpetuum.Services.Looting
         {
             HasAccess(player, pinCode);
 
-            Zone.CreateBeam(BeamType.loot_bolt,b => b.WithSource(player)
+            Zone.CreateBeam(BeamType.loot_bolt, b => b.WithSource(player)
                 .WithTarget(this)
                 .WithState(BeamState.Hit).WithDuration(1000));
 
@@ -68,7 +68,7 @@ namespace Perpetuum.Services.Looting
                             lock (container)
                             {
                                 var resultItem = container.RemoveItem(tmpItem, quantity);
-                                if ( resultItem == null )
+                                if (resultItem == null)
                                     continue;
 
                                 Repository.Delete(resultItem);
@@ -115,7 +115,7 @@ namespace Perpetuum.Services.Looting
                     player.Session.SendPacket(new PinCodePacketBuilder(this));
                 }
             }
-            
+
             base.OnEnterZone(zone, enterType);
         }
 

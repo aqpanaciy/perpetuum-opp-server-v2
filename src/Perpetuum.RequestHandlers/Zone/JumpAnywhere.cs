@@ -31,7 +31,7 @@ namespace Perpetuum.RequestHandlers.Zone
                 s.DoTeleport(player);
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

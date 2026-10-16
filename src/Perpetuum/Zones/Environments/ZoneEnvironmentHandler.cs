@@ -87,7 +87,7 @@ namespace Perpetuum.Zones.Environments
 
             var sampleArea = _zone.CreateArea(entityPosition, range);
 
-            var turns = (int)(Math.Round(unit.Orientation,2) / 0.25);
+            var turns = (int)(Math.Round(unit.Orientation, 2) / 0.25);
 
             var blocksTiles = CollectBlockingHeight(sampleArea, entityPosition, turns);
 
@@ -110,7 +110,7 @@ namespace Perpetuum.Zones.Environments
                 {
                     //collect blocks data
                     var blockingInfo = _zone.Terrain.Blocks[i, j];
-                    if (blockingInfo.Height <= 0 || (!blockingInfo.Obstacle && !blockingInfo.Decor)) 
+                    if (blockingInfo.Height <= 0 || (!blockingInfo.Obstacle && !blockingInfo.Decor))
                         continue;
 
                     var sampledPosition = new Position(i - origin.intX, j - origin.intY);
@@ -121,7 +121,7 @@ namespace Perpetuum.Zones.Environments
                     {
                         x = rotatedRelativePosition.intX,
                         y = rotatedRelativePosition.intY,
-                        data = (byte) blockingInfo.Height
+                        data = (byte)blockingInfo.Height
                     });
                 }
             }
@@ -134,7 +134,7 @@ namespace Perpetuum.Zones.Environments
             return Db.Query().CommandText("select definition from environmentdescription")
                           .Execute().Select(r => r.GetValue<int>(0)).ToList();
         }
-       
+
 
         public ErrorCodes CollectEnvironmentFromPosition(Position origin, int range, int turns, out EntityEnvironmentDescription result)
         {

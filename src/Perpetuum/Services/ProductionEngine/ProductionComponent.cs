@@ -10,7 +10,7 @@ namespace Perpetuum.Services.ProductionEngine
         public EntityDefault EntityDefault { get; private set; }
         public int Amount { get; private set; }
 
-        public ProductionComponent(EntityDefault entityDefault,int amount)
+        public ProductionComponent(EntityDefault entityDefault, int amount)
         {
             EntityDefault = entityDefault;
             Amount = amount;
@@ -73,7 +73,7 @@ namespace Perpetuum.Services.ProductionEngine
                 case ProductionInProgressType.massProduction:
                     return IsRobotShard;
             }
-            
+
             return false;
         }
     }

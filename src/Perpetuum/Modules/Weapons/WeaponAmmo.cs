@@ -15,7 +15,7 @@ namespace Perpetuum.Modules.Weapons
         {
             if (!IsCategory(CategoryFlags.cf_missile_ammo))
             {
-                _optimalRangeModifier = new AmmoProperty<WeaponAmmo>(this,AggregateField.optimal_range_modifier);
+                _optimalRangeModifier = new AmmoProperty<WeaponAmmo>(this, AggregateField.optimal_range_modifier);
                 AddProperty(_optimalRangeModifier);
             }
             base.Initialize();

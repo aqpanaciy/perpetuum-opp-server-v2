@@ -16,7 +16,7 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
     /// <summary>
     /// This class updates the connected docking base and enables the production facilities
     /// </summary>
-    public abstract class PBSProductionFacilityNode : PBSActiveObject,  IPBSUsesCore, IPBSAcceptsCore
+    public abstract class PBSProductionFacilityNode : PBSActiveObject, IPBSUsesCore, IPBSAcceptsCore
     {
         private readonly CoreUseHandler<PBSProductionFacilityNode> _coreUseHandler;
         private PBSProductionFacilityNodeHelper _productionFacilityNodeHelper;
@@ -25,7 +25,7 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
 
         protected PBSProductionFacilityNode()
         {
-            _coreUseHandler = new CoreUseHandler<PBSProductionFacilityNode>(this,new EnergyStateFactory(this));
+            _coreUseHandler = new CoreUseHandler<PBSProductionFacilityNode>(this, new EnergyStateFactory(this));
         }
 
         public void SetProductionFacilityNodeHelper(PBSProductionFacilityNodeHelper helper)
@@ -58,20 +58,20 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
 
 
             //use fix amount of core from config
-            
+
             return false; //uses config
         }
 
 
-       
 
-       
+
+
 
         public override IDictionary<string, object> GetDebugInfo()
         {
             var info = base.GetDebugInfo();
             _productionFacilityNodeHelper.AddToDictionary(info);
-            
+
             _coreUseHandler.AddToDictionary(info);
             return info;
         }
@@ -80,7 +80,7 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
         {
             var info = base.ToDictionary();
             _productionFacilityNodeHelper.AddToDictionary(info);
-            
+
             _coreUseHandler.AddToDictionary(info);
             return info;
         }
@@ -88,8 +88,8 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
         protected override void OnEnterZone(IZone zone, ZoneEnterType enterType)
         {
             _coreUseHandler.Init();
-            
-            _productionFacilityNodeHelper.Init(); 
+
+            _productionFacilityNodeHelper.Init();
             base.OnEnterZone(zone, enterType);
         }
 
@@ -102,16 +102,17 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
         //ez mire is valo?
         public double PreLevel { get; set; }
 
-        public bool IsWorking {
+        public bool IsWorking
+        {
             get
             {
                 return this.IsFullyConstructed()
                        && OnlineStatus
                        && GetConnectedDockingBase() != null;
-            } 
+            }
         }
 
-       
+
 
         public abstract ProductionFacilityType GetFacilityType();
 
@@ -150,7 +151,7 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
                 {
                     DisableFacility(pbsBase);
                 }
-               
+
             }
         }
 
@@ -167,11 +168,11 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
         {
             var outConnection = ConnectionHandler.OutConnections.FirstOrDefault();
             return outConnection?.TargetPbsObject as PBSDockingBase;
-           
+
         }
 
 
-        private class  WarmupEnergyState : WarmUpCoreUserNodeState<PBSProductionFacilityNode>
+        private class WarmupEnergyState : WarmUpCoreUserNodeState<PBSProductionFacilityNode>
         {
             public WarmupEnergyState(PBSProductionFacilityNode owner) : base(owner)
             {
@@ -188,7 +189,7 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
                 Owner.RefreshInfo(dockingBase.Eid, 0, false, true);
             }
 
-          
+
         }
 
         private class ActiveEnergyState : ActiveCoreUserNodeState<PBSProductionFacilityNode>
@@ -210,7 +211,7 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
                     .WithDuration(1337));
 
                 //collect production level
-                var currentLevel = Owner.CollectProductionLevel(); 
+                var currentLevel = Owner.CollectProductionLevel();
 
                 //turn facility on
                 Owner.RefreshInfo(dockingBase.Eid, currentLevel, true, true);
@@ -238,7 +239,7 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
             }
         }
 
-        private void RefreshInfo(long dockingBaseEid, int level,bool enable, bool isConnected)
+        private void RefreshInfo(long dockingBaseEid, int level, bool enable, bool isConnected)
         {
             Task.Run(() =>
             {

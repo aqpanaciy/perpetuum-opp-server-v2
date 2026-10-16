@@ -14,11 +14,11 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
         public void HandleRequest(IZoneRequest request)
         {
             var character = request.Session.Character;
-            var result = GenerateTerritoryDictionary(request.Zone,character);
+            var result = GenerateTerritoryDictionary(request.Zone, character);
             Message.Builder.FromRequest(request).WithData(result).Send();
         }
 
-        private Dictionary<string, object> GenerateTerritoryDictionary(IZone zone,Character character)
+        private Dictionary<string, object> GenerateTerritoryDictionary(IZone zone, Character character)
         {
             var result = new Dictionary<string, object> { { k.zoneID, zone.Id } };
 
@@ -40,7 +40,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
                     if (pbsDockingBase.Owner == corporationEid)
                     {
                         var oneNetwork = pbsDockingBase.GetTerritorialDictionary();
-                        networks.Add("m" + counter++, oneNetwork); 
+                        networks.Add("m" + counter++, oneNetwork);
                     }
                 }
 

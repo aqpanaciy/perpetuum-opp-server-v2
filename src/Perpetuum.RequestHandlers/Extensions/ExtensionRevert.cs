@@ -41,7 +41,7 @@ namespace Perpetuum.RequestHandlers.Extensions
 
                 Logger.Info("extension reverted. " + extensionId);
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

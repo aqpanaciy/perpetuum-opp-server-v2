@@ -10,7 +10,7 @@ namespace Perpetuum.Zones.Teleporting
 
         private TeleportDescription _usedTeleportDescription;
 
-        public MobileWorldTeleport(TeleportWorldTargetHelper worldTargetHelper,TeleportDescriptionBuilder.Factory descriptionBuilderFactory) : base(descriptionBuilderFactory)
+        public MobileWorldTeleport(TeleportWorldTargetHelper worldTargetHelper, TeleportDescriptionBuilder.Factory descriptionBuilderFactory) : base(descriptionBuilderFactory)
         {
             _worldTargetHelper = worldTargetHelper;
         }

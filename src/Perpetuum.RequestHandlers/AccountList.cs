@@ -6,7 +6,7 @@ namespace Perpetuum.RequestHandlers
     public class AccountList : IRequestHandler
     {
         private readonly IAccountRepository _accountRepository;
-        
+
 
         public AccountList(IAccountRepository accountRepository)
         {
@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers
         }
 
         public void HandleRequest(IRequest request)
-        { 
+        {
             var data = _accountRepository.GetAll().ToDictionary("a", a => a.ToDictionary());
             Message.Builder.FromRequest(request).WithData(data).Send();
         }

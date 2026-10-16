@@ -141,7 +141,7 @@ namespace Perpetuum.Zones.Terrains
 
         private void Notify()
         {
-            if ( _infos.Count == 0 )
+            if (_infos.Count == 0)
                 return;
 
             foreach (var player in _zone.Players)
@@ -157,15 +157,15 @@ namespace Perpetuum.Zones.Terrains
                 switch (info)
                 {
                     case AreaUpdateInfo areaUpdateInfo:
-                    {
-                        _zone.Terrain.Slope.UpdateSlopeByArea(areaUpdateInfo.Area);
-                        break;
-                    }
+                        {
+                            _zone.Terrain.Slope.UpdateSlopeByArea(areaUpdateInfo.Area);
+                            break;
+                        }
                     case TileUpdateInfo tileUpdateInfo:
-                    {
-                        _zone.Terrain.Slope.UpdateSlopeByArea(Area.FromRadius(tileUpdateInfo.Position, 1));
-                        break;
-                    }
+                        {
+                            _zone.Terrain.Slope.UpdateSlopeByArea(Area.FromRadius(tileUpdateInfo.Position, 1));
+                            break;
+                        }
                 }
             }
         }
@@ -178,7 +178,7 @@ namespace Perpetuum.Zones.Terrains
 
         private void OnTileUpdated(LayerType layerType, int x, int y)
         {
-            var info = new TileUpdateInfo(layerType,new Point(x,y));
+            var info = new TileUpdateInfo(layerType, new Point(x, y));
             AddUpdateInfo(info);
         }
 

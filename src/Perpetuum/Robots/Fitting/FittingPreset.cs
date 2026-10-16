@@ -10,7 +10,7 @@ namespace Perpetuum.Robots.Fitting
     {
         private readonly ModuleInfo[] _modules;
 
-        private FittingPreset(string name,EntityDefault robot,IEnumerable<ModuleInfo> modules)
+        private FittingPreset(string name, EntityDefault robot, IEnumerable<ModuleInfo> modules)
         {
             _modules = modules.ToArray();
             Name = name;
@@ -32,8 +32,8 @@ namespace Perpetuum.Robots.Fitting
         {
             var dictionary = new Dictionary<string, object>
             {
-                {k.name, Name}, 
-                {k.robot, Robot.Definition}, 
+                {k.name, Name},
+                {k.robot, Robot.Definition},
                 {k.modules, _modules.ToDictionary("m", m => m.ToDictionary())}
             };
 
@@ -46,8 +46,8 @@ namespace Perpetuum.Robots.Fitting
             {
                 {k.ID,Id},
                 {k.owner,Owner},
-                {k.name, Name}, 
-                {k.robot, Robot.Definition}, 
+                {k.name, Name},
+                {k.robot, Robot.Definition},
                 {k.modules, _modules.ToDictionary("m", m => m.ToDictionary())}
             };
         }
@@ -58,21 +58,21 @@ namespace Perpetuum.Robots.Fitting
 
             var name = dictionary.GetOrDefault<string>(k.name);
             var robot = EntityDefault.Get(dictionary.GetOrDefault<int>(k.robot));
-            var modules = dictionary.GetOrDefault<IDictionary<string, object>>(k.modules,() => new Dictionary<string, object>()).Select(kvp => ModuleInfo.CreateFrom((IDictionary<string, object>) kvp.Value));
+            var modules = dictionary.GetOrDefault<IDictionary<string, object>>(k.modules, () => new Dictionary<string, object>()).Select(kvp => ModuleInfo.CreateFrom((IDictionary<string, object>)kvp.Value));
 
-            return new FittingPreset(name,robot,modules);
+            return new FittingPreset(name, robot, modules);
         }
 
         public static FittingPreset CreateFrom(Robot robot)
         {
             var name = robot.Name;
             var modules = robot.Modules.Select(ModuleInfo.CreateFrom);
-            return new FittingPreset(name,robot.ED,modules);
+            return new FittingPreset(name, robot.ED, modules);
         }
 
         public class ModuleInfo
         {
-            public ModuleInfo(RobotComponentType component,int slot,EntityDefault module,EntityDefault ammo)
+            public ModuleInfo(RobotComponentType component, int slot, EntityDefault module, EntityDefault ammo)
             {
                 Component = component;
                 Slot = slot;
@@ -89,9 +89,9 @@ namespace Perpetuum.Robots.Fitting
             {
                 return new Dictionary<string, object>
                 {
-                    {k.component, (int) Component}, 
-                    {k.slot, Slot}, 
-                    {k.module, Module.Definition}, 
+                    {k.component, (int) Component},
+                    {k.slot, Slot},
+                    {k.module, Module.Definition},
                     {k.ammo, Ammo.Definition}
                 };
             }
@@ -103,7 +103,7 @@ namespace Perpetuum.Robots.Fitting
                 var module = EntityDefault.Get(dictionary.GetOrDefault<int>(k.module));
                 var ammo = EntityDefault.Get(dictionary.GetOrDefault<int>(k.ammo));
 
-                return new ModuleInfo(component,slot,module,ammo);
+                return new ModuleInfo(component, slot, module, ammo);
             }
 
             public static ModuleInfo CreateFrom(Module module)
@@ -115,7 +115,7 @@ namespace Perpetuum.Robots.Fitting
                 if (ammo != null)
                     ammoEntityDefault = ammo.ED;
 
-                return new ModuleInfo(module.ParentComponent.Type,module.Slot,module.ED,ammoEntityDefault);
+                return new ModuleInfo(module.ParentComponent.Type, module.Slot, module.ED, ammoEntityDefault);
             }
         }
     }

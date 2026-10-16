@@ -17,7 +17,7 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
             MissionInProgress missionInProgress;
             MissionAdministrator.FindMissionInProgressByMissionGuid(character, missionGuid, out missionInProgress).ThrowIfFalse(ErrorCodes.ItemNotFound);
 
-            missionInProgress?.OnMissionAbort(this,errorToInfo);
+            missionInProgress?.OnMissionAbort(this, errorToInfo);
         }
 
 

@@ -4,7 +4,7 @@ namespace Perpetuum
 {
     public static class StreamExtensions
     {
-        public static unsafe void CopyToPointer(this Stream stream,byte *dest, int offset, int count)
+        public static unsafe void CopyToPointer(this Stream stream, byte* dest, int offset, int count)
         {
             var p = dest + offset;
 

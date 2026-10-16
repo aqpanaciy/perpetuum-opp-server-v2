@@ -9,7 +9,7 @@ namespace Perpetuum.Zones.ZoneEntityRepositories
     {
         private readonly IZone _zone;
 
-        public DefaultZoneUnitReader(IZone zone,UnitHelper unitHelper) : base(unitHelper)
+        public DefaultZoneUnitReader(IZone zone, UnitHelper unitHelper) : base(unitHelper)
         {
             _zone = zone;
         }
@@ -24,14 +24,14 @@ namespace Perpetuum.Zones.ZoneEntityRepositories
             foreach (var record in records)
             {
                 var unit = CreateUnit(record);
-                if ( unit == null )
+                if (unit == null)
                     continue;
 
                 var x = record.GetValue<double>("x");
                 var y = record.GetValue<double>("y");
                 var p = new Position(x, y);
 
-                result.Add(unit,p);
+                result.Add(unit, p);
             }
 
             return result;

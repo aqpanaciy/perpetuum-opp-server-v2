@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers.Zone
 
             var ids =
                 Db.Query().CommandText(q)
-                    .SetParameter("@zoneId",request.Zone.Id)
+                    .SetParameter("@zoneId", request.Zone.Id)
                     .Execute()
                     .Select(r => DataRecordExtensions.GetValue<int>(r, 0)).ToArray();
 

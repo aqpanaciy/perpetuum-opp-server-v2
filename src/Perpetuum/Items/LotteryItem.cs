@@ -26,7 +26,7 @@ namespace Perpetuum.Items
             }
         }
 
-        public LotteryItem(IEntityDefaultReader entityDefaultReader) 
+        public LotteryItem(IEntityDefaultReader entityDefaultReader)
         {
             _entityDefaultReader = entityDefaultReader;
 
@@ -41,9 +41,9 @@ namespace Perpetuum.Items
                                   var tierType = (TierType)r.GetValue<int>("tiertype");
                                   var tierLevel = r.GetValue<int>("tierlevel");
                                   var weight = r.GetValue<double>("weight");
-                                  var tier = new TierInfo(tierType,tierLevel);
+                                  var tier = new TierInfo(tierType, tierLevel);
 
-                                  return new WeightInfo(EntityDefault.Get(lotteryDefinition),categoryFlags,tier,weight);
+                                  return new WeightInfo(EntityDefault.Get(lotteryDefinition), categoryFlags, tier, weight);
                               }).ToLookup(i => i.lotteryItem);
             }
 

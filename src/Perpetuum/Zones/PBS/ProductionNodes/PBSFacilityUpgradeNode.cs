@@ -8,13 +8,13 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
     /// <summary>
     /// This node can be connected to a facility node to increase its efficiency
     /// </summary>
-    public class PBSFacilityUpgradeNode : PBSActiveObject,  IPBSAcceptsCore, IPBSUsesCore
+    public class PBSFacilityUpgradeNode : PBSActiveObject, IPBSAcceptsCore, IPBSUsesCore
     {
         private readonly CoreUseHandler<PBSFacilityUpgradeNode> _coreUseHandler;
 
         public PBSFacilityUpgradeNode()
         {
-            _coreUseHandler = new CoreUseHandler<PBSFacilityUpgradeNode>(this,new EnergyStateFactory(this));
+            _coreUseHandler = new CoreUseHandler<PBSFacilityUpgradeNode>(this, new EnergyStateFactory(this));
         }
 
         public override void AcceptVisitor(IEntityVisitor visitor)
@@ -24,7 +24,7 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
         }
 
         public ICoreUseHandler CoreUseHandler { get { return _coreUseHandler; } }
-       
+
 
         public bool TryCollectCoreConsumption(out double coreDemand)
         {
@@ -39,8 +39,8 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
 
         }
 
-        
-        
+
+
 
         protected override void OnUpdate(TimeSpan time)
         {
@@ -52,18 +52,18 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
         protected override void OnEnterZone(IZone zone, ZoneEnterType enterType)
         {
             _coreUseHandler.Init();
-            
+
             base.OnEnterZone(zone, enterType);
         }
 
-      
 
-       
+
+
 
         public override Dictionary<string, object> ToDictionary()
         {
             var info = base.ToDictionary();
-            
+
             _coreUseHandler.AddToDictionary(info);
             return info;
         }
@@ -71,22 +71,22 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
         public override IDictionary<string, object> GetDebugInfo()
         {
             var info = base.ToDictionary();
-            
+
             _coreUseHandler.AddToDictionary(info);
             return info;
 
         }
 
 
-       
+
 
         private int _levelIncrease;
         public int GetLevelIncrease()
         {
-           return  PBSHelper.LazyInitProductionLevelIncrease(this, ref _levelIncrease );
+            return PBSHelper.LazyInitProductionLevelIncrease(this, ref _levelIncrease);
         }
 
-        
+
 
         public bool IsContributing()
         {
@@ -94,7 +94,7 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
 
             if (_coreUseHandler.EnergyState == PBSEnergyState.active)
             {
-                return true;    
+                return true;
             }
 
             return false;
@@ -134,11 +134,11 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
             {
             }
         }
-        
+
     }
 
-    
-    
+
+
 
 
 }

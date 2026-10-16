@@ -23,12 +23,12 @@ namespace Perpetuum.Services.Sessions
         private readonly IRelayStateService _relayStateService;
         private readonly ISteamManager _steamManager;
         private readonly GlobalConfiguration _globalConfiguration;
-        private readonly ConcurrentDictionary<SessionID,ISession>  _sessions = new ConcurrentDictionary<SessionID, ISession>();
-        private readonly ConcurrentDictionary<Character,ISession>  _charactersIndex = new ConcurrentDictionary<Character, ISession>();
+        private readonly ConcurrentDictionary<SessionID, ISession> _sessions = new ConcurrentDictionary<SessionID, ISession>();
+        private readonly ConcurrentDictionary<Character, ISession> _charactersIndex = new ConcurrentDictionary<Character, ISession>();
 
-        public SessionManager(GlobalConfiguration globalConfiguration,IHostStateService hostStateService,Session.Factory sessionFactory,IRelayStateService relayStateService,ISteamManager steamManager)
+        public SessionManager(GlobalConfiguration globalConfiguration, IHostStateService hostStateService, Session.Factory sessionFactory, IRelayStateService relayStateService, ISteamManager steamManager)
         {
-            var relayEndPoint = new IPEndPoint(IPAddress.Any,globalConfiguration.ListenerPort);
+            var relayEndPoint = new IPEndPoint(IPAddress.Any, globalConfiguration.ListenerPort);
 
             _listener = new TcpListener(relayEndPoint);
             _globalConfiguration = globalConfiguration;
@@ -37,20 +37,20 @@ namespace Perpetuum.Services.Sessions
             _steamManager = steamManager;
             MaxSessions = 5000;
 
-            hostStateService.StateChanged += (sender,state) =>
+            hostStateService.StateChanged += (sender, state) =>
             {
                 switch (state)
                 {
                     case HostState.Online:
-                    {
-                        _listener.Start(OnConnectionAccepted);
-                        break;
-                    }
+                        {
+                            _listener.Start(OnConnectionAccepted);
+                            break;
+                        }
                     case HostState.Off:
-                    {
-                        Stop();
-                        break;
-                    }
+                        {
+                            Stop();
+                            break;
+                        }
                 }
             };
         }
@@ -143,7 +143,7 @@ namespace Perpetuum.Services.Sessions
             {
                 _charactersIndex.Remove(selected);
 
-                CharacterDeselected?.Invoke(session,selected);
+                CharacterDeselected?.Invoke(session, selected);
             };
 
             _sessions[session.Id] = session;

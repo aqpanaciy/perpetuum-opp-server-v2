@@ -20,7 +20,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                 privateCorporation.Transfer(targetCorporation, amount, character);
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

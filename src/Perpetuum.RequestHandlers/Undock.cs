@@ -20,7 +20,7 @@ namespace Perpetuum.RequestHandlers
             if (dockingBase.Zone == null)
                 throw new PerpetuumException(ErrorCodes.ItemNotFound);
 
-            dockingBase.Zone.Enter(character,Commands.Undock);
+            dockingBase.Zone.Enter(character, Commands.Undock);
         }
 
         private static void CheckUndockConditionsAndThrowIfFailed(Character character)

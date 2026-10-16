@@ -29,7 +29,7 @@ namespace Perpetuum.RequestHandlers.RobotTemplates
                 _robotTemplateRepository.Insert(template);
 
                 SendRobotTemplateListWhenTransactionCompleted(request);
-                
+
                 scope.Complete();
             }
         }

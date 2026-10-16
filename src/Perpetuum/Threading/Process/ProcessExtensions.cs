@@ -5,11 +5,11 @@ namespace Perpetuum.Threading.Process
 {
     public static class ProcessExtensions
     {
-        public static IProcess AsTimed(this IProcess process,TimeSpan interval)
+        public static IProcess AsTimed(this IProcess process, TimeSpan interval)
         {
-            return new TimedProcess(process,interval);
+            return new TimedProcess(process, interval);
         }
-        
+
         public static IProcess ToAsync(this IProcess process)
         {
             return new AsyncProcess(process);

@@ -13,7 +13,7 @@ namespace Perpetuum.RequestHandlers.Zone.NpcSafeSpawnPoints
                 var character = request.Session.Character;
                 var player = request.Zone.GetPlayerOrThrow(character);
                 AddSafeSpawnPoint(request, player.CurrentPosition);
-               
+
                 scope.Complete();
             }
         }

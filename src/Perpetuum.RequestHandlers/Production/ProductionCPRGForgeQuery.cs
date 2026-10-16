@@ -23,7 +23,7 @@ namespace Perpetuum.RequestHandlers.Production
 
             PBSCalibrationProgramForgeFacility calibrationProgramForgeFacility;
             PublicContainer publicContainer;
-            _productionManager.PrepareProductionForPublicContainer(facilityEid, character, out calibrationProgramForgeFacility, out publicContainer );
+            _productionManager.PrepareProductionForPublicContainer(facilityEid, character, out calibrationProgramForgeFacility, out publicContainer);
 
             var result = _productionManager.ProductionProcessor.QueryCPRGForge(character, sourceEid, targetEid, publicContainer, calibrationProgramForgeFacility);
             Message.Builder.FromRequest(request).WithData(result).Send();

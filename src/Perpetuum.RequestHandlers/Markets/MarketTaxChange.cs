@@ -16,15 +16,15 @@ namespace Perpetuum.RequestHandlers.Markets
                 var newTax = request.Data.GetOrDefault<double>(k.tax);
 
                 var character = request.Session.Character;
-                market.SetTax(character,newTax);
-            
+                market.SetTax(character, newTax);
+
                 var data = new Dictionary<string, object>
                 {
                     {k.market, market.ToDictionary()}
                 };
 
                 Message.Builder.FromRequest(request).WithData(data).Send();
-                
+
                 scope.Complete();
             }
         }

@@ -35,7 +35,7 @@ namespace Perpetuum.Zones.PBS
             _pbsUnit.Dead += _pbsUnit_Dead;
 
             ConnectionHandler = new PBSConnectionHandler<T>(pbsUnit);
-            _constructionLevelCurrent = new UnitOptionalProperty<int>(_pbsUnit,UnitDataType.ConstructionLevelCurrent,k.constructionLevelCurrent,() => 1);
+            _constructionLevelCurrent = new UnitOptionalProperty<int>(_pbsUnit, UnitDataType.ConstructionLevelCurrent, k.constructionLevelCurrent, () => 1);
             _pbsUnit.OptionalProperties.Add(_constructionLevelCurrent);
 
             _saver = new PBSObjectSaver<T>(Entity.Repository, TimeSpan.FromMinutes(15));
@@ -90,7 +90,7 @@ namespace Perpetuum.Zones.PBS
             }
             else
             {
-                _pbsUnit.DynamicProperties.Update(k.isOnline,OnlineStatus ? 1 : 0);
+                _pbsUnit.DynamicProperties.Update(k.isOnline, OnlineStatus ? 1 : 0);
             }
 
             if (_pbsUnit.DynamicProperties.Contains(k.constructionDirection))
@@ -99,17 +99,17 @@ namespace Perpetuum.Zones.PBS
             }
             else
             {
-                _pbsUnit.DynamicProperties.Update(k.constructionDirection,0);
+                _pbsUnit.DynamicProperties.Update(k.constructionDirection, 0);
             }
         }
 
         public void OnSave()
         {
-            _pbsUnit.DynamicProperties.Update(k.armor,_pbsUnit.Armor.Ratio(_pbsUnit.ArmorMax));
-            _pbsUnit.DynamicProperties.Update(k.currentCore,_pbsUnit.Core);
-            _pbsUnit.DynamicProperties.Update(k.isOnline,OnlineStatus ? 1 : 0);
-            _pbsUnit.DynamicProperties.Update(k.constructionLevelCurrent,ConstructionLevelCurrent);
-            _pbsUnit.DynamicProperties.Update(k.constructionDirection,_constructionDirection);
+            _pbsUnit.DynamicProperties.Update(k.armor, _pbsUnit.Armor.Ratio(_pbsUnit.ArmorMax));
+            _pbsUnit.DynamicProperties.Update(k.currentCore, _pbsUnit.Core);
+            _pbsUnit.DynamicProperties.Update(k.isOnline, OnlineStatus ? 1 : 0);
+            _pbsUnit.DynamicProperties.Update(k.constructionLevelCurrent, ConstructionLevelCurrent);
+            _pbsUnit.DynamicProperties.Update(k.constructionDirection, _constructionDirection);
         }
 
         public void RemoveFromZone(IZone zone)
@@ -164,7 +164,7 @@ namespace Perpetuum.Zones.PBS
                 ForceDeconstruct();
                 return ErrorCodes.NoError;
             }
-          
+
             if (IsConstructionUp() && amount < 0)
             {
                 return ErrorCodes.OnlyConstructionPossible;
@@ -201,7 +201,7 @@ namespace Perpetuum.Zones.PBS
 
                 lock (_lockObject)
                 {
-                    OnConstructionLevelChanged();    
+                    OnConstructionLevelChanged();
                 }
             }
 
@@ -256,7 +256,7 @@ namespace Perpetuum.Zones.PBS
             {
                 //object got deconstructed, remove from zone, add capsule to loot
 
-                if (_contructionLootDropped) 
+                if (_contructionLootDropped)
                     return;
 
                 _contructionLootDropped = true;
@@ -264,7 +264,7 @@ namespace Perpetuum.Zones.PBS
                 using (var scope = Db.CreateTransaction())
                 {
                     LootContainer.Create()
-                                 .AddLoot(PBSHelper.GetCapsuleDefinitionByPBSObject(_pbsUnit),1)
+                                 .AddLoot(PBSHelper.GetCapsuleDefinitionByPBSObject(_pbsUnit), 1)
                                  .AddLoot(ConstructionAmmoHelpers.GetConstructionAmmoLootOnDeconstruct(_pbsUnit))
                                  .BuildAndAddToZone(zone, _pbsUnit.CurrentPosition);
 
@@ -277,9 +277,9 @@ namespace Perpetuum.Zones.PBS
 
                     }
                     _pbsUnit.RemoveFromZone();
-                   
+
                     Logger.Info("pbs node got deconstructed. " + _pbsUnit.Eid + " " + _pbsUnit.ED.Name + " owner:" + _pbsUnit.Owner);
-                    PBSHelper.WritePBSLog(PBSLogType.deconstructed, _pbsUnit.Eid, _pbsUnit.Definition,_pbsUnit.Owner, zoneId: zone.Id);	
+                    PBSHelper.WritePBSLog(PBSLogType.deconstructed, _pbsUnit.Eid, _pbsUnit.Definition, _pbsUnit.Owner, zoneId: zone.Id);
 
                     scope.Complete();
                 }
@@ -287,7 +287,7 @@ namespace Perpetuum.Zones.PBS
                 return;
             }
 
-            if (!IsFullyConstructed) 
+            if (!IsFullyConstructed)
                 return;
 
             SetToDeconstruct(); //felepult, mostmar lehet lebontani is vagy barmi
@@ -361,7 +361,7 @@ namespace Perpetuum.Zones.PBS
                 OnOnlineStatusChanged(value);
             }
         }
-        
+
         public void TakeOver(long newOwner)
         {
             var zone = _pbsUnit.Zone;
@@ -370,14 +370,14 @@ namespace Perpetuum.Zones.PBS
 
             if (newOwner != _pbsUnit.Owner)
             {
-                PBSHelper.WritePBSLog(PBSLogType.takeOver, _pbsUnit.Eid, _pbsUnit.Definition, _pbsUnit.Owner, takeOverCorporationEid: newOwner, zoneId:zone.Id);
+                PBSHelper.WritePBSLog(PBSLogType.takeOver, _pbsUnit.Eid, _pbsUnit.Definition, _pbsUnit.Owner, takeOverCorporationEid: newOwner, zoneId: zone.Id);
                 _pbsUnit.Owner = newOwner;
             }
 
             _pbsUnit.IsOrphaned = false;
         }
 
-        public event Action<Unit,bool> OrphanedStateChanged;
+        public event Action<Unit, bool> OrphanedStateChanged;
 
         private void OnOrphanedStateChanged(bool orphanState)
         {
@@ -416,7 +416,7 @@ namespace Perpetuum.Zones.PBS
                 OnOrphanedStateChanged(value);
             }
         }
-        
+
         private bool IsNodeOrphaned()
         {
             return !_pbsUnit.ConnectionHandler.NetworkNodes.Any(n => n is PBSDockingBase);
@@ -427,7 +427,7 @@ namespace Perpetuum.Zones.PBS
             PBSHelper.DropLootToZone(zone, pbsNode, killer);
         }
 
-        public void DropLootToZoneFromBase(IZone zone,PBSDockingBase pbsDockingBase, Unit killer)
+        public void DropLootToZoneFromBase(IZone zone, PBSDockingBase pbsDockingBase, Unit killer)
         {
             PBSHelper.DropLootToZoneFromBase(zone, pbsDockingBase, killer);
         }
@@ -448,7 +448,7 @@ namespace Perpetuum.Zones.PBS
                 _isOrphaned = IsNodeOrphaned();
             }
 
-            _saver.Update(_pbsUnit,time);
+            _saver.Update(_pbsUnit, time);
         }
 
         private const CorporationRole PBS_UPDATE_ROLE_MASK = CorporationRole.CEO | CorporationRole.DeputyCEO | CorporationRole.viewPBS;
@@ -457,21 +457,21 @@ namespace Perpetuum.Zones.PBS
         {
             Message.Builder.SetCommand(Commands.PbsEvent)
                 .WithData(GetUpdateDictionary(eventType))
-                .ToCorporation(_pbsUnit.Owner,PBS_UPDATE_ROLE_MASK)
+                .ToCorporation(_pbsUnit.Owner, PBS_UPDATE_ROLE_MASK)
                 .Send();
         }
 
-        public Dictionary<string,object> GetUpdateDictionary(PBSEventType pbsEventType,Dictionary<string,object> data = null)
+        public Dictionary<string, object> GetUpdateDictionary(PBSEventType pbsEventType, Dictionary<string, object> data = null)
         {
             var sourceDict = _pbsUnit.ToDictionary();
 
             if (data == null)
-                data = new Dictionary<string,object>();
+                data = new Dictionary<string, object>();
 #if DEBUG
-            data.Add(k.reason,pbsEventType.ToString()); //ez csak debug !!! hogy olvashato legyen
+            data.Add(k.reason, pbsEventType.ToString()); //ez csak debug !!! hogy olvashato legyen
 #endif
-            data.Add(k.message,(int)pbsEventType);
-            data.Add(k.source,sourceDict);
+            data.Add(k.message, (int)pbsEventType);
+            data.Add(k.source, sourceDict);
             data[k.zoneID] = _pbsUnit.ZoneIdCached; //OPP: use cached value to avoid accessing null zone on death
             return data;
         }

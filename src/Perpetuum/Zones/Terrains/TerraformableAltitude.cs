@@ -7,7 +7,7 @@ namespace Perpetuum.Zones.Terrains
         private const ushort BARRIER_MINIMUM = 1850;
         private const ushort BARRIER_MAXIMUM = 30000; //32768at SOHA nem lephetjuk at
 
-        public TerraformableAltitude(ILayer<ushort> original,ILayer<ushort> blend,ushort[] rawData) : base(rawData,original.Width,original.Height)
+        public TerraformableAltitude(ILayer<ushort> original, ILayer<ushort> blend, ushort[] rawData) : base(rawData, original.Width, original.Height)
         {
             OriginalAltitude = original;
             Barrier = new Layer<BarrierInfo>(LayerType.Barrier, Width, Height);

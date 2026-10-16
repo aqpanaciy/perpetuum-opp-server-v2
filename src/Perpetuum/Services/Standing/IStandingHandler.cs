@@ -10,7 +10,7 @@ namespace Perpetuum.Services.Standing
 
         IEnumerable<StandingInfo> GetReputationFor(long targetEID);
 
-        IDictionary<string,object> GetStandingsList(long sourceEID);
+        IDictionary<string, object> GetStandingsList(long sourceEID);
         void ReloadStandingForCharacter(Character character);
         void WriteStandingLog(StandingLogEntry logEntry);
         List<StandingLogEntry> GetStandingLogs(Character character, DateTimeRange timeRange);

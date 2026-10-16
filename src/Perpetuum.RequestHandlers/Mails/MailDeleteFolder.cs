@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers.Mails
                 var folder = request.Data.GetOrDefault<int>(k.folder);
                 MailHandler.DeleteFolder(character, folder);
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

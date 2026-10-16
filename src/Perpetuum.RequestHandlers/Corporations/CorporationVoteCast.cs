@@ -32,7 +32,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                     .WithData(result)
                     .ToCharacters(corporation.GetCharacterMembers())
                     .Send();
-                
+
                 scope.Complete();
             }
         }

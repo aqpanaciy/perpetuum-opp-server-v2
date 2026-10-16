@@ -36,7 +36,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override MissionTargetType MissionTargetType
         {
-            get { return MissionTargetType.loot_item;}
+            get { return MissionTargetType.loot_item; }
         }
 
         public override Position Position
@@ -55,7 +55,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
     {
         private readonly ProgressCounter _progressCounter;
 
-        public LootZoneTarget(IZone zone, Player player, MissionTarget target,ZoneMissionInProgress zoneMissionInProgress, ProgressCounter progressCounter)
+        public LootZoneTarget(IZone zone, Player player, MissionTarget target, ZoneMissionInProgress zoneMissionInProgress, ProgressCounter progressCounter)
             : base(zone, player, target, zoneMissionInProgress)
         {
             _progressCounter = progressCounter;
@@ -70,7 +70,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
                 OnTargetComplete();
             }
 
-            this.SendReportToMissionEngine();    
+            this.SendReportToMissionEngine();
         }
 
         protected override bool CanHandleMissionEvent(LootMissionEventInfo e)
@@ -82,7 +82,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
                 return false;
 
             var isGenericRandomItem = EntityDefault.Get(MyTarget.Definition).CategoryFlags.IsCategory(CategoryFlags.cf_generic_random_items);
-            
+
             var myMission = MyZoneMissionInProgress.GetMission;
             if (myMission.behaviourType == MissionBehaviourType.Random && isGenericRandomItem)
             {
@@ -117,7 +117,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override MissionTargetType MissionTargetType
         {
-            get { return MissionTargetType.reach_position;}
+            get { return MissionTargetType.reach_position; }
         }
 
         public override Position Position
@@ -145,9 +145,9 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         protected override void OnHandleMissionEvent(ReachPositionEventInfo e)
         {
             OnTargetComplete();
-            this.SendReportToMissionEngine();  
+            this.SendReportToMissionEngine();
             Log("position reached! " + MyTarget.targetPosition + " current: " + e.ReachedPoint);
-            
+
         }
     }
 
@@ -163,7 +163,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override MissionTargetType MissionTargetType
         {
-            get { return MissionTargetType.pop_npc;}
+            get { return MissionTargetType.pop_npc; }
         }
 
         public override Position Position
@@ -176,7 +176,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
     public class PopNpcZoneTarget : ZoneMissionTarget<PopNpcEventInfo>
     {
         private readonly IPresenceManager _presenceManager;
-        public PopNpcZoneTarget(IZone zone, Player player, MissionTarget target, ZoneMissionInProgress zoneMissionInProgress,IPresenceManager presenceManager) : base(zone, player, target, zoneMissionInProgress)
+        public PopNpcZoneTarget(IZone zone, Player player, MissionTarget target, ZoneMissionInProgress zoneMissionInProgress, IPresenceManager presenceManager) : base(zone, player, target, zoneMissionInProgress)
         {
             _presenceManager = presenceManager;
         }
@@ -187,7 +187,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             //save for later use
             OnTargetComplete();
 
-            this.SendReportToMissionEngine();  
+            this.SendReportToMissionEngine();
 
             Log("pop npc position reached! " + MyTarget.targetPosition + " current: " + e.PoppedAtPoint);
         }
@@ -207,12 +207,12 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             base.OnTargetComplete();
 
             //pop npc spawns on the target center
-            SpawnNpcOnSuccess(_presenceManager,MyTarget.targetPosition);
-            
+            SpawnNpcOnSuccess(_presenceManager, MyTarget.targetPosition);
+
             if (MyTarget.ValidPresenceSet)
             {
                 //handles static presence, technically spawns a presence if set
-                
+
                 // -------------------------------------
                 // this is the oldschool way - legacy
                 // -------------------------------------
@@ -230,7 +230,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
                             npc.AddDirectThreat(Player, 40 + FastRandom.NextDouble(0.0, 3.0));
                         }
 
-                        Zone.CreateBeam(BeamType.teleport_storm,builder => builder.WithPosition(successEventInfo.Position).WithDuration(100000));
+                        Zone.CreateBeam(BeamType.teleport_storm, builder => builder.WithPosition(successEventInfo.Position).WithDuration(100000));
                     }
                     catch (Exception ex)
                     {
@@ -240,8 +240,8 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
                 });
             }
 
-              
-            
+
+
         }
     }
 
@@ -258,7 +258,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override MissionTargetType MissionTargetType
         {
-            get { return MissionTargetType.lock_unit;}
+            get { return MissionTargetType.lock_unit; }
         }
 
         public override Position Position
@@ -290,7 +290,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             if (_lockedUnits.Contains(npc.Eid))
             {
                 //unit already locked
-               
+
                 return false;
             }
 
@@ -303,7 +303,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         {
             _lockedUnits.Add(e.LockedNpc.Eid);
 
-            _progressCounter.Current ++;
+            _progressCounter.Current++;
 
             if (_progressCounter.IsCompleted)
             {
@@ -319,7 +319,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
             //drops the scan document dummy item to use for delivery
             DropLootFromSecondaryDefinition(Zone, successEventInfo.Position);
-            
+
         }
 
         protected override Dictionary<string, object> ToDictionary()
@@ -344,7 +344,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override MissionTargetType MissionTargetType
         {
-            get { return MissionTargetType.kill_definition;}
+            get { return MissionTargetType.kill_definition; }
         }
 
         public override Position Position
@@ -358,22 +358,22 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
     {
         private readonly ProgressCounter _progressCounter;
 
-        public KillZoneTarget(IZone zone, Player player, MissionTarget target,ZoneMissionInProgress zoneMissionInProgress, ProgressCounter progressCounter)
-            : base(zone, player, target,  zoneMissionInProgress)
+        public KillZoneTarget(IZone zone, Player player, MissionTarget target, ZoneMissionInProgress zoneMissionInProgress, ProgressCounter progressCounter)
+            : base(zone, player, target, zoneMissionInProgress)
         {
             _progressCounter = progressCounter;
         }
 
         protected override void OnHandleMissionEvent(KillEventInfo missionEventInfo)
         {
-            _progressCounter.Current ++;
+            _progressCounter.Current++;
 
             if (_progressCounter.IsCompleted)
             {
                 OnTargetComplete();
             }
-            
-            SendReportToMissionEngine();    
+
+            SendReportToMissionEngine();
         }
 
         protected override bool CanHandleMissionEvent(KillEventInfo e)
@@ -411,7 +411,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             //mission loot needed?
             DropLootFromSecondaryDefinition(Zone, successEventInfo.Position);
 
-             
+
         }
 
         protected override Dictionary<string, object> ToDictionary()
@@ -437,7 +437,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override MissionTargetType MissionTargetType
         {
-            get { return MissionTargetType.scan_mineral;}
+            get { return MissionTargetType.scan_mineral; }
         }
 
         public override Position Position
@@ -459,7 +459,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         protected override void OnHandleMissionEvent(ScanMaterialEventInfo e)
         {
             OnTargetComplete();
-            this.SendReportToMissionEngine();  
+            this.SendReportToMissionEngine();
         }
 
         protected override bool CanHandleMissionEvent(ScanMaterialEventInfo e)
@@ -483,7 +483,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             //drops the scan document dummy item to use for delivery
             DropLootFromSecondaryDefinition(Zone, successEventInfo.Position);
 
-              
+
         }
     }
 
@@ -500,7 +500,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override MissionTargetType MissionTargetType
         {
-            get { return MissionTargetType.scan_unit;}
+            get { return MissionTargetType.scan_unit; }
         }
 
         public override Position Position
@@ -516,7 +516,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         private readonly HashSet<long> _scannedUnits = new HashSet<long>();
         private readonly ProgressCounter _progressCounter;
 
-        public ScanUnitZoneTarget(IZone zone, Player player, MissionTarget target,ZoneMissionInProgress zoneMissionInProgress, ProgressCounter progressCounter)
+        public ScanUnitZoneTarget(IZone zone, Player player, MissionTarget target, ZoneMissionInProgress zoneMissionInProgress, ProgressCounter progressCounter)
             : base(zone, player, target, zoneMissionInProgress)
         {
             _progressCounter = progressCounter;
@@ -527,7 +527,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             if (_scannedUnits.Contains(e.ScannedNpc.Eid))
             {
                 //unit already scanned
-                Player.Character.CreateErrorMessage(Commands.MissionError,ErrorCodes.UnitAlreadyScanned).Send();
+                Player.Character.CreateErrorMessage(Commands.MissionError, ErrorCodes.UnitAlreadyScanned).Send();
                 return false;
             }
 
@@ -550,9 +550,9 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             {
                 OnTargetComplete();
             }
-            
+
             this.SendReportToMissionEngine();
-            
+
         }
 
         protected override Dictionary<string, object> ToDictionary()
@@ -576,7 +576,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override MissionTargetType MissionTargetType
         {
-            get { return MissionTargetType.scan_container;}
+            get { return MissionTargetType.scan_container; }
         }
 
         public override Position Position
@@ -592,7 +592,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         private readonly HashSet<long> _scannedUnits = new HashSet<long>();
         private readonly ProgressCounter _progressCounter;
 
-        public ScanContainerZoneTarget(IZone zone, Player player, MissionTarget target,ZoneMissionInProgress zoneMissionInProgress, ProgressCounter progressCounter)
+        public ScanContainerZoneTarget(IZone zone, Player player, MissionTarget target, ZoneMissionInProgress zoneMissionInProgress, ProgressCounter progressCounter)
             : base(zone, player, target, zoneMissionInProgress)
         {
             _progressCounter = progressCounter;
@@ -603,7 +603,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             if (_scannedUnits.Contains(e.ScannedNpc.Eid))
             {
                 // unit already scanned
-                Player.Character.CreateErrorMessage(Commands.MissionError,ErrorCodes.UnitAlreadyScanned).Send();
+                Player.Character.CreateErrorMessage(Commands.MissionError, ErrorCodes.UnitAlreadyScanned).Send();
                 return false;
             }
 
@@ -620,15 +620,15 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         {
             _scannedUnits.Add(e.ScannedNpc.Eid);
 
-            _progressCounter.Current ++;
+            _progressCounter.Current++;
 
             if (_progressCounter.IsCompleted)
             {
                 OnTargetComplete();
             }
 
-            this.SendReportToMissionEngine();    
-            
+            this.SendReportToMissionEngine();
+
         }
 
         protected override Dictionary<string, object> ToDictionary()
@@ -641,11 +641,11 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
     public class HarvestPlantEventInfo : MissionEventInfo
     {
-        public int HarvestedDefinition { get;private  set; }
+        public int HarvestedDefinition { get; private set; }
         public int HarvestedQuantity { get; private set; }
         public Point HarvestedPoint { get; private set; }
 
-        public HarvestPlantEventInfo(Player player, int harvestedDefinition, int harvestedQuantity, Point harvestedPoint):base(player)
+        public HarvestPlantEventInfo(Player player, int harvestedDefinition, int harvestedQuantity, Point harvestedPoint) : base(player)
         {
             HarvestedDefinition = harvestedDefinition;
             HarvestedQuantity = harvestedQuantity;
@@ -654,7 +654,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override MissionTargetType MissionTargetType
         {
-            get { return MissionTargetType.harvest_plant;}
+            get { return MissionTargetType.harvest_plant; }
         }
 
         public override Position Position
@@ -674,7 +674,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         private readonly ProgressCounter _progressCounter;
         private const int EVERY_N = 3;
 
-        public HarvestPlantZoneTarget(IZone zone, Player player, MissionTarget target,ZoneMissionInProgress zoneMissionInProgress, ProgressCounter progressCounter)
+        public HarvestPlantZoneTarget(IZone zone, Player player, MissionTarget target, ZoneMissionInProgress zoneMissionInProgress, ProgressCounter progressCounter)
             : base(zone, player, target, zoneMissionInProgress)
         {
             _progressCounter = progressCounter;
@@ -687,7 +687,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             if (_progressCounter.IsCompleted)
             {
                 OnTargetComplete();
-                this.SendReportToMissionEngine();  
+                this.SendReportToMissionEngine();
             }
             else
             {
@@ -738,7 +738,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override MissionTargetType MissionTargetType
         {
-            get { return MissionTargetType.drill_mineral;}
+            get { return MissionTargetType.drill_mineral; }
         }
 
         public override Position Position
@@ -752,7 +752,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         }
     }
 
-    
+
 
 
     public class DrillMineralZoneTarget : ZoneMissionTarget<DrillMineralEventInfo>
@@ -762,7 +762,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
 
         public DrillMineralZoneTarget(IZone zone, Player player, MissionTarget target, ZoneMissionInProgress zoneMissionInProgress, ProgressCounter progressCounter)
-            : base(zone, player, target,  zoneMissionInProgress)
+            : base(zone, player, target, zoneMissionInProgress)
         {
             _progressCounter = progressCounter;
         }
@@ -780,12 +780,12 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         protected override void OnHandleMissionEvent(DrillMineralEventInfo e)
         {
-            _progressCounter.Current += e.DrilledQuantity ;
+            _progressCounter.Current += e.DrilledQuantity;
 
             if (_progressCounter.IsCompleted)
             {
                 OnTargetComplete();
-                this.SendReportToMissionEngine();  
+                this.SendReportToMissionEngine();
             }
             else
             {
@@ -815,7 +815,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         public Item SubmittedItem { get; private set; }
         public MissionStructure SubmitMissionStructure { get; private set; }
         public Point SubmitPoint { get; private set; }
-        
+
         public SubmitItemEventInfo(Player player, Item submittedItem, MissionStructure submitMissionStructure, Point submitPoint) : base(player)
         {
             SubmittedItem = submittedItem;
@@ -825,7 +825,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override MissionTargetType MissionTargetType
         {
-            get { return MissionTargetType.submit_item;}
+            get { return MissionTargetType.submit_item; }
         }
 
         public override Position Position
@@ -845,7 +845,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
     {
         private readonly ProgressCounter _progressCounter;
 
-        public SubmitItemZoneTarget(IZone zone, Player player, MissionTarget target,ZoneMissionInProgress zoneMissionInProgress, ProgressCounter progressCounter)
+        public SubmitItemZoneTarget(IZone zone, Player player, MissionTarget target, ZoneMissionInProgress zoneMissionInProgress, ProgressCounter progressCounter)
             : base(zone, player, target, zoneMissionInProgress)
         {
             _progressCounter = progressCounter;
@@ -880,8 +880,8 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
                 OnTargetComplete();
             }
 
-            this.SendReportToMissionEngine();    
-            
+            this.SendReportToMissionEngine();
+
         }
 
         [CanBeNull]
@@ -891,7 +891,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
             var amountNeeded = _progressCounter.MaxValue - _progressCounter.Current;
             var o = item.Unstack(amountNeeded);
-            
+
             var missionEvent = new SubmitItemEventInfo(submitterPlayer, o, kiosk, kiosk.CurrentPosition);
 
             Entity.Repository.Delete(o);
@@ -920,7 +920,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override MissionTargetType MissionTargetType
         {
-            get { return MissionTargetType.use_switch;}
+            get { return MissionTargetType.use_switch; }
         }
 
         public override Position Position
@@ -947,7 +947,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         protected override void OnHandleMissionEvent(SwitchEventInfo e)
         {
             OnTargetComplete();
-            this.SendReportToMissionEngine();  
+            this.SendReportToMissionEngine();
         }
     }
 
@@ -966,7 +966,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override MissionTargetType MissionTargetType
         {
-            get { return MissionTargetType.use_itemsupply;}
+            get { return MissionTargetType.use_itemsupply; }
         }
 
         public override Position Position
@@ -985,7 +985,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
     {
         private readonly ProgressCounter _progressCounter;
 
-        public ItemSupplyZoneTarget(IZone zone, Player player, MissionTarget target,ZoneMissionInProgress zoneMissionInProgress, ProgressCounter progressCounter)
+        public ItemSupplyZoneTarget(IZone zone, Player player, MissionTarget target, ZoneMissionInProgress zoneMissionInProgress, ProgressCounter progressCounter)
             : base(zone, player, target, zoneMissionInProgress)
         {
             _progressCounter = progressCounter;
@@ -1042,7 +1042,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override MissionTargetType MissionTargetType
         {
-            get { return MissionTargetType.find_artifact;}
+            get { return MissionTargetType.find_artifact; }
         }
 
         public override Position Position
@@ -1055,7 +1055,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
     public class FindArtifactZoneTarget : ZoneMissionTarget<FindArtifactEventInfo>
     {
         private readonly IPresenceManager _presenceManager;
-        public FindArtifactZoneTarget(IZone zone, Player player, MissionTarget target, ZoneMissionInProgress zoneMissionInProgress,IPresenceManager presenceManager) : base(zone, player, target, zoneMissionInProgress)
+        public FindArtifactZoneTarget(IZone zone, Player player, MissionTarget target, ZoneMissionInProgress zoneMissionInProgress, IPresenceManager presenceManager) : base(zone, player, target, zoneMissionInProgress)
         {
             _presenceManager = presenceManager;
         }
@@ -1069,7 +1069,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         protected override void OnHandleMissionEvent(FindArtifactEventInfo e)
         {
             OnTargetComplete();
-            this.SendReportToMissionEngine();  
+            this.SendReportToMissionEngine();
         }
 
         protected override bool CanHandleMissionEvent(FindArtifactEventInfo e)
@@ -1082,7 +1082,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
             return true;
         }
-        
+
         public Position GetPosition()
         {
             if (!MyTarget.ValidPositionSet)
@@ -1108,16 +1108,16 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         protected override void OnTargetComplete()
         {
             base.OnTargetComplete();
-  
+
             //mission loot needed?
             DropLootFromSecondaryDefinition(Zone, successEventInfo.Position);
 
             if (MyTarget.FindArtifactSpawnsNpcs)
             {
                 //find artifact spawns npc on the artifact's position
-                SpawnNpcOnSuccess(_presenceManager,successEventInfo.Position);
+                SpawnNpcOnSuccess(_presenceManager, successEventInfo.Position);
             }
-           
+
         }
     }
 
@@ -1134,7 +1134,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override MissionTargetType MissionTargetType
         {
-            get { return MissionTargetType.summon_npc_egg;}
+            get { return MissionTargetType.summon_npc_egg; }
         }
 
         public override Position Position
@@ -1161,7 +1161,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         protected override void OnHandleMissionEvent(SummonEggEventInfo missionEventInfo)
         {
             OnTargetComplete();
-            this.SendReportToMissionEngine();  
+            this.SendReportToMissionEngine();
         }
     }
 }

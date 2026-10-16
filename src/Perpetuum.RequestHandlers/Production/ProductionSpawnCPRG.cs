@@ -30,7 +30,7 @@ namespace Perpetuum.RequestHandlers.Production
                 cprg.Save();
 
                 Message.Builder.FromRequest(request).WithData(cprg.BaseInfoToDictionary()).Send();
-                
+
                 scope.Complete();
             }
         }

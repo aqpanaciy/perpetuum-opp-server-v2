@@ -1,12 +1,12 @@
 ﻿namespace Perpetuum
 {
-    public enum  EpForActivityType
+    public enum EpForActivityType
     {
-        Undefined =0,
+        Undefined = 0,
         Gathering,  // mining / harvesting
         Mission,  // any mission objective
         Production, // any production
-        Artifact, 
+        Artifact,
         Intrusion,
         Npc
     }

@@ -16,7 +16,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             var additiveComponent = GetAdditiveComponent(character);
 
             infoData.Add(k.percentageMaterial, GetPercentageFromAdditiveComponent(additiveComponent));
-            infoData.Add(k.myPointsMaterial,additiveComponent );
+            infoData.Add(k.myPointsMaterial, additiveComponent);
             infoData.Add(k.extensionPoints, (int)GetMaterialExtensionBonus(character));
 
             return infoData;
@@ -27,7 +27,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             get { return ProductionFacilityType.Refine; }
         }
 
-        public IDictionary<string,object> RefineQuery(Character character, int targetDefinition, int targetAmount, ProductionDescription productionDescription)
+        public IDictionary<string, object> RefineQuery(Character character, int targetDefinition, int targetAmount, ProductionDescription productionDescription)
         {
             var replyDict = new Dictionary<string, object>();
 
@@ -56,7 +56,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             return replyDict;
         }
 
-        public IDictionary<string,object> Refine(Character character, Container sourceContainer, int targetAmount, ProductionDescription productionDescription)
+        public IDictionary<string, object> Refine(Character character, Container sourceContainer, int targetAmount, ProductionDescription productionDescription)
         {
             var materialMultiplier = GetMaterialMultiplier(character);
 
@@ -76,7 +76,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
 
             var sourceInformData = sourceContainer.ToDictionary();
 
-            var replyDict = new Dictionary<string, object> {{k.sourceContainer, sourceInformData}};
+            var replyDict = new Dictionary<string, object> { { k.sourceContainer, sourceInformData } };
             return replyDict;
         }
 
@@ -86,7 +86,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             var refinerypoints = GetFacilityPoint();
             var standingPoints = GetStandingPoints(character);
 
-            return (int)( extensionPoints + refinerypoints + standingPoints);
+            return (int)(extensionPoints + refinerypoints + standingPoints);
         }
 
 
@@ -94,8 +94,8 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
         {
             //(1+(50/(STANDING + PC_EXT_PONT + REFINERY.ME_PONT + 100)))
 
-            var multiplier = (1 + (50/(GetAdditiveComponent(character) + 100.0)));
-            
+            var multiplier = (1 + (50 / (GetAdditiveComponent(character) + 100.0)));
+
             return multiplier;
 
         }

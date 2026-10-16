@@ -21,7 +21,7 @@ namespace Perpetuum.RequestHandlers
             var toOffset = request.Data.GetOrDefault<int>(k.duration);
             var dateFrom = DateTime.Now.AddDays(-fromOffset);
             var dateTo = dateFrom.AddDays(-toOffset);
-            var history = _accountManager.GetEpForActivityHistory(account,dateFrom, dateTo);
+            var history = _accountManager.GetEpForActivityHistory(account, dateFrom, dateTo);
 
             var result = history.ToDictionary("a", e => e.ToDictionary());
             Message.Builder.FromRequest(request).WithData(result).Send();

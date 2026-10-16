@@ -47,7 +47,7 @@ namespace Perpetuum.Zones
         {
             string baseFilename = zone.CreateTerrainDataFilename(layer.LayerType.ToString().ToLower(), "");
             string tmpFn = baseFilename + "tmp" + DateTime.Now.Ticks + ".bin";
-   
+
             ReadOnlySpan<byte> layerData = MemoryMarshal.AsBytes(layer.RawData.AsSpan());
             var hash = _fileSystem.WriteLayerAndMD5(tmpFn, layerData, layer.SizeInBytes);
 

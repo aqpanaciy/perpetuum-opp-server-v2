@@ -16,8 +16,8 @@ namespace Perpetuum.Services.MissionEngine.Missions
             get
             {
                 if (_success == 0 || attempts == 0) return false;
-                
-                return _success / (double) attempts > 0.4;
+
+                return _success / (double)attempts > 0.4;
             }
         }
 
@@ -25,9 +25,9 @@ namespace Perpetuum.Services.MissionEngine.Missions
         {
             var info = new MissionResolveInfo
             {
-                missionId = record.GetValue<int>("missionid"), 
-                locationId = record.GetValue<int>("locationid"), 
-                attempts = record.GetValue<int>("attempts"), 
+                missionId = record.GetValue<int>("missionid"),
+                locationId = record.GetValue<int>("locationid"),
+                attempts = record.GetValue<int>("attempts"),
                 _success = record.GetValue<int>("success")
             };
 
@@ -36,7 +36,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
 
         public static void InsertToDb(Mission mission, MissionLocation location, int attempts, int success, int uniquecases, int rewardAverage)
         {
-            var res=
+            var res =
             Db.Query().CommandText("INSERT dbo.missiontolocation ( missionid, locationid, attempts, success, uniquecases,rewardaverage) VALUES  ( @missionid,@locationid,@attempts,@success,@uniquecases,@rewardAverage)")
                 .SetParameter("@missionid", mission.id)
                 .SetParameter("@locationid", location.id)

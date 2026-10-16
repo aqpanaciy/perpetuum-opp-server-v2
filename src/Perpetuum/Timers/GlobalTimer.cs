@@ -9,7 +9,7 @@ namespace Perpetuum.Timers
     public static class GlobalTimer
     {
         private static readonly Stopwatch _timer = new Stopwatch();
-       
+
         static GlobalTimer()
         {
             _timer.Start();
@@ -30,5 +30,5 @@ namespace Perpetuum.Timers
             return true;
         }
     }
-   
+
 }

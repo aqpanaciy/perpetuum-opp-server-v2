@@ -5,7 +5,7 @@ namespace Perpetuum.Units
     partial class Unit
     {
         public UnitStates States { get; private set; }
-        
+
         public class UnitStates
         {
             private static readonly UnitStateFlags[] _damageLevels = { UnitStateFlags.damage_level25, UnitStateFlags.damage_level50, UnitStateFlags.damage_level75 };
@@ -83,7 +83,7 @@ namespace Perpetuum.Units
             public bool IsOrphaned
             {
                 get { return HasFlag(UnitStateFlags.isOrphaned); }
-                set { SetFlag(UnitStateFlags.isOrphaned, value);}
+                set { SetFlag(UnitStateFlags.isOrphaned, value); }
             }
 
 

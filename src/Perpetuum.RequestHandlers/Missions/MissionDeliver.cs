@@ -11,7 +11,7 @@ namespace Perpetuum.RequestHandlers.Missions
         private readonly MissionProcessor _missionProcessor;
         private readonly MissionDataCache _missionDataCache;
 
-        public MissionDeliver(MissionProcessor missionProcessor,MissionDataCache missionDataCache)
+        public MissionDeliver(MissionProcessor missionProcessor, MissionDataCache missionDataCache)
         {
             _missionProcessor = missionProcessor;
             _missionDataCache = missionDataCache;
@@ -39,7 +39,7 @@ namespace Perpetuum.RequestHandlers.Missions
                 }
 
                 _missionProcessor.DeliverSingleMission(character, missionGuid, locationId);
-                
+
                 scope.Complete();
             }
         }

@@ -17,7 +17,7 @@ namespace Perpetuum.Modules.EffectModules
         public SensorDampenerModule() : base(true)
         {
             optimalRange.AddEffectModifier(AggregateField.effect_ew_optimal_range_modifier);
-            _ecmStrength = new ModuleProperty(this,AggregateField.ecm_strength);
+            _ecmStrength = new ModuleProperty(this, AggregateField.ecm_strength);
             AddProperty(_ecmStrength);
             _effectSensorDampenerLockingRangeModifier = new ModuleProperty(this, AggregateField.effect_sensor_dampener_locking_range_modifier);
             AddProperty(_effectSensorDampenerLockingRangeModifier);

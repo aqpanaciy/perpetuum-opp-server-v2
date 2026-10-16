@@ -51,7 +51,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
 
         public List<MineralNode> GetAll()
         {
-            var bmp = (Bitmap)Image.FromFile(_fileSystem.CreatePath( Path.Combine("layers",  "mineral_gravel.0045.png")));
+            var bmp = (Bitmap)Image.FromFile(_fileSystem.CreatePath(Path.Combine("layers", "mineral_gravel.0045.png")));
 
             var minerals = new Dictionary<Point, uint>();
 
@@ -71,7 +71,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
                         miny = Math.Min(miny, y);
                         maxx = Math.Max(maxx, x);
                         maxy = Math.Max(maxy, y);
-                        
+
                         var point = new Point(x, y);
                         minerals.Add(point, (uint)b);
                     }
@@ -79,7 +79,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
             }
 
             var area = new Area(minx, miny, maxx, maxy);
-            var node = new MineralNode(MaterialType.Gravel,area) { Expirable = false };
+            var node = new MineralNode(MaterialType.Gravel, area) { Expirable = false };
 
             foreach (var t in minerals)
             {

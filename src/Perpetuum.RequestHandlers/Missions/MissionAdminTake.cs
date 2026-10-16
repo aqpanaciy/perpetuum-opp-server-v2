@@ -12,7 +12,7 @@ namespace Perpetuum.RequestHandlers.Missions
         private readonly MissionProcessor _missionProcessor;
         private readonly MissionDataCache _missionDataCache;
 
-        public MissionAdminTake(MissionProcessor missionProcessor,MissionDataCache missionDataCache)
+        public MissionAdminTake(MissionProcessor missionProcessor, MissionDataCache missionDataCache)
         {
             _missionProcessor = missionProcessor;
             _missionDataCache = missionDataCache;
@@ -37,9 +37,9 @@ namespace Perpetuum.RequestHandlers.Missions
                 spreadInGang = true; //force gang mode
 
                 var result = _missionProcessor.AdminMissionStartByRequest(character, spreadInGang, missionId, location, level);
-            
+
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

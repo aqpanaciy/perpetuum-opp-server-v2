@@ -48,7 +48,7 @@ namespace Perpetuum.Services.ProductionEngine
                                    IProductionInProgressRepository pipRepository,
                                    ProductionDescription.Factory productionDescFactory,
                                    IEntityServices entityServices,
-                                   InsuranceHelper insuranceHelper,MissionProcessor missionProcessor)
+                                   InsuranceHelper insuranceHelper, MissionProcessor missionProcessor)
         {
             _productionDataAccess = productionDataAccess;
             _pipRepository = pipRepository;
@@ -154,7 +154,7 @@ namespace Perpetuum.Services.ProductionEngine
             {
                 try
                 {
-                    var facility = (ProductionFacility) Entity.Repository.LoadOrThrow(facilityEid);
+                    var facility = (ProductionFacility)Entity.Repository.LoadOrThrow(facilityEid);
                     facility.ProductionProcessor = this;
 
                     AddFacilityToCache(facility);
@@ -236,16 +236,16 @@ namespace Perpetuum.Services.ProductionEngine
 
                     productionInProgress.SendProductionEventToCorporationMembersOnCommitted(Commands.ProductionRemoteEnd);
 
-                    var ep =CalculateEp(facility, productionInProgress);
+                    var ep = CalculateEp(facility, productionInProgress);
 
-                    productionInProgress.character.AddExtensionPointsBoostAndLog( EpForActivityType.Production, ep);
+                    productionInProgress.character.AddExtensionPointsBoostAndLog(EpForActivityType.Production, ep);
 
                     var seasonType = productionInProgress.type switch
                     {
-                        ProductionInProgressType.prototype    => (SeasonActivityType?)SeasonActivityType.Prototyping,
-                        ProductionInProgressType.research     => SeasonActivityType.ReverseEngineering,
+                        ProductionInProgressType.prototype => (SeasonActivityType?)SeasonActivityType.Prototyping,
+                        ProductionInProgressType.research => SeasonActivityType.ReverseEngineering,
                         ProductionInProgressType.massProduction => SeasonActivityType.Production,
-                        _                                     => null,
+                        _ => null,
                     };
                     if (seasonType.HasValue)
                     {
@@ -290,7 +290,7 @@ namespace Perpetuum.Services.ProductionEngine
             }
         }
 
-       
+
         private int CalculateEp(ProductionFacility facility, ProductionInProgress productionInProgress)
         {
             var dockingBase = facility.GetDockingBase();
@@ -298,20 +298,20 @@ namespace Perpetuum.Services.ProductionEngine
             {
                 return 0;
             }
-                
+
             var ep = productionInProgress.TotalProductionTime.TotalHours;
             if (dockingBase.Zone.Configuration.IsBeta)
             {
                 ep *= BETA_EP_MULTIPLIER;
             }
-            
+
             //For <1hr jobs, give EP at a rate that would equate to 1 per hour
             if (ep < 1 && FastRandom.NextDouble() < ep)
             {
                 ep = 1;
             }
 
-            return (int) ep;
+            return (int)ep;
         }
 
         public int GetRunningProductionsCountByFacility(long facilityEid)
@@ -323,7 +323,7 @@ namespace Perpetuum.Services.ProductionEngine
         {
             var counter = 0;
             var replyDict = (from pip in RunningProductions.GetRunningProductionsByFacilityAndCharacter(character, facilityEID)
-                select (object) pip.ToDictionary()).ToDictionary(d => "c" + counter++);
+                             select (object)pip.ToDictionary()).ToDictionary(d => "c" + counter++);
 
             return replyDict;
         }
@@ -626,7 +626,7 @@ namespace Perpetuum.Services.ProductionEngine
 
             //CSAK csomagolt item mehet, nem kell a robotot ellenorizgetni
 
-            var researchKit = (ResearchKit) container.GetItemOrThrow(researchKitEid, true);
+            var researchKit = (ResearchKit)container.GetItemOrThrow(researchKitEid, true);
             researchKit.GetOrLoadParentEntity().ThrowIfType<RobotInventory>(ErrorCodes.ResearchNotPossibleFromRobotCargo);
 
             //on gamma not even possible
@@ -638,9 +638,9 @@ namespace Perpetuum.Services.ProductionEngine
             //only single item
             if (researchKit.Quantity > 1)
             {
-                researchKit = (ResearchKit) researchKit.Unstack(1); //this is the working piece
+                researchKit = (ResearchKit)researchKit.Unstack(1); //this is the working piece
             }
-            
+
             /*
             else
             {
@@ -652,7 +652,7 @@ namespace Perpetuum.Services.ProductionEngine
             {
                 sourceItem = sourceItem.Unstack(sourceItem.ED.Quantity);
             }
-            
+
             /*
             else
             {
@@ -691,9 +691,9 @@ namespace Perpetuum.Services.ProductionEngine
             container.Save();
 
             //add to ram
-            Transaction.Current.OnCommited(()=>AddToRunningProductions(newProduction));
+            Transaction.Current.OnCommited(() => AddToRunningProductions(newProduction));
 
-            newProduction.SendProductionEventToCorporationMembersOnCommitted(Commands.ProductionRemoteStart); 
+            newProduction.SendProductionEventToCorporationMembersOnCommitted(Commands.ProductionRemoteStart);
 
             var replyDict = new Dictionary<string, object>();
 
@@ -781,7 +781,7 @@ namespace Perpetuum.Services.ProductionEngine
 
         public static IDictionary<string, object> LineQuery(Character character, Container container, long cprgEid, Mill mill)
         {
-            var calibrationProgram = (CalibrationProgram) container.GetItemOrThrow(cprgEid);
+            var calibrationProgram = (CalibrationProgram)container.GetItemOrThrow(cprgEid);
 
             var targetDefinition = calibrationProgram.TargetDefinition;
 
@@ -827,7 +827,7 @@ namespace Perpetuum.Services.ProductionEngine
             container.Save();
 
             //add to ram
-            Transaction.Current.OnCommited(()=>AddToRunningProductions(newProduction));
+            Transaction.Current.OnCommited(() => AddToRunningProductions(newProduction));
 
             newProduction.SendProductionEventToCorporationMembersOnCommitted(Commands.ProductionRemoteStart);
 
@@ -868,7 +868,7 @@ namespace Perpetuum.Services.ProductionEngine
             var price = prototyper.CalculatePrototypePrice(prototypeTimeSeconds, targetDefinition);
             bool hasBonus;
             var materialMultiplier = prototyper.CalculateMaterialMultiplier(character, targetDefinition, out hasBonus);
-            var materials = ProductionDescription.GetRequiredComponentsInfo(  ProductionInProgressType.prototype, 1, materialMultiplier, productionDescription.Components.ToList());
+            var materials = ProductionDescription.GetRequiredComponentsInfo(ProductionInProgressType.prototype, 1, materialMultiplier, productionDescription.Components.ToList());
             var prototypeDefinition = _productionDataAccess.GetPrototypePair(targetDefinition);
 
             replyDict = new Dictionary<string, object>
@@ -924,15 +924,15 @@ namespace Perpetuum.Services.ProductionEngine
                 }
             }
 
-            _insuranceHelper.DeleteAndInform(insurance,item.Eid);
+            _insuranceHelper.DeleteAndInform(insurance, item.Eid);
             return ErrorCodes.NoError;
         }
 
-        public void EnqueueProductionMissionTarget( MissionTargetType targetType, Character character,int locationId, int? definition = null, int? quantity = null)
+        public void EnqueueProductionMissionTarget(MissionTargetType targetType, Character character, int locationId, int? definition = null, int? quantity = null)
         {
             if (locationId <= 0) return; //gamma or something unknown
-           
-            Logger.Info("++ Enqueue mission target type " + targetType + " characterId:" + character.Id + " definition:" + definition + " quantity:" + quantity );
+
+            Logger.Info("++ Enqueue mission target type " + targetType + " characterId:" + character.Id + " definition:" + definition + " quantity:" + quantity);
 
             var data = new Dictionary<string, object>
                 {
@@ -943,10 +943,10 @@ namespace Perpetuum.Services.ProductionEngine
                 };
 
             if (definition != null)
-                data.Add(k.definition, (int) definition);
+                data.Add(k.definition, (int)definition);
 
             if (quantity != null)
-                data.Add(k.quantity, (int) quantity);
+                data.Add(k.quantity, (int)quantity);
 
             _missionProcessor.EnqueueMissionTargetAsync(data);
         }
@@ -1019,7 +1019,7 @@ namespace Perpetuum.Services.ProductionEngine
             container.Save();
 
             //add to ram
-            Transaction.Current.OnCommited(()=>AddToRunningProductions(newProduction));
+            Transaction.Current.OnCommited(() => AddToRunningProductions(newProduction));
 
             newProduction.SendProductionEventToCorporationMembersOnCommitted(Commands.ProductionRemoteStart);
 
@@ -1037,8 +1037,8 @@ namespace Perpetuum.Services.ProductionEngine
 
         public IDictionary<string, object> QueryCPRGForge(Character character, long sourceEid, long targetEid, Container container, PBSCalibrationProgramForgeFacility calibrationProgramForgeFacility)
         {
-            var sourceCalibration = (CalibrationProgram) container.GetItemOrThrow(sourceEid, true);
-            var targetCalibration = (CalibrationProgram) container.GetItemOrThrow(targetEid, true);
+            var sourceCalibration = (CalibrationProgram)container.GetItemOrThrow(sourceEid, true);
+            var targetCalibration = (CalibrationProgram)container.GetItemOrThrow(targetEid, true);
 
             sourceCalibration.CheckTargetForForgeAndThrowIfFailed(targetCalibration);
 

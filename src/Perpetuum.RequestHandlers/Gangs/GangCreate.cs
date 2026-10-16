@@ -33,7 +33,7 @@ namespace Perpetuum.RequestHandlers.Gangs
                     result.Add(k.characterID, memberId);
                     Message.Builder.FromRequest(request).WithData(result).Send();
                 });
-                
+
                 scope.Complete();
             }
         }

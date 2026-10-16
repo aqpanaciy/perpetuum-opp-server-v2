@@ -20,7 +20,7 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
         private readonly IStandingHandler _standingHandler;
         public MissionAdministrator MissionAdministrator { get; }
 
-        public MissionProcessor(MissionDataCache missionDataCache,MissionAdministrator.Factory missionAdministratorFactory,IStandingHandler standingHandler)
+        public MissionProcessor(MissionDataCache missionDataCache, MissionAdministrator.Factory missionAdministratorFactory, IStandingHandler standingHandler)
         {
             MissionAdministrator = missionAdministratorFactory(this);
             _missionDataCache = missionDataCache;
@@ -74,7 +74,7 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
                 .Send();
         }
 
-        public void ServerAddsParticipant(Guid guid,Character doerCharacter)
+        public void ServerAddsParticipant(Guid guid, Character doerCharacter)
         {
             var ownerCharacter = MissionHelper.FindMissionOwnerByGuid(guid);
             if (ownerCharacter == Character.None)
@@ -96,7 +96,7 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
             if (!gang.IsMember(doerCharacter))
                 return;
 
-            if (!FindMissionInProgress(ownerCharacter,guid,out MissionInProgress missionInProgress))
+            if (!FindMissionInProgress(ownerCharacter, guid, out MissionInProgress missionInProgress))
             {
                 Logger.Error($" no mission was found for characterId:{ownerCharacter.Id} guid:{guid.ToString()}");
                 return;
@@ -106,11 +106,11 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
             missionInProgress.AddParticipant(doerCharacter);
         }
 
-        public void NpcPresenceExpired(Character character,Guid missionGuid,int missionId,int targetId)
+        public void NpcPresenceExpired(Character character, Guid missionGuid, int missionId, int targetId)
         {
             Logger.Info($"Npc presence expired, checking conditions {missionGuid.ToString()}");
 
-            if (!FindMissionInProgress(character,missionGuid,out MissionInProgress missionInProgress))
+            if (!FindMissionInProgress(character, missionGuid, out MissionInProgress missionInProgress))
             {
                 Logger.Info($"MissionNpcPresenceExpired. Mission was not found, nothing to do. missionId: {missionId} character:{character.Id} guid:{missionGuid.ToString()}");
                 return;
@@ -122,21 +122,21 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
                 return;
             }
 
-            AbortMissionByRequest(character,missionGuid,ErrorCodes.NPCsGoneMissionAborted);
+            AbortMissionByRequest(character, missionGuid, ErrorCodes.NPCsGoneMissionAborted);
         }
 
-        public void MissionStartFromFieldTerminal(Character character,int locationId,MissionCategory missionCategory,int level)
+        public void MissionStartFromFieldTerminal(Character character, int locationId, MissionCategory missionCategory, int level)
         {
             try
             {
-                _missionDataCache.GetLocationById(locationId,out MissionLocation location).ThrowIfNull(ErrorCodes.ItemNotFound);
-                var result = MissionStartForRequest(character,missionCategory,level,location);
+                _missionDataCache.GetLocationById(locationId, out MissionLocation location).ThrowIfNull(ErrorCodes.ItemNotFound);
+                var result = MissionStartForRequest(character, missionCategory, level, location);
                 Message.Builder.ToCharacter(character).WithData(result).SetCommand(Commands.MissionStart).Send();
             }
             catch (PerpetuumException exception)
             {
                 Logger.Exception(exception);
-                character.CreateErrorMessage(Commands.MissionStart,exception.error).Send();
+                character.CreateErrorMessage(Commands.MissionStart, exception.error).Send();
             }
         }
 

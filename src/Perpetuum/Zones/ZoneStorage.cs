@@ -6,7 +6,7 @@ namespace Perpetuum.Zones
     {
         public static ZoneStorage Get(ZoneConfiguration configuration)
         {
-            return (ZoneStorage) GetByName(GetNameByZoneId(configuration.Id));
+            return (ZoneStorage)GetByName(GetNameByZoneId(configuration.Id));
         }
 
         private static string GetNameByZoneId(int zoneId)

@@ -30,7 +30,7 @@ namespace Perpetuum.RequestHandlers
             {
                 var target = targetZone.Terrain.Plants.GetArea(workArea);
                 var source = sourceZone.Terrain.Plants.GetArea(workArea);
-                for (int i=0; i< target.Length; i++)
+                for (int i = 0; i < target.Length; i++)
                 {
                     target[i].SetGroundType(source[i].groundType);
                 }

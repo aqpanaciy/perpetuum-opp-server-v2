@@ -6,6 +6,6 @@ namespace Perpetuum.Services.Channels
     public enum ChannelMemberRole
     {
         Undefined = 0,
-        Operator = 2, 
+        Operator = 2,
     }
 }

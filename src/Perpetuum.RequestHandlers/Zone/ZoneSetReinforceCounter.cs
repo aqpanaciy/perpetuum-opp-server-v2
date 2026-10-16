@@ -24,7 +24,7 @@ namespace Perpetuum.RequestHandlers.Zone
                 pbsObject.ReinforceHandler.ReinforceCounter = value;
                 unit.DynamicProperties.Update(k.reinforceCounter, value);
                 unit.Save();
-                
+
                 scope.Complete();
             }
         }

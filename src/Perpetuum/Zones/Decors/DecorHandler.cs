@@ -24,7 +24,7 @@ namespace Perpetuum.Zones.Decors
             try
             {
                 var records = Db.Query().CommandText("select * from decor where zoneid=@zoneId")
-                                     .SetParameter("@zoneId",_zone.Id)
+                                     .SetParameter("@zoneId", _zone.Id)
                                      .Execute();
 
                 foreach (var record in records)
@@ -33,7 +33,7 @@ namespace Perpetuum.Zones.Decors
                     var y = record.GetValue<int>("y");
                     var z = record.GetValue<int>("z");
 
-                    var decorDescription = new DecorDescription 
+                    var decorDescription = new DecorDescription
                     {
                         id = record.GetValue<int>("id"),
                         definition = record.GetValue<int>("definition"),
@@ -41,7 +41,7 @@ namespace Perpetuum.Zones.Decors
                         quaternionY = record.GetValue<double>("quaterniony"),
                         quaternionZ = record.GetValue<double>("quaternionz"),
                         quaternionW = record.GetValue<double>("quaternionw"),
-                        position = new Position(x,y,z),
+                        position = new Position(x, y, z),
                         scale = record.GetValue<double>("scale"),
                         changed = record.GetValue<bool>("changed"),
                         zoneId = _zone.Id,
@@ -74,7 +74,7 @@ namespace Perpetuum.Zones.Decors
         public IDictionary<string, object> DecorObjectsToDictionary()
         {
             var counter = 0;
-            return (_decors.Values.Where(d => d.changed).Select(d => (object) d.ToDictionary())).ToDictionary(d => "d" + counter++);
+            return (_decors.Values.Where(d => d.changed).Select(d => (object)d.ToDictionary())).ToDictionary(d => "d" + counter++);
         }
 
         public ErrorCodes InsertDecorSql(DecorDescription decorDescription, out int newDecorId)
@@ -118,7 +118,7 @@ namespace Perpetuum.Zones.Decors
 
         public ErrorCodes DeleteDecorSql(int decorId)
         {
-            var res = Db.Query().CommandText("delete decor where id=@decorId").SetParameter("@decorId",decorId).ExecuteNonQuery();
+            var res = Db.Query().CommandText("delete decor where id=@decorId").SetParameter("@decorId", decorId).ExecuteNonQuery();
             return (res != 1) ? ErrorCodes.SQLDeleteError : ErrorCodes.NoError;
         }
 
@@ -185,7 +185,7 @@ namespace Perpetuum.Zones.Decors
                 return ec;
             }
 
-            _zone.DrawEnvironmentForDecor(decorDescription.GetServerPosition(), environmentDescription, newTurns,flipX, flipY);
+            _zone.DrawEnvironmentForDecor(decorDescription.GetServerPosition(), environmentDescription, newTurns, flipX, flipY);
             return ErrorCodes.NoError;
         }
     }

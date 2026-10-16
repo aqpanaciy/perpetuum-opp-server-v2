@@ -49,14 +49,14 @@ namespace Perpetuum.Services.Sparks.Teleports
         public void Insert(SparkTeleport sparkTeleport)
         {
             sparkTeleport.ID = Db.Query().CommandText("insert charactersparkteleports (characterid,baseeid,basedefinition,zoneid,x,y) values (@characterID, @baseEID, @baseDefinition, @zoneID, @x, @y); select cast(scope_identity() as integer")
-                .SetParameter("@characterID",sparkTeleport.Character.Id)
-                .SetParameter("@baseEID",sparkTeleport.DockingBase.Eid)
+                .SetParameter("@characterID", sparkTeleport.Character.Id)
+                .SetParameter("@baseEID", sparkTeleport.DockingBase.Eid)
                 .SetParameter("@baseDefinition", sparkTeleport.DockingBase.Definition)
                 .SetParameter("@zoneId", sparkTeleport.DockingBase.Zone.Id)
                 .SetParameter("@x", sparkTeleport.DockingBase.CurrentPosition.intX)
                 .SetParameter("@y", sparkTeleport.DockingBase.CurrentPosition.intY)
                 .ExecuteNonQuery();
-            
+
             if (sparkTeleport.ID == 0)
                 throw new PerpetuumException(ErrorCodes.SQLInsertError);
         }
@@ -72,7 +72,7 @@ namespace Perpetuum.Services.Sparks.Teleports
             var res = Db.Query().CommandText("delete charactersparkteleports where id=@ID")
                 .SetParameter("@ID", sparkTeleport.ID)
                 .ExecuteNonQuery();
-            
+
             if (res == 0)
                 throw new PerpetuumException(ErrorCodes.SQLDeleteError);
         }

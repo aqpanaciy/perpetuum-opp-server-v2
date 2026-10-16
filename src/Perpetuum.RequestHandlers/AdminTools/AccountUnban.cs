@@ -8,7 +8,7 @@ namespace Perpetuum.RequestHandlers.AdminTools
     {
         private readonly IAccountRepository _accountRepository;
 
-        public AccountUnban(IAccountRepository accountRepository )
+        public AccountUnban(IAccountRepository accountRepository)
         {
             _accountRepository = accountRepository;
         }
@@ -20,7 +20,7 @@ namespace Perpetuum.RequestHandlers.AdminTools
             var account = _accountRepository.Get(id);
             if (account == null)
                 throw new PerpetuumException(ErrorCodes.AccountNotFound);
-           
+
             account.State = AccountState.normal;
             account.BanTime = null;
             account.BanNote = null;

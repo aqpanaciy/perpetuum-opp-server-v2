@@ -13,7 +13,7 @@ namespace Perpetuum.Common.Loggers
         }
     }
 
-    public class ChatLogFormatter : ILogEventFormatter<ChatLogEvent,string>
+    public class ChatLogFormatter : ILogEventFormatter<ChatLogEvent, string>
     {
         public string Format(ChatLogEvent logEvent)
         {
@@ -23,7 +23,7 @@ namespace Perpetuum.Common.Loggers
 
     public static class ChatLoggerExtensions
     {
-        public static void LogMessage(this ILogger<ChatLogEvent> logger,Character sender,string message)
+        public static void LogMessage(this ILogger<ChatLogEvent> logger, Character sender, string message)
         {
             logger.Log(new ChatLogEvent($"<{sender.Nick}> {message}"));
         }

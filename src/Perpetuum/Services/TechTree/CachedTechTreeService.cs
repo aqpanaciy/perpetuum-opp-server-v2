@@ -6,7 +6,7 @@ namespace Perpetuum.Services.TechTree
 {
     public class CachedTechTreeService : ITechTreeService
     {
-        private readonly ConcurrentDictionary<long,TechTreeNode[]> _nodes = new ConcurrentDictionary<long, TechTreeNode[]>();
+        private readonly ConcurrentDictionary<long, TechTreeNode[]> _nodes = new ConcurrentDictionary<long, TechTreeNode[]>();
         private readonly ITechTreeService _techTreeService;
 
         public void NodeUnlocked(long owner, TechTreeNode node)

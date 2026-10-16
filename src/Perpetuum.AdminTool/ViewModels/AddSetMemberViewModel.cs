@@ -47,7 +47,7 @@ namespace Perpetuum.AdminTool.ViewModels
 
                 Items.Add(new SetMemberPickItem
                 {
-                    Definition     = e.Definition,
+                    Definition = e.Definition,
                     DefinitionName = e.Name,
                     TranslatedName = translated,
                 });

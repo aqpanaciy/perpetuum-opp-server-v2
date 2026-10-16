@@ -16,7 +16,7 @@ using Perpetuum.Zones.PBS.ProductionNodes;
 
 namespace Perpetuum.Zones.PBS.Connections
 {
-    public class PBSConnectionValidator : IEntityVisitor<PBSProductionFacilityNode>,IEntityVisitor<PBSCoreTransmitter>,IEntityVisitor<PBSHighwayNode>,IEntityVisitor<PBSFacilityUpgradeNode>
+    public class PBSConnectionValidator : IEntityVisitor<PBSProductionFacilityNode>, IEntityVisitor<PBSCoreTransmitter>, IEntityVisitor<PBSHighwayNode>, IEntityVisitor<PBSFacilityUpgradeNode>
     {
         private readonly IPBSObject _target;
         public ErrorCodes Error { get; private set; }
@@ -114,7 +114,7 @@ namespace Perpetuum.Zones.PBS.Connections
     /// <summary>
     /// Handles the connections of a pbs pbsObject
     /// </summary>
-    public class PBSConnectionHandler<T> : IPBSConnectionHandler, INotifyConnectionModified where T : Unit,IPBSObject
+    public class PBSConnectionHandler<T> : IPBSConnectionHandler, INotifyConnectionModified where T : Unit, IPBSObject
     {
 
         private PBSConnection[] _connections;
@@ -142,11 +142,11 @@ namespace Perpetuum.Zones.PBS.Connections
         private PBSConnection[] ReadConnectionsFromSql()
         {
             var connections = PBSHelper.LoadConnectionsFromSql(_pbsObject.Zone, _pbsObject.Eid).ToArray();
-            WriteLog("sql read connections " + _pbsObject.ED.Name  + " " + connections.Length);
+            WriteLog("sql read connections " + _pbsObject.ED.Name + " " + connections.Length);
             return connections;
         }
 
-      
+
 
 
         private const int CPU_POWER_IN_NETWORK_WITHOUT_BASE = 1;
@@ -160,7 +160,7 @@ namespace Perpetuum.Zones.PBS.Connections
         {
             //source pbsObject access check
             _pbsObject.CheckAccessAndThrowIfFailed(character);
-            
+
             //--- transmit radius check
             targetNode.ThrowIfEqual(_pbsObject, ErrorCodes.WTFErrorMedicalAttentionSuggested);
 
@@ -176,15 +176,15 @@ namespace Perpetuum.Zones.PBS.Connections
             //-------check networks and owners
             var changeOwner = false;
             long newOwner = 0L;
-         
+
             var sourceNetwork = NetworkNodes.ToArray();
-            
+
             IPBSObject[] targetNetwork = null;
             var dockingBaseInSourceNetwork = false;
             var dockingBaseInTargetNetwork = false;
 
             var isSameNetwork = sourceNetwork.Any(p => p.GetHashCode() == targetNode.GetHashCode());
-            
+
             if (!isSameNetwork)
             {
                 //they are in different networks
@@ -234,10 +234,10 @@ namespace Perpetuum.Zones.PBS.Connections
                     }
                     else
                     {
-                        newOwner = targetUnit.Owner; 
+                        newOwner = targetUnit.Owner;
                     }
 
-                    
+
                 }
                 else
                 {
@@ -284,7 +284,7 @@ namespace Perpetuum.Zones.PBS.Connections
                 }
             }
 
-            
+
             //-----------------------------do actual work
 
             var outConnection = new PBSConnection(targetNode, _pbsObject, true);
@@ -305,7 +305,7 @@ namespace Perpetuum.Zones.PBS.Connections
                 {
                     if (node.Equals(_pbsObject)) continue;
                     if (node.Equals(pbsBase)) continue;
-                    
+
                     //all reinforcable nodes in the network
                     node.ReinforceHandler.ForceDailyOffset(pbsBase.ReinforceHandler.ReinforceOffsetHours);
                 }
@@ -319,7 +319,7 @@ namespace Perpetuum.Zones.PBS.Connections
         {
             foreach (var pbsObject in pbsObjects)
             {
-                var unit = (Unit) pbsObject;
+                var unit = (Unit)pbsObject;
 
                 if (PBSHelper.IsPlaceableOutsideOfBase((unit.ED.CategoryFlags)))
                 {
@@ -349,7 +349,7 @@ namespace Perpetuum.Zones.PBS.Connections
 
                 if (pbsConnection.IsOutgoing)
                     pbsConnection.TargetPbsObject.ConnectionHandler.RemoveConnectedObject(_pbsObject);
-                
+
                 deletedConnections.Add(pbsConnection);
             }
 
@@ -382,7 +382,7 @@ namespace Perpetuum.Zones.PBS.Connections
         private void DeleteConnectionFromDb(PBSConnection connection)
         {
             if (connection == null) return;
-            
+
             _connections = null;
 
             connection.DeleteFromDb();
@@ -423,7 +423,7 @@ namespace Perpetuum.Zones.PBS.Connections
             });
         }
 
-     
+
 
         public void SetWeight(IPBSObject pbsObject, double weight)
         {
@@ -442,7 +442,7 @@ namespace Perpetuum.Zones.PBS.Connections
 
 
 
-        public IDictionary<string,object> ToDictionary()
+        public IDictionary<string, object> ToDictionary()
         {
             var result = GetConnections().Where(c => c.IsOutgoing).ToDictionary("c", c => c.ToDictionary());
 
@@ -454,7 +454,7 @@ namespace Perpetuum.Zones.PBS.Connections
             foreach (var node in NetworkNodes)
             {
                 var handler = node as IPBSEventHandler;
-                handler?.HandlePBSEvent(_pbsObject,pbsEventArgs);
+                handler?.HandlePBSEvent(_pbsObject, pbsEventArgs);
             }
         }
 
@@ -481,7 +481,7 @@ namespace Perpetuum.Zones.PBS.Connections
 
                 CollectNodes(collected);
 
-                WriteLog("network size " + collected.Count +  " " + _pbsObject.ED.Name );
+                WriteLog("network size " + collected.Count + " " + _pbsObject.ED.Name);
                 return collected.Values.ToList();
             }
         }
@@ -492,13 +492,13 @@ namespace Perpetuum.Zones.PBS.Connections
             if (_outConnections < 0)
             {
                 if (_pbsObject.ED.Config.outConnections != null)
-                    return (int) _pbsObject.ED.Config.outConnections;
+                    return (int)_pbsObject.ED.Config.outConnections;
 
-                    Logger.Error("no outConnections was defined for: " + _pbsObject.Definition + " " + _pbsObject.ED.Name);
-                    _outConnections = 0;
+                Logger.Error("no outConnections was defined for: " + _pbsObject.Definition + " " + _pbsObject.ED.Name);
+                _outConnections = 0;
             }
             return _outConnections;
-            
+
         }
 
         private int _inConnections = -1;
@@ -513,7 +513,7 @@ namespace Perpetuum.Zones.PBS.Connections
                 _inConnections = 0;
             }
             return _inConnections;
-            
+
         }
 
 
@@ -534,7 +534,7 @@ namespace Perpetuum.Zones.PBS.Connections
             }
 
             ContainsConnection(target).ThrowIfTrue(ErrorCodes.NodeAlreadyConnected);
-            
+
         }
 
 
@@ -569,20 +569,20 @@ namespace Perpetuum.Zones.PBS.Connections
         }
 
         [CanBeNull]
-        private PBSConnection GetConnectionByObject( IPBSObject pbsObject)
+        private PBSConnection GetConnectionByObject(IPBSObject pbsObject)
         {
             return GetConnections().FirstOrDefault(c => c.TargetPbsObject.Equals(pbsObject));
         }
 
-        private bool ContainsConnection( IPBSObject pbsObject)
+        private bool ContainsConnection(IPBSObject pbsObject)
         {
             return GetConnections().Any(c => c.TargetPbsObject.Equals(pbsObject));
         }
 
-        public void CollectNodes( IDictionary<long,IPBSObject> collected)
+        public void CollectNodes(IDictionary<long, IPBSObject> collected)
         {
             var connections = GetConnections();
-           
+
             foreach (var connection in connections)
             {
                 var connectedUnit = connection.GetAsUnit();
@@ -592,8 +592,8 @@ namespace Perpetuum.Zones.PBS.Connections
                 {
                     continue;
                 }
-                
-                collected.Add( connectedUnit.Eid,connection.TargetPbsObject);
+
+                collected.Add(connectedUnit.Eid, connection.TargetPbsObject);
 
                 connection.TargetPbsObject.ConnectionHandler.CollectNodes(collected);
             }

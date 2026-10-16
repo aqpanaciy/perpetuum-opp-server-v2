@@ -14,7 +14,7 @@ using Perpetuum.Services.ProductionEngine.Facilities;
 
 namespace Perpetuum.Services.ProductionEngine
 {
-   
+
     public class ProductionLine
     {
         private readonly IProductionDataAccess _productionDataAccess;
@@ -45,7 +45,7 @@ namespace Perpetuum.Services.ProductionEngine
                            {k.rounds, Rounds},
                            {k.maxDistortion, Decalibration.distorsionMax},
                            {k.dead, IsAtZero()}
-                           
+
                        };
 
         }
@@ -59,7 +59,7 @@ namespace Perpetuum.Services.ProductionEngine
 
         public static Factory ProductionLineFactory { get; set; }
 
-        public ProductionLine(IProductionDataAccess productionDataAccess,ItemHelper itemHelper)
+        public ProductionLine(IProductionDataAccess productionDataAccess, ItemHelper itemHelper)
         {
             _productionDataAccess = productionDataAccess;
             _itemHelper = itemHelper;
@@ -123,7 +123,7 @@ cprgeid
 
         public int GetMaterialPoints()
         {
-            return (int) MaterialEfficiency;
+            return (int)MaterialEfficiency;
         }
 
 
@@ -134,7 +134,7 @@ cprgeid
 
         public int GetTimePoints()
         {
-            return (int) TimeEfficiency;
+            return (int)TimeEfficiency;
         }
 
         private int GetMaterialEfficiencyPercentage()
@@ -205,7 +205,7 @@ cprgeid
 
         public static IEnumerable<ProductionLine> GetLinesByFacilityEid(long facilityEid)
         {
-            return 
+            return
             Db.Query().CommandText(SELECT_LINE + " where facilityeid=@facilityEID")
                    .SetParameter("@facilityEID", facilityEid)
                    .Execute()
@@ -309,10 +309,10 @@ cprgeid
         {
             Db.Query().CommandText("delete productionlines where id=@ID")
                 .SetParameter("@ID", lineId)
-                .ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.SQLDeleteError);
+                .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLDeleteError);
         }
 
-        public static void CreateCalibratedLine(Character character, long facilityEid,CalibrationProgram program)
+        public static void CreateCalibratedLine(Character character, long facilityEid, CalibrationProgram program)
         {
             const string insertSqlCommand = @"INSERT dbo.productionlines (characterid,facilityeid,targetdefinition,materialefficiency,timeefficiency,cprgeid) 
                                               VALUES (@characterID, @facility ,@definition,@materialEfficiency,@timeEfficiency,@cprgEid)";
@@ -320,11 +320,11 @@ cprgeid
             Db.Query().CommandText(insertSqlCommand)
                 .SetParameter("@characterID", character.Id)
                 .SetParameter("@facility", facilityEid)
-                .SetParameter("@definition",program.TargetDefinition)
-                .SetParameter("@materialEfficiency",program.MaterialEfficiencyPoints)
-                .SetParameter("@timeEfficiency",program.TimeEfficiencyPoints)
+                .SetParameter("@definition", program.TargetDefinition)
+                .SetParameter("@materialEfficiency", program.MaterialEfficiencyPoints)
+                .SetParameter("@timeEfficiency", program.TimeEfficiencyPoints)
                 .SetParameter("@cprgEid", program.Eid)
-                .ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.SQLInsertError);
+                .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
         }
 
 
@@ -335,7 +335,7 @@ cprgeid
                 .SetParameter("@lineID", lineId)
                 .SetParameter("@timeEfficiency", newTimeEfficiency)
                 .SetParameter("@materialEfficiency", newMaterialEfficiency)
-                .ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.SQLUpdateError);
+                .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLUpdateError);
         }
 
         public static ErrorCodes LoadByProductionId(Character character, int productionInProgressId, out ProductionLine productionLine)
@@ -347,7 +347,7 @@ cprgeid
                                  .SetParameter("@rpid", productionInProgressId)
                                  .ExecuteSingleRow();
 
-            if (record == null) 
+            if (record == null)
                 return ErrorCodes.ItemNotFound;
 
             productionLine = CreateFromRecord(record);
@@ -363,7 +363,7 @@ cprgeid
                                  .SetParameter("@rpid", productionInProgressId)
                                  .ExecuteSingleRow();
 
-            if (record == null) 
+            if (record == null)
                 return null;
 
             return CreateFromRecord(record);
@@ -375,8 +375,8 @@ cprgeid
             var extensionBonus = character.GetExtensionBonusByName(ExtensionNames.PRODUCTION_DECALIBRATION_EFFICIENCY).Clamp(0, 10);
             var penaltyMultiplier = 0.9 + (extensionBonus * 0.01);
 
-            newMaterialEfficiencyPoints =(int)( MaterialEfficiency * penaltyMultiplier);
-            newTimeEfficiencyPoints = (int) (TimeEfficiency * penaltyMultiplier);
+            newMaterialEfficiencyPoints = (int)(MaterialEfficiency * penaltyMultiplier);
+            newTimeEfficiencyPoints = (int)(TimeEfficiency * penaltyMultiplier);
         }
 
         public int GetCalibrationTemplateDefinition()
@@ -395,37 +395,37 @@ cprgeid
         [NotNull]
         public CalibrationProgram GetOrCreateCalibrationProgram(Mill mill)
         {
-            
-                CalibrationProgram calibrationProgram;
+
+            CalibrationProgram calibrationProgram;
 
 
-                if (CPRGEid == null)
-                {
-                    Logger.Info("cprg eid is creating one for " + this);
+            if (CPRGEid == null)
+            {
+                Logger.Info("cprg eid is creating one for " + this);
 
-                    var character = GetOwnerCharacter;
-                    
-                    //create item to ram
-                    var calibrationProgramDefinition = GetCalibrationTemplateDefinition();
-                    calibrationProgram = (CalibrationProgram) Entity.Factory.CreateWithRandomEID(calibrationProgramDefinition);
-                    calibrationProgram.Owner = character.Eid;
-                    mill.GetStorage().AddChild(calibrationProgram);
-                    
-                    // db-be kell csinalni mert a dinamikus felulirja save-nel
-                    calibrationProgram.Save();
+                var character = GetOwnerCharacter;
 
-                    Logger.Info("cprg created " + calibrationProgram);
+                //create item to ram
+                var calibrationProgramDefinition = GetCalibrationTemplateDefinition();
+                calibrationProgram = (CalibrationProgram)Entity.Factory.CreateWithRandomEID(calibrationProgramDefinition);
+                calibrationProgram.Owner = character.Eid;
+                mill.GetStorage().AddChild(calibrationProgram);
 
-                }
-                else
-                {
-                    //load from sql
-                    calibrationProgram =  (CalibrationProgram)_itemHelper.LoadItemOrThrow((long) CPRGEid);
-                    Logger.Info("found and cprg loaded " + calibrationProgram);
-                }
+                // db-be kell csinalni mert a dinamikus felulirja save-nel
+                calibrationProgram.Save();
 
-                return calibrationProgram;
-            
+                Logger.Info("cprg created " + calibrationProgram);
+
+            }
+            else
+            {
+                //load from sql
+                calibrationProgram = (CalibrationProgram)_itemHelper.LoadItemOrThrow((long)CPRGEid);
+                Logger.Info("found and cprg loaded " + calibrationProgram);
+            }
+
+            return calibrationProgram;
+
         }
 
         /// <summary>

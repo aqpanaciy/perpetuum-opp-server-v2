@@ -62,7 +62,7 @@ namespace Perpetuum.Zones.PBS
             }
             else
             {
-                _pbsDockingBase.DynamicProperties.Update(k.territoryMapVisible,(int)_networkMapVisibility);
+                _pbsDockingBase.DynamicProperties.Update(k.territoryMapVisible, (int)_networkMapVisibility);
             }
 
             if (_pbsDockingBase.DynamicProperties.Contains(k.mapVisible))
@@ -79,14 +79,14 @@ namespace Perpetuum.Zones.PBS
 
         public void OnSave()
         {
-            _pbsDockingBase.DynamicProperties.Update(k.territoryMapVisible,(int)_networkMapVisibility);
-            _pbsDockingBase.DynamicProperties.Update(k.mapVisible, (int)_dockingBaseMapVisibility  );
+            _pbsDockingBase.DynamicProperties.Update(k.territoryMapVisible, (int)_networkMapVisibility);
+            _pbsDockingBase.DynamicProperties.Update(k.mapVisible, (int)_dockingBaseMapVisibility);
         }
 
         public void AddToDictionary(IDictionary<string, object> info)
         {
             info.Add(k.territoryMapVisible, (int)_networkMapVisibility);
-            info.Add(k.mapVisible, (int) _dockingBaseMapVisibility);
+            info.Add(k.mapVisible, (int)_dockingBaseMapVisibility);
         }
     }
 }

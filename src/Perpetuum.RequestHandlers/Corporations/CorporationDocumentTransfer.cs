@@ -20,7 +20,7 @@ namespace Perpetuum.RequestHandlers.Corporations
 
                 CorporationDocument corporationDocument;
                 CorporationDocumentHelper.CheckOwnerAccess(documentId, character, out corporationDocument).ThrowIfError();
-            
+
                 //check amount and stuff
                 CorporationDocumentHelper.OnDocumentTransfer(corporationDocument, targetCharacter).ThrowIfError();
 
@@ -30,12 +30,12 @@ namespace Perpetuum.RequestHandlers.Corporations
                 //unregister document and all viewer character
                 CorporationDocumentHelper.DeleteViewerByDocumentId(documentId);
 
-                var targetResult =  CorporationDocumentHelper.GetMyDocumentsToDictionary(targetCharacter);
-                var senderResult = CorporationDocumentHelper.GetMyDocumentsToDictionary( character);
+                var targetResult = CorporationDocumentHelper.GetMyDocumentsToDictionary(targetCharacter);
+                var senderResult = CorporationDocumentHelper.GetMyDocumentsToDictionary(character);
 
                 Message.Builder.FromRequest(request).WithData(senderResult).Send();
                 Message.Builder.SetCommand(request.Command).WithData(targetResult).ToCharacter(targetCharacter).Send();
-                
+
                 scope.Complete();
             }
         }

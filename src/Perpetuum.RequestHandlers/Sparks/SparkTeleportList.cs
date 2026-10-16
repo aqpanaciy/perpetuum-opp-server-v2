@@ -17,8 +17,8 @@ namespace Perpetuum.RequestHandlers.Sparks
             var character = request.Session.Character;
             var info = _sparkTeleportHelper.GetSparkTeleportDescriptionInfos(character);
 
-            info.Add(k.fee,SparkTeleport.SPARK_TELEPORT_USE_FEE);
-            info.Add("placeFee",SparkTeleport.SPARK_TELEPORT_PLACE_FEE);
+            info.Add(k.fee, SparkTeleport.SPARK_TELEPORT_USE_FEE);
+            info.Add("placeFee", SparkTeleport.SPARK_TELEPORT_PLACE_FEE);
 
             Message.Builder.FromRequest(request).WithData(info).Send();
         }

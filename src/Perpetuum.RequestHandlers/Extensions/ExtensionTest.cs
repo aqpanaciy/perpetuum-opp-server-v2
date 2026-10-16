@@ -36,7 +36,7 @@ namespace Perpetuum.RequestHandlers.Extensions
                 };
 
                 Message.Builder.FromRequest(request).WithData(d).Send();
-                
+
                 scope.Complete();
             }
         }

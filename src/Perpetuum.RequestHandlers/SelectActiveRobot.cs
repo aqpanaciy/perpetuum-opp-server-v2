@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers
         private readonly IEntityRepository _entityRepository;
         private readonly RobotHelper _robotHelper;
 
-        public SelectActiveRobot(IEntityRepository entityRepository,RobotHelper robotHelper)
+        public SelectActiveRobot(IEntityRepository entityRepository, RobotHelper robotHelper)
         {
             _entityRepository = entityRepository;
             _robotHelper = robotHelper;
@@ -39,7 +39,7 @@ namespace Perpetuum.RequestHandlers
                 container.ThrowIfType<DefaultSystemContainer>(ErrorCodes.AccessDenied);
                 container.CheckAccessAndThrowIfFailed(character, ContainerAccess.List);
 
-                var robot = _robotHelper.LoadRobotForCharacter(robotEid, character,true);
+                var robot = _robotHelper.LoadRobotForCharacter(robotEid, character, true);
                 robot.Parent.ThrowIfNotEqual(containerEid, ErrorCodes.ParentError);
                 robot.IsRepackaged.ThrowIfTrue(ErrorCodes.ItemHasToBeUnpacked);
 

@@ -87,7 +87,7 @@ namespace Perpetuum.Services.MarketEngine
                 //not in the cache, OR obsolete => load it
 
                 var averagePrice = new MarketAveragePriceEntry();
-                averagePrice.LoadAveragePrice(definition,MarketInfoService.MARKET_AVERAGE_DAYSBACK, Market);
+                averagePrice.LoadAveragePrice(definition, MarketInfoService.MARKET_AVERAGE_DAYSBACK, Market);
                 _averagePrices.AddOrUpdate(definition, averagePrice, (k, v) => averagePrice);
 
                 marketAveragePriceEntry = averagePrice;

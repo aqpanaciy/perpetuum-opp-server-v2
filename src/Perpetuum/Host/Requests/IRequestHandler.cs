@@ -2,7 +2,7 @@
 
 namespace Perpetuum.Host.Requests
 {
-    public interface IRequestHandler<in T> where T:IRequest
+    public interface IRequestHandler<in T> where T : IRequest
     {
         void HandleRequest(T request);
     }

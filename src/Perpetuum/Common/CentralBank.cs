@@ -11,7 +11,7 @@ namespace Perpetuum.Common
         void SubAmount(double amount, TransactionType transactionType);
     }
 
-    public class CentralBank : Process,ICentralBank
+    public class CentralBank : Process, ICentralBank
     {
         public void AddAmount(double amount, TransactionType transactionType)
         {
@@ -35,7 +35,7 @@ namespace Perpetuum.Common
 
         public override void Update(TimeSpan time)
         {
-            Db.Query().CommandText("centralBank_addLog").SetParameter("@day",DateTime.Today).ExecuteNonQuery();
+            Db.Query().CommandText("centralBank_addLog").SetParameter("@day", DateTime.Today).ExecuteNonQuery();
         }
     }
 }

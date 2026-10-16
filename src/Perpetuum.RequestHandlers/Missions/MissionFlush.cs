@@ -17,14 +17,14 @@ namespace Perpetuum.RequestHandlers.Missions
         private readonly MissionDataCache _missionDataCache;
         private readonly IZoneManager _zoneManager;
 
-        public MissionFlush(MissionProcessor missionProcessor,MissionDataCache missionDataCache,IZoneManager zoneManager)
+        public MissionFlush(MissionProcessor missionProcessor, MissionDataCache missionDataCache, IZoneManager zoneManager)
         {
             _missionProcessor = missionProcessor;
             _missionDataCache = missionDataCache;
             _zoneManager = zoneManager;
         }
 
-        public  void HandleRequest(IRequest request)
+        public void HandleRequest(IRequest request)
         {
             //!!! only in DEBUG !!!
 #if DEBUG
@@ -51,7 +51,7 @@ namespace Perpetuum.RequestHandlers.Missions
 
                 //send data to client
                 Message.Builder.FromRequest(request).WithData(_missionDataCache.GetDataForClient()).Send();
-                
+
                 scope.Complete();
             }
 #endif

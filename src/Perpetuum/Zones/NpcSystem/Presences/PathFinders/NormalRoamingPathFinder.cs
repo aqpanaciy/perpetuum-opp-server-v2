@@ -105,7 +105,7 @@ namespace Perpetuum.Zones.NpcSystem.Presences.PathFinders
 
         private bool IsRoamingPosition(Point roamingPosition)
         {
-            var isRoaming = _zone.Terrain.Controls[roamingPosition.X,roamingPosition.Y].Roaming;
+            var isRoaming = _zone.Terrain.Controls[roamingPosition.X, roamingPosition.Y].Roaming;
             var isWalkable = _zone.IsWalkable(roamingPosition.X, roamingPosition.Y);
             return isRoaming && isWalkable;
         }

@@ -10,7 +10,7 @@ namespace Perpetuum.Services.Standing
     public class StandingHandler : IStandingHandler
     {
         private readonly IStandingRepository _standingRepository;
-        private ImmutableDictionary<long,StandingsHolder> _standingsHolders = ImmutableDictionary<long, StandingsHolder>.Empty;
+        private ImmutableDictionary<long, StandingsHolder> _standingsHolders = ImmutableDictionary<long, StandingsHolder>.Empty;
 
         public StandingHandler(IStandingRepository standingRepository)
         {
@@ -35,13 +35,13 @@ namespace Perpetuum.Services.Standing
 
         public void ReloadStandingForCharacter(Character character)
         {
-            if ( character == Character.None )
+            if (character == Character.None)
                 return;
 
             var infos = _standingRepository.GetStandingForCharacter(character);
             foreach (var info in infos)
             {
-                GetOrAddStandingHolder(info.sourceEID).SetStanding(info.targetEID,info.standing);
+                GetOrAddStandingHolder(info.sourceEID).SetStanding(info.targetEID, info.standing);
             }
         }
 
@@ -79,9 +79,9 @@ namespace Perpetuum.Services.Standing
         {
             foreach (var holder in _standingsHolders.Values)
             {
-                if (holder.Standings.TryGetValue(targetEID,out double standing))
+                if (holder.Standings.TryGetValue(targetEID, out double standing))
                 {
-                    yield return new StandingInfo(holder.sourceEID,targetEID,standing);
+                    yield return new StandingInfo(holder.sourceEID, targetEID, standing);
                 }
             }
         }
@@ -139,7 +139,7 @@ namespace Perpetuum.Services.Standing
         private class StandingsHolder
         {
             public readonly long sourceEID;
-            private ImmutableDictionary<long,double> _standings = ImmutableDictionary<long, double>.Empty;
+            private ImmutableDictionary<long, double> _standings = ImmutableDictionary<long, double>.Empty;
 
             public StandingsHolder(long sourceEID)
             {
@@ -163,20 +163,20 @@ namespace Perpetuum.Services.Standing
 
             public void SetStanding(long targetEID, double standing)
             {
-                ImmutableInterlocked.AddOrUpdate(ref _standings,targetEID, standing, (t,s) => standing);
-                OnStandingUpdated(targetEID,standing);
+                ImmutableInterlocked.AddOrUpdate(ref _standings, targetEID, standing, (t, s) => standing);
+                OnStandingUpdated(targetEID, standing);
             }
 
             public void Remove(long targetEID)
             {
-                ImmutableInterlocked.TryRemove(ref _standings,targetEID,out double standing);
+                ImmutableInterlocked.TryRemove(ref _standings, targetEID, out double standing);
             }
 
-            public event Action<StandingsHolder,long,double> StandingUpdated;
+            public event Action<StandingsHolder, long, double> StandingUpdated;
 
-            private void OnStandingUpdated(long targetEID,double standing)
+            private void OnStandingUpdated(long targetEID, double standing)
             {
-                StandingUpdated?.Invoke(this,targetEID,standing);
+                StandingUpdated?.Invoke(this, targetEID, standing);
             }
 
             public IDictionary<string, object> ToDictionary()

@@ -13,7 +13,7 @@ namespace Perpetuum.Services.Sparks.Teleports
         public DockingBase DockingBase { get; set; }
         public Character Character;
 
-        public Dictionary<string,object> ToDictionary()
+        public Dictionary<string, object> ToDictionary()
         {
             return new Dictionary<string, object>
                 {

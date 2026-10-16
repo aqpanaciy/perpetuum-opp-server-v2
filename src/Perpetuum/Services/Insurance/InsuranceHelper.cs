@@ -25,15 +25,15 @@ namespace Perpetuum.Services.Insurance
         public bool CheckInsuranceOnDeath(long eid, int definition)
         {
             var insurance = GetInsurance(eid);
-            if (insurance == null) 
+            if (insurance == null)
                 return false;
 
-            _insurancePayOut.PayOut(insurance,definition);
-            DeleteAndInform(insurance,eid);
+            _insurancePayOut.PayOut(insurance, definition);
+            DeleteAndInform(insurance, eid);
             return true;
         }
 
-        public void DeleteAndInform(InsuranceDescription insurance,long eid)
+        public void DeleteAndInform(InsuranceDescription insurance, long eid)
         {
             if (insurance == null)
                 return;
@@ -89,7 +89,7 @@ namespace Perpetuum.Services.Insurance
 
         }
 
-        public static bool IsInsured(IEnumerable<long> eids )
+        public static bool IsInsured(IEnumerable<long> eids)
         {
             var eidString = eids.ArrayToString();
 
@@ -104,7 +104,7 @@ namespace Perpetuum.Services.Insurance
             return Db.Query().CommandText("delete insurance where (characterId=@characterID and corporationeid=@corporationEID) or (corporationeid=@corporationEID and eid in (select eid from entities where owner=@owner))")
                            .SetParameter("@characterID", character.Id)
                            .SetParameter("@corporationEID", corporationEid)
-                           .SetParameter("@owner",character.Eid)
+                           .SetParameter("@owner", character.Eid)
                            .ExecuteNonQuery();
         }
 
@@ -116,10 +116,10 @@ namespace Perpetuum.Services.Insurance
                            .SetParameter("@characterID", character.Id)
                            .SetParameter("@corpEID", character.CorporationEid)
                            .Execute()
-                           .Select(r => (object) InsuranceInfoRecordToDictionary(r)).ToDictionary(r => "i" + counter++);
+                           .Select(r => (object)InsuranceInfoRecordToDictionary(r)).ToDictionary(r => "i" + counter++);
         }
 
-        private static Dictionary<string, object>  InsuranceInfoRecordToDictionary(IDataRecord record)
+        private static Dictionary<string, object> InsuranceInfoRecordToDictionary(IDataRecord record)
         {
 
             return new Dictionary<string, object>
@@ -139,7 +139,7 @@ namespace Perpetuum.Services.Insurance
 
         public static Dictionary<long, DateTime> GetInsuranceEndDates(int characterId)
         {
-            return 
+            return
                 Db.Query().CommandText("select eid,enddate from insurance where characterid=@characterID and enddate > getdate()").SetParameter("@characterID", characterId)
                         .Execute()
                         .ToDictionary(record => record.GetValue<long>(0), record => record.GetValue<DateTime>(1));
@@ -153,14 +153,14 @@ namespace Perpetuum.Services.Insurance
 
             if (corporationEid != null)
             {
-                corpobject = (long) corporationEid;
+                corpobject = (long)corporationEid;
             }
 
             Db.Query().CommandText("insuranceadd")
                     .SetParameter("@characterID", character.Id)
                     .SetParameter("@EID", eid)
                     .SetParameter("@endDate", endDate)
-                    .SetParameter("@type", (int) insuranceType)
+                    .SetParameter("@type", (int)insuranceType)
                     .SetParameter("@corporationEID", corpobject)
                     .SetParameter("@payOut", payOut)
                     .ExecuteNonQuery();
@@ -172,7 +172,7 @@ namespace Perpetuum.Services.Insurance
 
         public static int CountInsurances(Character character)
         {
-            return  Db.Query().CommandText("select count(*) from insurance where characterid=@characterID and enddate > getdate()")
+            return Db.Query().CommandText("select count(*) from insurance where characterid=@characterID and enddate > getdate()")
                             .SetParameter("@characterID", character.Id)
                             .ExecuteScalar<int>();
 
@@ -182,7 +182,7 @@ namespace Perpetuum.Services.Insurance
         {
             Db.Query().CommandText("delete insurance where eid=@EID")
                 .SetParameter("@EID", eid)
-                .ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.SQLDeleteError);
+                .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLDeleteError);
         }
 
         public static bool IsItemInsuredByCharacter(int characterId, long eid)
@@ -249,10 +249,10 @@ namespace Perpetuum.Services.Insurance
         public void DeleteAndInform(Item item)
         {
             var insurance = GetInsurance(item.Eid);
-            DeleteAndInform(insurance,item.Eid);
+            DeleteAndInform(insurance, item.Eid);
         }
 
-        public ErrorCodes GetConditions(Character character, Item item, InsuranceDescription insurance, long corporationEid, int insuranceDays, int maxInsurances, int currentInsurances, ref DateTime endDate, ref bool useCorporationWallet )
+        public ErrorCodes GetConditions(Character character, Item item, InsuranceDescription insurance, long corporationEid, int insuranceDays, int maxInsurances, int currentInsurances, ref DateTime endDate, ref bool useCorporationWallet)
         {
             var ec = ErrorCodes.NoError;
 
@@ -301,7 +301,7 @@ namespace Perpetuum.Services.Insurance
 
                         Logger.Info("insured by other corp, delete insurance");
 
-                        DeleteAndInform(insurance,item.Eid);
+                        DeleteAndInform(insurance, item.Eid);
 
                         if (item.Owner == corporationEid)
                         {
@@ -347,7 +347,7 @@ namespace Perpetuum.Services.Insurance
                     {
                         Logger.Info("someone else insured it.");
 
-                        DeleteAndInform(insurance,item.Eid);
+                        DeleteAndInform(insurance, item.Eid);
 
                         if (item.Owner == corporationEid)
                         {
@@ -446,11 +446,11 @@ namespace Perpetuum.Services.Insurance
             foreach (var iPrice in
                 Db.Query().CommandText("select definition,fee,payout from insuranceprices").Execute()
                         .Select(r => new InsurancePrice
-                            {
-                                definition = r.GetValue<int>(0),
-                                fee = r.GetValue<double>(1),
-                                payOut = r.GetValue<double>(2)
-                            }))
+                        {
+                            definition = r.GetValue<int>(0),
+                            fee = r.GetValue<double>(1),
+                            payOut = r.GetValue<double>(2)
+                        }))
             {
                 var price = iPrice;
                 _insurancePrices.AddOrUpdate(iPrice.definition, iPrice, (k, v) => price);
@@ -464,7 +464,7 @@ namespace Perpetuum.Services.Insurance
         {
             var counter = 0;
             return _insurancePrices.Values
-                                   .Select(i => (object) i.ToDictionary())
+                                   .Select(i => (object)i.ToDictionary())
                                    .ToDictionary(d => "i" + counter++);
 
         }

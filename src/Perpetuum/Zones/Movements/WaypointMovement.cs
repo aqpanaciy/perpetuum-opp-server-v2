@@ -49,11 +49,11 @@ namespace Perpetuum.Zones.Movements
 
         public override void Update(Unit unit, TimeSpan elapsed)
         {
-            if ( Arrived )
+            if (Arrived)
                 return;
-            
-            var d = (float) (unit.Speed * elapsed.TotalSeconds);
-            var v = Vector2.Multiply(_velocity,d);
+
+            var d = (float)(unit.Speed * elapsed.TotalSeconds);
+            var v = Vector2.Multiply(_velocity, d);
 
             _distance -= Vector2.Abs(v);
 
@@ -67,7 +67,7 @@ namespace Perpetuum.Zones.Movements
                 unit.CurrentPosition += v;
             }
 
-//            unit.Zone.CreateAlignedDebugBeam(BeamType.orange_20sec, unit.CurrentPosition);
+            //            unit.Zone.CreateAlignedDebugBeam(BeamType.orange_20sec, unit.CurrentPosition);
         }
 
         public bool Arrived { get; private set; }

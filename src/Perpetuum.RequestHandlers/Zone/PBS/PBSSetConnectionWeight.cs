@@ -30,7 +30,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
                 Transaction.Current.OnCommited(() => sourceNode.SendNodeUpdate());
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

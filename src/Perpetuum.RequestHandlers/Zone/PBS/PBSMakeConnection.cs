@@ -19,7 +19,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
                 var character = request.Session.Character;
 
                 var sourceUnit = request.Zone.GetUnitOrThrow(sourceEid);
-                var targetUnit = request.Zone.GetUnitOrThrow(targetEid);;
+                var targetUnit = request.Zone.GetUnitOrThrow(targetEid); ;
 
                 if (sourceUnit is IPBSObject sourceNode && targetUnit is IPBSObject targetNode)
                 {
@@ -47,7 +47,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
                 }
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

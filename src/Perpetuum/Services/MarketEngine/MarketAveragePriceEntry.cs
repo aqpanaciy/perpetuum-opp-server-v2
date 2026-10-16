@@ -23,7 +23,7 @@ namespace Perpetuum.Services.MarketEngine
         /// <summary>
         /// Loads average price data from a given market for a definition
         /// </summary>
-        public void LoadAveragePrice(int definition, int daysBack,Market market)
+        public void LoadAveragePrice(int definition, int daysBack, Market market)
         {
             LastUpdated = DateTime.Now;
 

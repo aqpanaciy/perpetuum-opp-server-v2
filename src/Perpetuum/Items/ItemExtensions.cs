@@ -88,7 +88,7 @@ namespace Perpetuum.Items
                     }
                     catch (PerpetuumException gex)
                     {
-                        n.AddError(item,gex);
+                        n.AddError(item, gex);
                     }
                 }
             }
@@ -109,19 +109,19 @@ namespace Perpetuum.Items
             ItemRepairer.Repair(item);
         }
 
-        public static bool HaveAllEnablerExtensions(this Item item,Character character)
+        public static bool HaveAllEnablerExtensions(this Item item, Character character)
         {
             var missingEnablerExtensions = ItemEnablerExtensionChecker.Check(item, character);
             return missingEnablerExtensions.Length == 0;
         }
 
-        public static void CheckEnablerExtensionsAndThrowIfFailed(this Item item,Character character, ErrorCodes error = ErrorCodes.ExtensionLevelMismatch)
+        public static void CheckEnablerExtensionsAndThrowIfFailed(this Item item, Character character, ErrorCodes error = ErrorCodes.ExtensionLevelMismatch)
         {
             var missingEnablerExtensions = ItemEnablerExtensionChecker.Check(item, character);
             missingEnablerExtensions.Length.ThrowIfGreater(0, error, gex => gex.SetData("missingEnablerExtensions", missingEnablerExtensions.ToDictionary("e", m => m.ToDictionary())));
         }
 
-        public static void SendErrorMessageToOwner(this Item item,Command command, ErrorCodes error)
+        public static void SendErrorMessageToOwner(this Item item, Command command, ErrorCodes error)
         {
             item.GetOwnerAsCharacter().SendItemErrorMessage(command, error, item);
         }

@@ -44,9 +44,9 @@ namespace Perpetuum.Services.ProductionEngine.ResearchKits
         }
 
 
-        public virtual void GetCalibrationDefaults(EntityDefault entityDefault,  out int materialEfficiency, out int timeEfficiency)
+        public virtual void GetCalibrationDefaults(EntityDefault entityDefault, out int materialEfficiency, out int timeEfficiency)
         {
-            _productionDataAccess.GetCalibrationDefault(entityDefault,out materialEfficiency,out timeEfficiency);
+            _productionDataAccess.GetCalibrationDefault(entityDefault, out materialEfficiency, out timeEfficiency);
         }
 
         public virtual bool IsMissionRelated

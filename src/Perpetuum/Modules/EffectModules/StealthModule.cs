@@ -11,7 +11,7 @@ namespace Perpetuum.Modules.EffectModules
 
         public StealthModule()
         {
-            _effectStealthStrengthModifier = new ModuleProperty(this,AggregateField.effect_stealth_strength_modifier);
+            _effectStealthStrengthModifier = new ModuleProperty(this, AggregateField.effect_stealth_strength_modifier);
             AddProperty(_effectStealthStrengthModifier);
         }
 

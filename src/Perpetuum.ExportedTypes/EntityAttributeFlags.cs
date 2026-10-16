@@ -16,7 +16,7 @@ namespace Perpetuum.ExportedTypes
 
         public void SetFlag(AttributeFlags flag)
         {
-            Flags |= (ulong)1 << (int) flag;
+            Flags |= (ulong)1 << (int)flag;
         }
 
         public bool ActiveModule

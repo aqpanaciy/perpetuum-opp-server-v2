@@ -18,7 +18,7 @@ namespace Perpetuum.RequestHandlers.TransportAssignments
                 var info = TransportAssignment.Get(assignmentId);
                 var character = request.Session.Character;
                 info.GiveUpAssignment(character);
-                
+
                 scope.Complete();
             }
         }

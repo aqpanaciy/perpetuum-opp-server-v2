@@ -5,7 +5,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
     public abstract class MissionTargetVisitor
     {
         [DebuggerStepThrough]
-        public virtual void Visit_MissionTarget(MissionTarget missionTarget) {}
+        public virtual void Visit_MissionTarget(MissionTarget missionTarget) { }
 
 
         [DebuggerStepThrough]

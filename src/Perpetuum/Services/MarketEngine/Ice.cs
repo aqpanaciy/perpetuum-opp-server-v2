@@ -11,9 +11,9 @@ namespace Perpetuum.Services.MarketEngine
     {
         public override void Activate(Account account, Character character)
         {
-            AccountManager.AddExtensionPoints(account,ED.Options.ExtensionPoints);
+            AccountManager.AddExtensionPoints(account, ED.Options.ExtensionPoints);
 
-            var e = new AccountTransactionLogEvent(account,AccountTransactionType.EPRedeem)
+            var e = new AccountTransactionLogEvent(account, AccountTransactionType.EPRedeem)
             {
                 Eid = Eid,
                 Definition = Definition
@@ -31,9 +31,9 @@ namespace Perpetuum.Services.MarketEngine
     {
         public override void Activate(Account account, Character character)
         {
-            var wallet = AccountManager.GetWallet(account,AccountTransactionType.CreditRedeem);
+            var wallet = AccountManager.GetWallet(account, AccountTransactionType.CreditRedeem);
             wallet.Balance += ED.Options.Credit;
-            var e = new AccountTransactionLogEvent(account,AccountTransactionType.CreditRedeem)
+            var e = new AccountTransactionLogEvent(account, AccountTransactionType.CreditRedeem)
             {
                 Credit = wallet.Balance,
                 CreditChange = ED.Options.Credit,
@@ -52,19 +52,19 @@ namespace Perpetuum.Services.MarketEngine
     {
         private readonly SparkHelper _sparkHelper;
 
-        public SparkActivator(IAccountManager accountManager,SparkHelper sparkHelper) : base(accountManager)
+        public SparkActivator(IAccountManager accountManager, SparkHelper sparkHelper) : base(accountManager)
         {
             _sparkHelper = sparkHelper;
         }
 
         public override void Activate(Account account, Character character)
         {
-            if ( _sparkHelper.IsSparkUnlocked(character,ED.Options.SparkID))
+            if (_sparkHelper.IsSparkUnlocked(character, ED.Options.SparkID))
                 throw new PerpetuumException(ErrorCodes.SparkAlreadyUnlocked);
 
-            _sparkHelper.UnlockSpark(character,ED.Options.SparkID);
+            _sparkHelper.UnlockSpark(character, ED.Options.SparkID);
 
-            var e = new AccountTransactionLogEvent(account,AccountTransactionType.SparkRedeem)
+            var e = new AccountTransactionLogEvent(account, AccountTransactionType.SparkRedeem)
             {
                 Eid = Eid
             };
@@ -84,9 +84,9 @@ namespace Perpetuum.Services.MarketEngine
 
         public override void Activate(Account account, Character character)
         {
-            var wallet = AccountManager.GetWallet(account,AccountTransactionType.IceRedeem);
+            var wallet = AccountManager.GetWallet(account, AccountTransactionType.IceRedeem);
             wallet.Balance += ICE_CREDIT_VALUE;
-            var e = new AccountTransactionLogEvent(account,AccountTransactionType.IceRedeem)
+            var e = new AccountTransactionLogEvent(account, AccountTransactionType.IceRedeem)
             {
                 Credit = wallet.Balance,
                 CreditChange = ICE_CREDIT_VALUE,

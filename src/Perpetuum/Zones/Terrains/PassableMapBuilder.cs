@@ -13,7 +13,7 @@ namespace Perpetuum.Zones.Terrains
 
         private Size _size;
 
-        public PassableMapBuilder(ILayer<BlockingInfo> blocksLayer,SlopeLayer slopeLayer,IEnumerable<Position> startPositions)
+        public PassableMapBuilder(ILayer<BlockingInfo> blocksLayer, SlopeLayer slopeLayer, IEnumerable<Position> startPositions)
         {
             _blocksLayer = blocksLayer;
             _slopeLayer = slopeLayer;
@@ -39,18 +39,18 @@ namespace Perpetuum.Zones.Terrains
 
         private ILayer<bool> Generate(Position start)
         {
-            var map = new Layer<bool>(LayerType.Passable,_blocksLayer.Width,_blocksLayer.Height);
+            var map = new Layer<bool>(LayerType.Passable, _blocksLayer.Width, _blocksLayer.Height);
 
             var q = new Queue<Position>();
             q.Enqueue(start);
 
-            var closedList = new Dictionary<ulong, bool> {{start.GetUlongHashCode(), true}};
+            var closedList = new Dictionary<ulong, bool> { { start.GetUlongHashCode(), true } };
 
             var counter = 0L;
             Position p;
             while (q.TryDequeue(out p))
             {
-                map.SetValue(p,true);
+                map.SetValue(p, true);
 
                 foreach (var np in p.NonDiagonalNeighbours)
                 {
@@ -59,7 +59,7 @@ namespace Perpetuum.Zones.Terrains
 
                     closedList.Add(np.GetUlongHashCode(), true);
 
-                    if ( !IsPassable(np) )
+                    if (!IsPassable(np))
                         continue;
 
                     q.Enqueue(np);

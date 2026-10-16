@@ -78,7 +78,7 @@ namespace Perpetuum.Zones.Terrains
             return _layers.GetOrDefault(type);
         }
 
-        public Dictionary<MaterialType,IMaterialLayer> Materials { get; set; } = new Dictionary<MaterialType, IMaterialLayer>();
+        public Dictionary<MaterialType, IMaterialLayer> Materials { get; set; } = new Dictionary<MaterialType, IMaterialLayer>();
 
         public IMaterialLayer GetMaterialLayer(MaterialType type)
         {

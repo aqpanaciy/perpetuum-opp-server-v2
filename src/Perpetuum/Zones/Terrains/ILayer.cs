@@ -11,9 +11,9 @@ namespace Perpetuum.Zones.Terrains
     public interface ILayer<T> : ILayer, INotifyLayerUpdated, IUpdateableLayer
     {
         T[] RawData { get; }
-        
+
         T GetValue(int x, int y);
-        void SetValue(int x, int y,T value);
+        void SetValue(int x, int y, T value);
 
         T this[int x, int y] { get; set; }
 

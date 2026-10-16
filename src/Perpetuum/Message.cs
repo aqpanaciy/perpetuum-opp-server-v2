@@ -13,16 +13,16 @@ namespace Perpetuum
 
         public Command Command { get; }
         IDictionary<string, object> IMessage.Data => Data;
-        public ImmutableDictionary <string,object> Data { get; set; }
+        public ImmutableDictionary<string, object> Data { get; set; }
 
         public string Sender { get; set; } = string.Empty;
         //public IReadOnlyDictionary<string, object> Data { get; }
 
-        public Message(Command command) : this(command,ImmutableDictionary<string,object>.Empty)
+        public Message(Command command) : this(command, ImmutableDictionary<string, object>.Empty)
         {
         }
 
-        public Message(Command command,IReadOnlyDictionary<string,object> data)
+        public Message(Command command, IReadOnlyDictionary<string, object> data)
         {
             this.Command = command;
             this.Data = data?.ToImmutableDictionary() ?? ImmutableDictionary<string, object>.Empty;
@@ -52,7 +52,7 @@ namespace Perpetuum
             var command = Commands.GetCommandByText(x[0]) ?? new Command(x[0]);
             var sender = x[1];
             var data = GenxyConverter.Deserialize(x[2]);
-            return new Message(command,data) { Sender = sender};
+            return new Message(command, data) { Sender = sender };
         }
     }
 }

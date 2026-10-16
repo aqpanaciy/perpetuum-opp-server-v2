@@ -49,7 +49,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                 };
 
                 Message.Builder.FromRequest(request).WithData(replyDict).Send();
-                
+
                 scope.Complete();
             }
         }

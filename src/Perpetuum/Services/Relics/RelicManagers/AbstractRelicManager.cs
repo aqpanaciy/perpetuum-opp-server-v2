@@ -106,7 +106,7 @@ namespace Perpetuum.Services.Relics
         {
             return _relics.Select(r => r.ToDebugDictionary()).ToList();
         }
-        
+
 
 
         //Abstract methods for extension of behaviour'

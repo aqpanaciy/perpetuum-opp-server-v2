@@ -25,7 +25,7 @@ namespace Perpetuum.Services.MissionEngine
         public static MissionProcessor MissionProcessor { get; set; }
         public static IEntityServices EntityServices { get; set; }
 
-        public static void Init(MissionDataCache missionDataCache,IStandingHandler standingHandler)
+        public static void Init(MissionDataCache missionDataCache, IStandingHandler standingHandler)
         {
             _missionDataCache = missionDataCache;
             _standingHandler = standingHandler;
@@ -59,7 +59,7 @@ namespace Perpetuum.Services.MissionEngine
         /// <param name="missionTarget"></param>
         private static void FindMyStructure(MissionTarget missionTarget)
         {
-           
+
             var switchDefinitions = EntityServices.Defaults.GetAll().GetDefinitionsByCategoryFlag(CategoryFlags.cf_mission_switch);
             var kioskDefinitions = EntityServices.Defaults.GetAll().GetDefinitionsByCategoryFlag(CategoryFlags.cf_kiosk);
             var itemSupplyDefinitions = EntityServices.Defaults.GetAll().GetDefinitionsByCategoryFlag(CategoryFlags.cf_item_supply);
@@ -113,7 +113,7 @@ namespace Perpetuum.Services.MissionEngine
             {
                 var structureEid = eidList.First();
                 Logger.Info("exactly one structure was found " + structureEid);
-                
+
                 Db.Query().CommandText("update missiontargets set structureeid=@eid where id=@id")
                     .SetParameter("@id", missionTarget.id)
                     .SetParameter("@eid", structureEid)
@@ -187,7 +187,7 @@ namespace Perpetuum.Services.MissionEngine
                         throw new ArgumentOutOfRangeException();
                 }
             }
-            
+
         }
 
         public static void InsertMissionTargetTypeToSql()
@@ -213,7 +213,7 @@ namespace Perpetuum.Services.MissionEngine
                         .SetParameter("@id", value)
                         .SetParameter("@name", name)
                         .ExecuteNonQuery();
-    
+
                 }
                 else
                 {
@@ -225,7 +225,7 @@ namespace Perpetuum.Services.MissionEngine
                             .ExecuteNonQuery();
                     }
 
-                }                
+                }
 
             }
         }
@@ -260,7 +260,7 @@ VALUES  ( @name,  10, NULL, 0, 1, 1 )
         }
 
 
-        public static bool FindIndustrialMissionGuidWithConditions(Character character,  int cprgDefinition, out Guid missionGuid, bool unfinishedOnly = true)
+        public static bool FindIndustrialMissionGuidWithConditions(Character character, int cprgDefinition, out Guid missionGuid, bool unfinishedOnly = true)
         {
             var query = "SELECT missionguid FROM dbo.missiontargetsarchive WHERE definition=@definition1  AND characterid=@characterId";
 
@@ -271,7 +271,7 @@ VALUES  ( @name,  10, NULL, 0, 1, 1 )
 
             var result =
             Db.Query().CommandText(query)
-                .SetParameter("@targetType1", (int) MissionTargetType.research)
+                .SetParameter("@targetType1", (int)MissionTargetType.research)
                 .SetParameter("@targetType2", (int)MissionTargetType.massproduce)
                 .SetParameter("@definition1", cprgDefinition)
                 .SetParameter("@characterId", character.Id)
@@ -280,12 +280,12 @@ VALUES  ( @name,  10, NULL, 0, 1, 1 )
             if (result == null)
             {
                 missionGuid = Guid.Empty;
-                
+
                 return false;
             }
 
             missionGuid = result.GetValue<Guid>("missionguid");
-            
+
             return true;
         }
 
@@ -350,7 +350,7 @@ VALUES  ( @name,  10, NULL, 0, 1, 1 )
 
                             (res == 1).ThrowIfFalse(ErrorCodes.SQLUpdateError);
 
-                            Logger.Info("displayOrder corrected " + target.id + " " + target.Type + " " + target.displayOrder +" => "+ index);
+                            Logger.Info("displayOrder corrected " + target.id + " " + target.Type + " " + target.displayOrder + " => " + index);
 
                         }
 
@@ -366,11 +366,11 @@ VALUES  ( @name,  10, NULL, 0, 1, 1 )
         }
 
 
-        public static void PlaceRandomPoint(IZone zone, Position position, int findRadius )
+        public static void PlaceRandomPoint(IZone zone, Position position, int findRadius)
         {
             var x = position.X;
             var y = position.Y;
-            
+
             var name = MissionTarget.GenerateName(MissionTargetType.rnd_point, zone.Id, "spot");
             MissionTarget.InsertMissionTargetSpot(name, MissionTargetType.rnd_point, x, y, zone.Id, findRadius);
 
@@ -388,13 +388,13 @@ VALUES  ( @name,  10, NULL, 0, 1, 1 )
                 var mstructure = unit as MissionStructure;
                 if (mstructure != null)
                 {
-                    MissionTarget.UpdatePositionByStructureEid(structureEid,position);
+                    MissionTarget.UpdatePositionByStructureEid(structureEid, position);
                 }
             }
 
             if (orientation != -1)
             {
-                unit.Orientation = (orientation % (byte.MaxValue+1)) / (double)byte.MaxValue;
+                unit.Orientation = (orientation % (byte.MaxValue + 1)) / (double)byte.MaxValue;
             }
 
             zone.UnitService.UpdateDefaultUnit(unit);
@@ -415,23 +415,23 @@ VALUES  ( @name,  10, NULL, 0, 1, 1 )
 
             foreach (var category in randomCategories)
             {
-                var randomMissions=  allmissions.Where(m => m.missionCategory == category).ToList();
+                var randomMissions = allmissions.Where(m => m.missionCategory == category).ToList();
 
                 var ids = randomMissions.Select(m => m.id).ArrayToString();
                 Logger.Info("----------------------");
                 Logger.Info(randomMissions.Count + " missions in category " + category);
 
-                    foreach (var missionLocation in locationsOnZone)
-                    {
-                        var qs = "select sum(uniquecases) from missiontolocation where missionid in (" + ids + ") and locationid=@locationID";
+                foreach (var missionLocation in locationsOnZone)
+                {
+                    var qs = "select sum(uniquecases) from missiontolocation where missionid in (" + ids + ") and locationid=@locationID";
 
-                        var count =
-                        Db.Query().CommandText(qs).SetParameter("@locationID", missionLocation.id)
-                            .ExecuteScalar<int>();
+                    var count =
+                    Db.Query().CommandText(qs).SetParameter("@locationID", missionLocation.id)
+                        .ExecuteScalar<int>();
 
-                        Logger.Info(count + " out of " + randomMissions.Count + " at " + missionLocation.id);
+                    Logger.Info(count + " out of " + randomMissions.Count + " at " + missionLocation.id);
 
-                    }
+                }
             }
         }
 

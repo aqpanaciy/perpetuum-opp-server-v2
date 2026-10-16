@@ -8,7 +8,7 @@ namespace Perpetuum.Services.Sessions
     {
         public static readonly SessionID None = new SessionID(0);
         private static readonly IIDGenerator<int> _idGenerator = IDGenerator.CreateIntIDGenerator();
-        
+
         private readonly int _id;
 
         private SessionID(int id)
@@ -23,10 +23,10 @@ namespace Perpetuum.Services.Sessions
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) 
+            if (ReferenceEquals(null, obj))
                 return false;
 
-            return obj is SessionID && Equals((SessionID) obj);
+            return obj is SessionID && Equals((SessionID)obj);
         }
 
         public override int GetHashCode()

@@ -13,7 +13,7 @@ namespace Perpetuum.RequestHandlers
         private readonly IEntityServices _entityServices;
         private readonly IZoneManager _zoneManager;
 
-        public ItemCountOnZone(IEntityServices entityServices,IZoneManager zoneManager)
+        public ItemCountOnZone(IEntityServices entityServices, IZoneManager zoneManager)
         {
             _entityServices = entityServices;
             _zoneManager = zoneManager;

@@ -17,7 +17,7 @@ namespace Perpetuum.Zones
 
         public static void SendMessageToPlayers(this IZone zone, MessageBuilder builder)
         {
-            if ( zone == null )
+            if (zone == null)
                 return;
 
             builder.ToCharacters(zone.GetCharacters()).Send();
@@ -47,7 +47,7 @@ namespace Perpetuum.Zones
         }
 
         [CanBeNull]
-        public static Player ToPlayerOrGetOwnerPlayer(this IZone zone,Unit unit)
+        public static Player ToPlayerOrGetOwnerPlayer(this IZone zone, Unit unit)
         {
             if (zone == null || unit == null)
                 return null;

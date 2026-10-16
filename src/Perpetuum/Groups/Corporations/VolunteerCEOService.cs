@@ -16,7 +16,7 @@ namespace Perpetuum.Groups.Corporations
 
         public DateTime Expiry { get; set; }
 
-        public VolunteerCEOService(IVolunteerCEORepository volunteerCEORepository,IChannelManager channelManager)
+        public VolunteerCEOService(IVolunteerCEORepository volunteerCEORepository, IChannelManager channelManager)
         {
             _volunteerCEORepository = volunteerCEORepository;
             _channelManager = channelManager;
@@ -28,7 +28,7 @@ namespace Perpetuum.Groups.Corporations
 #endif
         }
 
-        public VolunteerCEO AddVolunteer(Corporation corporation,Character character)
+        public VolunteerCEO AddVolunteer(Corporation corporation, Character character)
         {
             var volunteerCEO = new VolunteerCEO
             {
@@ -71,10 +71,10 @@ namespace Perpetuum.Groups.Corporations
                     role = role.SetRole(CorporationRole.CEO);
                     role = role.ClearRole(CorporationRole.DeputyCEO);
 
-                    corporation.SetMemberRole(volunteerCharacter,role);
-                    corporation.WriteRoleHistory(volunteerCEO.character,volunteerCEO.character,role,oldRole);
+                    corporation.SetMemberRole(volunteerCharacter, role);
+                    corporation.WriteRoleHistory(volunteerCEO.character, volunteerCEO.character, role, oldRole);
 
-                    _channelManager.SetMemberRole(corporation.ChannelName,volunteerCEO.character,role);
+                    _channelManager.SetMemberRole(corporation.ChannelName, volunteerCEO.character, role);
 
                     //old ceo
 
@@ -84,10 +84,10 @@ namespace Perpetuum.Groups.Corporations
                     currentCeoRole = currentCeoRole.ClearRole(CorporationRole.CEO);
                     currentCeoRole = currentCeoRole.SetRole(CorporationRole.DeputyCEO);
 
-                    corporation.SetMemberRole(currentCEO,currentCeoRole);
-                    corporation.WriteRoleHistory(currentCEO,currentCEO,currentCeoRole,oldCurrentCeoRole);
+                    corporation.SetMemberRole(currentCEO, currentCeoRole);
+                    corporation.WriteRoleHistory(currentCEO, currentCEO, currentCeoRole, oldCurrentCeoRole);
 
-                    _channelManager.SetMemberRole(corporation.ChannelName,currentCEO,currentCeoRole);
+                    _channelManager.SetMemberRole(corporation.ChannelName, currentCEO, currentCeoRole);
                     CorporationData.RemoveFromCache(corporation.Eid);
 
                     Logger.Info($"{volunteerCharacter} took over CEO for {currentCEO} at corporationeid:{corporation.Eid}");

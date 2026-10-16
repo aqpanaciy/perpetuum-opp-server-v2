@@ -75,7 +75,7 @@ namespace Perpetuum.EntityFramework
                 return;
 
             entity.OnDeleteFromDb();
- 
+
             foreach (var child in entity.Children)
             {
                 Delete(child);
@@ -223,7 +223,7 @@ namespace Perpetuum.EntityFramework
         public IEnumerable<Entity> GetFirstLevelChildren_(long rootEid)
         {
             return Db.Query().CommandText("select eid from entities where parent = @eid")
-                           .SetParameter("@eid",rootEid)
+                           .SetParameter("@eid", rootEid)
                            .Execute()
                            .Select(r =>
                             {
@@ -235,8 +235,8 @@ namespace Perpetuum.EntityFramework
         public IEnumerable<Entity> GetFirstLevelChildrenByOwner(long parent, long owner)
         {
             return Db.Query().CommandText("select eid from entities where parent = @eid and owner=@owner")
-                .SetParameter("@eid",parent)
-                .SetParameter("@owner",owner)
+                .SetParameter("@eid", parent)
+                .SetParameter("@owner", owner)
                 .Execute()
                 .Select(r =>
                 {

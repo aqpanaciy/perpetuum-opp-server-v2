@@ -38,13 +38,13 @@ namespace Perpetuum.RequestHandlers
 
                 var processedCharacters = playersToRegister.Intersect(members).ToArray();
 
-                if (processedCharacters.Length <= 0) 
+                if (processedCharacters.Length <= 0)
                     return;
 
                 var bosses = corporation.Members.Where(m => m.role.IsAnyRole(CorporationRole.CEO, CorporationRole.DeputyCEO)).Select(m => m.character).ToArray();
-            
-                probe.GetMaxRegisteredCount().ThrowIfLess(processedCharacters.Length - bosses.Length,ErrorCodes.MaximumAllowedRegistrationExceeded);
-                
+
+                probe.GetMaxRegisteredCount().ThrowIfLess(processedCharacters.Length - bosses.Length, ErrorCodes.MaximumAllowedRegistrationExceeded);
+
                 PBSRegisterHelper.ClearMembersFromSql(probeEid);
 
                 //add bosses
@@ -52,13 +52,13 @@ namespace Perpetuum.RequestHandlers
 
                 PBSRegisterHelper.WriteRegistersToDb(probeEid, processedCharacters);
 
-                
+
                 Transaction.Current.OnCommited(() =>
                 {
                     probe.ReloadRegistration();
                     probe.SendUpdateToAllPossibleMembers();
                 });
-                
+
                 scope.Complete();
             }
         }

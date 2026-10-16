@@ -30,7 +30,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
         private double _rewardByTargets;
         private readonly MissionInProgress _missionInProgress;
         private readonly bool _estimation;
-        
+
         public MissionRewardCalculator(MissionInProgress missionInProgress, bool estimation)
         {
             _missionInProgress = missionInProgress;
@@ -56,12 +56,12 @@ namespace Perpetuum.Services.MissionEngine.Missions
 
         }
 
-        private void CalculateEstimation( )
+        private void CalculateEstimation()
         {
             _difficultyReward = _missionInProgress.GetDifficultyReward;
             _rewardByTargets = _missionInProgress.EstimateRewardByTargets();
             var netReward = _rewardByTargets + _difficultyReward;
-            
+
             _rewardSum = netReward * ZoneFactor;
 
             Logger.Info("Estimated reward is:" + _rewardSum + " byTargets:" + _rewardByTargets + " difficultyReward:" + _difficultyReward + " for " + _missionInProgress);
@@ -73,14 +73,14 @@ namespace Perpetuum.Services.MissionEngine.Missions
         }
 
 
-        private void CalculateFinalReward( )
+        private void CalculateFinalReward()
         {
             _distanceReward = _missionInProgress.CollectDistanceReward();
 
             _difficultyReward = _missionInProgress.GetDifficultyReward;
             _rewardByTargets = _missionInProgress.CollectRewardByTargets();
             var netReward = _distanceReward + _rewardByTargets + _difficultyReward;
-            
+
             _rewardSum = netReward * ZoneFactor;
             _riskCompensation = _rewardSum - netReward;
 
@@ -121,7 +121,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
             _missionDataCache = missionDataCache;
         }
 
-        public MissionStandingChangeCalculator(MissionInProgress missionInProgress,  MissionLocation missionLocation)
+        public MissionStandingChangeCalculator(MissionInProgress missionInProgress, MissionLocation missionLocation)
         {
             _missionLocation = missionLocation;
             _missionInProgress = missionInProgress;
@@ -161,7 +161,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
             //Implementation: Add reputation for all factions equally -- No factional bias!
             IEnumerable<long> allianceEids = DefaultCorporationDataCache.GetMegaCorporationEids();
             List<MissionStandingChange> standingChangeForSyndicatification = new List<MissionStandingChange>();
-            foreach(long id in allianceEids)
+            foreach (long id in allianceEids)
             {
                 standingChangeForSyndicatification.Add(new MissionStandingChange(id, standingValue));
             }
@@ -197,7 +197,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
             var coinQuantity = RandomMission.CoinQuantity(level, randomMission.DifficultyMultiplier);
 
             //Total token quantity increase
-            coinQuantity = (int) Math.Round(_missionInProgress.GetParticipantBonusModifier() * coinQuantity);
+            coinQuantity = (int)Math.Round(_missionInProgress.GetParticipantBonusModifier() * coinQuantity);
 
             var coinItemInfo = new ItemInfo(coinDefinition, coinQuantity);
             var coinReward = new MissionReward(coinItemInfo);
@@ -215,5 +215,5 @@ namespace Perpetuum.Services.MissionEngine.Missions
         }
 
     }
-   
+
 }

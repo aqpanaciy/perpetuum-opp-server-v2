@@ -3,7 +3,7 @@ using Perpetuum.Log;
 
 namespace Perpetuum.Common.Loggers
 {
-    public abstract class DbLogger<T> : ILogger<T> where T:ILogEvent
+    public abstract class DbLogger<T> : ILogger<T> where T : ILogEvent
     {
         public void Log(T logEvent)
         {

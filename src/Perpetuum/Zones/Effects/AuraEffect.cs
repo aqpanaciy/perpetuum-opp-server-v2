@@ -4,7 +4,7 @@ using Perpetuum.Units;
 namespace Perpetuum.Zones.Effects
 {
     public delegate IEnumerable<Unit> EffectTargetSelector(IZone zone);
-    
+
     /// <summary>
     /// Radius based effect
     /// </summary>
@@ -68,12 +68,12 @@ namespace Perpetuum.Zones.Effects
                 if (unit == Owner)
                     continue;
 
-                if ( unit.EffectHandler.ContainsToken(Token) )
+                if (unit.EffectHandler.ContainsToken(Token))
                     continue;
 
                 if (Radius > 0.0)
                 {
-                    if ( !unit.IsInRangeOf3D(Source.CurrentPosition,Radius) )
+                    if (!unit.IsInRangeOf3D(Source.CurrentPosition, Radius))
                         continue;
                 }
 

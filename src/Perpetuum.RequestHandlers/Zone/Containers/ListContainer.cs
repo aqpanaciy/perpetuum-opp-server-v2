@@ -17,10 +17,10 @@ namespace Perpetuum.RequestHandlers.Zone.Containers
                 var container = request.Zone.FindContainerOrThrow(player, containerEid);
                 CheckContainerType(container).ThrowIfError();
                 CheckFieldTerminalRange(player, container).ThrowIfError();
-            
+
                 var result = container.ToDictionary();
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

@@ -48,7 +48,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                 var leaveTime = _corporationManager.AddLeaveEntry(character);
 
                 Message.Builder.FromRequest(request).WithData(new Dictionary<string, object> { { k.leaveEnd, leaveTime } }).Send();
-                
+
                 scope.Complete();
             }
         }

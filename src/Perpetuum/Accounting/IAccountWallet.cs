@@ -4,6 +4,6 @@ namespace Perpetuum.Accounting
 {
     public interface IAccountWallet : IWallet<int>
     {
-        
+
     }
 }

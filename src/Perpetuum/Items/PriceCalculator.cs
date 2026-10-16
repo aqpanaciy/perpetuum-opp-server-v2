@@ -23,7 +23,7 @@ namespace Perpetuum.Items
         {
             return Db.Query().CommandText("select * from itemprices")
                           .Execute()
-                          .ToDictionary(r => r.GetValue<int>("definition"),r => r.GetValue<double>("price"));
+                          .ToDictionary(r => r.GetValue<int>("definition"), r => r.GetValue<double>("price"));
         }
 
         public double GetDefaultPrice(int definition)
@@ -32,7 +32,7 @@ namespace Perpetuum.Items
         }
     }
 
-    public class PriceCalculator : IEntityVisitor<Item>,IEntityVisitor<Robot>
+    public class PriceCalculator : IEntityVisitor<Item>, IEntityVisitor<Robot>
     {
         private readonly MarketHandler _marketHandler;
         private readonly IProductionDataAccess _productionDataAccess;
@@ -42,7 +42,7 @@ namespace Perpetuum.Items
 
         public static Factory PriceCalculatorFactory { get; set; }
 
-        public PriceCalculator(MarketHandler marketHandler,IProductionDataAccess productionDataAccess,IRobotTemplateRelations robotTemplateRelations)
+        public PriceCalculator(MarketHandler marketHandler, IProductionDataAccess productionDataAccess, IRobotTemplateRelations robotTemplateRelations)
         {
             _marketHandler = marketHandler;
             _productionDataAccess = productionDataAccess;

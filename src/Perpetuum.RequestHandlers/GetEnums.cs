@@ -115,7 +115,7 @@ namespace Perpetuum.RequestHandlers
                 {k.EpForActivityType, EnumHelper.ToDictionary<EpForActivityType>()},
             };
 
-            Message.Builder.FromRequest(request).SetData("enums",enumsDict).Send();
+            Message.Builder.FromRequest(request).SetData("enums", enumsDict).Send();
         }
     }
 }

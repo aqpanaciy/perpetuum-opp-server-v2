@@ -12,7 +12,7 @@ namespace Perpetuum.Accounting
 
         void LogTransaction(AccountTransactionLogEvent e);
 
-        IEnumerable<AccountTransactionLogEvent> GetTransactionHistory(Account account, TimeSpan offset,TimeSpan length);
+        IEnumerable<AccountTransactionLogEvent> GetTransactionHistory(Account account, TimeSpan offset, TimeSpan length);
 
         int GetActiveCharactersCount(Account account);
 
@@ -24,15 +24,15 @@ namespace Perpetuum.Accounting
 
         void FreeLockedEp(Account account, int amount);
 
-        void InsertExtensionRemoveLog(Account account, Character character, int extensionId, int extensionLevel,int points);
+        void InsertExtensionRemoveLog(Account account, Character character, int extensionId, int extensionLevel, int points);
 
-        void AddExtensionPointsSpent(Account account, Character character, int spentPoints, int extensionID,int extensionLevel);
+        void AddExtensionPointsSpent(Account account, Character character, int spentPoints, int extensionID, int extensionLevel);
 
         void ExtensionSubscriptionStart(Account account, DateTime startTime, DateTime endTime, int multiplierBonus);
 
         void AddExtensionPoints(Account account, int pointsToInject);
 
-        int AddExtensionPointsBoostAndLog(Account account, Character character, EpForActivityType activityType,int points);
+        int AddExtensionPointsBoostAndLog(Account account, Character character, EpForActivityType activityType, int points);
 
         void InsertPenaltyPoint(Account account, AccountExtensionPenaltyType penaltyType, int points, bool forever);
 

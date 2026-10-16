@@ -122,7 +122,7 @@ namespace Perpetuum.RequestHandlers.Standings
                     .WrapToResult()
                     .WithEmpty()
                     .Send();
-                
+
                 scope.Complete();
             }
         }

@@ -11,7 +11,7 @@ namespace Perpetuum.Players.ExtensionMethods
 {
     public static class PlayerExtensions
     {
-        public static void SendStartProgressBar(this IEnumerable<Player> players, Unit unit,TimeSpan timeout)
+        public static void SendStartProgressBar(this IEnumerable<Player> players, Unit unit, TimeSpan timeout)
         {
             var data = unit.BaseInfoToDictionary();
 
@@ -22,7 +22,7 @@ namespace Perpetuum.Players.ExtensionMethods
             Message.Builder.SetCommand(Commands.AlarmStart).WithData(data).ToCharacters(players.ToCharacters()).Send();
         }
 
-        public static void SendEndProgressBar(this IEnumerable<Player> players, Unit unit,bool success = true)
+        public static void SendEndProgressBar(this IEnumerable<Player> players, Unit unit, bool success = true)
         {
             var info = unit.BaseInfoToDictionary();
             info.Add(k.success, success);

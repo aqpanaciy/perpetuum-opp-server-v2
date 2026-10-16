@@ -11,7 +11,7 @@ namespace Perpetuum.Zones.Terrains
         ILayer<BlockingInfo> Blocks { get; }
         ILayer<TerrainControlInfo> Controls { get; }
         ILayer<PlantInfo> Plants { get; }
-        
+
         [CanBeNull]
         ILayer<bool> Passable { get; }
 

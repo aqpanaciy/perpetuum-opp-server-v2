@@ -10,7 +10,7 @@ namespace Perpetuum.Zones.Training
 {
     public class TrainingDockingBase : DockingBase
     {
-        public TrainingDockingBase(IChannelManager channelManager,ICentralBank centralBank,IRobotTemplateRelations robotTemplateRelations,DockingBaseHelper dockingBaseHelper) : base(channelManager,centralBank,robotTemplateRelations,dockingBaseHelper)
+        public TrainingDockingBase(IChannelManager channelManager, ICentralBank centralBank, IRobotTemplateRelations robotTemplateRelations, DockingBaseHelper dockingBaseHelper) : base(channelManager, centralBank, robotTemplateRelations, dockingBaseHelper)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Perpetuum.Zones.Training
         public DefaultCorporation GetTrainingCorporation()
         {
             var eid = DefaultCorporationDataCache.GetByAlliance(Owner).FirstOrDefault();
-            return (DefaultCorporation) Corporation.GetOrThrow(eid);
+            return (DefaultCorporation)Corporation.GetOrThrow(eid);
         }
     }
 }

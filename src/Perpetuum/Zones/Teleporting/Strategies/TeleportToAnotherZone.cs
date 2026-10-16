@@ -22,7 +22,7 @@ namespace Perpetuum.Zones.Teleporting.Strategies
 
         public void DoTeleport(Player player)
         {
-            if (!player.InZone )
+            if (!player.InZone)
                 return;
 
             player.States.Teleport = true;
@@ -35,7 +35,7 @@ namespace Perpetuum.Zones.Teleporting.Strategies
             Transaction.Current.OnCommited(() =>
             {
                 player.RemoveFromZone();
-                Task.Delay(1000).ContinueWith(t => _targetZone.Enter(character,Commands.TeleportUse));
+                Task.Delay(1000).ContinueWith(t => _targetZone.Enter(character, Commands.TeleportUse));
             });
         }
 

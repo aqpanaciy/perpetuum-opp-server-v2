@@ -28,7 +28,7 @@ namespace Perpetuum
         }
 
         [CanBeNull]
-        public static string Clamp(this string str,int length)
+        public static string Clamp(this string str, int length)
         {
             if (string.IsNullOrEmpty(str))
                 return null;
@@ -38,9 +38,9 @@ namespace Perpetuum
 
         public static string[] GetLines(this string str)
         {
-            if ( string.IsNullOrEmpty(str))
+            if (string.IsNullOrEmpty(str))
                 return new string[0];
-            
+
             var delimiters = new[] { '\r', '\n' };
             return str.Split(delimiters, StringSplitOptions.RemoveEmptyEntries).ToArray();
         }
@@ -95,13 +95,13 @@ namespace Perpetuum
 
         public static string RemoveSpecialCharacters(this string input)
         {
-            return Regex.Replace(input,"(?:[^a-z0-9 ]|(?<=['\"])s)",string.Empty, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
+            return Regex.Replace(input, "(?:[^a-z0-9 ]|(?<=['\"])s)", string.Empty, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
         }
 
         public static T ToEnum<T>(this string input)
         {
-            Debug.Assert(typeof (T).IsEnum,"t.IsEnum");
-            return (T) Enum.Parse(typeof (T), input, true);
+            Debug.Assert(typeof(T).IsEnum, "t.IsEnum");
+            return (T)Enum.Parse(typeof(T), input, true);
         }
     }
 }

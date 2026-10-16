@@ -13,7 +13,7 @@ namespace Perpetuum.RequestHandlers.Markets
         private readonly IEntityServices _entityServices;
         private readonly MarketHelper _marketHelper;
 
-        public MarketRemoveItems(IEntityServices entityServices,MarketHelper marketHelper)
+        public MarketRemoveItems(IEntityServices entityServices, MarketHelper marketHelper)
         {
             _entityServices = entityServices;
             _marketHelper = marketHelper;
@@ -91,7 +91,7 @@ namespace Perpetuum.RequestHandlers.Markets
                 }
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

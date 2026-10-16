@@ -104,7 +104,7 @@ namespace Perpetuum.Bootstrapper.Modules
                 {
                     return new CompositeLogger<LogEvent>(fileLogger, new ColoredConsoleLogger(formater));
                 }
-                
+
                 GlobalConfiguration config = c.Resolve<GlobalConfiguration>();
                 if (string.IsNullOrEmpty(config.LokiURL) || string.IsNullOrEmpty(config.LokiFallbackPath))
                 {

@@ -15,7 +15,7 @@ namespace Perpetuum.EntityFramework
         private readonly RobotTemplateFactory _robotTemplateFactory;
         private readonly ModulePropertyModifiersReader _modulePropertyModifiersReader;
 
-        public EntityFactory(Func<EntityDefault,Entity> factory,IEntityDefaultReader defaultReader,DefaultPropertyModifierReader defaultPropertyModifierReader,RobotTemplateFactory robotTemplateFactory,ModulePropertyModifiersReader modulePropertyModifiersReader)
+        public EntityFactory(Func<EntityDefault, Entity> factory, IEntityDefaultReader defaultReader, DefaultPropertyModifierReader defaultPropertyModifierReader, RobotTemplateFactory robotTemplateFactory, ModulePropertyModifiersReader modulePropertyModifiersReader)
         {
             _factory = factory;
             _defaultReader = defaultReader;
@@ -24,18 +24,18 @@ namespace Perpetuum.EntityFramework
             _modulePropertyModifiersReader = modulePropertyModifiersReader;
         }
 
-        public Entity Create(string definitionName,IIDGenerator<long> idGenerator)
+        public Entity Create(string definitionName, IIDGenerator<long> idGenerator)
         {
-            return Create(_defaultReader.GetByName(definitionName),idGenerator);
+            return Create(_defaultReader.GetByName(definitionName), idGenerator);
         }
 
-        public Entity Create(int definition,IIDGenerator<long> idGenerator)
+        public Entity Create(int definition, IIDGenerator<long> idGenerator)
         {
             var ed = _defaultReader.Get(definition);
-            return Create(ed,idGenerator);
+            return Create(ed, idGenerator);
         }
 
-        public Entity Create(EntityDefault entityDefault,IIDGenerator<long> idGenerator)
+        public Entity Create(EntityDefault entityDefault, IIDGenerator<long> idGenerator)
         {
             var entity = _factory(entityDefault);
             entity.Eid = idGenerator.GetNextID();

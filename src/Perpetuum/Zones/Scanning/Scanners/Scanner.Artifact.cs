@@ -22,7 +22,7 @@ namespace Perpetuum.Zones.Scanning.Scanners
 
                     Transaction.Current.OnCommited(() =>
                     {
-                        _player.Session.SendPacket(BuildScanArtifactResultPacket(scanPosition,results));
+                        _player.Session.SendPacket(BuildScanArtifactResultPacket(scanPosition, results));
                     });
 
                     scope.Complete();
@@ -33,10 +33,10 @@ namespace Perpetuum.Zones.Scanning.Scanners
         private IArtifactScanner CreateArtifactScanner()
         {
             var factory = new ArtifactScannerFactory(_zone);
-            return  factory.CreateArtifactScanner(_player);
+            return factory.CreateArtifactScanner(_player);
         }
 
-        private Packet BuildScanArtifactResultPacket(Position scanPosition,ArtifactScanResult[] results)
+        private Packet BuildScanArtifactResultPacket(Position scanPosition, ArtifactScanResult[] results)
         {
             var packet = new Packet(ZoneCommand.ScanArtifactResult2);
 
@@ -47,7 +47,7 @@ namespace Perpetuum.Zones.Scanning.Scanners
             foreach (var result in results)
             {
                 packet.AppendInt(result.scannedArtifact.Id);
-                packet.AppendInt((int) result.scannedArtifact.Info.type);
+                packet.AppendInt((int)result.scannedArtifact.Info.type);
                 packet.AppendGuid(result.scannedArtifact.MissionGuid);
                 packet.AppendPoint(result.estimatedPosition);
                 packet.AppendDouble(result.radius);

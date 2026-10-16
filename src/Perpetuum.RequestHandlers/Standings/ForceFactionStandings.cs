@@ -27,7 +27,7 @@ namespace Perpetuum.RequestHandlers.Standings
                 }
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

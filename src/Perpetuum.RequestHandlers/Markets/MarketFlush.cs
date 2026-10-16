@@ -40,7 +40,7 @@ namespace Perpetuum.RequestHandlers.Markets
                 };
 
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

@@ -8,7 +8,7 @@ namespace Perpetuum.Data
     {
         public static IEnumerable<IDataRecord> ToEnumerable(this IDataReader reader)
         {
-            var e  = new DbEnumerator(reader);
+            var e = new DbEnumerator(reader);
 
             while (e.MoveNext())
             {

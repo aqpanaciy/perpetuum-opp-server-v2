@@ -10,7 +10,7 @@ namespace Perpetuum.Services.ItemShop
         private readonly EntityDefault _coinED;
         private readonly int _amount;
 
-        private static readonly Dictionary<EntityDefault,string> _coinKeyNames = new Dictionary<EntityDefault, string>()
+        private static readonly Dictionary<EntityDefault, string> _coinKeyNames = new Dictionary<EntityDefault, string>()
         {
             {EntityDefault.GetByName(DefinitionNames.TM_MISSION_COIN),k.tmcoin},
             {EntityDefault.GetByName(DefinitionNames.ICS_MISSION_COIN),k.icscoin},
@@ -18,7 +18,7 @@ namespace Perpetuum.Services.ItemShop
             {EntityDefault.GetByName(DefinitionNames.UNIVERSAL_MISSION_COIN),k.unicoin}
         };
 
-        private Coin(EntityDefault coinED,int amount)
+        private Coin(EntityDefault coinED, int amount)
         {
             _coinED = coinED;
             _amount = amount;
@@ -39,7 +39,7 @@ namespace Perpetuum.Services.ItemShop
             dictionary[_coinKeyNames[_coinED]] = _amount;
         }
 
-        public void RemoveFromContainer(Container container,int quantity)
+        public void RemoveFromContainer(Container container, int quantity)
         {
             var requestedQuantity = Amount * quantity;
             var qty = container.RemoveItemByDefinition(CoinED.Definition, requestedQuantity);
@@ -49,22 +49,22 @@ namespace Perpetuum.Services.ItemShop
 
         public static Coin CreateTMCoin(int amount)
         {
-            return new Coin(EntityDefault.GetByName(DefinitionNames.TM_MISSION_COIN),amount);
+            return new Coin(EntityDefault.GetByName(DefinitionNames.TM_MISSION_COIN), amount);
         }
 
         public static Coin CreateICSCoin(int amount)
         {
-            return new Coin(EntityDefault.GetByName(DefinitionNames.ICS_MISSION_COIN),amount);
+            return new Coin(EntityDefault.GetByName(DefinitionNames.ICS_MISSION_COIN), amount);
         }
 
         public static Coin CreateASICoin(int amount)
         {
-            return new Coin(EntityDefault.GetByName(DefinitionNames.ASI_MISSION_COIN),amount);
+            return new Coin(EntityDefault.GetByName(DefinitionNames.ASI_MISSION_COIN), amount);
         }
 
         public static Coin CreateUniversalCoin(int amount)
         {
-            return new Coin(EntityDefault.GetByName(DefinitionNames.UNIVERSAL_MISSION_COIN),amount);
+            return new Coin(EntityDefault.GetByName(DefinitionNames.UNIVERSAL_MISSION_COIN), amount);
         }
 
     }

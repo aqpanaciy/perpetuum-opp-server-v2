@@ -14,9 +14,9 @@ namespace Perpetuum.AdminTool.ViewModels
     {
         private const int EnglishLangId = 0;
 
-        [ObservableProperty] private string                    _filterText   = "";
+        [ObservableProperty] private string _filterText = "";
         [ObservableProperty] private AddAutoMarketItemPickItem? _selectedItem;
-        [ObservableProperty] private string                    _errorMessage = "";
+        [ObservableProperty] private string _errorMessage = "";
 
         public ObservableCollection<AddAutoMarketItemPickItem> Items { get; } = new();
         public ICollectionView View { get; }
@@ -41,9 +41,9 @@ namespace Perpetuum.AdminTool.ViewModels
 
                 Items.Add(new AddAutoMarketItemPickItem
                 {
-                    Definition     = e.Definition,
+                    Definition = e.Definition,
                     DefinitionName = e.Name,
-                    DisplayName    = string.IsNullOrEmpty(translated) ? e.Name : translated,
+                    DisplayName = string.IsNullOrEmpty(translated) ? e.Name : translated,
                 });
             }
 

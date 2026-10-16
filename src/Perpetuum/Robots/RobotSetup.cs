@@ -22,27 +22,27 @@ namespace Perpetuum.Robots
             foreach (var record in Db.Query().CommandText("select * from robotsetup").Execute())
             {
                 var robotShell = EntityDefault.Get(record.GetValue<int>(k.robotShell.ToLower()));
-                if ( robotShell == EntityDefault.None )
+                if (robotShell == EntityDefault.None)
                     continue;
 
                 var head = EntityDefault.Get(record.GetValue<int>(k.head));
-                if ( head == EntityDefault.None )
+                if (head == EntityDefault.None)
                     continue;
 
                 var chassis = EntityDefault.Get(record.GetValue<int>(k.chassis));
-                if ( chassis == EntityDefault.None )
+                if (chassis == EntityDefault.None)
                     continue;
 
                 var leg = EntityDefault.Get(record.GetValue<int>(k.leg));
-                if ( leg == EntityDefault.None )
+                if (leg == EntityDefault.None)
                     continue;
 
                 var container = EntityDefault.Get(record.GetValue<int>(k.container));
-                if ( container == EntityDefault.None )
+                if (container == EntityDefault.None)
                     continue;
 
                 var hybridShell = EntityDefault.Get(record.GetValue<int>(k.hybridShell.ToLower()));
-                if ( hybridShell == EntityDefault.None )
+                if (hybridShell == EntityDefault.None)
                     continue;
 
                 _setups.Add(new RobotSetup(robotShell, head, chassis, leg, container, hybridShell));

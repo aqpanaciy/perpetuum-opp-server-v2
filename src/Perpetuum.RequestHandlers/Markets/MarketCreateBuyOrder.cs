@@ -15,7 +15,7 @@ namespace Perpetuum.RequestHandlers.Markets
         private readonly IMarketInfoService _marketInfoService;
         private readonly IMarketOrderRepository _marketOrderRepository;
 
-        public MarketCreateBuyOrder(MarketHandler marketHandler,MarketHelper marketHelper,IMarketInfoService marketInfoService,IMarketOrderRepository marketOrderRepository)
+        public MarketCreateBuyOrder(MarketHandler marketHandler, MarketHelper marketHelper, IMarketInfoService marketInfoService, IMarketOrderRepository marketOrderRepository)
         {
             _marketHandler = marketHandler;
             _marketHelper = marketHelper;
@@ -130,7 +130,7 @@ namespace Perpetuum.RequestHandlers.Markets
                     .WithData(publicContainer.ToDictionary())
                     .ToCharacter(buyer)
                     .Send();
-                
+
                 scope.Complete();
             }
         }

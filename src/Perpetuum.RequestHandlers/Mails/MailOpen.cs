@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers.Mails
                 var character = request.Session.Character;
                 var mail = MailHandler.OpenMail(character, mailId);
                 Message.Builder.FromRequest(request).WithData(mail.toDictionary()).WrapToResult().Send();
-                
+
                 scope.Complete();
             }
         }

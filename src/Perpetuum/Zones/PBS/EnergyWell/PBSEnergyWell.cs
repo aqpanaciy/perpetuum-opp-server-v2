@@ -32,7 +32,7 @@ namespace Perpetuum.Zones.PBS.EnergyWell
             get
             {
                 if (ED.Config.item_work_range != null)
-                    return (int) ED.Config.item_work_range;
+                    return (int)ED.Config.item_work_range;
 
                 Logger.Error("no emitradius defined for " + ED.Definition + " " + ED.Name);
                 return 10;
@@ -44,7 +44,7 @@ namespace Perpetuum.Zones.PBS.EnergyWell
             get
             {
                 if (ED.Config.transferEfficiency != null)
-                    return (double) ED.Config.transferEfficiency;
+                    return (double)ED.Config.transferEfficiency;
 
                 Logger.Error("no transfer efficiency is defined for " + ED.Definition + " " + ED.Name);
                 return 0.98;
@@ -101,7 +101,7 @@ namespace Perpetuum.Zones.PBS.EnergyWell
             }
             else
             {
-                DynamicProperties.Update(k.depleted, IsDepleted ? 1 : 0);   
+                DynamicProperties.Update(k.depleted, IsDepleted ? 1 : 0);
             }
 
             base.OnLoadFromDb();
@@ -140,7 +140,7 @@ namespace Perpetuum.Zones.PBS.EnergyWell
                 if (nearestNode.Distance(location) > range)
                     continue;
 
-                var e = new MineralExtractor(nearestNode, (uint)needed,_materialHelper);
+                var e = new MineralExtractor(nearestNode, (uint)needed, _materialHelper);
                 layer.AcceptVisitor(e);
                 result.AddRange(e.Items);
             }
@@ -150,7 +150,7 @@ namespace Perpetuum.Zones.PBS.EnergyWell
 
         protected override void PBSActiveObjectAction(IZone zone)
         {
-            if (IsDepleted) 
+            if (IsDepleted)
                 return; //kifogyott alola a mineral
 
             _lastCoreUsed = 0;
@@ -183,20 +183,20 @@ namespace Perpetuum.Zones.PBS.EnergyWell
                 PBSHelper.WritePBSLog(PBSLogType.wellDepleted, Eid, Definition, Owner, zoneId: zone.Configuration.Id);
                 return;
             }
-            
+
             //juhe volt mineral, pakoljunk coret a network reactorjaiba
-            var sumCollected = extractedMaterials.Sum(i => (double) i.Quantity);
+            var sumCollected = extractedMaterials.Sum(i => (double)i.Quantity);
             Logger.Info(sumCollected + " mineral was drilled by " + ED.Name);
 
             sumCollected *= TransferEfficiency;
             Logger.Info(sumCollected + " core will be distributed ");
 
-            var amountPerReactor = sumCollected/reactors.Count;
+            var amountPerReactor = sumCollected / reactors.Count;
             Logger.Info(reactors.Count + " reactors. per node amount: " + amountPerReactor);
 
             foreach (var pbsReactor in reactors)
             {
-                pbsReactor.CoreFromEnergyWell((int) amountPerReactor);
+                pbsReactor.CoreFromEnergyWell((int)amountPerReactor);
             }
 
             //output

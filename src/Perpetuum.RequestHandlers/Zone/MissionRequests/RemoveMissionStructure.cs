@@ -16,12 +16,12 @@ namespace Perpetuum.RequestHandlers.Zone.MissionRequests
                 var unit = request.Zone.GetUnitOrThrow(eid);
                 unit.ED.CategoryFlags.IsCategory(CategoryFlags.cf_mission_structures).ThrowIfFalse(ErrorCodes.DefinitionNotSupported);
 
-                request.Zone.UnitService.RemoveDefaultUnit(unit,true);
+                request.Zone.UnitService.RemoveDefaultUnit(unit, true);
                 MissionTarget.DeleteByStrucureEid(eid);
                 unit.RemoveFromZone();
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

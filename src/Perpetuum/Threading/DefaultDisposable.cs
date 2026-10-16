@@ -8,7 +8,7 @@ namespace Perpetuum.Threading
 
         public void Dispose()
         {
-            
+
         }
     }
 }

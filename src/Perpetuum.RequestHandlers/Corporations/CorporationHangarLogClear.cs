@@ -23,7 +23,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                     .Send();
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

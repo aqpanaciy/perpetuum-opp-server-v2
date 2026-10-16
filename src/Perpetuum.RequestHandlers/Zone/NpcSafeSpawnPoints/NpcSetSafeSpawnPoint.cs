@@ -23,7 +23,7 @@ namespace Perpetuum.RequestHandlers.Zone.NpcSafeSpawnPoints
 
                 request.Zone.SafeSpawnPoints.Update(point);
                 SendSafeSpawnPoints(request);
-                
+
                 scope.Complete();
             }
         }

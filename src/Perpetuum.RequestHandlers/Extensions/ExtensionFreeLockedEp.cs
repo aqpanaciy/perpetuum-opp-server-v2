@@ -10,7 +10,7 @@ namespace Perpetuum.RequestHandlers.Extensions
         private readonly IAccountManager _accountManager;
         private readonly IAccountRepository _accountRepository;
 
-        public ExtensionFreeLockedEp(IAccountManager accountManager,IAccountRepository accountRepository)
+        public ExtensionFreeLockedEp(IAccountManager accountManager, IAccountRepository accountRepository)
         {
             _accountManager = accountManager;
             _accountRepository = accountRepository;
@@ -31,26 +31,26 @@ namespace Perpetuum.RequestHandlers.Extensions
 
                 (amount > currentlockedEp).ThrowIfTrue(ErrorCodes.InputTooHigh);
 
-                var creditCost = (int) Math.Ceiling(amount/60.0);
+                var creditCost = (int)Math.Ceiling(amount / 60.0);
 
-                var wallet = _accountManager.GetWallet(account,AccountTransactionType.FreeLockedEp);
+                var wallet = _accountManager.GetWallet(account, AccountTransactionType.FreeLockedEp);
                 wallet.Balance -= creditCost;
 
-                var e = new AccountTransactionLogEvent(account,AccountTransactionType.FreeLockedEp) { Credit = wallet.Balance, CreditChange = -1 * creditCost };
+                var e = new AccountTransactionLogEvent(account, AccountTransactionType.FreeLockedEp) { Credit = wallet.Balance, CreditChange = -1 * creditCost };
                 _accountManager.LogTransaction(e);
 
                 //inject VS delete
 
                 //delete version
-                _accountManager.FreeLockedEp(account,amount);
+                _accountManager.FreeLockedEp(account, amount);
 
                 _accountRepository.Update(account);
 
                 var character = request.Session.Character;
-                var data = _accountManager.GetEPData(account,character);
+                var data = _accountManager.GetEPData(account, character);
 
                 Message.Builder.FromRequest(request).WithData(data).Send();
-                
+
                 scope.Complete();
             }
         }

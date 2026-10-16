@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers.TransportAssignments
                 var character = request.Session.Character;
 
                 TransportAssignment.ManualDeliverTransportAssignment(character, wrapperEid);
-                
+
                 scope.Complete();
             }
         }

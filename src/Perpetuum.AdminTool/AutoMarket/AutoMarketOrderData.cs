@@ -1,10 +1,10 @@
 namespace Perpetuum.AdminTool.AutoMarket
 {
     public record AutoMarketOrderData(
-        int    ItemDefinition,
+        int ItemDefinition,
         string DefinitionName,
-        bool   IsSell,
+        bool IsSell,
         double Price,
-        int    Quantity,
+        int Quantity,
         string MarketDefinitionName);
 }

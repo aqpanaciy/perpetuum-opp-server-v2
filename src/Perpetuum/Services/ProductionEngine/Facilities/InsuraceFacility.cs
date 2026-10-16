@@ -41,7 +41,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
 
         public override int GetSlotExtensionBonus(Character character)
         {
-            return (int) character.GetExtensionsBonusSummary(ExtensionNames.PRODUCTION_INSURANCE_SLOTS);
+            return (int)character.GetExtensionsBonusSummary(ExtensionNames.PRODUCTION_INSURANCE_SLOTS);
         }
 
         public double GetFeeExtensionBonus(Character character)
@@ -53,7 +53,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
         public override double GetTimeExtensionBonus(Character character)
         {
             var bonus = character.GetExtensionsBonusSummary(ExtensionNames.PRODUCTION_INSURANCE_TIME);
-            return (int) bonus;
+            return (int)bonus;
         }
 
         public ErrorCodes GetInsurancePrice(Item item, out double insuranceFee, out double payOut)
@@ -110,7 +110,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
 
             var insurance = _insuranceHelper.GetInsurance(robot.Eid);
 
-            _insuranceHelper.GetConditions(character, robot, insurance, (long) corporationEid, insuranceDays, maxInsurances, currentInsurances, ref endDate, ref useCorporationWallet).ThrowIfError();
+            _insuranceHelper.GetConditions(character, robot, insurance, (long)corporationEid, insuranceDays, maxInsurances, currentInsurances, ref endDate, ref useCorporationWallet).ThrowIfError();
 
             var wallet = character.GetWalletWithAccessCheck(useCorporationWallet, TransactionType.InsuranceFee);
 
@@ -214,7 +214,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
 
                 oneRobot.Add(k.useCorporationWallet, useCorporationWallet);
 
-                result.Add("i" + counter ++, (object) oneRobot);
+                result.Add("i" + counter++, (object)oneRobot);
             }
 
             if (targetEids.Count() == 1)

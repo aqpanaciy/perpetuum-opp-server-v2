@@ -70,7 +70,7 @@ namespace Perpetuum.Services.PathFind
 
             _pathFindingQueue.Writer.Complete(); // Signal that no more items will be written to the queue
             _cancellationTokenSource.Cancel();
-            Task.WaitAll(_pathFindingTasks,  CancellationToken.None); // Wait for all pathfinding tasks to complete
+            Task.WaitAll(_pathFindingTasks, CancellationToken.None); // Wait for all pathfinding tasks to complete
             _cancellationTokenSource.Dispose();
 
             base.Stop();
@@ -111,7 +111,7 @@ namespace Perpetuum.Services.PathFind
                     while (_pathFindingQueue.Reader.TryRead(out var pathFindInfo))
                     {
                         // decrement queued counter for each consumed item
-                        lock(_lock)
+                        lock (_lock)
                         {
                             _count--;
                         }
@@ -128,7 +128,7 @@ namespace Perpetuum.Services.PathFind
 
                             Logger.DebugInfo($"[PathFindService] Path not found for HomePathFindInfo. ({homePathFindInfo.Start}) => ({homePathFindInfo.End}) Zone: {pathFindInfo.ZoneId}");
 
-                            lock(_lock)
+                            lock (_lock)
                             {
                                 _safeCount++;
                             }
@@ -175,7 +175,7 @@ namespace Perpetuum.Services.PathFind
 
         public override void Update(TimeSpan time)
         {
-            lock(_lock)
+            lock (_lock)
             {
                 if (_enqueuedCount > 0 || _depthMax > 0 || _canceledCount > 0 || _safeCount > 0)
                 {
@@ -186,7 +186,7 @@ namespace Perpetuum.Services.PathFind
                     _safeCount = 0;
                     _depthMax = 0;
                     _canceledCount = 0;
-                }   
+                }
             }
         }
     }

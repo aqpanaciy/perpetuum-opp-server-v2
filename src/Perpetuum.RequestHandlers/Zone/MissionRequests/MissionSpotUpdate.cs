@@ -17,7 +17,7 @@ namespace Perpetuum.RequestHandlers.Zone.MissionRequests
 
                 MissionTarget.UpdatePosition(targetId, x, y);
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

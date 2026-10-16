@@ -34,7 +34,7 @@ namespace Perpetuum.Zones.NpcSystem.AI
                 randomHome,
                 Heuristic.Manhattan,
                 smartCreature.IsWalkable,
-                smartCreature.Zone.Id,  
+                smartCreature.Zone.Id,
                 path =>
                 {
                     movement = new PathMovement(path);

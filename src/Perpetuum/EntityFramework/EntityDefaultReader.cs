@@ -29,7 +29,7 @@ namespace Perpetuum.EntityFramework
 
         public EntityDefault Get(int definition)
         {
-            return _entityDefaults.GetOrDefault(definition,EntityDefault.None);
+            return _entityDefaults.GetOrDefault(definition, EntityDefault.None);
         }
 
         public EntityDefault GetByEid(long eid)
@@ -98,9 +98,9 @@ namespace Perpetuum.EntityFramework
             return result;
         }
 
-        private Dictionary<Extension,Extension[]> GetEnablerAndRequiredExtensions(int definition)
+        private Dictionary<Extension, Extension[]> GetEnablerAndRequiredExtensions(int definition)
         {
-            return _extensionReader.GetEnablerExtensions(definition).ToDictionary(e => e,e => _extensionReader.GetRequiredExtensions(e.id).ToArray());
+            return _extensionReader.GetEnablerExtensions(definition).ToDictionary(e => e, e => _extensionReader.GetRequiredExtensions(e.id).ToArray());
         }
 
         private static Dictionary<int, DefinitionConfig> LoadDefinitionConfigs()

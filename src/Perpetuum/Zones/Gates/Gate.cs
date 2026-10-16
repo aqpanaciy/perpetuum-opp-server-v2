@@ -105,16 +105,16 @@ namespace Perpetuum.Zones.Gates
         /// <param name="player"></param>
         public void UseItem(Player player)
         {
-           UseGateWithCharacter(player.Character, player.CorporationEid);
+            UseGateWithCharacter(player.Character, player.CorporationEid);
         }
 
         private bool HasAccess(Player player)
         {
             return HasAccess(player.CorporationEid);
         }
-        
 
-        private bool HasAccess(long playersCorporationEid )
+
+        private bool HasAccess(long playersCorporationEid)
         {
             if (playersCorporationEid == Owner)
             {
@@ -199,7 +199,7 @@ namespace Perpetuum.Zones.Gates
 
             using (new TerrainUpdateMonitor(zone))
             {
-                var radius = (int) (ED.Config.item_work_range ?? 1);
+                var radius = (int)(ED.Config.item_work_range ?? 1);
 
                 for (var y = -radius; y <= radius; y++)
                 {
@@ -208,8 +208,8 @@ namespace Perpetuum.Zones.Gates
                         var gx = CurrentPosition.intX + x;
                         var gy = CurrentPosition.intY + y;
 
-                        zone.Terrain.Blocks[gx,gy] = bi;
-                        zone.Terrain.Plants.UpdateValue(gx,gy,pi =>
+                        zone.Terrain.Blocks[gx, gy] = bi;
+                        zone.Terrain.Plants.UpdateValue(gx, gy, pi =>
                         {
                             pi.Clear();
                             return pi;
@@ -228,7 +228,7 @@ namespace Perpetuum.Zones.Gates
             if (corporationEid != Owner)
                 throw new PerpetuumException(ErrorCodes.AccessDenied);
 
-            role.IsAnyRole(CorporationRole.CEO,CorporationRole.DeputyCEO,CorporationRole.editPBS).ThrowIfFalse(ErrorCodes.InsufficientPrivileges);
+            role.IsAnyRole(CorporationRole.CEO, CorporationRole.DeputyCEO, CorporationRole.editPBS).ThrowIfFalse(ErrorCodes.InsufficientPrivileges);
 
             var oldName = Name;
             Name = name;
@@ -251,7 +251,7 @@ namespace Perpetuum.Zones.Gates
         protected override void OnDamageTaken(Unit source, DamageTakenEventArgs e)
         {
             base.OnDamageTaken(source, e);
-            if(source is Player)
+            if (source is Player)
             {
                 source.ApplyPvPEffect();
             }

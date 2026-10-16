@@ -11,7 +11,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals.Actions
 
         public void Execute(ILayer layer)
         {
-            var mineralLayer = (MineralLayer) layer;
+            var mineralLayer = (MineralLayer)layer;
             mineralLayer.NodeRepository.Delete(_node);
             mineralLayer.RemoveNode(_node);
             mineralLayer.WriteLog($"Node deleted. X = {_node.Area.X1} Y = {_node.Area.Y1}");

@@ -8,12 +8,12 @@ namespace Perpetuum.Zones.Beams
 {
     public interface IBeamBuilder : IBuilder<Beam>
     {
-        
+
     }
 
     public class BeamBuilder : IBeamBuilder
     {
-        private const int BEAM_VISIBILITY = 100; 
+        private const int BEAM_VISIBILITY = 100;
 
         internal BeamBuilder()
         {
@@ -109,7 +109,7 @@ namespace Perpetuum.Zones.Beams
         public BeamBuilder WithPosition(Point position)
         {
             return WithSourcePosition(position.ToPosition()).WithTargetPosition(position.ToPosition());
-       }
+        }
 
         public BeamBuilder WithPosition(Position position)
         {
@@ -118,17 +118,17 @@ namespace Perpetuum.Zones.Beams
 
         public Beam Build()
         {
-            return new Beam(Type,_duration)
-                {
-                    Slot = _slot, 
-                    SourceEid = _sourceEid, 
-                    SourcePosition = _sourcePosition, 
-                    TargetEid = _targetEid, 
-                    TargetPosition = _targetPosition, 
-                    Visibility = _visibility, 
-                    State = _state, 
-                    BulletTime = _bulletTime
-                };
+            return new Beam(Type, _duration)
+            {
+                Slot = _slot,
+                SourceEid = _sourceEid,
+                SourcePosition = _sourcePosition,
+                TargetEid = _targetEid,
+                TargetPosition = _targetPosition,
+                Visibility = _visibility,
+                State = _state,
+                BulletTime = _bulletTime
+            };
         }
     }
 }

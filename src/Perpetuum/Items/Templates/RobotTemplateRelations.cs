@@ -9,12 +9,12 @@ namespace Perpetuum.Items.Templates
     {
         private readonly IRobotTemplateReader _robotTemplateReader;
         private readonly IEntityDefaultReader _entityDefaultReader;
-        private readonly Dictionary<int,IRobotTemplateRelation> _relations = new Dictionary<int, IRobotTemplateRelation>();
+        private readonly Dictionary<int, IRobotTemplateRelation> _relations = new Dictionary<int, IRobotTemplateRelation>();
 
         private RobotTemplate _equippedDefault;
         private RobotTemplate _unequippedDefault;
 
-        public RobotTemplateRelations(IRobotTemplateReader robotTemplateReader,IEntityDefaultReader entityDefaultReader)
+        public RobotTemplateRelations(IRobotTemplateReader robotTemplateReader, IEntityDefaultReader entityDefaultReader)
         {
             _robotTemplateReader = robotTemplateReader;
             _entityDefaultReader = entityDefaultReader;

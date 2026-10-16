@@ -15,7 +15,7 @@ namespace Perpetuum.RequestHandlers.Characters
         private readonly IChannelManager _channelManager;
         private readonly IGangManager _gangManager;
 
-        public CharacterDelete(IAccountManager accountManager,IChannelManager channelManager,IGangManager gangManager)
+        public CharacterDelete(IAccountManager accountManager, IChannelManager channelManager, IGangManager gangManager)
         {
             _accountManager = accountManager;
             _channelManager = channelManager;
@@ -34,9 +34,9 @@ namespace Perpetuum.RequestHandlers.Characters
                 Corporation.GetRoleFromSql(character).ThrowIfNotEqual(CorporationRole.NotDefined, ErrorCodes.MemberHasRolesError);
 
                 //temporary ep penalty
-                
-                _accountManager.InsertPenaltyPoint(account,AccountExtensionPenaltyType.CharacterDelete, CHARACTER_DELETE_EP_PENALTY, false);
-            
+
+                _accountManager.InsertPenaltyPoint(account, AccountExtensionPenaltyType.CharacterDelete, CHARACTER_DELETE_EP_PENALTY, false);
+
                 character.IsActive = false;
                 character.SetActiveRobot(null);
 
@@ -59,7 +59,7 @@ namespace Perpetuum.RequestHandlers.Characters
                 }
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

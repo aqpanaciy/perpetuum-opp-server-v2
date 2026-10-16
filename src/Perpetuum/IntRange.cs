@@ -32,14 +32,14 @@ namespace Perpetuum
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj is IntRange && Equals((IntRange) obj);
+            return obj is IntRange && Equals((IntRange)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (_min*397) ^ _max;
+                return (_min * 397) ^ _max;
             }
         }
 

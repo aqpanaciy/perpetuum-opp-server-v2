@@ -29,8 +29,8 @@ namespace Perpetuum.Services.Mail
         {
             var result = new Dictionary<string, object>
             {
-                {k.sender, sender.Id}, 
-                {k.target, target}, 
+                {k.sender, sender.Id},
+                {k.target, target},
                 {k.subject, subject},
                 {k.ID,mailID.ToString()},
                 {k.creation, creation},

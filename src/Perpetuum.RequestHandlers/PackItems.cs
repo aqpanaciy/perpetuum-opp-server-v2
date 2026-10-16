@@ -21,7 +21,7 @@ namespace Perpetuum.RequestHandlers
 
                 var result = container.ToDictionary();
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

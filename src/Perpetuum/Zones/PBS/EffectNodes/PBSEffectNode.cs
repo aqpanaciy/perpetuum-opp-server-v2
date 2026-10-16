@@ -17,11 +17,11 @@ namespace Perpetuum.Zones.PBS.EffectNodes
     public abstract class PBSEffectNode : PBSActiveObject, IPBSUsesCore, IPBSAcceptsCore, IStandingController
     {
         private readonly CoreUseHandler<PBSEffectNode> _coreUseHandler;
-        
+
         private readonly PBSStandingController<PBSEffectNode> _standingController;
 
-       
-       
+
+
         protected abstract IEnumerable<Unit> GetTargetUnits();
         protected abstract double CollectCoreConsumption();
 
@@ -30,12 +30,12 @@ namespace Perpetuum.Zones.PBS.EffectNodes
         protected PBSEffectNode()
         {
             _standingController = new PBSStandingController<PBSEffectNode>(this) { AlwaysEnabled = true };
-            _coreUseHandler = new CoreUseHandler<PBSEffectNode>(this,new EnergyStateFactory(this));
+            _coreUseHandler = new CoreUseHandler<PBSEffectNode>(this, new EnergyStateFactory(this));
 
             _currentEffect = DynamicProperties.GetProperty<int>(k.currentEffect);
             _currentEffect.PropertyChanging += (property, value) =>
             {
-                var effectType = (EffectType) value;
+                var effectType = (EffectType)value;
 
                 if (effectType == EffectType.undefined)
                     effectType = AvailableEffects.FirstOrDefault();
@@ -44,7 +44,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
                     Logger.Error("PBSEffectNode: invalid effect type! type:" + effectType);
 
                 RemoveCurrentEffect();
-                return (int) effectType;
+                return (int)effectType;
             };
 
             _currentEffect.PropertyChanged += property =>
@@ -98,7 +98,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
         {
             _coreUseHandler.OnUpdate(time);
             base.OnUpdate(time);
-           
+
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
                 //checks effect existense
                 foreach (var effectType in ED.Options.Effects)
                 {
-                    if (!Enum.IsDefined(typeof (EffectType), effectType))
+                    if (!Enum.IsDefined(typeof(EffectType), effectType))
                     {
                         Logger.Error("consistency error. no such effect defined:" + effectType + " " + ED.Name + " " + Definition);
                     }
@@ -126,8 +126,8 @@ namespace Perpetuum.Zones.PBS.EffectNodes
 
         public EffectType CurrentEffectType
         {
-            private get { return (EffectType) _currentEffect.Value; }
-            set { _currentEffect.Value = (int) value; }
+            private get { return (EffectType)_currentEffect.Value; }
+            set { _currentEffect.Value = (int)value; }
         }
 
         private void OnEffectChanged()
@@ -159,7 +159,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
         }
 
 
-        protected virtual void OnApplyEffect(EffectBuilder builder) {}
+        protected virtual void OnApplyEffect(EffectBuilder builder) { }
         protected virtual void OnEffectRemoved() { }
 
         private void Init()
@@ -203,7 +203,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
 
         private void SaveToDb()
         {
-            DynamicProperties.Update(k.currentEffect, (int) CurrentEffectType);
+            DynamicProperties.Update(k.currentEffect, (int)CurrentEffectType);
         }
 
 
@@ -214,7 +214,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
             info.Add(k.currentEffect, (int)CurrentEffectType);
 
             _coreUseHandler.AddToDictionary(info);
-            
+
 
             return info;
         }
@@ -227,7 +227,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
             info.Add(k.PBSEnergyState, 0);
             //info.Add(k.emitRadius, EmitRadius);
 
-            
+
             _coreUseHandler.AddToDictionary(info);
 
             return info;
@@ -276,7 +276,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
             }
         }
 
-        private class  EnergyStateFactory : IEnergyStateFactory<PBSEffectNode>
+        private class EnergyStateFactory : IEnergyStateFactory<PBSEffectNode>
         {
             private readonly PBSEffectNode _node;
 
@@ -310,7 +310,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
 
             protected override void PostCoreSubtract()
             {
-               ActiveWork();
+                ActiveWork();
             }
 
             private void ActiveWork()
@@ -323,12 +323,12 @@ namespace Perpetuum.Zones.PBS.EffectNodes
                 {
                     Owner.RemoveCurrentEffect();
                 }
-                
+
             }
 
         }
 
-        private class WarmUpEnergyState  : WarmUpCoreUserNodeState<PBSEffectNode>
+        private class WarmUpEnergyState : WarmUpCoreUserNodeState<PBSEffectNode>
         {
             public WarmUpEnergyState(PBSEffectNode owner) : base(owner)
             {
@@ -346,6 +346,6 @@ namespace Perpetuum.Zones.PBS.EffectNodes
                 Owner.RemoveCurrentEffect();
             }
         }
-        
+
     }
 }

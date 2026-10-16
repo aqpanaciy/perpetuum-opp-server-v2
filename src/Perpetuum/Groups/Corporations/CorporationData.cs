@@ -34,7 +34,7 @@ namespace Perpetuum.Groups.Corporations
         public static ICorporationManager CorporationManager { get; set; }
 
         private CorporationData(IDataRecord record)
-        {   
+        {
             eid = record.GetValue<long>("eid");
             name = record.GetValue<string>("name");
             isDefaultCorporation = record.GetValue<bool>("defaultcorp");
@@ -51,7 +51,7 @@ namespace Perpetuum.Groups.Corporations
             yellowPages = CorporationManager.GetYellowPages(eid);
         }
 
-        public Dictionary<string,object> ToDictionary()
+        public Dictionary<string, object> ToDictionary()
         {
             var result = new Dictionary<string, object>
                              {
@@ -94,7 +94,7 @@ namespace Perpetuum.Groups.Corporations
                 var ci = LoadCorporateInfo(corporationEid);
                 if (ci == null)
                 {
-                    Logger.Warning("CorporationInfo cache. corporation not exists: " + corporationEid );
+                    Logger.Warning("CorporationInfo cache. corporation not exists: " + corporationEid);
                 }
 
                 return ci;
@@ -116,7 +116,7 @@ namespace Perpetuum.Groups.Corporations
         {
             if (corporationEiD == 0L)
                 return null;
-            
+
             const string sb = @"select eid,name,defaultcorp,publicprofile,nick,active,creation,founder,m.memberid as ceo,am.allianceEID as allianceeid,(select count(*) from corporationmembers where corporationEID=c.eid) as membercount, taxrate, color
                                         from corporations c
                                         left join corporationmembers m on m.corporationeid=c.eid and (m.role & @ceorole) > 0
@@ -124,7 +124,7 @@ namespace Perpetuum.Groups.Corporations
                                         where eid=@corporationEid";
 
             var record = Db.Query().CommandText(sb)
-                                 .SetParameter("@ceorole", (int) CorporationRole.CEO)
+                                 .SetParameter("@ceorole", (int)CorporationRole.CEO)
                                  .SetParameter("@corporationEid", corporationEiD)
                                  .ExecuteSingleRow();
 

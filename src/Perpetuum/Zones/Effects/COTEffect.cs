@@ -17,8 +17,8 @@ namespace Perpetuum.Zones.Effects
         protected override void OnTick()
         {
             base.OnTick();
-            
-            if ( _corePerTick > 0 )
+
+            if (_corePerTick > 0)
             {
                 Owner.Core -= _corePerTick;
             }

@@ -18,7 +18,7 @@ namespace Perpetuum.RequestHandlers.Zone.MissionRequests
                 var character = request.Session.Character;
                 var position = request.Zone.GetPrimaryLockedTileOrThrow(character);
                 var findRadius = request.Data.GetOrDefault(k.radius, (int)DistanceConstants.MISSION_RANDOM_POINT_FINDRADIUS_DEFAULT);
-                MissionHelper.PlaceRandomPoint(request.Zone,position,findRadius);
+                MissionHelper.PlaceRandomPoint(request.Zone, position, findRadius);
                 Message.Builder.FromRequest(request).WithOk().Send();
                 scope.Complete();
             }

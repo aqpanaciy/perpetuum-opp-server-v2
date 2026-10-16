@@ -25,7 +25,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public delegate DeliveryHelper Factory();
 
-        public DeliveryHelper(MissionDataCache missionDataCache,MissionProcessor missionProcessor)
+        public DeliveryHelper(MissionDataCache missionDataCache, MissionProcessor missionProcessor)
         {
             _missionDataCache = missionDataCache;
             _missionProcessor = missionProcessor;
@@ -91,7 +91,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
                     {k.quality, quantity},
                     {k.location, locationId},
                     {k.missionID, missionId},
-                    
+
                 };
 
                 return result;
@@ -103,28 +103,28 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         /// </summary>
         public void EnqueueProgressInfo()
         {
-            _missionProcessor.EnqueueMissionTargetAsync(missionOwnerCharacter,MissionTargetType.fetch_item, AddKeys);
+            _missionProcessor.EnqueueMissionTargetAsync(missionOwnerCharacter, MissionTargetType.fetch_item, AddKeys);
         }
 
-        public void AddKeys(IDictionary<string,object> dictionary)
+        public void AddKeys(IDictionary<string, object> dictionary)
         {
-            dictionary.Add(k.guid,missionGuid);
-            dictionary.Add(k.definition,definition);
-            dictionary.Add(k.progressCount,ProgressCount);
-            dictionary.Add(k.completed,IsCompleted);
-            dictionary.Add(k.location,locationId);
-            dictionary.Add(k.missionID,missionId);
-            dictionary.Add(k.targetID,targetId);
-            dictionary.Add(k.assistingCharacterID,assisting.Id);
-            dictionary.Add(k.useGang,1);
+            dictionary.Add(k.guid, missionGuid);
+            dictionary.Add(k.definition, definition);
+            dictionary.Add(k.progressCount, ProgressCount);
+            dictionary.Add(k.completed, IsCompleted);
+            dictionary.Add(k.location, locationId);
+            dictionary.Add(k.missionID, missionId);
+            dictionary.Add(k.targetID, targetId);
+            dictionary.Add(k.assistingCharacterID, assisting.Id);
+            dictionary.Add(k.useGang, 1);
 
             if (IsCompleted)
             {
                 MissionLocation location;
-                if (_missionDataCache.GetLocationById(locationId,out location))
+                if (_missionDataCache.GetLocationById(locationId, out location))
                 {
-                    dictionary.Add(k.zoneID,location.ZoneConfig.Id);
-                    dictionary.Add(k.position,location.MyPosition);
+                    dictionary.Add(k.zoneID, location.ZoneConfig.Id);
+                    dictionary.Add(k.position, location.MyPosition);
                 }
             }
         }

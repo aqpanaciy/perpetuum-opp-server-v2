@@ -85,7 +85,7 @@ namespace Perpetuum.EntityFramework
 
         public int ConstructionRadius
         {
-            get { return (int) constructionRadius.ThrowIfNull(ErrorCodes.ServerError); }
+            get { return (int)constructionRadius.ThrowIfNull(ErrorCodes.ServerError); }
         }
 
         public Color Tint
@@ -95,7 +95,7 @@ namespace Perpetuum.EntityFramework
 
         public TimeSpan ActionDelay
         {
-            get { return TimeSpan.FromMilliseconds((double) _actionDelay.ThrowIfNull(ErrorCodes.ServerError)); }
+            get { return TimeSpan.FromMilliseconds((double)_actionDelay.ThrowIfNull(ErrorCodes.ServerError)); }
         }
 
         public double HitSize => _hitSize;

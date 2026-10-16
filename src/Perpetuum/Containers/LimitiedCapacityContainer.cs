@@ -41,7 +41,7 @@ namespace Perpetuum.Containers
         public void CheckCapacityAndThrowIfFailed()
         {
             var load = Load;
-            load.ThrowIfGreater(Capacity,ErrorCodes.OutOfCargo,gex => gex.SetData("capacity", Capacity).SetData("currentLoad", load));
+            load.ThrowIfGreater(Capacity, ErrorCodes.OutOfCargo, gex => gex.SetData("capacity", Capacity).SetData("currentLoad", load));
         }
 
         public bool IsEnoughCapacity(Item item)
@@ -54,7 +54,7 @@ namespace Perpetuum.Containers
             return Capacity >= volume + Load;
         }
 
-        public override void AddItem(Item item,long issuerEid, bool doStack)
+        public override void AddItem(Item item, long issuerEid, bool doStack)
         {
             //no infinite capacity containers
             if (item.IsCategory(CategoryFlags.cf_infinite_capacity_containers))

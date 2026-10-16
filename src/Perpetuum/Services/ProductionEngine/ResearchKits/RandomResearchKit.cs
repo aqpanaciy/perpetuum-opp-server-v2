@@ -29,9 +29,9 @@ namespace Perpetuum.Services.ProductionEngine.ResearchKits
 
         }
 
-        public override void GetCalibrationDefaults(EntityDefault entityDefault,  out int materialEfficiency, out int timeEfficiency)
+        public override void GetCalibrationDefaults(EntityDefault entityDefault, out int materialEfficiency, out int timeEfficiency)
         {
-            Logger.Info("Random research kit processing. Using fake efficiencies. CPRG:" + this.Eid );
+            Logger.Info("Random research kit processing. Using fake efficiencies. CPRG:" + this.Eid);
 
             //fake it for the mission
             materialEfficiency = 100;
@@ -43,7 +43,7 @@ namespace Perpetuum.Services.ProductionEngine.ResearchKits
             get { return true; }
         }
 
-        
+
     }
 
 }

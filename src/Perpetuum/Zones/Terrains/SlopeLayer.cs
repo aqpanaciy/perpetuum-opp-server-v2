@@ -6,11 +6,11 @@ namespace Perpetuum.Zones.Terrains
     {
         private readonly AltitudeLayer _altitudeLayer;
 
-        public SlopeLayer(AltitudeLayer altitudeLayer) : base(LayerType.Slope,altitudeLayer.Width,altitudeLayer.Height)
+        public SlopeLayer(AltitudeLayer altitudeLayer) : base(LayerType.Slope, altitudeLayer.Width, altitudeLayer.Height)
         {
             _altitudeLayer = altitudeLayer;
-//            _altitudeLayer.Updated += OnAltitudeUpdated;
-//            _altitudeLayer.AreaUpdated += OnAltitudeAreaUpdated;
+            //            _altitudeLayer.Updated += OnAltitudeUpdated;
+            //            _altitudeLayer.AreaUpdated += OnAltitudeAreaUpdated;
 
             UpdateSlopeByArea(Area.FromRectangle(0, 0, Width, Height));
         }
@@ -22,7 +22,7 @@ namespace Perpetuum.Zones.Terrains
 
         private void OnAltitudeUpdated(ILayer layer, int x, int y)
         {
-            UpdateSlope(x,y);
+            UpdateSlope(x, y);
         }
 
         public void UpdateSlopeByArea(Area area)
@@ -38,7 +38,7 @@ namespace Perpetuum.Zones.Terrains
 
         public void UpdateSlope(int x, int y)
         {
-            if ( x < 0 || x >= Width || y < 0 || y >= Height)
+            if (x < 0 || x >= Width || y < 0 || y >= Height)
                 return;
 
             var value = CalculateSlope(x, y);
@@ -75,7 +75,7 @@ namespace Perpetuum.Zones.Terrains
 
         public bool CheckSlope(Position position, double slopeThreshold = MIN_SLOPE)
         {
-            return CheckSlope((int) position.X, (int) position.Y, slopeThreshold);
+            return CheckSlope((int)position.X, (int)position.Y, slopeThreshold);
         }
 
 

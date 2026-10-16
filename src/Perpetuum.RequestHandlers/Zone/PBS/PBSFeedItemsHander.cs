@@ -19,7 +19,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
 
                 var feedableUnit = request.Zone.GetUnitOrThrow(feedableUnitEid);
                 var feedable = (feedableUnit as IPBSFeedable).ThrowIfNull(ErrorCodes.WTFErrorMedicalAttentionSuggested);
-            
+
                 var character = request.Session.Character;
                 var player = request.Zone.GetPlayerOrThrow(character);
                 player.CurrentPosition.IsInRangeOf3D(feedableUnit.CurrentPosition, DistanceConstants.PBS_NODE_USE_DISTANCE).ThrowIfFalse(ErrorCodes.TargetOutOfRange);
@@ -35,7 +35,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
                     };
                     Message.Builder.FromRequest(request).WithData(result).Send();
                 });
-                
+
                 scope.Complete();
             }
         }

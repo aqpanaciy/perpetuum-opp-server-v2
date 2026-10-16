@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers.Zone
             var character = request.Session.Character;
             var player = request.Zone.GetPlayerOrThrow(character);
 
-            var teleportDeployer = (MobileTeleportDeployer) player.GetContainer().GetItemOrThrow(capsuleEid);
+            var teleportDeployer = (MobileTeleportDeployer)player.GetContainer().GetItemOrThrow(capsuleEid);
             var teleports = teleportDeployer.WorldTargetHelper.GetWorldTargets(request.Zone, player.CurrentPosition, 0, (int)DistanceConstants.MOBILE_TELEPORT_USE_RANGE, teleportDeployer.WorkingRange);
 
             var result = new Dictionary<string, object>

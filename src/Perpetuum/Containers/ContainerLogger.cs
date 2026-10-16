@@ -25,16 +25,16 @@ namespace Perpetuum.Containers
 
         public void AddLogEntry(Character character, ContainerAccess access, int definition = 0, int quantity = 0)
         {
-            if ( character == Character.None)
+            if (character == Character.None)
                 return;
 
             var logEntry = new ContainerLogEntry
-                               {
-                                       character = character,
-                                       definition = definition,
-                                       quantity = quantity,
-                                       access = access
-                               };
+            {
+                character = character,
+                definition = definition,
+                quantity = quantity,
+                access = access
+            };
 
             _logs.Enqueue(logEntry);
         }
@@ -84,7 +84,7 @@ namespace Perpetuum.Containers
                     cnt++;
                 }
 
-                Db.Query().CommandText(strBuilder.ToString()).SetParameters(parameters).ExecuteNonQuery().ThrowIfEqual(0,ErrorCodes.SQLInsertError);
+                Db.Query().CommandText(strBuilder.ToString()).SetParameters(parameters).ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
 
                 WriteLog("Batch executed");
             }
@@ -97,7 +97,7 @@ namespace Perpetuum.Containers
             var folder = EntityDefault.GetByName(DefinitionNames.CORPORATE_HANGAR_FOLDER);
             var loggedEiDs = Db.Query().CommandText("select eid from entities where parent=@hangarEID and definition=@folderDefinition")
                                      .SetParameter("@hangarEID", _container.Eid)
-                                     .SetParameter("@folderDefinition",folder.Definition)
+                                     .SetParameter("@folderDefinition", folder.Definition)
                                      .Execute().Select(r => r.GetValue<long>(0)).ToArray();
 
             var folderString = loggedEiDs.Any() ? " or containerEID in (" + loggedEiDs.ArrayToString() + ")" : string.Empty;

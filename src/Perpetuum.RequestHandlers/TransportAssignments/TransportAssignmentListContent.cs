@@ -16,7 +16,7 @@ namespace Perpetuum.RequestHandlers.TransportAssignments
             var info = TransportAssignment.Get(assignmentId);
 
             var character = request.Session.Character;
-            info.ownercharacter.ThrowIfNotEqual(character,ErrorCodes.AccessDenied);
+            info.ownercharacter.ThrowIfNotEqual(character, ErrorCodes.AccessDenied);
 
             var volumeWrapperContainer = info.GetContainer();
 

@@ -63,8 +63,8 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
                 }
             }
 
-            var result = new Dictionary<string,object>();
-             
+            var result = new Dictionary<string, object>();
+
             if (missionInProgress == null)
             {
                 // mission was not found
@@ -84,7 +84,7 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
                 return;
             }
 
-            var interestingTargets =  missionInProgress.CollectTargetsWithDefinitionsToDeliverInCurrentState(location).ToList();
+            var interestingTargets = missionInProgress.CollectTargetsWithDefinitionsToDeliverInCurrentState(location).ToList();
             DeliverMissionByTargetList(interestingTargets, character, location);
         }
 

@@ -2,11 +2,11 @@ using System;
 
 namespace Perpetuum.Log.Formatters
 {
-    public class DelegateLogEventFormatter<T,TOut> : ILogEventFormatter<T,TOut> where T : ILogEvent
+    public class DelegateLogEventFormatter<T, TOut> : ILogEventFormatter<T, TOut> where T : ILogEvent
     {
-        private readonly Func<T,TOut> _formater;
+        private readonly Func<T, TOut> _formater;
 
-        public DelegateLogEventFormatter(Func<T,TOut> formater)
+        public DelegateLogEventFormatter(Func<T, TOut> formater)
         {
             _formater = formater;
         }

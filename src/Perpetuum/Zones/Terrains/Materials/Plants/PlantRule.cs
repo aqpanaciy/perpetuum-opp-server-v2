@@ -10,7 +10,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Plants
     public class PlantRule
     {
         private readonly IDictionary<string, object> _settings;
-       
+
         public Dictionary<byte, PlantPhase> GrowingStates { get; private set; }
 
         public struct PlantPhase
@@ -19,7 +19,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Plants
             public PlantType[] action;
         }
 
-        public PlantRule(IDictionary<string,object> settings)
+        public PlantRule(IDictionary<string, object> settings)
         {
             _settings = settings;
 
@@ -36,8 +36,8 @@ namespace Perpetuum.Zones.Terrains.Materials.Plants
 
                 var plantPhase = new PlantPhase
                 {
-                    state = states.Select(s => (byte) s).ToArray(),
-                    action = actions.Select(a => (PlantType) a).ToArray()
+                    state = states.Select(s => (byte)s).ToArray(),
+                    action = actions.Select(a => (PlantType)a).ToArray()
                 };
 
                 GrowingStates.Add((byte)i, plantPhase);
@@ -49,12 +49,12 @@ namespace Perpetuum.Zones.Terrains.Materials.Plants
 
         public PlantType Type
         {
-            get { return (PlantType) _settings.GetOrDefault(k.index,0); }
+            get { return (PlantType)_settings.GetOrDefault(k.index, 0); }
         }
 
         private string Name
         {
-            get { return _settings.GetOrDefault(k.name,string.Empty); }
+            get { return _settings.GetOrDefault(k.name, string.Empty); }
         }
 
         //controls the occurence of a plant
@@ -142,13 +142,13 @@ namespace Perpetuum.Zones.Terrains.Materials.Plants
         [NotNull]
         private int[] BlockingHeight
         {
-            get { return _settings.GetOrDefault(k.blockingHeight,new int[0]); }
+            get { return _settings.GetOrDefault(k.blockingHeight, new int[0]); }
         }
 
         //health values for each growing state
         public byte[] Health
         {
-            get { return _settings.GetOrDefault(k.health, new int[0]).Select(i => (byte)i.Clamp(0,255)).ToArray(); }
+            get { return _settings.GetOrDefault(k.health, new int[0]).Select(i => (byte)i.Clamp(0, 255)).ToArray(); }
         }
 
         //fruit definition name
@@ -207,8 +207,8 @@ namespace Perpetuum.Zones.Terrains.Materials.Plants
         /// <param name="nextAction">the next calculated type</param>
         public void GetNextState(byte state, out byte nextState, out PlantType nextAction)
         {
-            nextState = GrowingStates[state].state[FastRandom.NextInt(GrowingStates[state].state.Length-1)];
-            nextAction = GrowingStates[state].action[FastRandom.NextInt(GrowingStates[state].action.Length-1)];
+            nextState = GrowingStates[state].state[FastRandom.NextInt(GrowingStates[state].state.Length - 1)];
+            nextAction = GrowingStates[state].action[FastRandom.NextInt(GrowingStates[state].action.Length - 1)];
         }
 
         public bool IsBlocking(byte state)
@@ -231,7 +231,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Plants
             get { return BlockingHeight.Any(v => v > 0); }
         }
 
-        public Dictionary<string, object > ToDictionary()
+        public Dictionary<string, object> ToDictionary()
         {
             return new Dictionary<string, object>
                        {

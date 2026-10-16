@@ -15,7 +15,7 @@ namespace Perpetuum.RequestHandlers.Markets
         private readonly ItemPriceHelper _itemPriceHelper;
         private readonly MarketHandler _marketHandler;
 
-        public MarketInsertAverageForCF(IEntityServices entityServices,ItemPriceHelper itemPriceHelper,MarketHandler marketHandler)
+        public MarketInsertAverageForCF(IEntityServices entityServices, ItemPriceHelper itemPriceHelper, MarketHandler marketHandler)
         {
             _entityServices = entityServices;
             _itemPriceHelper = itemPriceHelper;
@@ -82,7 +82,7 @@ namespace Perpetuum.RequestHandlers.Markets
                 }
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

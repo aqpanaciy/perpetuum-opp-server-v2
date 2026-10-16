@@ -60,7 +60,7 @@ namespace Perpetuum.Services.Looting
 
         public LootItemBuilder SetHealth(double health)
         {
-            _item.Health = (float) health;
+            _item.Health = (float)health;
             return this;
         }
 
@@ -69,11 +69,11 @@ namespace Perpetuum.Services.Looting
 
         public LootItem Build()
         {
-            if ( !_item.IsRepackaged && _damaged )
-                _item.Health *= FastRandom.NextFloat(HEALTH_MODIFIER_LOW,HEALTH_MODIFIER_HIGH);
+            if (!_item.IsRepackaged && _damaged)
+                _item.Health *= FastRandom.NextFloat(HEALTH_MODIFIER_LOW, HEALTH_MODIFIER_HIGH);
 
             var id = Guid.NewGuid();
-            return new LootItem(id,_item);
+            return new LootItem(id, _item);
         }
     }
 }

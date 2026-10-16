@@ -69,7 +69,7 @@ namespace Perpetuum.RequestHandlers.Zone.Containers
             while (fieldTerminal == null && depth < maxDepth)
             {
                 container = container.ParentEntity;
-                if(container == null)
+                if (container == null)
                     break;
 
                 fieldTerminal = container.ParentEntity as FieldTerminal;

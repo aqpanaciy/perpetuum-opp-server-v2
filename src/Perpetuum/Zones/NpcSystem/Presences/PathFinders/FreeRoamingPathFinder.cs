@@ -33,7 +33,7 @@ namespace Perpetuum.Zones.NpcSystem.Presences.PathFinders
                     .Max()
                     .Clamp(10, 40);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.Exception(e);
             }
@@ -69,28 +69,28 @@ namespace Perpetuum.Zones.NpcSystem.Presences.PathFinders
         {
             var minSlope = TryGetMinSlope(presence);
             var maxHomeRange = TryGetMaxHomeRange(presence);
-            var range = new IntRange((int) (maxHomeRange * 1.1), (int) (maxHomeRange * 1.5));
+            var range = new IntRange((int)(maxHomeRange * 1.1), (int)(maxHomeRange * 1.5));
 
             var queue = new PriorityQueue<Node>(500);
             var startNode = new Node(presence.CurrentRoamingPosition);
             queue.Enqueue(startNode);
 
-            var closed = new HashSet<Point> {presence.CurrentRoamingPosition};
+            var closed = new HashSet<Point> { presence.CurrentRoamingPosition };
 
             if (FastRandom.NextDouble() < 0.3)
             {
-                _direction +=  FastRandom.NextDouble(0,0.25) - 0.25;
+                _direction += FastRandom.NextDouble(0, 0.25) - 0.25;
                 MathHelper.NormalizeDirection(ref _direction);
             }
 
-            var farPosition = startNode.location.ToPosition().OffsetInDirection(_direction,FastRandom.NextDouble(range.Min,range.Max));
+            var farPosition = startNode.location.ToPosition().OffsetInDirection(_direction, FastRandom.NextDouble(range.Min, range.Max));
             if (!_zone.Size.Contains(farPosition))
             {
                 presence.Log($"far position outside the zone: ({farPosition}), current roaming position: ({presence.CurrentRoamingPosition}).");
                 _direction = FastRandom.NextDouble();
                 return presence.CurrentRoamingPosition;
             }
-            _zone.CreateAlignedDebugBeam(BeamType.red_20sec,farPosition);
+            _zone.CreateAlignedDebugBeam(BeamType.red_20sec, farPosition);
 
             Node current;
             while (queue.TryDequeue(out current))
@@ -99,26 +99,26 @@ namespace Perpetuum.Zones.NpcSystem.Presences.PathFinders
                 if (d > range.Min)
                 {
                     _direction = startNode.location.DirectionTo(current.location);
-                    _zone.CreateAlignedDebugBeam(BeamType.green_20sec,current.location.ToPosition());
+                    _zone.CreateAlignedDebugBeam(BeamType.green_20sec, current.location.ToPosition());
                     return current.location;
                 }
 
                 foreach (var np in current.location.GetNeighbours())
                 {
-                    if ( closed.Contains(np) )
+                    if (closed.Contains(np))
                         continue;
 
                     closed.Add(np);
 
-                    if (!_zone.IsWalkableForNpc(np,minSlope))
+                    if (!_zone.IsWalkableForNpc(np, minSlope))
                         continue;
 
-                    if ( np.Distance(startNode.location) >= range.Max )
+                    if (np.Distance(startNode.location) >= range.Max)
                         continue;
 
-                    _zone.CreateAlignedDebugBeam(BeamType.orange_20sec,np.ToPosition());
+                    _zone.CreateAlignedDebugBeam(BeamType.orange_20sec, np.ToPosition());
 
-                    queue.Enqueue(new Node(np,Heuristic.Manhattan.Calculate(np.X,np.Y,(int) farPosition.X,(int) farPosition.Y)));
+                    queue.Enqueue(new Node(np, Heuristic.Manhattan.Calculate(np.X, np.Y, (int)farPosition.X, (int)farPosition.Y)));
                 }
             }
 
@@ -131,7 +131,7 @@ namespace Perpetuum.Zones.NpcSystem.Presences.PathFinders
             public readonly Point location;
             private readonly int _cost;
 
-            public Node(Point location,int cost = 0)
+            public Node(Point location, int cost = 0)
             {
                 this.location = location;
                 _cost = cost;

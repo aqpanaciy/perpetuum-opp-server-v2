@@ -123,8 +123,8 @@ namespace Perpetuum.Services.Channels.ChatCommands
             if (season == null) { SendMessageToAll(data, $"Season {id} not found."); return; }
             var rates = repo.GetActivityRates(id);
             var tiers = repo.GetTiers(id);
-            var objs  = repo.GetObjectives(id);
-            var lb    = repo.GetLeaderboardRewards(id);
+            var objs = repo.GetObjectives(id);
+            var lb = repo.GetLeaderboardRewards(id);
             SendMessageToAll(data, $"Season {id}: '{season.Name}' active={season.IsActive} {season.StartTime:yyyy-MM-dd} to {season.EndTime:yyyy-MM-dd} | Rates:{rates.Count} Tiers:{tiers.Count} Objectives:{objs.Count} LB:{lb.Count}");
         }
 

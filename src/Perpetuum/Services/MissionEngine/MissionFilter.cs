@@ -22,7 +22,7 @@ namespace Perpetuum.Services.MissionEngine
         private readonly Character _character;
 
 
-        public MissionFilter(Character character, Dictionary<int, DateTime> periodicMissionTimes, ICollection<int> finishedMissionsIds, MissionProcessor missionProcessor, MissionLocation location,MissionDataCache missionDataCache)
+        public MissionFilter(Character character, Dictionary<int, DateTime> periodicMissionTimes, ICollection<int> finishedMissionsIds, MissionProcessor missionProcessor, MissionLocation location, MissionDataCache missionDataCache)
         {
             _character = character;
             _agent = location.Agent;
@@ -61,7 +61,7 @@ namespace Perpetuum.Services.MissionEngine
             return _agent.GetConfigMissionsByCategoryAndLevel(missionCategory, missionLevel);
         }
 
-        public bool IsConfigMissionAvailable(Mission mission,IStandingHandler standingHandler, bool ignoreTriggerCheck = false)
+        public bool IsConfigMissionAvailable(Mission mission, IStandingHandler standingHandler, bool ignoreTriggerCheck = false)
         {
             //not listable
             if (!mission.listable)
@@ -83,7 +83,7 @@ namespace Perpetuum.Services.MissionEngine
 
             if (mission.MissionLevel > 0)
             {
-                if (!mission.MatchStandingToLevel(_character,standingHandler))
+                if (!mission.MatchStandingToLevel(_character, standingHandler))
                 {
                     //standing VS megacorp
                     return false;
@@ -231,7 +231,7 @@ mission_tutorial_asi_stage_01
                 if (mission.isTriggered) return false;
             }
 
-           
+
             if (!mission.CheckPeriodicMissions(_periodicMissionTimes))
             {
                 //mission was done within the period

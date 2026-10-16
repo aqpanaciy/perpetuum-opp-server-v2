@@ -2,7 +2,7 @@ using System;
 
 namespace Perpetuum.Groups.Alliances
 {
-    
+
     [Flags]
     public enum AllianceRole
     {
@@ -14,5 +14,5 @@ namespace Perpetuum.Groups.Alliances
         profileAdmin = 1 << 4,
         standingOperator = 1 << 5
     }
-    
+
 }

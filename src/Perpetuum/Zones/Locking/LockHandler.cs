@@ -70,7 +70,7 @@ namespace Perpetuum.Zones.Locking
                 return;
             }
 
-            AddLock(targetUnit,isPrimary);
+            AddLock(targetUnit, isPrimary);
         }
 
         public void AddLock(Unit target, bool isPrimary)
@@ -111,7 +111,7 @@ namespace Perpetuum.Zones.Locking
                     _locks = locks;
                 }
             }
-            
+
             foreach (var @lock in _locks)
             {
                 @lock.Update(time);

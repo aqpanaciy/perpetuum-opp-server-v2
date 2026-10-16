@@ -37,7 +37,9 @@ public partial class OptionsVisualPanelViewModel : ObservableObject
                 if (val != null)
                     DefinitionConfigRows.Add(new DefinitionConfigRow
                     {
-                        ColumnName = col, RawValue = val, OriginalValue = val
+                        ColumnName = col,
+                        RawValue = val,
+                        OriginalValue = val
                     });
         }
     }

@@ -10,7 +10,7 @@ namespace Perpetuum.Services.Social
         {
             var data = new Dictionary<string, object>
             {
-                {k.characterID, social.character.Id}, 
+                {k.characterID, social.character.Id},
                 {k.rootEID,social.character.Eid}
             };
 

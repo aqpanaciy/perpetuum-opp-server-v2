@@ -3,7 +3,7 @@
     /// <summary>
     /// Enum to inform the client about a bulletin change
     /// </summary>
-    public enum  CorporationBulletinEvent
+    public enum CorporationBulletinEvent
     {
         bulletinStarted,
         newEntry,

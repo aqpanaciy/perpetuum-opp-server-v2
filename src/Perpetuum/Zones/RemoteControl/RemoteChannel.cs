@@ -32,7 +32,7 @@ namespace Perpetuum.Zones.RemoteControl
             {
                 return true;
             }
-            
+
             return Id == other.Id;
         }
     }

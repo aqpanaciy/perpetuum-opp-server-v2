@@ -61,12 +61,12 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
             Dictionary<int, DateTime> periodicMissions;
             GetFinishedAndLastMissions(character, out missionsDone, out periodicMissions).ThrowIfError();
 
-            var missionFilter = new MissionFilter(character, periodicMissions, missionsDone, this, location,_missionDataCache);
+            var missionFilter = new MissionFilter(character, periodicMissions, missionsDone, this, location, _missionDataCache);
 
             missionFilter.IsMissionRunningWithThisCategoryAndLevel(category, level, agent).ThrowIfTrue(ErrorCodes.MissionRunningWithCategoryAndLevel);
 
             var missions =
-                missionFilter.GetConfigMissionsByCategoryAndLevel(category, level).Where(m => missionFilter.IsConfigMissionAvailable(m,_standingHandler)).ToArray();
+                missionFilter.GetConfigMissionsByCategoryAndLevel(category, level).Where(m => missionFilter.IsConfigMissionAvailable(m, _standingHandler)).ToArray();
 
             missions.Any().ThrowIfFalse(ErrorCodes.NoMissionAvailableWithConditions);
 
@@ -100,12 +100,12 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
                 Logger.Error("zone config was not found for zoneId:" + location.zoneId);
                 throw new PerpetuumException(ErrorCodes.ZoneNotFound);
             }
-            
+
             var missionAgent = location.Agent;
 
             GetFinishedAndLastMissions(character, out List<int> missionsDone, out Dictionary<int, DateTime> periodicMissions).ThrowIfError();
 
-            var missionFilter = new MissionFilter(character, periodicMissions, missionsDone, this, location,_missionDataCache);
+            var missionFilter = new MissionFilter(character, periodicMissions, missionsDone, this, location, _missionDataCache);
 
             missionFilter.IsMissionRunningWithThisCategoryAndLevel(category, level, missionAgent).ThrowIfTrue(ErrorCodes.MissionRunningWithCategoryAndLevel);
 

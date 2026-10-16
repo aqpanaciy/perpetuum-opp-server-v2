@@ -16,8 +16,8 @@ namespace Perpetuum.RequestHandlers.Zone
         {
             using (var scope = Db.CreateTransaction())
             {
-                var x = request.Data.GetOrDefault(k.x, (double) -1);
-                var y = request.Data.GetOrDefault(k.y, (double) -1);
+                var x = request.Data.GetOrDefault(k.x, (double)-1);
+                var y = request.Data.GetOrDefault(k.y, (double)-1);
 
                 var character = request.Session.Character;
                 var player = request.Zone.GetPlayerOrThrow(character);
@@ -38,7 +38,7 @@ namespace Perpetuum.RequestHandlers.Zone
                 var eid = (long)request.Data.GetOrDefault<int>(k.eid); //user comfort
                 var idGenerator = eid == 0 ? EntityIDGenerator.Random : EntityIDGenerator.Fix(eid);
 
-                var teleportColumn = (TeleportColumn)Entity.Factory.Create(definition,idGenerator);
+                var teleportColumn = (TeleportColumn)Entity.Factory.Create(definition, idGenerator);
 
                 var container = SystemContainer.GetByName(k.es_teleport_column);
                 teleportColumn.Parent = container.Eid;
@@ -53,19 +53,19 @@ namespace Perpetuum.RequestHandlers.Zone
                 teleportColumn.Name = name;
                 teleportColumn.Save();
 
-                request.Zone.UnitService.AddDefaultUnit(teleportColumn,position,"tpc",false);
-                teleportColumn.AddToZone(request.Zone,position);
+                request.Zone.UnitService.AddDefaultUnit(teleportColumn, position, "tpc", false);
+                teleportColumn.AddToZone(request.Zone, position);
 
                 var result = request.Zone.GetBuildingsDictionaryForCharacter(character);
 
                 Transaction.Current.OnCommited(() =>
                 {
                     Logger.Info("");
-                    Logger.Info("NEW TELEPORT COLUMN EID:" + teleportColumn.Eid );
+                    Logger.Info("NEW TELEPORT COLUMN EID:" + teleportColumn.Eid);
                     Logger.Info("");
                     Message.Builder.SetCommand(Commands.ZoneGetBuildings).WithData(result).ToClient(request.Session).Send();
                 });
-                
+
                 scope.Complete();
             }
         }

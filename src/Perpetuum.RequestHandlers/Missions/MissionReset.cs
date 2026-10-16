@@ -31,13 +31,13 @@ namespace Perpetuum.RequestHandlers.Missions
 
                 _missionProcessor.FinishedMissionsClearCache(character);
 
-                if (_missionProcessor.MissionAdministrator.GetMissionInProgressCollector(character,out MissionInProgressCollector mcollector))
+                if (_missionProcessor.MissionAdministrator.GetMissionInProgressCollector(character, out MissionInProgressCollector mcollector))
                 {
                     mcollector.Reset();
                 }
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

@@ -20,7 +20,7 @@ namespace Perpetuum.RequestHandlers.TransportAssignments
                 var id = request.Data.GetOrDefault<int>(k.ID);
                 var character = request.Session.Character;
                 TakeTransportAssignment(id, character);
-                
+
                 scope.Complete();
             }
         }
@@ -33,11 +33,11 @@ namespace Perpetuum.RequestHandlers.TransportAssignments
             var transportAssignmentInfo = TransportAssignment.Get(id);
 
             transportAssignmentInfo.ownercharacter.ThrowIfEqual(character, ErrorCodes.WTFErrorMedicalAttentionSuggested);
-            transportAssignmentInfo.taken.ThrowIfTrue(ErrorCodes.TransportAssignmentIsTaken);            
-            
+            transportAssignmentInfo.taken.ThrowIfTrue(ErrorCodes.TransportAssignmentIsTaken);
+
             transportAssignmentInfo.expiry.ThrowIfLess(DateTime.Now, ErrorCodes.TransportAssignmentExpired);
             transportAssignmentInfo.volunteercharacter = character;
-            transportAssignmentInfo.volunteercharacter.ThrowIfNotEqual(character, ErrorCodes.TransportAssignmentIsTaken);            
+            transportAssignmentInfo.volunteercharacter.ThrowIfNotEqual(character, ErrorCodes.TransportAssignmentIsTaken);
             transportAssignmentInfo.taken = true;
             transportAssignmentInfo.TakeCollateral(character);
             transportAssignmentInfo.started = DateTime.Now;

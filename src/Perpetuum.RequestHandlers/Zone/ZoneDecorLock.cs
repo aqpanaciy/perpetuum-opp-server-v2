@@ -30,7 +30,7 @@ namespace Perpetuum.RequestHandlers.Zone
                     zone.DecorHandler.SetDecor(oldDescription);
                     zone.DecorHandler.SpreadDecorChanges(oldDescription);
                 });
-                
+
                 scope.Complete();
             }
         }

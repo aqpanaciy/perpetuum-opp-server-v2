@@ -5,7 +5,7 @@ namespace Perpetuum.Services.ExtensionService
 {
     public class CharacterDefaultExtensionHelper
     {
-        private readonly IEnumerable<Extension> _extensions; 
+        private readonly IEnumerable<Extension> _extensions;
 
         public CharacterDefaultExtensionHelper(Character character)
         {

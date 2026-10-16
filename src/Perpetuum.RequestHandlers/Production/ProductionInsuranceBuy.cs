@@ -42,7 +42,7 @@ namespace Perpetuum.RequestHandlers.Production
                 {
                     Message.Builder.FromRequest(request).WithEmpty().Send();
                 }
-                
+
                 scope.Complete();
             }
         }

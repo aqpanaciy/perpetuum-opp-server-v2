@@ -36,12 +36,12 @@ namespace Perpetuum.Reactive
 
         public static Observer<T> Create(Action<T> onNext)
         {
-            return new AnonymousObserver<T>(onNext,Stubs<Exception>.None,Stubs.None);
+            return new AnonymousObserver<T>(onNext, Stubs<Exception>.None, Stubs.None);
         }
 
-        public static Observer<T> Create(Action<T> onNext,Action<Exception> onError,Action onCompleted)
+        public static Observer<T> Create(Action<T> onNext, Action<Exception> onError, Action onCompleted)
         {
-            return new AnonymousObserver<T>(onNext,onError,onCompleted);
+            return new AnonymousObserver<T>(onNext, onError, onCompleted);
         }
     }
 }

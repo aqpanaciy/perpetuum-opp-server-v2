@@ -9,14 +9,14 @@ namespace Perpetuum.PathFinders
     {
         public Point Location { get; private set; }
 
-        public PathFinderNode(int x,int y)
+        public PathFinderNode(int x, int y)
         {
-            Location = new Point(x,y);
+            Location = new Point(x, y);
         }
 
         public override string ToString()
         {
-            return string.Format((string) "Location: {0}", (object) Location);
+            return string.Format((string)"Location: {0}", (object)Location);
         }
 
         public override int GetHashCode()
@@ -35,9 +35,9 @@ namespace Perpetuum.PathFinders
 
         public delegate void PathFinderDebugHandler(PathFinderNode node, PathFinderNodeType type);
 
-        #if DEBUG
+#if DEBUG
         private PathFinderDebugHandler _pathFinderDebug;
-        #endif
+#endif
 
         [CanBeNull]
         public Point[] FindPath(Point start, Point end)
@@ -56,22 +56,22 @@ namespace Perpetuum.PathFinders
         [Conditional("DEBUG")]
         public void RegisterDebugHandler(PathFinderDebugHandler handler)
         {
-            #if DEBUG
+#if DEBUG
             _pathFinderDebug += handler;
-            #endif
+#endif
         }
 
         [Conditional("DEBUG")]
         protected void OnPathFinderDebug(PathFinderNode node, PathFinderNodeType type)
         {
-            #if DEBUG
+#if DEBUG
             _pathFinderDebug?.Invoke(node, type);
-            #endif
+#endif
         }
 
         protected virtual bool OnProcessNode(PathFinderNode node)
         {
-            OnPathFinderDebug(node,PathFinderNodeType.Current);
+            OnPathFinderDebug(node, PathFinderNodeType.Current);
             return true;
         }
     }

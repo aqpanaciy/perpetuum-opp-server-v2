@@ -27,7 +27,7 @@ namespace Perpetuum
             public CorporationRole role = CorporationRole.NotDefined;
         }
 
-        public void SendToAll(IMessage message,Corporation corporation)
+        public void SendToAll(IMessage message, Corporation corporation)
         {
             var mi = new MessageInfo
             {
@@ -37,7 +37,7 @@ namespace Perpetuum
             Enqueue(mi);
         }
 
-        public void SendByCorporationRole(IMessage message,long corporationEid,CorporationRole role)
+        public void SendByCorporationRole(IMessage message, long corporationEid, CorporationRole role)
         {
             var mi = new MessageInfo
             {
@@ -48,7 +48,7 @@ namespace Perpetuum
             Enqueue(mi);
         }
 
-        public void SendByCorporationRole(IMessage message,Corporation corporation,CorporationRole role)
+        public void SendByCorporationRole(IMessage message, Corporation corporation, CorporationRole role)
         {
             var mi = new MessageInfo
             {
@@ -73,17 +73,17 @@ namespace Perpetuum
                 }
 
                 _processing = true;
-                ThreadPool.UnsafeQueueUserWorkItem(_ => ProcessMessageQueue(messageInfo),null);
+                ThreadPool.UnsafeQueueUserWorkItem(_ => ProcessMessageQueue(messageInfo), null);
             }
         }
 
         private void ProcessMessageQueue(MessageInfo messageInfo)
         {
-            var corporations = new Dictionary<long,Corporation>();
+            var corporations = new Dictionary<long, Corporation>();
 
             while (true)
             {
-                if (!corporations.TryGetValue(messageInfo.corporationEid,out Corporation corporation))
+                if (!corporations.TryGetValue(messageInfo.corporationEid, out Corporation corporation))
                 {
                     if (messageInfo.corporation != null)
                     {
@@ -102,10 +102,10 @@ namespace Perpetuum
 
                 if (corporation != null)
                 {
-                    var members = messageInfo.role != CorporationRole.NotDefined ? corporation.GetMembersByRole(messageInfo.role) : 
+                    var members = messageInfo.role != CorporationRole.NotDefined ? corporation.GetMembersByRole(messageInfo.role) :
                                                                                    corporation.GetCharacterMembers();
 
-                    _messageSender.SendToCharacters(messageInfo.message,members);
+                    _messageSender.SendToCharacters(messageInfo.message, members);
                 }
 
                 lock (_messageQueue)
@@ -132,22 +132,22 @@ namespace Perpetuum
             _sessionManager = sessionManager ?? throw new ArgumentNullException(nameof(sessionManager));
         }
 
-        public void SendToClient(IMessage message,ISession session)
+        public void SendToClient(IMessage message, ISession session)
         {
             session?.SendMessage(message);
         }
 
-        public void SendToCharacter(IMessage message,Character character)
+        public void SendToCharacter(IMessage message, Character character)
         {
             var session = _sessionManager.GetByCharacter(character);
-            SendToClient(message,session);
+            SendToClient(message, session);
         }
 
-        public void SendToCharacters(IMessage message,IEnumerable<Character> characters)
+        public void SendToCharacters(IMessage message, IEnumerable<Character> characters)
         {
             foreach (var character in characters)
             {
-                SendToCharacter(message,character);
+                SendToCharacter(message, character);
             }
         }
 
@@ -155,7 +155,7 @@ namespace Perpetuum
         {
             foreach (var session in _sessionManager.Sessions)
             {
-                SendToClient(message,session);
+                SendToClient(message, session);
             }
         }
 
@@ -163,14 +163,14 @@ namespace Perpetuum
         {
             foreach (var character in _sessionManager.SelectedCharacters)
             {
-                SendToCharacter(message,character);
+                SendToCharacter(message, character);
             }
         }
 
         public void SendToAccount(IMessage message, Account account)
         {
             var session = _sessionManager.GetByAccount(account);
-            SendToClient(message,session);
+            SendToClient(message, session);
         }
     }
 }

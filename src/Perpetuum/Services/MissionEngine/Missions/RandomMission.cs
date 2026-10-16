@@ -66,7 +66,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
         }
         //ECONOMY:  TODO - put this in DB
         //                                              0   1   2   3   4    5    6    7    8    9
-        private static readonly int[] CoinsPerLevel = { 10, 20, 40, 70, 120, 200, 300, 400, 500, 600};
+        private static readonly int[] CoinsPerLevel = { 10, 20, 40, 70, 120, 200, 300, 400, 500, 600 };
         public static int CoinQuantity(int missionLevel, double difficultyMultiplier)
         {
             /*
@@ -79,10 +79,10 @@ namespace Perpetuum.Services.MissionEngine.Missions
 
             var rawAmount = CoinsPerLevel[missionLevel];
             var multAmount = rawAmount * difficultyMultiplier;
-            var amount = (int) Math.Round(multAmount);
+            var amount = (int)Math.Round(multAmount);
 
             return amount;
         }
-       
+
     }
 }

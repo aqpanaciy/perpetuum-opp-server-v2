@@ -50,7 +50,7 @@ namespace Perpetuum.Zones.PBS.Reactors
             return info;
         }
 
-        
+
 
         public void FeedWithItems(Player player, IEnumerable<long> eids)
         {
@@ -63,13 +63,13 @@ namespace Perpetuum.Zones.PBS.Reactors
         public void CoreFromEnergyWell(double corefromEnergyWell)
         {
             Core += corefromEnergyWell;
-            Interlocked.Add(ref _collectFromWell,(int)corefromEnergyWell);
+            Interlocked.Add(ref _collectFromWell, (int)corefromEnergyWell);
         }
 
-        public void AddReactorInfo(IDictionary<string,object> info )
+        public void AddReactorInfo(IDictionary<string, object> info)
         {
-            
-            var fromWell = (double) _lastCycleFromEnergyWell;
+
+            var fromWell = (double)_lastCycleFromEnergyWell;
             var lastPumpedOut = _corePumpHandler.LastUsedCore;
 
             var realConsumption = 0.0;
@@ -109,8 +109,8 @@ namespace Perpetuum.Zones.PBS.Reactors
 
             }
 
-            var cyclesLeft = Core/realConsumption;
-            var secondsLeft = cyclesLeft*30;
+            var cyclesLeft = Core / realConsumption;
+            var secondsLeft = cyclesLeft * 30;
 
             info["willBeEmpty"] = DateTime.Now.AddSeconds(secondsLeft);
 

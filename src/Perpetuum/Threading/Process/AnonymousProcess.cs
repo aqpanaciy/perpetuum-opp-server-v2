@@ -33,7 +33,7 @@ namespace Perpetuum.Threading.Process
 
         public CompositeProcess()
         {
-            
+
         }
 
         public CompositeProcess(IEnumerable<IProcess> processes)

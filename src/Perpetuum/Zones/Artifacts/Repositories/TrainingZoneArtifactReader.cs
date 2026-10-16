@@ -7,7 +7,7 @@ namespace Perpetuum.Zones.Artifacts.Repositories
 {
     public class TrainingZoneArtifactReader : ArtifactReader
     {
-       
+
 
         public override IEnumerable<Artifact> GetArtifacts()
         {
@@ -23,6 +23,6 @@ namespace Perpetuum.Zones.Artifacts.Repositories
             }).ToArray();
         }
 
-       
+
     }
 }

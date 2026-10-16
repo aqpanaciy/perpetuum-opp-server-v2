@@ -32,7 +32,7 @@ namespace Perpetuum.RequestHandlers.Zone
                     zone.DecorHandler.DeleteDecor(id);
                     zone.DecorHandler.SpreadDecorDelete(id);
                 });
-                
+
                 scope.Complete();
             }
         }

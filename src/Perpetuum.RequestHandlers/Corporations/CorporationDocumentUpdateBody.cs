@@ -17,24 +17,24 @@ namespace Perpetuum.RequestHandlers.Corporations
                 var bodyStr = request.Data.GetOrDefault<string>(k.body);
                 var version = request.Data.GetOrDefault<int>(k.version);
 
-            
+
                 CorporationDocument corporationDocument;
                 CorporationDocumentHelper.CheckRegisteredAccess(documentId, character, out corporationDocument, true).ThrowIfError();
 
-                version.ThrowIfLess(corporationDocument.version,ErrorCodes.DocumentVersionOld);
+                version.ThrowIfLess(corporationDocument.version, ErrorCodes.DocumentVersionOld);
 
                 corporationDocument.SetBody(bodyStr);
                 corporationDocument.WriteBody().ThrowIfError();
 
-                var result = CorporationDocumentHelper.GenerateResultFromDocuments(new[] {corporationDocument});
-            
+                var result = CorporationDocumentHelper.GenerateResultFromDocuments(new[] { corporationDocument });
+
                 //itt terjesztunk
-                var registered = new List<Character> {corporationDocument._ownerCharacter};
+                var registered = new List<Character> { corporationDocument._ownerCharacter };
 
                 registered.AddRange(CorporationDocumentHelper.GetRegisteredCharactersFromDocument(documentId));
 
                 Message.Builder.SetCommand(Commands.CorporationDocumentUpdateBody).WithData(result).ToCharacters(registered).Send();
-                
+
                 scope.Complete();
             }
         }

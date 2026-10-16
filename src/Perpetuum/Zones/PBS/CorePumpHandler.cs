@@ -32,7 +32,7 @@ namespace Perpetuum.Zones.PBS
         {
             var u = _sourceUnit as Unit;
             if (u == null) return;
-            
+
             info[k.currentCore] = u.Core;
             info[k.lastUsedCore] = LastUsedCore;
 
@@ -81,7 +81,7 @@ namespace Perpetuum.Zones.PBS
                 }
 
                 //o egy consumer kellene hogy legyen
-                var consumer = (Unit) connection.TargetPbsObject;
+                var consumer = (Unit)connection.TargetPbsObject;
                 if (consumer != null)
                 {
                     //tele van nem kell vele most torodni
@@ -95,7 +95,7 @@ namespace Perpetuum.Zones.PBS
 
             //weight alapjan sort
             targetList = targetList.OrderByDescending(p => p.Weight).ToList();
-            
+
 
             //a szurt listarol a sum
             var weightSum = targetList.Sum(c => c.Weight);
@@ -161,8 +161,8 @@ namespace Perpetuum.Zones.PBS
                 }
             }
 
-            _sourceUnit.CorePumpHandler.LastUsedCore = sumCoreUsed; 
-            
+            _sourceUnit.CorePumpHandler.LastUsedCore = sumCoreUsed;
+
 
         }
 
@@ -172,7 +172,7 @@ namespace Perpetuum.Zones.PBS
 
 
 
-    
+
 
 
 }

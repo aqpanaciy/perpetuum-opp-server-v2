@@ -44,7 +44,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
         /// <returns></returns>
         protected virtual IEnumerable<Unit> GetTargetsByPosition()
         {
-           
+
             foreach (var player in Zone.Units.OfType<Player>().WithinRange(CurrentPosition, EmitRadius))
             {
                 if (IsMyTarget(player))
@@ -54,8 +54,8 @@ namespace Perpetuum.Zones.PBS.EffectNodes
                 }
 
             }
-            
-            
+
+
         }
 
 
@@ -68,7 +68,7 @@ namespace Perpetuum.Zones.PBS.EffectNodes
             if (lastCollected <= 0) return 0.0;
 
             var coreDemand = (this.GetCoreConsumption() * lastCollected) / tickDivider;
-            
+
             return coreDemand;
         }
 

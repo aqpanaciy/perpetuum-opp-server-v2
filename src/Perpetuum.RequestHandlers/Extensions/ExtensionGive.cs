@@ -40,7 +40,7 @@ namespace Perpetuum.RequestHandlers.Extensions
                 if (giveAll)
                 {
                     var extensionz = from e in Db.Query().CommandText("select extensionid from extensions where active=1 and hidden=0").Execute()
-                        select new Extension(DataRecordExtensions.GetValue<int>(e, 0), level);
+                                     select new Extension(DataRecordExtensions.GetValue<int>(e, 0), level);
 
                     character.SetExtensions(extensionz);
                 }
@@ -54,7 +54,7 @@ namespace Perpetuum.RequestHandlers.Extensions
                     .ExecuteNonQuery();
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

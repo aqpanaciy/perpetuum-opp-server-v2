@@ -4,14 +4,14 @@ using System.Runtime.Caching;
 
 namespace Perpetuum
 {
-    public class CachedReadOnlyRepository<TId,T> : IReadOnlyRepository<TId,T>
+    public class CachedReadOnlyRepository<TId, T> : IReadOnlyRepository<TId, T>
     {
         private readonly ObjectCache _cache;
         private readonly IReadOnlyRepository<TId, T> _repository;
 
         public TimeSpan Expiration { get; set; }
 
-        public CachedReadOnlyRepository(ObjectCache cache,IReadOnlyRepository<TId,T> repository)
+        public CachedReadOnlyRepository(ObjectCache cache, IReadOnlyRepository<TId, T> repository)
         {
             _cache = cache;
             _repository = repository;
@@ -20,7 +20,7 @@ namespace Perpetuum
 
         public T Get(TId id)
         {
-            return _cache.Get(id.ToString(), () => _repository.Get(id),Expiration);
+            return _cache.Get(id.ToString(), () => _repository.Get(id), Expiration);
         }
 
         public IEnumerable<T> GetAll()

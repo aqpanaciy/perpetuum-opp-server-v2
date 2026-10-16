@@ -26,7 +26,7 @@ namespace Perpetuum.RequestHandlers.Markets
                     Logger.Exception(ex);
                 }
             }
-            
+
             Message.Builder.FromRequest(request).WithData(result).Send();
 
         }

@@ -13,14 +13,14 @@ namespace Perpetuum.AdminTool.ViewModels
 {
     public partial class AutoMarketRawMaterialsViewModel : ObservableObject
     {
-        private readonly AutoMarketRepository   _repo;
-        private readonly ChangeQueue            _queue;
+        private readonly AutoMarketRepository _repo;
+        private readonly ChangeQueue _queue;
         private readonly TranslationsViewModel? _translations;
         private const int EnglishLangId = 0;
 
-        [ObservableProperty] private bool   _isLoading;
+        [ObservableProperty] private bool _isLoading;
         [ObservableProperty] private string _statusMessage = "";
-        [ObservableProperty] private bool   _statusIsError;
+        [ObservableProperty] private bool _statusIsError;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(FilteredRows))]
@@ -36,20 +36,20 @@ namespace Perpetuum.AdminTool.ViewModels
             ChangeQueue queue,
             TranslationsViewModel? translations = null)
         {
-            _repo         = repo;
-            _queue        = queue;
+            _repo = repo;
+            _queue = queue;
             _translations = translations;
         }
 
         [RelayCommand(CanExecute = nameof(CanRefresh))]
         public async Task RefreshAsync()
         {
-            IsLoading     = true;
+            IsLoading = true;
             StatusMessage = "Loading raw materials...";
             StatusIsError = false;
             try
             {
-                var rows  = await _repo.LoadCoveredMaterialsAsync();
+                var rows = await _repo.LoadCoveredMaterialsAsync();
                 var store = _translations?.Store;
 
                 Rows.Clear();
@@ -58,7 +58,7 @@ namespace Perpetuum.AdminTool.ViewModels
                     if (store != null)
                     {
                         var tr = store.Rows.FirstOrDefault(x => x.Key == r.DefinitionName);
-                        var t  = tr?[EnglishLangId];
+                        var t = tr?[EnglishLangId];
                         if (!string.IsNullOrEmpty(t)) r.DisplayName = t;
                     }
                     if (string.IsNullOrEmpty(r.DisplayName)) r.DisplayName = r.DefinitionName;
@@ -83,7 +83,7 @@ namespace Perpetuum.AdminTool.ViewModels
         private void QueueSave(AutoMarketCoveredMaterialRow row)
         {
             var description = $"automarket_rawmat_overrides: {row.DefinitionName}";
-            var existing    = _queue.Items.FirstOrDefault(c => c.Description == description);
+            var existing = _queue.Items.FirstOrDefault(c => c.Description == description);
             if (existing != null) _queue.Items.Remove(existing);
 
             string sql;
@@ -109,8 +109,8 @@ namespace Perpetuum.AdminTool.ViewModels
 
             _queue.Add(new RawSqlChange(description, sql));
             row.OriginalCapOverride = row.WeeklyCapOverride;
-            row.OriginalBuyOrders   = row.CreateBuyOrders;
-            row.OriginalSellOrders  = row.CreateSellOrders;
+            row.OriginalBuyOrders = row.CreateBuyOrders;
+            row.OriginalSellOrders = row.CreateSellOrders;
             StatusMessage = $"{row.DisplayName} queued.";
             OnPropertyChanged(nameof(FilteredRows));
         }

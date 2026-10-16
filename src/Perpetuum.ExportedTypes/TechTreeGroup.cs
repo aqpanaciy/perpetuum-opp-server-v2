@@ -5,14 +5,14 @@
 namespace Perpetuum.ExportedTypes
 {
 
-	public enum TechTreeGroup 
-	{
- 		common1 = 6,
-		common2 = 9,
-		indy = 8,
-		nuimqol = 3,
-		pbs = 7,
-		pelistal = 4,
-		thelodica = 5
-	}
+    public enum TechTreeGroup
+    {
+        common1 = 6,
+        common2 = 9,
+        indy = 8,
+        nuimqol = 3,
+        pbs = 7,
+        pelistal = 4,
+        thelodica = 5
+    }
 }

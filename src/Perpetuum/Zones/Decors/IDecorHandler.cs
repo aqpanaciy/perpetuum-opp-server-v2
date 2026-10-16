@@ -4,7 +4,7 @@ namespace Perpetuum.Zones.Decors
 {
     public interface IDecorHandler
     {
-        IDictionary<string,object> DecorObjectsToDictionary();
+        IDictionary<string, object> DecorObjectsToDictionary();
         ErrorCodes InsertDecorSql(DecorDescription decorDescription, out int newId);
         void SetDecor(DecorDescription decorDescription);
         void SpreadDecorChanges(DecorDescription decorDescription);

@@ -9,7 +9,7 @@ namespace Perpetuum.Zones.Movements
 
         public virtual void Start(Unit unit)
         {
-            
+
         }
 
         public abstract void Update(Unit unit, TimeSpan elapsed);

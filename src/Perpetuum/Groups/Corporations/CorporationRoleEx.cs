@@ -6,9 +6,9 @@ namespace Perpetuum.Groups.Corporations
     {
         public static CorporationRole ClearRole(this CorporationRole currentRole, CorporationRole clearThis)
         {
-            return (CorporationRole) ((uint) currentRole & ~((uint) clearThis));
+            return (CorporationRole)((uint)currentRole & ~((uint)clearThis));
         }
-        
+
         public static CorporationRole SetRole(this CorporationRole currentRole, CorporationRole setThis)
         {
             return currentRole | setThis;
@@ -21,7 +21,7 @@ namespace Perpetuum.Groups.Corporations
 
         public static bool HasAllRoles(this CorporationRole role, params CorporationRole[] roles)
         {
-           
+
             return roles.All(r => (role & r) != 0);
         }
 
@@ -94,17 +94,17 @@ namespace Perpetuum.Groups.Corporations
 
             //has low remove => needs low access
             if (role.IsAnyRole(CorporationRole.HangarRemove_low))
-                resultRole = (resultRole | (int) CorporationRole.HangarAccess_low);
+                resultRole = (resultRole | (int)CorporationRole.HangarAccess_low);
 
             //has medium remove => needs medium access
             if (role.IsAnyRole(CorporationRole.HangarRemove_medium))
-                resultRole = (resultRole | (int) CorporationRole.HangarAccess_medium);
+                resultRole = (resultRole | (int)CorporationRole.HangarAccess_medium);
 
             if (role.IsAnyRole(CorporationRole.HangarRemove_high))
-                resultRole = (resultRole | (int) CorporationRole.HangarAccess_high);
+                resultRole = (resultRole | (int)CorporationRole.HangarAccess_high);
 
             if (role.IsAnyRole(CorporationRole.HangarRemove_secure))
-                resultRole = (resultRole | (int) CorporationRole.HangarAccess_secure);
+                resultRole = (resultRole | (int)CorporationRole.HangarAccess_secure);
 
             return (CorporationRole)resultRole;
         }

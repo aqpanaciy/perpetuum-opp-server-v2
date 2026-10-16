@@ -41,13 +41,13 @@ namespace Perpetuum.Zones.PlantTools
                 return PlantType.NotDefined;
             }
 
-           if (Enum.IsDefined(typeof(PlantType), plantIndex))
-           {
-               return (PlantType) plantIndex;
-           }
+            if (Enum.IsDefined(typeof(PlantType), plantIndex))
+            {
+                return (PlantType)plantIndex;
+            }
 
             Debug.Assert(false, "plant seed type not defined in PlantType enum for definition: " + ED.Definition + " " + ED.Name + " option key: " + plantIndex);
-           return PlantType.NotDefined;
+            return PlantType.NotDefined;
 
         }
 
@@ -67,7 +67,7 @@ namespace Perpetuum.Zones.PlantTools
         {
             //plant it under the player
             _targetPosition = player.CurrentPosition;
-            
+
             //this item will plant this plant
             _targetPlantType = GetTargetPlantType();
 
@@ -80,8 +80,8 @@ namespace Perpetuum.Zones.PlantTools
                 Logger.Error("consistency error. no plantrule found for seed:" + Definition + " planttype:" + _targetPlantType);
 #endif
                 //different errormessage for concrete placing
-                _targetPlantType.ThrowIfEqual(PlantType.Devrinol,ErrorCodes.ZoneNotTerraformable);
-                
+                _targetPlantType.ThrowIfEqual(PlantType.Devrinol, ErrorCodes.ZoneNotTerraformable);
+
                 throw new PerpetuumException(ErrorCodes.PlantNotFertileOnThisZone);
             }
 
@@ -122,7 +122,7 @@ namespace Perpetuum.Zones.PlantTools
             }
             else
             {
-                PutPlantOrThrow(zone,_targetPosition.intX,_targetPosition.intY);
+                PutPlantOrThrow(zone, _targetPosition.intX, _targetPosition.intY);
             }
 
             var b = TransactionLogEvent.Builder().SetTransactionType(TransactionType.ItemDeploy).SetCharacter(player.Character).SetItem(Definition, 1);
@@ -130,11 +130,11 @@ namespace Perpetuum.Zones.PlantTools
 
         }
 
-        private void PutPlantOrThrow(IZone zone,int x, int y)
+        private void PutPlantOrThrow(IZone zone, int x, int y)
         {
             IsPositionValidForPlantingOrThrow(zone, x, y, _targetPlantType);
 
-            if (_targetPlantType == PlantType.NotDefined) 
+            if (_targetPlantType == PlantType.NotDefined)
                 return;
 
             using (new TerrainUpdateMonitor(zone))
@@ -177,7 +177,7 @@ namespace Perpetuum.Zones.PlantTools
 
                 try
                 {
-                    PutPlantOrThrow(zone,i, j);
+                    PutPlantOrThrow(zone, i, j);
                     counter++;
                 }
                 catch (Exception ex)
@@ -197,7 +197,7 @@ namespace Perpetuum.Zones.PlantTools
         }
 
 
-      
+
         /// <summary>
         /// every type of plant except for concrete placing
         /// </summary>
@@ -219,14 +219,14 @@ namespace Perpetuum.Zones.PlantTools
                         .IsInRangeOf2D(_targetPosition, DistanceConstants.PLANT_MIN_DISTANCE_FROM_SAP).ThrowIfTrue(ErrorCodes.SAPIsInRange);
                 }
             }
-            
+
         }
 
 
         /// <summary>
         /// Checks if the position is valid for the given PlantType
         /// </summary>
-        private void IsPositionValidForPlantingOrThrow(IZone zone,int x, int y, PlantType targetPlant)
+        private void IsPositionValidForPlantingOrThrow(IZone zone, int x, int y, PlantType targetPlant)
         {
             var terrain = zone.Terrain;
 
@@ -270,7 +270,7 @@ namespace Perpetuum.Zones.PlantTools
             if (plantRule != null)
             {
                 plantRule.PlayerSeeded.ThrowIfTrue(ErrorCodes.HarvestableVegetationAlreadyExistsOnTile);
-                
+
                 //csak a hecc kedveert
                 plantRule.HasBlockingState.ThrowIfTrue(ErrorCodes.InvalidConditionsForPlanting);
             }
@@ -299,7 +299,7 @@ namespace Perpetuum.Zones.PlantTools
         /// <summary>
         /// Checks planting conditions for a wall
         /// </summary>
-        private bool IsWallConditionsMatch(IZone zone,int x, int y)
+        private bool IsWallConditionsMatch(IZone zone, int x, int y)
         {
             var plantCount = CountNonDiagonalPlants(zone, PlantType.Wall, x, y, x, y);
 
@@ -314,11 +314,11 @@ namespace Perpetuum.Zones.PlantTools
                 var tx = x + xo < zone.Size.Width ? x + xo : x;
                 var ty = y + yo < zone.Size.Height ? y + yo : y;
 
-                plantCount = CountNonDiagonalPlants(zone,PlantType.Wall, tx, ty, x, y);
+                plantCount = CountNonDiagonalPlants(zone, PlantType.Wall, tx, ty, x, y);
 
                 if (plantCount > 3)
                     return false;
-                }
+            }
 
             return true;
         }
@@ -327,7 +327,7 @@ namespace Perpetuum.Zones.PlantTools
         /// <summary>
         /// Counts the non diagonal neighbouring plants of the given type
         /// </summary>
-        private int CountNonDiagonalPlants(IZone zone,PlantType plantType, int x, int y, int origX, int origY)
+        private int CountNonDiagonalPlants(IZone zone, PlantType plantType, int x, int y, int origX, int origY)
         {
             var counter = 0;
             for (var i = 0; i <= 3; i++)
@@ -361,7 +361,7 @@ namespace Perpetuum.Zones.PlantTools
         /// <summary>
         /// Limits the amount of walls in an area
         /// </summary>
-        private bool IsWallAmountMatch(IZone zone,int x, int y)
+        private bool IsWallAmountMatch(IZone zone, int x, int y)
         {
             var area = zone.CreateArea(new Position(x, y), WALL_AMOUNT_AREA_RADIUS);
             return zone.CountPlantsInArea(PlantType.Wall, area) <= WALL_AMOUNT_MAXCOUNT;

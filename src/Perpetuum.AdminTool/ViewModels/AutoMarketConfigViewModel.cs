@@ -14,21 +14,21 @@ namespace Perpetuum.AdminTool.ViewModels
         private readonly AutoMarketRepository _repo;
         private readonly ChangeQueue _queue;
 
-        [ObservableProperty] private bool   _isLoading;
+        [ObservableProperty] private bool _isLoading;
         [ObservableProperty] private string _statusMessage = "";
-        [ObservableProperty] private bool   _statusIsError;
+        [ObservableProperty] private bool _statusIsError;
 
         public ObservableCollection<AutoMarketConfigRow> Rows { get; } = new();
 
         public AutoMarketConfigViewModel(AutoMarketRepository repo, ChangeQueue queue)
         {
-            _repo  = repo;
+            _repo = repo;
             _queue = queue;
         }
 
         public async Task LoadAsync()
         {
-            IsLoading     = true;
+            IsLoading = true;
             StatusMessage = "";
             StatusIsError = false;
             try
@@ -49,7 +49,7 @@ namespace Perpetuum.AdminTool.ViewModels
         private void QueueSave(AutoMarketConfigRow row)
         {
             var description = $"automarket_config: update {row.ParamName}";
-            var existing    = _queue.Items.FirstOrDefault(c => c.Description == description);
+            var existing = _queue.Items.FirstOrDefault(c => c.Description == description);
             if (existing != null) _queue.Items.Remove(existing);
             _queue.Add(new RawSqlChange(
                 description,

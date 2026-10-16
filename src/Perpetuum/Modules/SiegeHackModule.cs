@@ -15,7 +15,7 @@ namespace Perpetuum.Modules
             var unitLock = GetLock().ThrowIfNotType<UnitLock>(ErrorCodes.InvalidLockType);
 
             var activeHackingSAP = unitLock.Target as ActiveHackingSAP;
-            activeHackingSAP?.OnModuleUse((Player) ParentRobot);
+            activeHackingSAP?.OnModuleUse((Player)ParentRobot);
         }
     }
 }

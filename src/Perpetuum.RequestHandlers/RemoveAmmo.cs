@@ -15,7 +15,7 @@ namespace Perpetuum.RequestHandlers
         private readonly IEntityRepository _entityRepository;
         private readonly RobotHelper _robotHelper;
 
-        public RemoveAmmo(IEntityRepository entityRepository,RobotHelper robotHelper)
+        public RemoveAmmo(IEntityRepository entityRepository, RobotHelper robotHelper)
         {
             _entityRepository = entityRepository;
             _robotHelper = robotHelper;
@@ -53,13 +53,13 @@ namespace Perpetuum.RequestHandlers
                 {
                     var result = new Dictionary<string, object>
                     {
-                        {k.robot, robot.ToDictionary()}, 
+                        {k.robot, robot.ToDictionary()},
                         {k.container, container.ToDictionary()}
                     };
 
                     Message.Builder.FromRequest(request).WithData(result).WrapToResult().Send();
                 });
-                
+
                 scope.Complete();
             }
         }

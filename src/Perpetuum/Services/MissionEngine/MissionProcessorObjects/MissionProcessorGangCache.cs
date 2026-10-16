@@ -14,7 +14,7 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
         public List<Character> GetGangMembersCached(Character character)
         {
             var gang = character.GetGang();
-            return gang?.GetOnlineMembers().ToList() ?? new List<Character> {character};
+            return gang?.GetOnlineMembers().ToList() ?? new List<Character> { character };
         }
     }
 }

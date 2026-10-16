@@ -4,9 +4,9 @@ using Perpetuum.Robots;
 
 namespace Perpetuum.Items
 {
-    public class ItemRepairer : IEntityVisitor<Item>,IEntityVisitor<Robot>,IEntityVisitor<RobotInventory>
+    public class ItemRepairer : IEntityVisitor<Item>, IEntityVisitor<Robot>, IEntityVisitor<RobotInventory>
     {
-        private static readonly  ItemRepairer _default = new ItemRepairer();
+        private static readonly ItemRepairer _default = new ItemRepairer();
 
         public void Visit(Item item)
         {

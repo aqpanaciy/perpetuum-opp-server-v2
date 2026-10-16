@@ -26,7 +26,7 @@ namespace Perpetuum.RequestHandlers.Markets
                     .WithData(result)
                     .ToClient(request.Session)
                     .Send();
-                
+
                 scope.Complete();
             }
         }

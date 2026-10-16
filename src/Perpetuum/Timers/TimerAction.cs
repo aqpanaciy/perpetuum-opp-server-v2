@@ -25,7 +25,7 @@ namespace Perpetuum.Timers
         {
             _timer.Update(time);
 
-            if ( !_timer.Passed )
+            if (!_timer.Passed)
                 return;
 
             _timer.Reset();
@@ -53,7 +53,7 @@ namespace Perpetuum.Timers
         {
             return new TimerAction(action, interval, async)
             {
-                _timer = new IntervalTimer(interval,true)
+                _timer = new IntervalTimer(interval, true)
             };
         }
     }

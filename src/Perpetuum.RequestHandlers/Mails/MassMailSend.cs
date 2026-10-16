@@ -40,7 +40,7 @@ namespace Perpetuum.RequestHandlers.Mails
 
                 var result = MassMailer.ListFolder(character, (int)MailFolder.outbox).ToDictionary("m", m => m.ToSimpleDictionary());
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

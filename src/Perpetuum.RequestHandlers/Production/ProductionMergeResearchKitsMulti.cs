@@ -29,7 +29,7 @@ namespace Perpetuum.RequestHandlers.Production
 
                 PBSResearchKitForgeFacility pbsResearchKitForgeFacility;
                 PublicContainer publicContainer;
-                _productionManager.PrepareProductionForPublicContainer(facilityEid, character, out pbsResearchKitForgeFacility, out  publicContainer);
+                _productionManager.PrepareProductionForPublicContainer(facilityEid, character, out pbsResearchKitForgeFacility, out publicContainer);
 
                 int nextLevel;
                 int nextDefinition;
@@ -39,13 +39,13 @@ namespace Perpetuum.RequestHandlers.Production
 
                 pbsResearchKitForgeFacility.PrepareResearchKitMerge(publicContainer, character, target, quantity, out nextDefinition, out nextLevel, out fullPrice, out availableQuantity, out searchDefinition).ThrowIfError();
 
-                availableQuantity.ThrowIfEqual(0,ErrorCodes.MoreThanOneItemRequired);
-            
+                availableQuantity.ThrowIfEqual(0, ErrorCodes.MoreThanOneItemRequired);
+
                 Dictionary<string, object> result;
                 pbsResearchKitForgeFacility.DoResearchKitMerge(publicContainer, character, nextDefinition, nextLevel, fullPrice, availableQuantity, searchDefinition, out result, useCorporationWallet).ThrowIfError();
 
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

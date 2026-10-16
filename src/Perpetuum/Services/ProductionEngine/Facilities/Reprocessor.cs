@@ -42,13 +42,13 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             var standingComponent = GetStandingPoints(character);
             var facilityComponent = GetFacilityPoint();
 
-            return (int) (standingComponent + extensionBonus + facilityComponent);
+            return (int)(standingComponent + extensionBonus + facilityComponent);
         }
 
 
         public double GetMaterialMultiplier(Character character)
         {
-            var multiplier = 1 - (75/(GetAdditiveComponent(character) + 100.0));
+            var multiplier = 1 - (75 / (GetAdditiveComponent(character) + 100.0));
             return multiplier;
         }
 

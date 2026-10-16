@@ -27,7 +27,7 @@ namespace Perpetuum.AdminTool.EquipmentSets
                 result.Add(new EquipmentSetRow
                 {
                     SetId = reader.GetInt32(0),
-                    Name  = reader.IsDBNull(1) ? "" : reader.GetString(1),
+                    Name = reader.IsDBNull(1) ? "" : reader.GetString(1),
                 });
             return result;
         }
@@ -49,8 +49,8 @@ namespace Perpetuum.AdminTool.EquipmentSets
             while (await reader.ReadAsync())
                 result.Add(new EquipmentSetMemberRow
                 {
-                    SetId          = setId,
-                    Definition     = reader.GetInt32(0),
+                    SetId = setId,
+                    Definition = reader.GetInt32(0),
                     DefinitionName = reader.GetString(1),
                 });
             return result;
@@ -72,10 +72,10 @@ namespace Perpetuum.AdminTool.EquipmentSets
             while (await reader.ReadAsync())
                 result.Add(new EquipmentSetThresholdRow
                 {
-                    SetId            = setId,
-                    RequiredPieces   = reader.GetInt32(0),
+                    SetId = setId,
+                    RequiredPieces = reader.GetInt32(0),
                     AggregateFieldId = reader.GetInt32(1),
-                    BonusValue       = reader.GetDouble(2),
+                    BonusValue = reader.GetDouble(2),
                 });
             return result;
         }
@@ -93,14 +93,14 @@ namespace Perpetuum.AdminTool.EquipmentSets
             while (await reader.ReadAsync())
                 result.Add(new AggregateFieldInfo
                 {
-                    Id                    = reader.GetInt32(0),
-                    Name                  = reader.IsDBNull(1) ? "" : reader.GetString(1),
-                    Formula               = reader.IsDBNull(2) ? 0  : reader.GetInt32(2),
-                    MeasurementUnit       = reader.IsDBNull(3) ? "" : reader.GetString(3),
+                    Id = reader.GetInt32(0),
+                    Name = reader.IsDBNull(1) ? "" : reader.GetString(1),
+                    Formula = reader.IsDBNull(2) ? 0 : reader.GetInt32(2),
+                    MeasurementUnit = reader.IsDBNull(3) ? "" : reader.GetString(3),
                     MeasurementMultiplier = reader.IsDBNull(4) ? 0d : reader.GetDouble(4),
-                    MeasurementOffset     = reader.IsDBNull(5) ? 0d : reader.GetDouble(5),
-                    Category              = reader.IsDBNull(6) ? 0  : reader.GetInt32(6),
-                    Digits                = reader.IsDBNull(7) ? 0  : reader.GetInt32(7),
+                    MeasurementOffset = reader.IsDBNull(5) ? 0d : reader.GetDouble(5),
+                    Category = reader.IsDBNull(6) ? 0 : reader.GetInt32(6),
+                    Digits = reader.IsDBNull(7) ? 0 : reader.GetInt32(7),
                 });
             return result;
         }

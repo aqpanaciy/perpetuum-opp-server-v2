@@ -22,7 +22,7 @@ namespace Perpetuum.RequestHandlers
                     .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

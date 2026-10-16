@@ -16,7 +16,7 @@ namespace Perpetuum.Zones
         AccessLevel AccessLevel { get; }
 
         DateTime DisconnectTime { get; }
-        TimeSpan InactiveTime { get;  }
+        TimeSpan InactiveTime { get; }
 
         void CancelLogout();
         void ResetLogoutTimer();

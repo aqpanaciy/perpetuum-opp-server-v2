@@ -24,7 +24,7 @@ namespace Perpetuum.Data
 
         public T GetNextValue<T>()
         {
-            Debug.Assert(_record.FieldCount > _index,"Invalid index. i:" + _index + " > c:" + _record.FieldCount);
+            Debug.Assert(_record.FieldCount > _index, "Invalid index. i:" + _index + " > c:" + _record.FieldCount);
             return _record.GetValue<T>(_index++);
         }
     }

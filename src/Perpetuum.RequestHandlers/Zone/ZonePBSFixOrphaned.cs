@@ -32,10 +32,10 @@ namespace Perpetuum.RequestHandlers.Zone
 
                         var tmpNetwork = pbsObject.ConnectionHandler.NetworkNodes;
                         var orphanStatus = !tmpNetwork.Any(n => n is PBSDockingBase);
-                    
+
                         if (statusPre == orphanStatus) continue;
 
-                        Logger.Warning("Orphan status correcting: " + statusPre + "->" + orphanStatus + "  for "  + unit);
+                        Logger.Warning("Orphan status correcting: " + statusPre + "->" + orphanStatus + "  for " + unit);
                         pbsObject.IsOrphaned = orphanStatus;
                         unit.Save();
                     }
@@ -48,7 +48,7 @@ namespace Perpetuum.RequestHandlers.Zone
 
                 Logger.Info("processed " + pbsObjectsOnZone.Count + " pbs objects on zone:" + request.Zone.Id + " for orphan check.");
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

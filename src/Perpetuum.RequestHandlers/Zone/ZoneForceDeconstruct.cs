@@ -16,7 +16,7 @@ namespace Perpetuum.RequestHandlers.Zone
                 {
                     o.ModifyConstructionLevel(900, true);
                 }
-                
+
                 scope.Complete();
             }
         }

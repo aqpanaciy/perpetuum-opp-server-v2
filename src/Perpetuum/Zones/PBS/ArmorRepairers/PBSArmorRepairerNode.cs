@@ -10,9 +10,9 @@ namespace Perpetuum.Zones.PBS.ArmorRepairers
     /// <summary>
     /// Repairs the target nodes
     /// </summary>
-    public class PBSArmorRepairerNode : PBSActiveObject,  IPBSAcceptsCore, IPBSUsesCore
+    public class PBSArmorRepairerNode : PBSActiveObject, IPBSAcceptsCore, IPBSUsesCore
     {
-        private readonly CoreUseHandler<PBSArmorRepairerNode> _coreUseHandler; 
+        private readonly CoreUseHandler<PBSArmorRepairerNode> _coreUseHandler;
 
         public PBSArmorRepairerNode()
         {
@@ -37,7 +37,7 @@ namespace Perpetuum.Zones.PBS.ArmorRepairers
                     .Cast<Unit>()
                     .Count(u => u.Armor.Ratio(u.ArmorMax) < 1.0);
 
-            coreDemand = this.GetCoreConsumption()*connectedObjectNotWithFullArmor;
+            coreDemand = this.GetCoreConsumption() * connectedObjectNotWithFullArmor;
 
             return true;
 
@@ -47,17 +47,17 @@ namespace Perpetuum.Zones.PBS.ArmorRepairers
         protected override void OnEnterZone(IZone zone, ZoneEnterType enterType)
         {
             _coreUseHandler.Init();
-           
+
             base.OnEnterZone(zone, enterType);
         }
 
-       
+
 
         public override Dictionary<string, object> ToDictionary()
         {
             var info = base.ToDictionary();
 
-            
+
             _coreUseHandler.AddToDictionary(info);
             return info;
         }
@@ -66,7 +66,7 @@ namespace Perpetuum.Zones.PBS.ArmorRepairers
         {
             var info = base.ToDictionary();
 
-            
+
             _coreUseHandler.AddToDictionary(info);
 
             return info;
@@ -106,8 +106,8 @@ namespace Perpetuum.Zones.PBS.ArmorRepairers
             {
             }
         }
-       
-        private class ActiveEnergyState  : ActiveCoreUserNodeState<PBSArmorRepairerNode>
+
+        private class ActiveEnergyState : ActiveCoreUserNodeState<PBSArmorRepairerNode>
         {
             public ActiveEnergyState(PBSArmorRepairerNode owner) : base(owner)
             {
@@ -167,7 +167,7 @@ namespace Perpetuum.Zones.PBS.ArmorRepairers
             }
         }
 
-      
+
     }
 
 }

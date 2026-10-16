@@ -12,7 +12,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
         private readonly IZone _zone;
         private readonly MaterialType _materialType;
 
-        public MineralNodeRepository(IZone zone,MaterialType materialType)
+        public MineralNodeRepository(IZone zone, MaterialType materialType)
         {
             _zone = zone;
             _materialType = materialType;
@@ -88,7 +88,7 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
                 var area = Area.FromRectangle(x, y, width, height);
                 var decompressed = DecompressNodeValues(data);
 
-                var node = new MineralNode(_materialType,area,decompressed);
+                var node = new MineralNode(_materialType, area, decompressed);
                 result.Add(node);
             }
 
@@ -97,14 +97,14 @@ namespace Perpetuum.Zones.Terrains.Materials.Minerals
 
         private static byte[] CompressNodeValues(uint[] values)
         {
-            var buffer = new byte[values.Length*sizeof (float)];
-            Buffer.BlockCopy(values,0,buffer,0,buffer.Length);
-            
+            var buffer = new byte[values.Length * sizeof(float)];
+            Buffer.BlockCopy(values, 0, buffer, 0, buffer.Length);
+
             using (var ms = new MemoryStream())
             {
-                using (var gzip = new GZipStream(ms,CompressionMode.Compress))
+                using (var gzip = new GZipStream(ms, CompressionMode.Compress))
                 {
-                    gzip.Write(buffer,0,buffer.Length);
+                    gzip.Write(buffer, 0, buffer.Length);
                 }
 
                 return ms.ToArray();

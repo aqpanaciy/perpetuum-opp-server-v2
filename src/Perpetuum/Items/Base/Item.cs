@@ -48,7 +48,7 @@ namespace Perpetuum.Items
 
         protected virtual void OnPropertyChanged(ItemProperty property)
         {
-            ImmutableInterlocked.Update(ref changedProperties,c => c.Add(property));
+            ImmutableInterlocked.Update(ref changedProperties, c => c.Add(property));
             PropertyChanged?.Invoke(this, property);
         }
 
@@ -56,7 +56,7 @@ namespace Perpetuum.Items
         {
             return Interlocked.CompareExchange(
                 ref changedProperties,
-                ImmutableHashSet<ItemProperty>.Empty,changedProperties);
+                ImmutableHashSet<ItemProperty>.Empty, changedProperties);
         }
 
         public void AddPropertiesToDictionary(IDictionary<string, object> dictionary)

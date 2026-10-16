@@ -17,7 +17,7 @@ namespace Perpetuum.Services.Insurance
             _centralBank = centralBank;
         }
 
-        public void PayOut(InsuranceDescription insurance,int definition)
+        public void PayOut(InsuranceDescription insurance, int definition)
         {
             if (!insurance.IsInsured)
                 return;

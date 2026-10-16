@@ -145,8 +145,8 @@ namespace Perpetuum.AdminTool.Export
             var sb = new StringBuilder();
             while (await r.ReadAsync())
             {
-                var pkgName  = r.GetString(0);
-                var defName  = r.GetString(1);
+                var pkgName = r.GetString(0);
+                var defName = r.GetString(1);
                 var quantity = r.GetInt32(2);
                 sb.AppendLine(
                     $"MERGE packageitems AS target " +
@@ -228,12 +228,12 @@ namespace Perpetuum.AdminTool.Export
             var sb = new StringBuilder();
             while (await r.ReadAsync())
             {
-                var setName      = r.GetString(0);
-                var reqPieces    = r.GetInt32(1).ToString();
-                var fieldName    = r.GetString(2);
-                var bonusVal     = r.GetDouble(3).ToString("R", CultureInfo.InvariantCulture);
-                var setVar       = $"(SELECT set_id FROM equipment_sets WHERE name = {SqlLiteral.Of(setName)})";
-                var fieldVar     = $"(SELECT id FROM aggregatefields WHERE name = {SqlLiteral.Of(fieldName)})";
+                var setName = r.GetString(0);
+                var reqPieces = r.GetInt32(1).ToString();
+                var fieldName = r.GetString(2);
+                var bonusVal = r.GetDouble(3).ToString("R", CultureInfo.InvariantCulture);
+                var setVar = $"(SELECT set_id FROM equipment_sets WHERE name = {SqlLiteral.Of(setName)})";
+                var fieldVar = $"(SELECT id FROM aggregatefields WHERE name = {SqlLiteral.Of(fieldName)})";
                 sb.AppendLine(
                     $"MERGE equipment_set_bonus_thresholds AS target " +
                     $"USING (SELECT {setVar} AS set_id, {reqPieces} AS required_pieces) AS src " +
@@ -258,13 +258,13 @@ namespace Perpetuum.AdminTool.Export
             await using var r = await cmd.ExecuteReaderAsync();
             if (!await r.ReadAsync()) return;
 
-            var start      = $"'{r.GetDateTime(0):yyyy-MM-ddTHH:mm:ss}'";
-            var end        = $"'{r.GetDateTime(1):yyyy-MM-ddTHH:mm:ss}'";
-            var isRecur    = r.IsDBNull(3) ? "0"    : (r.GetBoolean(3) ? "1" : "0");
-            var gapDays    = r.IsDBNull(4) ? "NULL" : r.GetInt32(4).ToString();
-            var recurIter  = r.IsDBNull(5) ? "1"    : r.GetInt32(5).ToString();
-            var baseName   = r.IsDBNull(6) ? "NULL" : SqlLiteral.Of(r.GetString(6));
-            var scoreMode  = r.IsDBNull(7) ? "0"    : r.GetByte(7).ToString();
+            var start = $"'{r.GetDateTime(0):yyyy-MM-ddTHH:mm:ss}'";
+            var end = $"'{r.GetDateTime(1):yyyy-MM-ddTHH:mm:ss}'";
+            var isRecur = r.IsDBNull(3) ? "0" : (r.GetBoolean(3) ? "1" : "0");
+            var gapDays = r.IsDBNull(4) ? "NULL" : r.GetInt32(4).ToString();
+            var recurIter = r.IsDBNull(5) ? "1" : r.GetInt32(5).ToString();
+            var baseName = r.IsDBNull(6) ? "NULL" : SqlLiteral.Of(r.GetString(6));
+            var scoreMode = r.IsDBNull(7) ? "0" : r.GetByte(7).ToString();
             var dailyObjPD = r.IsDBNull(8) ? "NULL" : ((int)(short)r.GetInt16(8)).ToString();
 
             var name = SqlLiteral.Of(seasonName);
@@ -326,16 +326,16 @@ namespace Perpetuum.AdminTool.Export
             while (await r.ReadAsync())
             {
                 count++;
-                var name      = SqlLiteral.Of(r.IsDBNull(0) ? "" : r.GetString(0));
-                var desc      = SqlLiteral.Of(r.IsDBNull(1) ? "" : r.GetString(1));
-                var actType   = r.GetInt32(2).ToString();
+                var name = SqlLiteral.Of(r.IsDBNull(0) ? "" : r.GetString(0));
+                var desc = SqlLiteral.Of(r.IsDBNull(1) ? "" : r.GetString(1));
+                var actType = r.GetInt32(2).ToString();
                 var targetVal = r.GetInt64(3).ToString();
-                var bonus     = r.GetInt32(4).ToString();
-                var order     = r.GetInt32(5).ToString();
-                var isDaily   = r.IsDBNull(6) ? "0" : (r.GetBoolean(6) ? "1" : "0");
-                var pkgId     = r.IsDBNull(7) ? "NULL" : $"(SELECT id FROM packages WHERE name = {SqlLiteral.Of(r.GetString(7))})";
+                var bonus = r.GetInt32(4).ToString();
+                var order = r.GetInt32(5).ToString();
+                var isDaily = r.IsDBNull(6) ? "0" : (r.GetBoolean(6) ? "1" : "0");
+                var pkgId = r.IsDBNull(7) ? "NULL" : $"(SELECT id FROM packages WHERE name = {SqlLiteral.Of(r.GetString(7))})";
                 var targetDef = r.IsDBNull(8) ? "NULL" : $"(SELECT definition FROM entitydefaults WHERE definitionname = {SqlLiteral.Of(r.GetString(8))})";
-                var setId     = r.IsDBNull(9) ? "NULL" : $"(SELECT set_id FROM equipment_sets WHERE name = {SqlLiteral.Of(r.GetString(9))})";
+                var setId = r.IsDBNull(9) ? "NULL" : $"(SELECT set_id FROM equipment_sets WHERE name = {SqlLiteral.Of(r.GetString(9))})";
 
                 sb.AppendLine(
                     $"MERGE season_objectives AS target " +
@@ -370,11 +370,11 @@ namespace Perpetuum.AdminTool.Export
             while (await r.ReadAsync())
             {
                 count++;
-                var tierNum  = r.GetInt32(0).ToString();
+                var tierNum = r.GetInt32(0).ToString();
                 var tierName = SqlLiteral.Of(r.IsDBNull(1) ? "" : r.GetString(1));
-                var pts      = r.GetInt32(2).ToString();
-                var pkgId    = r.IsDBNull(3) ? "NULL" : $"(SELECT id FROM packages WHERE name = {SqlLiteral.Of(r.GetString(3))})";
-                var setId    = r.IsDBNull(4) ? "NULL" : $"(SELECT set_id FROM equipment_sets WHERE name = {SqlLiteral.Of(r.GetString(4))})";
+                var pts = r.GetInt32(2).ToString();
+                var pkgId = r.IsDBNull(3) ? "NULL" : $"(SELECT id FROM packages WHERE name = {SqlLiteral.Of(r.GetString(3))})";
+                var setId = r.IsDBNull(4) ? "NULL" : $"(SELECT set_id FROM equipment_sets WHERE name = {SqlLiteral.Of(r.GetString(4))})";
 
                 sb.AppendLine(
                     $"MERGE season_tiers AS target " +
@@ -406,8 +406,8 @@ namespace Perpetuum.AdminTool.Export
             while (await r.ReadAsync())
             {
                 count++;
-                var rMin  = r.GetInt32(0).ToString();
-                var rMax  = r.GetInt32(1).ToString();
+                var rMin = r.GetInt32(0).ToString();
+                var rMax = r.GetInt32(1).ToString();
                 var pkgId = r.IsDBNull(2) ? "NULL" : $"(SELECT id FROM packages WHERE name = {SqlLiteral.Of(r.GetString(2))})";
                 var setId = r.IsDBNull(3) ? "NULL" : $"(SELECT set_id FROM equipment_sets WHERE name = {SqlLiteral.Of(r.GetString(3))})";
 

@@ -15,7 +15,7 @@ namespace Perpetuum.Groups.Corporations
 
         static DefaultCorporation()
         {
-            DockingBaseEids = Database.CreateCache<long, long>("cw_corporation","corporationeid", "baseeid");
+            DockingBaseEids = Database.CreateCache<long, long>("cw_corporation", "corporationeid", "baseeid");
             _freelancerCorporationEid = new Lazy<long>(() => GetEidByName(SYNDICATE_FREELANCER));
         }
 
@@ -31,7 +31,7 @@ namespace Perpetuum.Groups.Corporations
 
         public static DefaultCorporation GetFreelancerCorporation()
         {
-            return (DefaultCorporation) GetOrThrow(_freelancerCorporationEid.Value);
+            return (DefaultCorporation)GetOrThrow(_freelancerCorporationEid.Value);
         }
 
         private static IDictionary<long, long> DockingBaseEids { get; }
@@ -71,7 +71,7 @@ namespace Perpetuum.Groups.Corporations
         }
 
         [CanBeNull]
-        public static DefaultCorporation GetBySchool(int raceID,int schoolId)
+        public static DefaultCorporation GetBySchool(int raceID, int schoolId)
         {
             if (schoolId == 0)
                 return null;

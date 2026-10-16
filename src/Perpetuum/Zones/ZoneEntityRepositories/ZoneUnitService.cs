@@ -8,13 +8,13 @@ namespace Perpetuum.Zones.ZoneEntityRepositories
 
     public interface IZoneUnitService
     {
-        Dictionary<Unit,Position> GetAll();
+        Dictionary<Unit, Position> GetAll();
 
-        void AddDefaultUnit(Unit unit,Position position,string syncPrefix,bool runtime);
+        void AddDefaultUnit(Unit unit, Position position, string syncPrefix, bool runtime);
         void UpdateDefaultUnit(Unit unit);
-        void RemoveDefaultUnit(Unit unit,bool runtime);
+        void RemoveDefaultUnit(Unit unit, bool runtime);
 
-        void AddUserUnit(Unit unit,Position position);
+        void AddUserUnit(Unit unit, Position position);
         void RemoveUserUnit(Unit unit);
     }
 
@@ -23,9 +23,9 @@ namespace Perpetuum.Zones.ZoneEntityRepositories
         public IZoneUnitRepository DefaultRepository { get; set; }
         public IZoneUnitRepository UserRepository { get; set; }
 
-        public void AddDefaultUnit(Unit unit, Position position, string syncPrefix,bool runtime)
+        public void AddDefaultUnit(Unit unit, Position position, string syncPrefix, bool runtime)
         {
-            AddUnit(DefaultRepository,unit,position,syncPrefix,runtime);
+            AddUnit(DefaultRepository, unit, position, syncPrefix, runtime);
         }
 
         public void UpdateDefaultUnit(Unit unit)
@@ -33,35 +33,35 @@ namespace Perpetuum.Zones.ZoneEntityRepositories
             DefaultRepository.Update(unit);
         }
 
-        public void RemoveDefaultUnit(Unit unit,bool runtime)
+        public void RemoveDefaultUnit(Unit unit, bool runtime)
         {
-            RemoveUnit(DefaultRepository,unit,runtime);
+            RemoveUnit(DefaultRepository, unit, runtime);
         }
 
-        public void AddUserUnit(Unit unit,Position position)
+        public void AddUserUnit(Unit unit, Position position)
         {
-            AddUnit(UserRepository,unit,position,null,false);
+            AddUnit(UserRepository, unit, position, null, false);
         }
 
         public void RemoveUserUnit(Unit unit)
         {
-            RemoveUnit(UserRepository,unit,false);
+            RemoveUnit(UserRepository, unit, false);
         }
 
-        private static void AddUnit(IZoneUnitRepository repository,Unit unit,Position position,string syncPrefix,bool runtime)
+        private static void AddUnit(IZoneUnitRepository repository, Unit unit, Position position, string syncPrefix, bool runtime)
         {
             if (!runtime)
             {
                 unit.Save();
             }
 
-            repository.Insert(unit,position,syncPrefix,runtime);
+            repository.Insert(unit, position, syncPrefix, runtime);
         }
 
-        private static void RemoveUnit(IZoneUnitRepository repository,Unit unit, bool runtime)
+        private static void RemoveUnit(IZoneUnitRepository repository, Unit unit, bool runtime)
         {
             repository.Delete(unit);
-         
+
             if (!runtime)
             {
                 Entity.Repository.Delete(unit);
@@ -70,11 +70,11 @@ namespace Perpetuum.Zones.ZoneEntityRepositories
 
         public Dictionary<Unit, Position> GetAll()
         {
-            var result = new Dictionary<Unit,Position>();
+            var result = new Dictionary<Unit, Position>();
 
             result.AddRange(DefaultRepository.GetAll());
             result.AddRange(UserRepository.GetAll());
-            
+
             return result;
         }
     }

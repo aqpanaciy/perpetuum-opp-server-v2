@@ -43,7 +43,7 @@ namespace Perpetuum.Services.ExtensionService
             return $"name:{name} id:{id}";
         }
 
-        public Dictionary<string,object> ToDictionary()
+        public Dictionary<string, object> ToDictionary()
         {
             return new Dictionary<string, object>
                 {

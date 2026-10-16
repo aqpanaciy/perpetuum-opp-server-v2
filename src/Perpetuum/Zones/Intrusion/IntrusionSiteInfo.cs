@@ -18,7 +18,7 @@ namespace Perpetuum.Zones.Intrusion
         private readonly DateTime? _intrusionStartTime;
         private readonly double? _defenseStandingLimit;
 
-        private IntrusionSiteInfo(Outpost outpost,long? owner, int stability, double? dockingStandingLimit, DateTime? dockingControlLimit, DateTime? setEffectControlTime, EffectType? activeEffect, int productionPoints, DateTime? intrusionStartTime, double? defenseStandingLimit)
+        private IntrusionSiteInfo(Outpost outpost, long? owner, int stability, double? dockingStandingLimit, DateTime? dockingControlLimit, DateTime? setEffectControlTime, EffectType? activeEffect, int productionPoints, DateTime? intrusionStartTime, double? defenseStandingLimit)
         {
             _outpost = outpost;
             _owner = owner;
@@ -43,14 +43,14 @@ namespace Perpetuum.Zones.Intrusion
                 return this;
             else
                 return new IntrusionSiteInfo(_outpost,
-                                             owner, 
-                                             _stability, 
-                                             _dockingStandingLimit, 
-                                             _dockingControlLimit, 
-                                             _setEffectControlTime, 
-                                             _activeEffect, 
-                                             _productionPoints, 
-                                             _intrusionStartTime, 
+                                             owner,
+                                             _stability,
+                                             _dockingStandingLimit,
+                                             _dockingControlLimit,
+                                             _setEffectControlTime,
+                                             _activeEffect,
+                                             _productionPoints,
+                                             _intrusionStartTime,
                                              _defenseStandingLimit);
         }
 
@@ -103,7 +103,7 @@ namespace Perpetuum.Zones.Intrusion
             d["dockingstandinglimit"] = DockingStandingLimit;
             d["dockingcontroltime"] = DockingControlLimit;
             d["seteffectcontroltime"] = SetEffectControlTime;
-            d["activeeffectid"] = ActiveEffect == EffectType.undefined ? (object) null : ActiveEffect;
+            d["activeeffectid"] = ActiveEffect == EffectType.undefined ? (object)null : ActiveEffect;
             d["productionpoints"] = ProductionPoints;
             d["intrusionstarttime"] = IntrusionStartTime;
             d["defensestandinglimit"] = DefenseStandingLimit;
@@ -124,15 +124,15 @@ namespace Perpetuum.Zones.Intrusion
                                         intrusionstarttime = @intrusionstarttime,
                                         defensestandinglimit = @defensestandinglimit
                              where siteeid = @siteeid")
-                .SetParameter("@owner",_owner)
-                .SetParameter("@stability",_stability)
-                .SetParameter("@dockingstandinglimit",_dockingStandingLimit)
-                .SetParameter("@dockingcontroltime",_dockingControlLimit)
-                .SetParameter("@seteffectcontroltime",_setEffectControlTime)
-                .SetParameter("@activeeffectid",_activeEffect)
-                .SetParameter("@productionpoints",_productionPoints)
-                .SetParameter("@intrusionstarttime",_intrusionStartTime)
-                .SetParameter("@defensestandinglimit",_defenseStandingLimit)
+                .SetParameter("@owner", _owner)
+                .SetParameter("@stability", _stability)
+                .SetParameter("@dockingstandinglimit", _dockingStandingLimit)
+                .SetParameter("@dockingcontroltime", _dockingControlLimit)
+                .SetParameter("@seteffectcontroltime", _setEffectControlTime)
+                .SetParameter("@activeeffectid", _activeEffect)
+                .SetParameter("@productionpoints", _productionPoints)
+                .SetParameter("@intrusionstarttime", _intrusionStartTime)
+                .SetParameter("@defensestandinglimit", _defenseStandingLimit)
                 .SetParameter("@siteeid", _outpost.Eid)
                 .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLUpdateError);
 
@@ -155,10 +155,10 @@ namespace Perpetuum.Zones.Intrusion
             var intrusionStartTime = record.GetValue<DateTime?>("intrusionstarttime");
             var defenseStandingLimit = record.GetValue<double?>("defensestandinglimit");
 
-            return new IntrusionSiteInfo(outpost,owner,
-                                         stability,dockingStandingLimit,dockingControlLimit,
-                                         seteffectControlTime,activeEffect,productionPoints,
-                                         intrusionStartTime,defenseStandingLimit);
+            return new IntrusionSiteInfo(outpost, owner,
+                                         stability, dockingStandingLimit, dockingControlLimit,
+                                         seteffectControlTime, activeEffect, productionPoints,
+                                         intrusionStartTime, defenseStandingLimit);
         }
     }
 }

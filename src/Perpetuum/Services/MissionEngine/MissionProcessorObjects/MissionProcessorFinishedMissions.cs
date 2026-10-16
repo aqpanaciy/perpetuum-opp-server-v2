@@ -25,7 +25,7 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
 
             var records = Db.Query().CommandText(querystring)
                 .SetParameter("@characterID", character.Id)
-                .SetParameter("@finishLimit", DateTime.Now.AddMinutes(-1*maxMinutes))
+                .SetParameter("@finishLimit", DateTime.Now.AddMinutes(-1 * maxMinutes))
                 .Execute();
 
             return records.ToDictionary(record => record.GetValue<int>(1), record => record.GetValue<DateTime>(0));

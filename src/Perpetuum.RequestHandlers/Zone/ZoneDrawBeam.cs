@@ -18,10 +18,10 @@ namespace Perpetuum.RequestHandlers.Zone
             var outBeam = BeamType.red_20sec;
             if (inBeamType != 0)
             {
-                outBeam = (BeamType) inBeamType;
+                outBeam = (BeamType)inBeamType;
             }
 
-            request.Zone.CreateBeam(outBeam,builder => builder.WithPosition(new Position(x,y)).WithDuration(404040));
+            request.Zone.CreateBeam(outBeam, builder => builder.WithPosition(new Position(x, y)).WithDuration(404040));
         }
     }
 }

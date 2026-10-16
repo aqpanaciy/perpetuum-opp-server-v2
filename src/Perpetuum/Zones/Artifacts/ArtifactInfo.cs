@@ -7,7 +7,7 @@ namespace Perpetuum.Zones.Artifacts
     /// <summary>
     /// Describes one artifact on the zone
     /// </summary>
-    public class ArtifactInfo 
+    public class ArtifactInfo
     {
         public readonly ArtifactType type;
         public readonly int goalRange;
@@ -23,7 +23,7 @@ namespace Perpetuum.Zones.Artifacts
             isPersistent = record.GetValue<bool>("persistent");
             minimumLoot = record.GetValue<int>("minimumloot");
 
-            
+
 
         }
 
@@ -61,7 +61,7 @@ namespace Perpetuum.Zones.Artifacts
     {
         public NonPersistentArtifactInfo(IDataRecord record) : base(record)
         {
-           
+
         }
     }
 
@@ -72,7 +72,7 @@ namespace Perpetuum.Zones.Artifacts
     {
         public DynamicArtifactInfo(IDataRecord record) : base(record)
         {
-            
+
         }
     }
 

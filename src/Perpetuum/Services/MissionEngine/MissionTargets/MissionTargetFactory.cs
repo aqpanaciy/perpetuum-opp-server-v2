@@ -12,7 +12,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             target.PostLoadedAsConfigTarget();
             return target;
         }
-        
+
         private static MissionTarget CreateTargetFromConfigRecord(IDataRecord record)
         {
             var targetType = (MissionTargetType)record.GetValue<int>(k.targetType.ToLower());

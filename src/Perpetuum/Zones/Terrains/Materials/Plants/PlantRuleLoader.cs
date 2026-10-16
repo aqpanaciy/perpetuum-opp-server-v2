@@ -17,10 +17,10 @@ namespace Perpetuum.Zones.Terrains.Materials.Plants
         }
 
         [NotNull]
-        public List<PlantRule> LoadPlantRulesWithOverrides(int ruleSetId,double plantAltitudeScale = 1.0)
+        public List<PlantRule> LoadPlantRulesWithOverrides(int ruleSetId, double plantAltitudeScale = 1.0)
         {
             var ruleNames = Db.Query().CommandText("select plantrule from plantrules where rulesetid=@id")
-                .SetParameter("@id",ruleSetId)
+                .SetParameter("@id", ruleSetId)
                 .Execute()
                 .Select(r => r.GetValue<string>(0)).ToArray();
 
@@ -50,10 +50,10 @@ namespace Perpetuum.Zones.Terrains.Materials.Plants
             return list;
         }
 
-        public IDictionary<string,object> LoadRuleByName(string ruleName)
+        public IDictionary<string, object> LoadRuleByName(string ruleName)
         {
             //this is what we want to load
-            var pathToFile = Path.Combine("plantrules",ruleName);
+            var pathToFile = Path.Combine("plantrules", ruleName);
 
             //the content
             var settingsFromFile = _settings.LoadSettingsFromFile(pathToFile);

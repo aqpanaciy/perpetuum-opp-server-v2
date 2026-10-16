@@ -60,7 +60,7 @@ namespace Perpetuum.RequestHandlers
                 Db.Query().CommandText(updateCmd).ExecuteNonQuery();
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

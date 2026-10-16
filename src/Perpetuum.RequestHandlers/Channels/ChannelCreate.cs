@@ -25,7 +25,7 @@ namespace Perpetuum.RequestHandlers.Channels
                 _channelManager.JoinChannel(channelName, character, PresetChannelRoles.ROLE_GOD, null);
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

@@ -5,9 +5,9 @@ namespace Perpetuum.AdminTool.Economy
 {
     public partial class InsuranceConfigRow : ObservableObject
     {
-        public string ParamName     { get; init; } = "";
-        public string Label         { get; init; } = "";
-        public string Description   { get; init; } = "";
+        public string ParamName { get; init; } = "";
+        public string Label { get; init; } = "";
+        public string Description { get; init; } = "";
         public double OriginalValue { get; set; }
 
         [ObservableProperty] private double _paramValue;

@@ -22,7 +22,7 @@ namespace Perpetuum
 
         T ILoggerCache.GetOrAddLogger<T>(string loggerName, Func<T> loggerFactory)
         {
-            return _cache.Get(loggerName,loggerFactory,Expiration);
+            return _cache.Get(loggerName, loggerFactory, Expiration);
         }
     }
 }

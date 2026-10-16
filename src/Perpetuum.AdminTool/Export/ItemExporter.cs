@@ -59,22 +59,22 @@ namespace Perpetuum.AdminTool.Export
             await using var r = await cmd.ExecuteReaderAsync();
             if (!await r.ReadAsync()) return;
 
-            var desc    = r.IsDBNull(0) ? "NULL" : SqlLiteral.Of(r.GetString(0));
-            var catF    = r.IsDBNull(1) ? "0"    : r.GetInt64(1).ToString();
-            var attF    = r.IsDBNull(2) ? "0"    : r.GetInt64(2).ToString();
-            var mass    = r.IsDBNull(3) ? "NULL" : r.GetDouble(3).ToString("R", CultureInfo.InvariantCulture);
-            var vol     = r.IsDBNull(4) ? "NULL" : r.GetDouble(4).ToString("R", CultureInfo.InvariantCulture);
-            var health  = r.IsDBNull(5) ? "NULL" : r.GetDouble(5).ToString("R", CultureInfo.InvariantCulture);
-            var qty     = r.IsDBNull(6) ? "1"    : r.GetInt32(6).ToString();
-            var hidden  = r.IsDBNull(7) ? "0"    : (r.GetBoolean(7) ? "1" : "0");
-            var purch   = r.IsDBNull(8) ? "0"    : (r.GetBoolean(8) ? "1" : "0");
+            var desc = r.IsDBNull(0) ? "NULL" : SqlLiteral.Of(r.GetString(0));
+            var catF = r.IsDBNull(1) ? "0" : r.GetInt64(1).ToString();
+            var attF = r.IsDBNull(2) ? "0" : r.GetInt64(2).ToString();
+            var mass = r.IsDBNull(3) ? "NULL" : r.GetDouble(3).ToString("R", CultureInfo.InvariantCulture);
+            var vol = r.IsDBNull(4) ? "NULL" : r.GetDouble(4).ToString("R", CultureInfo.InvariantCulture);
+            var health = r.IsDBNull(5) ? "NULL" : r.GetDouble(5).ToString("R", CultureInfo.InvariantCulture);
+            var qty = r.IsDBNull(6) ? "1" : r.GetInt32(6).ToString();
+            var hidden = r.IsDBNull(7) ? "0" : (r.GetBoolean(7) ? "1" : "0");
+            var purch = r.IsDBNull(8) ? "0" : (r.GetBoolean(8) ? "1" : "0");
             var enabled = r.IsDBNull(9) || r.GetBoolean(9) ? "1" : "0";
-            var ttType  = r.IsDBNull(10) ? "NULL" : r.GetInt32(10).ToString();
-            var ttLvl   = r.IsDBNull(11) ? "NULL" : r.GetInt32(11).ToString();
-            var opts    = r.IsDBNull(12) ? "NULL" : SqlLiteral.Of(r.GetString(12));
+            var ttType = r.IsDBNull(10) ? "NULL" : r.GetInt32(10).ToString();
+            var ttLvl = r.IsDBNull(11) ? "NULL" : r.GetInt32(11).ToString();
+            var opts = r.IsDBNull(12) ? "NULL" : SqlLiteral.Of(r.GetString(12));
 
-            var cols   = "definitionname, descriptiontoken, categoryflags, attributeflags, mass, volume, health, quantity, hidden, purchasable, enabled, tiertype, tierlevel, options";
-            var vals   = $"{SqlLiteral.Of(defName)}, {desc}, {catF}, {attF}, {mass}, {vol}, {health}, {qty}, {hidden}, {purch}, {enabled}, {ttType}, {ttLvl}, {opts}";
+            var cols = "definitionname, descriptiontoken, categoryflags, attributeflags, mass, volume, health, quantity, hidden, purchasable, enabled, tiertype, tierlevel, options";
+            var vals = $"{SqlLiteral.Of(defName)}, {desc}, {catF}, {attF}, {mass}, {vol}, {health}, {qty}, {hidden}, {purch}, {enabled}, {ttType}, {ttLvl}, {opts}";
             var update = $"descriptiontoken={desc}, categoryflags={catF}, attributeflags={attF}, mass={mass}, volume={vol}, health={health}, quantity={qty}, hidden={hidden}, purchasable={purch}, enabled={enabled}, tiertype={ttType}, tierlevel={ttLvl}, options={opts}";
 
             var sql =
@@ -155,7 +155,7 @@ namespace Perpetuum.AdminTool.Export
             await using var r = await cmd.ExecuteReaderAsync();
             if (!await r.ReadAsync()) return; // definition has a unique index — at most one row
 
-            var level   = r.GetInt32(0).ToString();
+            var level = r.GetInt32(0).ToString();
             var calProg = r.IsDBNull(1) ? "NULL" : $"(SELECT definition FROM entitydefaults WHERE definitionname = {SqlLiteral.Of(r.GetString(1))})";
             var enabled = r.IsDBNull(2) || r.GetBoolean(2) ? "1" : "0";
 
@@ -180,10 +180,10 @@ namespace Perpetuum.AdminTool.Export
             await using var r = await cmd.ExecuteReaderAsync();
             if (!await r.ReadAsync()) return;
 
-            var parentVar  = r.IsDBNull(0) ? "NULL" : $"(SELECT definition FROM entitydefaults WHERE definitionname = {SqlLiteral.Of(r.GetString(0))})";
-            var groupId    = r.GetInt32(1).ToString();
-            var x          = r.GetInt32(2).ToString();
-            var y          = r.GetInt32(3).ToString();
+            var parentVar = r.IsDBNull(0) ? "NULL" : $"(SELECT definition FROM entitydefaults WHERE definitionname = {SqlLiteral.Of(r.GetString(0))})";
+            var groupId = r.GetInt32(1).ToString();
+            var x = r.GetInt32(2).ToString();
+            var y = r.GetInt32(3).ToString();
             var enablerExt = r.IsDBNull(4) ? "NULL" : $"(SELECT extensionid FROM extensions WHERE extensionname = {SqlLiteral.Of(r.GetString(4))})";
 
             var sql =

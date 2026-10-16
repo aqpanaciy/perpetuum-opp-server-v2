@@ -86,7 +86,7 @@ namespace Perpetuum.Services.ProductionEngine.CalibrationPrograms
         {
 
             var target = LookUpTargetFromConfig();
-            
+
             DynamicProperties.Set(k.target, target);
 
             Logger.Info("target definition is set from config. " + this.Eid);
@@ -127,7 +127,7 @@ namespace Perpetuum.Services.ProductionEngine.CalibrationPrograms
 
         private double AveragePoints
         {
-            get { return (MaterialEfficiencyPoints + TimeEfficiencyPoints)/2.0; }
+            get { return (MaterialEfficiencyPoints + TimeEfficiencyPoints) / 2.0; }
         }
 
         public bool IsBetterThanOther(CalibrationProgram other)

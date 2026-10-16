@@ -12,7 +12,7 @@ namespace Perpetuum.Zones.Effects
         protected override void OnTick()
         {
             var player = Owner as Player;
-            if( player == null )
+            if (player == null)
                 return;
 
             var isMoving = player.CurrentSpeed > 0;
@@ -21,6 +21,6 @@ namespace Perpetuum.Zones.Effects
             {
                 OnRemoved();
             }
-       }
+        }
     }
 }

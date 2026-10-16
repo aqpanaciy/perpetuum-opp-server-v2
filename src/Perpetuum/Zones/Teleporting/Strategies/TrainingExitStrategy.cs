@@ -40,7 +40,7 @@ namespace Perpetuum.Zones.Teleporting.Strategies
             _sparkHelper = sparkHelper;
             // Using NIC for new player from globalConfiguration.
             CHARACTER_START_CREDIT = globalConfiguration.StartCredit;
-            NIC_REWARD_PER_LEVEL   = globalConfiguration.LevelCredit;
+            NIC_REWARD_PER_LEVEL = globalConfiguration.LevelCredit;
         }
 
         public int TrainingRewardLevel
@@ -102,7 +102,7 @@ namespace Perpetuum.Zones.Teleporting.Strategies
                 player.RemoveFromZone();
 
                 Task.Delay(WAIT_TIME_BEFORE_SENDING_MAIL)
-                .ContinueWith(task => 
+                .ContinueWith(task =>
                 {
                     MailHandler.SendWelcomeMailExitTutorial(character);
                 });

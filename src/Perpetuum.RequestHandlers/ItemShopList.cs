@@ -26,7 +26,7 @@ namespace Perpetuum.RequestHandlers
             var result = shop.EntriesToDictionary();
 
             Message.Builder.FromRequest(request)
-                .WithData(new Dictionary<string, object>{ {k.shop, result},})
+                .WithData(new Dictionary<string, object> { { k.shop, result }, })
                 .Send();
         }
     }

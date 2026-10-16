@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers.Sparks
         private readonly SparkHelper _sparkHelper;
         private readonly IStandingHandler _standingHandler;
 
-        public SparkUnlock(SparkHelper sparkHelper,IStandingHandler standingHandler)
+        public SparkUnlock(SparkHelper sparkHelper, IStandingHandler standingHandler)
         {
             _sparkHelper = sparkHelper;
             _standingHandler = standingHandler;
@@ -33,11 +33,11 @@ namespace Perpetuum.RequestHandlers.Sparks
                 spark.defaultSpark.ThrowIfTrue(ErrorCodes.SparkAlreadyUnlocked);
                 spark.unlockable.ThrowIfFalse(ErrorCodes.WTFErrorMedicalAttentionSuggested);
 
-                _sparkHelper.GetUnlockedSparkData(character).Any(uls=>uls.sparkId == sparkId).ThrowIfTrue(ErrorCodes.SparkAlreadyUnlocked);
+                _sparkHelper.GetUnlockedSparkData(character).Any(uls => uls.sparkId == sparkId).ThrowIfTrue(ErrorCodes.SparkAlreadyUnlocked);
 
                 if (spark.unlockPrice != null)
                 {
-                    character.SubtractFromWallet(TransactionType.SparkUnlock,(double) spark.unlockPrice);
+                    character.SubtractFromWallet(TransactionType.SparkUnlock, (double)spark.unlockPrice);
                 }
 
                 if (spark.definition != null)
@@ -46,8 +46,8 @@ namespace Perpetuum.RequestHandlers.Sparks
 
                     //keress meg itemet
                     var foundItems = publicContainer.GetItems().Where(i => i.Definition == spark.definition);
-                
-                    var needed = (int) spark.quantity;
+
+                    var needed = (int)spark.quantity;
 
                     foreach (var item in foundItems)
                     {
@@ -57,8 +57,8 @@ namespace Perpetuum.RequestHandlers.Sparks
                             needed = 0;
                             break; //found more
                         }
-                    
-                        if (item.Quantity <= needed )
+
+                        if (item.Quantity <= needed)
                         {
                             needed = needed - item.Quantity;
 
@@ -82,7 +82,7 @@ namespace Perpetuum.RequestHandlers.Sparks
 
                 if (spark.allianceEid != null)
                 {
-                    var standing = _standingHandler.GetStanding((long) spark.allianceEid, character.Eid);
+                    var standing = _standingHandler.GetStanding((long)spark.allianceEid, character.Eid);
                     standing.ThrowIfLess((double)spark.standingLimit, ErrorCodes.StandingTooLow);
                 }
 
@@ -90,7 +90,7 @@ namespace Perpetuum.RequestHandlers.Sparks
 
                 //return list
                 Transaction.Current.OnCommited(() => _sparkHelper.SendSparksList(request));
-                
+
                 scope.Complete();
             }
         }

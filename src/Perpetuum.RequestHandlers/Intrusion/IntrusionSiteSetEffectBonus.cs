@@ -24,13 +24,13 @@ namespace Perpetuum.RequestHandlers.Intrusion
                 {
                     var result = new Dictionary<string, object>
                     {
-                        {k.siteEID, siteEid}, 
+                        {k.siteEID, siteEid},
                         {k.info, outpost.GetIntrusionSiteInfo().ToDictionary()}
                     };
 
                     Message.Builder.FromRequest(request).WithData(result).Send();
                 });
-                
+
                 scope.Complete();
             }
         }

@@ -42,7 +42,7 @@ namespace Perpetuum.RequestHandlers.Markets
                 result.Add(k.marketItemID, marketOrder.id); //return the item id anyways
 
                 Message.Builder.FromRequest(request).WithData(result).WrapToResult().Send();
-                
+
                 scope.Complete();
             }
         }

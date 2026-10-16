@@ -35,10 +35,10 @@ namespace Perpetuum.Zones.NpcSystem.Flocks
 
         private void ModifyRespawnMultiplier()
         {
-            if (Configuration.FlockMemberCount <= 1) 
+            if (Configuration.FlockMemberCount <= 1)
                 return;
 
-            if (!_allowMultiplierChange) 
+            if (!_allowMultiplierChange)
                 return;
 
             if (MembersCount == 0)
@@ -50,7 +50,7 @@ namespace Perpetuum.Zones.NpcSystem.Flocks
                 Log("respawn multiplier descreased: " + respawnMultiplier);
             }
 
-            if (MembersCount != Configuration.FlockMemberCount) 
+            if (MembersCount != Configuration.FlockMemberCount)
                 return;
 
             //all alive
@@ -59,9 +59,9 @@ namespace Perpetuum.Zones.NpcSystem.Flocks
             Log("respawn multiplier increased: " + respawnMultiplier);
         }
 
-        protected override void OnMemberDead(Unit killer,Unit npc)
+        protected override void OnMemberDead(Unit killer, Unit npc)
         {
-            base.OnMemberDead(killer,npc);
+            base.OnMemberDead(killer, npc);
 
             _allowMultiplierChange = true;
             _spawnTimes.Enqueue(new TimeTracker(GetRespawnTime()));
@@ -78,7 +78,7 @@ namespace Perpetuum.Zones.NpcSystem.Flocks
 
         public override void Update(TimeSpan time)
         {
-            if (!Presence.Configuration.IsRespawnAllowed) 
+            if (!Presence.Configuration.IsRespawnAllowed)
                 return;
 
             RespawnAllDeadNpcs(time);
@@ -102,7 +102,7 @@ namespace Perpetuum.Zones.NpcSystem.Flocks
 
             _nextSpawnTime.Update(time);
 
-            if (!_nextSpawnTime.Expired) 
+            if (!_nextSpawnTime.Expired)
                 return;
 
             CreateMemberInZone();

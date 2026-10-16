@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers.Markets
         private readonly MarketHelper _marketHelper;
         private readonly IMarketOrderRepository _marketOrderRepository;
 
-        public MarketBuyItem(MarketHandler marketHandler,MarketHelper marketHelper,IMarketOrderRepository marketOrderRepository)
+        public MarketBuyItem(MarketHandler marketHandler, MarketHelper marketHelper, IMarketOrderRepository marketOrderRepository)
         {
             _marketHandler = marketHandler;
             _marketHelper = marketHelper;
@@ -106,7 +106,7 @@ namespace Perpetuum.RequestHandlers.Markets
                     SeasonServiceLocator.Instance?.RecordActivity(seller.Id, SeasonActivityType.NicEarned,
                         new ActivityEvent((long)(sellOrder.price * boughtQuantity), CounterpartyAccountId: buyer.AccountId));
 
-                    Market.SendMarketItemBoughtMessage(buyer,resultItem);
+                    Market.SendMarketItemBoughtMessage(buyer, resultItem);
 
                     Message.Builder.SetCommand(Commands.MarketSellOrderUpdate)
                         .WithData(new Dictionary<string, object> { { k.sellOrder, sellOrder.ToDictionary() } })
@@ -129,7 +129,7 @@ namespace Perpetuum.RequestHandlers.Markets
                             item.Owner = buyer.Eid;
                             item.Quantity = quantity;
                         });
-                        Market.SendMarketItemBoughtMessage(buyer,boughtItem);
+                        Market.SendMarketItemBoughtMessage(buyer, boughtItem);
 
                         //average price
                         _marketHandler.InsertAveragePrice(market, sellOrder.itemDefinition, quantity * sellOrder.price, quantity);
@@ -174,7 +174,7 @@ namespace Perpetuum.RequestHandlers.Markets
                             item.Owner = buyer.Eid;
                             item.Quantity = boughtQuantity;
                         });
-                        Market.SendMarketItemBoughtMessage(buyer,boughtItem);
+                        Market.SendMarketItemBoughtMessage(buyer, boughtItem);
 
                         Message.Builder.SetCommand(Commands.MarketSellOrderUpdate)
                             .WithData(new Dictionary<string, object> { { k.sellOrder, sellOrder.ToDictionary() } })
@@ -189,7 +189,7 @@ namespace Perpetuum.RequestHandlers.Markets
                     .WithData(publicContainer.ToDictionary())
                     .ToCharacter(buyer)
                     .Send();
-                
+
                 scope.Complete();
             }
         }

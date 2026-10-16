@@ -18,10 +18,10 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             var infoData = base.GetFacilityInfo(character);
 
             var additiveComponent = GetAdditiveComponent(character);
-            
+
             infoData.Add(k.myPointsCredit, additiveComponent);
-            infoData.Add(k.percentageCredit, GetPercentageFromAdditiveComponent( additiveComponent));
-            infoData.Add(k.extensionPoints,(int)GetMaterialExtensionBonus(character));
+            infoData.Add(k.percentageCredit, GetPercentageFromAdditiveComponent(additiveComponent));
+            infoData.Add(k.extensionPoints, (int)GetMaterialExtensionBonus(character));
 
             return infoData;
         }
@@ -37,19 +37,19 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             var extensionComponent = GetMaterialExtensionBonus(character);
             var facilityPoints = GetFacilityPoint();
 
-            return (int) (standingComponent + extensionComponent + facilityPoints);
+            return (int)(standingComponent + extensionComponent + facilityPoints);
         }
 
-        private int GetRepairPrice(Character character,Item item)
+        private int GetRepairPrice(Character character, Item item)
         {
             var finalRatio = GetRepairRatio(character);
-            return (int) ((1 - Math.Min(1,item.HealthRatio))* PriceCalculator.GetAveragePrice(item) * finalRatio);
+            return (int)((1 - Math.Min(1, item.HealthRatio)) * PriceCalculator.GetAveragePrice(item) * finalRatio);
         }
 
         private double GetRepairRatio(Character character)
         {
             //(75/(PC_STANDIING + PC_EXT_PONT+REPAIRER.ME_PONT+100))
-            var multiplier = (75/(GetAdditiveComponent(character) + 100.0));
+            var multiplier = (75 / (GetAdditiveComponent(character) + 100.0));
             return multiplier;
         }
 
@@ -109,7 +109,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
                 }
                 catch (PerpetuumException gex)
                 {
-                    character.SendItemErrorMessage(Commands.ProductionRepair, gex.error,item);
+                    character.SendItemErrorMessage(Commands.ProductionRepair, gex.error, item);
                 }
             }
 
@@ -117,7 +117,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             sourceContainer.Save();
         }
 
-        public IDictionary<string,object> QueryPrices(Character character, Container container, IEnumerable<long> targetEids)
+        public IDictionary<string, object> QueryPrices(Character character, Container container, IEnumerable<long> targetEids)
         {
             var prices = container.SelectDamagedItems(targetEids).ToDictionary("e", item => new Dictionary<string, object>
             {
@@ -126,7 +126,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
                 {k.health, item.HealthRatio}
             });
 
-            return new Dictionary<string, object> {{"prices", prices}};
+            return new Dictionary<string, object> { { "prices", prices } };
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Perpetuum.AdminTool.Export
 
         public ExportScriptViewModel(string title, string script)
         {
-            Title  = title;
+            Title = title;
             Script = script;
         }
 
@@ -27,9 +27,9 @@ namespace Perpetuum.AdminTool.Export
         {
             var dlg = new SaveFileDialog
             {
-                Filter           = "SQL scripts (*.sql)|*.sql|All files (*.*)|*.*",
-                DefaultExt       = ".sql",
-                FileName         = SqlScriptBuilder.BuildFileName("export", Title),
+                Filter = "SQL scripts (*.sql)|*.sql|All files (*.*)|*.*",
+                DefaultExt = ".sql",
+                FileName = SqlScriptBuilder.BuildFileName("export", Title),
                 InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop)
             };
             if (dlg.ShowDialog() != true) return;

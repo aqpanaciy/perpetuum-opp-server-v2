@@ -4,7 +4,7 @@ using Perpetuum.Data;
 
 namespace Perpetuum.Services.ProductionEngine.CalibrationPrograms
 {
-  
+
 
 
     /// <summary>
@@ -18,7 +18,7 @@ namespace Perpetuum.Services.ProductionEngine.CalibrationPrograms
 
         static DynamicCalibrationProgram()
         {
-            DynamicCalibrationTemplates = Database.CreateCache<int,DynamicCalibrationTemplate>("dynamiccalibrationtemplates", "definition", r => new DynamicCalibrationTemplate(r));
+            DynamicCalibrationTemplates = Database.CreateCache<int, DynamicCalibrationTemplate>("dynamiccalibrationtemplates", "definition", r => new DynamicCalibrationTemplate(r));
         }
 
         public DynamicCalibrationProgram(IProductionDataAccess productionDataAccess) : base(productionDataAccess)
@@ -58,7 +58,7 @@ namespace Perpetuum.Services.ProductionEngine.CalibrationPrograms
             get { return Template.TargetDefinition; }
         }
 
-       
+
 
         public override Dictionary<string, object> ToDictionary()
         {

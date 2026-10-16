@@ -58,13 +58,13 @@ namespace Perpetuum.Services.ExtensionService
                                                 .Execute()
                                                 .Select(r =>
                                                 {
-                                                   var id = r.GetValue<int>("requiredextension");
-                                                   var level = r.GetValue<int>("requiredlevel");
-                                                   return new
-                                                   {
-                                                       extensionID = r.GetValue<int>("extensionid"),
-                                                       requiredExtension = new Extension(id, level)
-                                                   };
+                                                    var id = r.GetValue<int>("requiredextension");
+                                                    var level = r.GetValue<int>("requiredlevel");
+                                                    return new
+                                                    {
+                                                        extensionID = r.GetValue<int>("extensionid"),
+                                                        requiredExtension = new Extension(id, level)
+                                                    };
                                                 })
                                                 .Where(r => extensions.ContainsKey(r.requiredExtension.id))
                                                 .ToLookup(r => r.extensionID, r => r.requiredExtension);

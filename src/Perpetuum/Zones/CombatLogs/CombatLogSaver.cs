@@ -18,23 +18,23 @@ namespace Perpetuum.Zones.CombatLogs
             _combatLogHelper = combatLogHelper;
         }
 
-        public void Save(IZone zone, Player owner, Unit killer,IEnumerable<CombatSummary> summaries)
+        public void Save(IZone zone, Player owner, Unit killer, IEnumerable<CombatSummary> summaries)
         {
-            var reportData = GenxyConverter.Serialize(CreateReportData(zone,owner,summaries));
+            var reportData = GenxyConverter.Serialize(CreateReportData(zone, owner, summaries));
 
             var reportId = Guid.NewGuid();
-            Db.Query().CommandText("insert into killreports (id,date,data) values (@id,getdate(),@data)").SetParameter("@id",reportId).SetParameter("@data",reportData).ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
+            Db.Query().CommandText("insert into killreports (id,date,data) values (@id,getdate(),@data)").SetParameter("@id", reportId).SetParameter("@data", reportData).ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
 
-            SaveParticipantsToDb(reportId, owner.Character,true, false);
+            SaveParticipantsToDb(reportId, owner.Character, true, false);
 
             foreach (var summary in summaries)
             {
                 var isKiller = summary.Source == killer;
-                SaveParticipantsToDb(reportId,summary.Source.GetCharacter(), false, true,isKiller);
+                SaveParticipantsToDb(reportId, summary.Source.GetCharacter(), false, true, isKiller);
             }
         }
 
-        private IEnumerable<KeyValuePair<string, object>> CreateReportData(IZone zone,Player owner,IEnumerable<CombatSummary> summaries)
+        private IEnumerable<KeyValuePair<string, object>> CreateReportData(IZone zone, Player owner, IEnumerable<CombatSummary> summaries)
         {
             var result = new Dictionary<string, object>
             {
@@ -54,11 +54,11 @@ namespace Perpetuum.Zones.CombatLogs
 
             const string sqlInsertCmd = "insert into characterkillreports (characterid,reportid,victim,attacker,killer) values (@characterId,@reportId,@isVictim,@isAttacker,@isKiller)";
             Db.Query().CommandText(sqlInsertCmd)
-                .SetParameter("@characterId",character.Id)
-                .SetParameter("@reportId",reportId)
-                .SetParameter("@isVictim",isVictim)
-                .SetParameter("@isAttacker",isAttacker)
-                .SetParameter("@isKiller",isKiller)
+                .SetParameter("@characterId", character.Id)
+                .SetParameter("@reportId", reportId)
+                .SetParameter("@isVictim", isVictim)
+                .SetParameter("@isAttacker", isAttacker)
+                .SetParameter("@isKiller", isKiller)
                 .ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
         }
     }

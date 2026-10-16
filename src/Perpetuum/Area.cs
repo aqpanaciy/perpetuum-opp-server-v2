@@ -54,8 +54,8 @@ namespace Perpetuum
         {
             return FromRadius(position.X, position.Y, radius);
         }
-        
-        public static Area FromRadius(int x, int y,int radius)
+
+        public static Area FromRadius(int x, int y, int radius)
         {
             return new Area(x - radius, y - radius, x + radius, y + radius);
         }
@@ -136,7 +136,7 @@ namespace Perpetuum
         {
             var dx = Center.X - x;
             var dy = Center.Y - y;
-            var d = dx*dx + dy*dy;
+            var d = dx * dx + dy * dy;
             var r = Width / 2;
             return r * r >= d;
         }
@@ -157,7 +157,7 @@ namespace Perpetuum
             return Clamp(size.Width, size.Height);
         }
 
-        public Area Clamp(int width,int height)
+        public Area Clamp(int width, int height)
         {
             return new Area(_x1.Clamp(0, width - 1),
                             _y1.Clamp(0, height - 1),
@@ -165,7 +165,7 @@ namespace Perpetuum
                             _y2.Clamp(0, height - 1));
         }
 
-        public void ForEachXY(Action<int,int> m)
+        public void ForEachXY(Action<int, int> m)
         {
             for (var j = Y1; j <= Y2; j++)
             {
@@ -181,7 +181,7 @@ namespace Perpetuum
             return Slice(size, size);
         }
 
-        private IEnumerable<Area> Slice(int w,int h)
+        private IEnumerable<Area> Slice(int w, int h)
         {
             var y1 = _y1;
             do
@@ -209,14 +209,14 @@ namespace Perpetuum
 
         public Point GetRandomPosition()
         {
-            var x = FastRandom.NextInt(_x1,_x2);
-            var y = FastRandom.NextInt(_y1,_y2);
+            var x = FastRandom.NextInt(_x1, _x2);
+            var y = FastRandom.NextInt(_y1, _y2);
             return new Point(x, y);
         }
 
         public Area AddBorder(int border)
         {
-            return new Area(_x1 - border, _y1 - border, _x2 + border,_y2 + border);
+            return new Area(_x1 - border, _y1 - border, _x2 + border, _y2 + border);
         }
 
         public IEnumerable<Position> GetPositions()
@@ -225,14 +225,14 @@ namespace Perpetuum
             {
                 for (var i = _x1; i <= _x2; i++)
                 {
-                    yield return new Position(i,j);
+                    yield return new Position(i, j);
                 }
             }
         }
 
         public double Distance(Point p)
         {
-            return Distance(p.X,p.Y);
+            return Distance(p.X, p.Y);
         }
 
         public double Distance(int x, int y)
@@ -242,22 +242,22 @@ namespace Perpetuum
 
         public double SqrDistance(Point p)
         {
-            return SqrDistance(p.X,p.Y);
+            return SqrDistance(p.X, p.Y);
         }
 
         public double SqrDistance(int x, int y)
         {
             var dx = 0;
             if (X1 > x) dx = X1 - x;
-            else 
-            if (X2 < x) dx = x - X2;
+            else
+                if (X2 < x) dx = x - X2;
 
             var dy = 0;
             if (Y1 > y) dy = Y1 - y;
-            else 
-            if (Y2 < y) dy = y - Y2;
+            else
+                if (Y2 < y) dy = y - Y2;
 
-            return dx*dx + dy*dy;
+            return dx * dx + dy * dy;
         }
 
         public double Distance(Area area)
@@ -332,9 +332,9 @@ namespace Perpetuum
             unchecked
             {
                 var hashCode = _x1;
-                hashCode = (hashCode*397) ^ _y1;
-                hashCode = (hashCode*397) ^ _x2;
-                hashCode = (hashCode*397) ^ _y2;
+                hashCode = (hashCode * 397) ^ _y1;
+                hashCode = (hashCode * 397) ^ _x2;
+                hashCode = (hashCode * 397) ^ _y2;
                 return hashCode;
             }
         }

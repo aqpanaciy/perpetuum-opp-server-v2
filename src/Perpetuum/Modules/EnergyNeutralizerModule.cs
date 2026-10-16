@@ -16,9 +16,9 @@ namespace Perpetuum.Modules
     {
         private readonly ItemProperty _energyNeutralizedAmount;
 
-        public EnergyNeutralizerModule() 
+        public EnergyNeutralizerModule()
         {
-            _energyNeutralizedAmount = new ModuleProperty(this,AggregateField.energy_neutralized_amount);
+            _energyNeutralizedAmount = new ModuleProperty(this, AggregateField.energy_neutralized_amount);
             AddProperty(_energyNeutralizedAmount);
         }
 
@@ -44,10 +44,10 @@ namespace Perpetuum.Modules
             var coreNeutralized = _energyNeutralizedAmount.Value;
             var coreNeutralizedDone = 0.0;
 
-            ModifyValueByReactorRadiation(unitLock.Target,ref coreNeutralized);
-            coreNeutralized = ModifyValueByOptimalRange(unitLock.Target,coreNeutralized);
+            ModifyValueByReactorRadiation(unitLock.Target, ref coreNeutralized);
+            coreNeutralized = ModifyValueByOptimalRange(unitLock.Target, coreNeutralized);
 
-            if ( coreNeutralized > 0.0 )
+            if (coreNeutralized > 0.0)
             {
                 var core = unitLock.Target.Core;
 
@@ -73,7 +73,7 @@ namespace Perpetuum.Modules
 
             packet.AppendDouble(coreNeutralized);
             packet.AppendDouble(coreNeutralizedDone);
-            packet.Send(unitLock.Target,ParentRobot);
+            packet.Send(unitLock.Target, ParentRobot);
         }
     }
 }

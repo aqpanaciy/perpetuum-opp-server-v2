@@ -43,7 +43,7 @@ namespace Perpetuum.RequestHandlers
                 ReownDefaultStructure(rootEid, targetOwner);
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }
@@ -92,6 +92,6 @@ namespace Perpetuum.RequestHandlers
                 }
             }
         }
-       
+
     }
 }

@@ -28,7 +28,7 @@ namespace Perpetuum.RequestHandlers.Zone
 
             var player = request.Zone.GetPlayer(character);
 
-            var pos = request.Zone.GetPrimaryLockedTileOrThrow( character);
+            var pos = request.Zone.GetPrimaryLockedTileOrThrow(character);
 
             /*
            foreach (var t  in  player.LockHandler.Locks.OfType<TerrainLock>())
@@ -37,15 +37,15 @@ namespace Perpetuum.RequestHandlers.Zone
            }
             */
 
-            Task.Run(() => { AreaTestProgramCodeSourceMethod(pos.intX, pos.intY, request);  });
+            Task.Run(() => { AreaTestProgramCodeSourceMethod(pos.intX, pos.intY, request); });
 
-            var info = new Dictionary<string, object> {{k.message, "Thread started be patient!"}};
-           
+            var info = new Dictionary<string, object> { { k.message, "Thread started be patient!" } };
+
             Message.Builder.FromRequest(request).WithData(info).Send();
         }
 
 
-        private void AreaTestProgramCodeSourceMethod(int cx , int cy, IZoneRequest request)
+        private void AreaTestProgramCodeSourceMethod(int cx, int cy, IZoneRequest request)
         {
             var testArea = Area.FromRadius(cx, cy, 300);
             testArea = testArea.Clamp(request.Zone.Size);
@@ -53,7 +53,7 @@ namespace Perpetuum.RequestHandlers.Zone
             var counter = 0;
             testArea.ForEachXY((x, y) =>
             {
-                if (counter ++ % 2 == 0)
+                if (counter++ % 2 == 0)
                 {
                     PBSHelper.DegradeTowardsOriginal(request.Zone, new Position(x, y));
                 }
@@ -86,12 +86,12 @@ namespace Perpetuum.RequestHandlers.Zone
 
             lock (_lockObject)
             {
-                ExecuteTerraforming(request.Zone,direction);
+                ExecuteTerraforming(request.Zone, direction);
             }
         }
 
 
-        private void ExecuteTerraforming(IZone zone,int direction)
+        private void ExecuteTerraforming(IZone zone, int direction)
         {
 
             //load terrain into buffer
@@ -103,14 +103,14 @@ namespace Perpetuum.RequestHandlers.Zone
                 var bufferOffset = CalculateBufferOffset(x, y);
                 var originalAltitude = _buffer[bufferOffset];
 
-                while (!TryDoOperationAndCheckAffectedBySlope(zone,direction, x, y))
+                while (!TryDoOperationAndCheckAffectedBySlope(zone, direction, x, y))
                 {
 
                     var sign = Math.Sign(direction);
 
                     var tmp = Math.Abs(direction);
 
-                    direction = (tmp >> 1)*sign;
+                    direction = (tmp >> 1) * sign;
 
                     //reset the tile so the next iteration can restart the work
                     _buffer[bufferOffset] = originalAltitude;
@@ -133,7 +133,7 @@ namespace Perpetuum.RequestHandlers.Zone
                 _workArea.ForEachXY((x, y) =>
                 {
                     var bufferOffset = CalculateBufferOffset(x, y);
-                    zone.Terrain.Altitude.UpdateValue(x,y,origAltitude => _buffer[bufferOffset]);
+                    zone.Terrain.Altitude.UpdateValue(x, y, origAltitude => _buffer[bufferOffset]);
                 });
             }
         }
@@ -150,10 +150,10 @@ namespace Perpetuum.RequestHandlers.Zone
         };
 
 
-        private bool TryDoOperationAndCheckAffectedBySlope(IZone zone,int direction, int x, int y)
+        private bool TryDoOperationAndCheckAffectedBySlope(IZone zone, int direction, int x, int y)
         {
             var bufferOffset = CalculateBufferOffset(x, y);
-            var newAltitude = (ushort) (_buffer[bufferOffset] + direction);
+            var newAltitude = (ushort)(_buffer[bufferOffset] + direction);
 
             //write new altitude into the buffer so the surrounding can check it without any exception ifs...
             _buffer[bufferOffset] = newAltitude;
@@ -164,7 +164,7 @@ namespace Perpetuum.RequestHandlers.Zone
                 var tileToCheckX = x + _offsetsToCheck[i];
                 var tileToCheckY = y + _offsetsToCheck[i + 1];
 
-                if (!CheckOneTileBySlope(zone,tileToCheckX, tileToCheckY))
+                if (!CheckOneTileBySlope(zone, tileToCheckX, tileToCheckY))
                 {
                     return false;
                 }
@@ -176,7 +176,7 @@ namespace Perpetuum.RequestHandlers.Zone
         }
 
 
-        private bool CheckOneTileBySlope(IZone zone,int x, int y)
+        private bool CheckOneTileBySlope(IZone zone, int x, int y)
         {
             var origSlope = zone.Terrain.Slope.GetValue(x, y);
 
@@ -219,7 +219,7 @@ namespace Perpetuum.RequestHandlers.Zone
 
         private int CalculateBufferOffset(int x, int y)
         {
-            return (x - _bufferArea.X1) + (y - _bufferArea.Y1)*_bufferArea.Width;
+            return (x - _bufferArea.X1) + (y - _bufferArea.Y1) * _bufferArea.Width;
         }
 
 
@@ -231,7 +231,7 @@ namespace Perpetuum.RequestHandlers.Zone
             //load terrain into buffer
             zone.ForEachAreaInclusive(_bufferArea, (x, y) =>
             {
-                var bufferOffset = (x - _bufferArea.X1) + (y - _bufferArea.Y1)*_bufferArea.Width;
+                var bufferOffset = (x - _bufferArea.X1) + (y - _bufferArea.Y1) * _bufferArea.Width;
                 var alt = zone.Terrain.Altitude.GetValue(x, y);
                 _buffer[bufferOffset] = alt;
             });
@@ -254,10 +254,10 @@ namespace Perpetuum.RequestHandlers.Zone
         private byte CalculateSlopeByAltitude(ushort tlAltitude, ushort trAltitude, ushort blAltitude, ushort brAltitude)
         {
 
-            tlAltitude = (ushort) (tlAltitude >> 5);
-            trAltitude = (ushort) (trAltitude >> 5);
-            blAltitude = (ushort) (blAltitude >> 5);
-            brAltitude = (ushort) (brAltitude >> 5);
+            tlAltitude = (ushort)(tlAltitude >> 5);
+            trAltitude = (ushort)(trAltitude >> 5);
+            blAltitude = (ushort)(blAltitude >> 5);
+            brAltitude = (ushort)(brAltitude >> 5);
 
             var e = (tlAltitude + trAltitude) >> 1;
             var f = (trAltitude + brAltitude) >> 1;
@@ -266,14 +266,14 @@ namespace Perpetuum.RequestHandlers.Zone
             var h = (blAltitude + e) >> 1;
             var i = (tlAltitude + trAltitude + brAltitude + blAltitude) >> 2;
 
-            return (byte) ((Math.Abs(i - tlAltitude) +
+            return (byte)((Math.Abs(i - tlAltitude) +
                             Math.Abs(i - trAltitude) +
                             Math.Abs(i - brAltitude) +
                             Math.Abs(i - blAltitude) +
                             Math.Abs(i - e) +
                             Math.Abs(i - f) +
                             Math.Abs(i - g) +
-                            Math.Abs(i - h))*2).Clamp(0, 255);
+                            Math.Abs(i - h)) * 2).Clamp(0, 255);
         }
 
 

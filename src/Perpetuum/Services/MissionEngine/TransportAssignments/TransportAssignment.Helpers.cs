@@ -37,7 +37,7 @@ namespace Perpetuum.Services.MissionEngine.TransportAssignments
             var publicContainer = Container.GetFromStructure(sourceBaseEid);
             publicContainer.ReloadItems(character);
             var wrapperContainer = (VolumeWrapperContainer)publicContainer.GetItemOrThrow(wrapperContainerEid);
-            
+
             wrapperContainer.CheckSubmitConditionsAndThrowIfFailed();
 
             var transportAssignmentInfo = new TransportAssignment
@@ -177,7 +177,7 @@ namespace Perpetuum.Services.MissionEngine.TransportAssignments
         public static Task DeliverTransportAssignmentAsync(Character character)
         {
 
-           return Task.Run(() => TryDeliverPossibleTransportAssignments(character));
+            return Task.Run(() => TryDeliverPossibleTransportAssignments(character));
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace Perpetuum.Services.MissionEngine.TransportAssignments
                 return ErrorCodes.AccessDenied;
 
             var transportAssignmentInfo = GetByContainer(volumeWrapperContainer);
-            
+
             if (transportAssignmentInfo == null)
             {
                 //no assignment for this container
@@ -245,7 +245,7 @@ namespace Perpetuum.Services.MissionEngine.TransportAssignments
             var publicContainer = Container.GetFromStructure(transportAssignmentInfo.targetbaseeid);
             publicContainer.ReloadItems(character);
 
-            AdministerDelivery(transportAssignmentInfo, volumeWrapperContainer,publicContainer);
+            AdministerDelivery(transportAssignmentInfo, volumeWrapperContainer, publicContainer);
 
             return ErrorCodes.NoError;
 
@@ -261,11 +261,11 @@ namespace Perpetuum.Services.MissionEngine.TransportAssignments
 
             transportAssignmentInfo.PayOutReward();
 
-            volumeWrapperContainer.ReloadItems(transportAssignmentInfo.volunteercharacter); 
+            volumeWrapperContainer.ReloadItems(transportAssignmentInfo.volunteercharacter);
             volumeWrapperContainer.PrintDebug();
 
             container.AddItem(volumeWrapperContainer, transportAssignmentInfo.ownercharacter.Eid, false);
-            
+
             volumeWrapperContainer.Owner = transportAssignmentInfo.ownercharacter.Eid;
             volumeWrapperContainer.ClearAssignmentId();
             volumeWrapperContainer.Save();
@@ -288,9 +288,9 @@ namespace Perpetuum.Services.MissionEngine.TransportAssignments
                                     WHERE (ownercharacterid=@characterId or volunteercharacterid=@characterId) AND (eventtime between @earlier AND @later)";
 
             var result = Db.Query().CommandText(sqlCmd)
-                                .SetParameter("@characterId",characterId)
-                                .SetParameter("@earlier",earlier)
-                                .SetParameter("@later",later)
+                                .SetParameter("@characterId", characterId)
+                                .SetParameter("@earlier", earlier)
+                                .SetParameter("@later", later)
                                 .Execute()
                                 .RecordsToDictionary("t");
             return result;
@@ -461,8 +461,8 @@ namespace Perpetuum.Services.MissionEngine.TransportAssignments
 
                 var container = assignment.GetContainer();
 
-                var publicContainer =  Container.GetFromStructure(assignment.sourcebaseeid);
-                
+                var publicContainer = Container.GetFromStructure(assignment.sourcebaseeid);
+
                 container.Parent = publicContainer.Eid;
                 container.Save();
 
@@ -526,7 +526,7 @@ namespace Perpetuum.Services.MissionEngine.TransportAssignments
                 .SetParameter("@containerEid", container.Eid)
                 .ExecuteSingleRow();
 
-            return record == null ? null :  new TransportAssignment(record);
+            return record == null ? null : new TransportAssignment(record);
         }
 
         [NotNull]

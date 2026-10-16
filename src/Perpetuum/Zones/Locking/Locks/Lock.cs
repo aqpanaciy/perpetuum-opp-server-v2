@@ -5,7 +5,7 @@ using Perpetuum.Timers;
 namespace Perpetuum.Zones.Locking.Locks
 {
     public delegate void LockEventHandler(Lock @lock);
-    public delegate void LockEventHandler<in T>(Lock @lock,T arg);
+    public delegate void LockEventHandler<in T>(Lock @lock, T arg);
 
     public abstract class Lock
     {
@@ -41,7 +41,7 @@ namespace Perpetuum.Zones.Locking.Locks
             get { return _primary; }
             set
             {
-                if ( _primary == value )
+                if (_primary == value)
                     return;
 
                 _primary = value;
@@ -64,16 +64,16 @@ namespace Perpetuum.Zones.Locking.Locks
                     return;
 
                 case LockState.Inprogress:
-                {
-                    Timer.Update(time);
+                    {
+                        Timer.Update(time);
 
-                    if (Timer.Expired)
-                        State = LockState.Locked;
-                    break;
-                }
+                        if (Timer.Expired)
+                            State = LockState.Locked;
+                        break;
+                    }
             }
         }
-        
+
         public void Start(TimeSpan lockingTime)
         {
             Timer = new TimeTracker(lockingTime);

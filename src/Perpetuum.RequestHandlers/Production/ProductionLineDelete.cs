@@ -26,7 +26,7 @@ namespace Perpetuum.RequestHandlers.Production
 
                 var replyDict = mill.DeleteLine(character, lineId);
                 Message.Builder.FromRequest(request).WithData(replyDict).Send();
-                
+
                 scope.Complete();
             }
         }

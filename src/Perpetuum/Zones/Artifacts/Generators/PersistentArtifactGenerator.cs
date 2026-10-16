@@ -18,7 +18,7 @@ namespace Perpetuum.Zones.Artifacts.Generators
         private readonly IArtifactRepository _artifactRepository;
         private readonly Player _player;
 
-        public PersistentArtifactGenerator(IZone zone,IArtifactRepository artifactRepository,Player player)
+        public PersistentArtifactGenerator(IZone zone, IArtifactRepository artifactRepository, Player player)
         {
             _zone = zone;
             _artifactRepository = artifactRepository;
@@ -27,7 +27,7 @@ namespace Perpetuum.Zones.Artifacts.Generators
 
         public void GenerateArtifacts()
         {
-            if (!HasArtifacts()) 
+            if (!HasArtifacts())
                 return;
 
             var artifactsCount = _artifactRepository.GetArtifacts().Count(a => a.Info.isPersistent && a.Character == _player.Character);

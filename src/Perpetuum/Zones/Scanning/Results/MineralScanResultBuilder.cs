@@ -23,7 +23,7 @@ namespace Perpetuum.Zones.Scanning.Results
             var mineralLayer = zone.Terrain.GetMineralLayerOrThrow(materialType);
             return new MineralScanResultBuilder(mineralLayer);
         }
-       
+
         public MineralScanResult Build()
         {
             var nodes = _mineralLayer.GetNodesByArea(ScanArea);
@@ -49,7 +49,7 @@ namespace Perpetuum.Zones.Scanning.Results
                             foundAny = true;
 
                             var m = FastRandom.NextDouble(ScanAccuracy, 1.0);
-                            uint a = (uint) (value * m);
+                            uint a = (uint)(value * m);
                             data[offset] = a;
 
                             sum += a;

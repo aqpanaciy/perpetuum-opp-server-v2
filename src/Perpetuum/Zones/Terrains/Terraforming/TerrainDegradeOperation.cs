@@ -12,7 +12,7 @@ namespace Perpetuum.Zones.Terrains.Terraforming
             _workArea = workArea;
         }
 
-        public void Prepare(IZone zone) {}
+        public void Prepare(IZone zone) { }
 
         public void DoTerraform(IZone zone)
         {
@@ -20,7 +20,7 @@ namespace Perpetuum.Zones.Terrains.Terraforming
             var y = FastRandom.NextInt(_workArea.Height - 1);
             var p = new Position(x, y);
 
-            PBSHelper.DegradeTowardsOriginal(zone, p);  
+            PBSHelper.DegradeTowardsOriginal(zone, p);
         }
 
         public Area TerraformArea { get; private set; }

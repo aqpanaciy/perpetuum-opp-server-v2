@@ -9,7 +9,7 @@ namespace Perpetuum.Services.MarketEngine
     public class MarketTaxChangeLogger : ILogger<MarketTaxChangeLogEvent>
     {
         private readonly long _baseEid;
-        private readonly ILogEventFormatter<MarketTaxChangeLogEvent,DbQuery> _formatter;
+        private readonly ILogEventFormatter<MarketTaxChangeLogEvent, DbQuery> _formatter;
 
         public MarketTaxChangeLogger(Market market)
         {
@@ -44,7 +44,7 @@ namespace Perpetuum.Services.MarketEngine
             query.ExecuteNonQuery().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
         }
 
-        private class LogEventFormatter : ILogEventFormatter<MarketTaxChangeLogEvent,DbQuery>
+        private class LogEventFormatter : ILogEventFormatter<MarketTaxChangeLogEvent, DbQuery>
         {
             private readonly long _baseEid;
 
@@ -52,7 +52,7 @@ namespace Perpetuum.Services.MarketEngine
             {
                 _baseEid = market.GetDockingBase().Eid;
             }
-           
+
             public DbQuery Format(MarketTaxChangeLogEvent logEvent)
             {
                 var query = Db.Query().CommandText("INSERT markettaxlog ( [owner], characterid, baseeid, changefrom, changeto) VALUES  ( @owner, @characterid, @baseeid, @changefrom, @changeto)")
@@ -61,7 +61,7 @@ namespace Perpetuum.Services.MarketEngine
                     .SetParameter("@baseeid", _baseEid)
                     .SetParameter("@changefrom", logEvent.ChangeFrom)
                     .SetParameter("@changeto", logEvent.ChangeTo);
-                              
+
 
                 return query;
             }

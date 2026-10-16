@@ -6,7 +6,7 @@ namespace Perpetuum.Services.ExtensionService
 {
     public static class ExtensionReaderExtensions
     {
-        public static IEnumerable<Extension> GetPrerequiredExtensionsOf(this IExtensionReader reader,int extensionId)
+        public static IEnumerable<Extension> GetPrerequiredExtensionsOf(this IExtensionReader reader, int extensionId)
         {
             foreach (var info in reader.GetExtensions().Values)
             {
@@ -21,7 +21,7 @@ namespace Perpetuum.Services.ExtensionService
             }
         }
 
-        public static IEnumerable<int> GetExtensionPrerequireTree(this IExtensionReader reader,int extensionId)
+        public static IEnumerable<int> GetExtensionPrerequireTree(this IExtensionReader reader, int extensionId)
         {
             var info = reader.GetExtensionByID(extensionId);
             if (info == null)
@@ -38,7 +38,7 @@ namespace Perpetuum.Services.ExtensionService
             }
         }
 
-        public static IEnumerable<Extension> GetRequiredExtensions(this IExtensionReader reader,int extensionId)
+        public static IEnumerable<Extension> GetRequiredExtensions(this IExtensionReader reader, int extensionId)
         {
             var info = reader.GetExtensionByID(extensionId);
             if (info == null)
@@ -97,7 +97,7 @@ namespace Perpetuum.Services.ExtensionService
             return reader.GetExtensions().GetOrDefault(extensionID);
         }
 
-        public static ExtensionInfo[] GetExtensionsByAggregateField(this IExtensionReader extensionReader,AggregateField field)
+        public static ExtensionInfo[] GetExtensionsByAggregateField(this IExtensionReader extensionReader, AggregateField field)
         {
             return extensionReader.GetExtensions().Values.Where(e => e.aggregateField == field).ToArray();
         }

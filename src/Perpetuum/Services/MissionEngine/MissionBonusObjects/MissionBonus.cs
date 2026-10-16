@@ -26,7 +26,7 @@ namespace Perpetuum.Services.MissionEngine.MissionBonusObjects
             _missionDataCache = missionDataCache;
         }
 
-        public MissionBonus(Character character, MissionCategory missionCategory, int missionLevel,  MissionAgent agent, int bonus)
+        public MissionBonus(Character character, MissionCategory missionCategory, int missionLevel, MissionAgent agent, int bonus)
         {
             this.character = character;
             _missionCategory = missionCategory;
@@ -67,15 +67,15 @@ namespace Perpetuum.Services.MissionEngine.MissionBonusObjects
             {
                 return GetKey(_missionCategory, _missionLevel, _agentId);
             }
-             
+
         }
 
         public int Bonus
         {
-            get { return _bonus;  }
+            get { return _bonus; }
             private set
             {
-                _bonus = value.Clamp(-5,5);
+                _bonus = value.Clamp(-5, 5);
                 lastModified = DateTime.Now;
             }
         }
@@ -95,20 +95,20 @@ namespace Perpetuum.Services.MissionEngine.MissionBonusObjects
                 {4, 1.8},
                 {5, 2.0},
             };
-        
+
 
         public double BonusMultiplier
         {
             get
             {
-                var mult =  BonusMultipliers[_bonus];
-                var extBonus = character.GetExtensionBonusByName(ExtensionNames.MISSION_BONUS_LEVEL_MOD) +1;
-                
-                mult *=  extBonus ;
-                
+                var mult = BonusMultipliers[_bonus];
+                var extBonus = character.GetExtensionBonusByName(ExtensionNames.MISSION_BONUS_LEVEL_MOD) + 1;
+
+                mult *= extBonus;
+
                 return mult;
             }
-            
+
         }
 
         public double RawMultiplier
@@ -126,7 +126,7 @@ namespace Perpetuum.Services.MissionEngine.MissionBonusObjects
         {
             Db.Query().CommandText("missionBonusWrite")
                     .SetParameter("@characterId", character.Id)
-                    .SetParameter("@missionCategory", (int) _missionCategory)
+                    .SetParameter("@missionCategory", (int)_missionCategory)
                     .SetParameter("@missionLevel", _missionLevel)
                     .SetParameter("@agentId", _agentId)
                     .SetParameter("@bonus", Bonus)
@@ -147,7 +147,7 @@ namespace Perpetuum.Services.MissionEngine.MissionBonusObjects
             {
                 Bonus++;
             }
-            
+
             Logger.Info("bonus timeout " + bonusPre + " > " + Bonus + " " + this);
         }
 

@@ -67,7 +67,7 @@ namespace Perpetuum.Zones.NpcSystem.Presences
             //new shit, build flocks etc....
             var level = MissionTarget.MyZoneMissionInProgress.MissionLevel; //mission level starts from 0
             var selectedRace = MissionTarget.MyZoneMissionInProgress.selectedRace;
-           
+
             for (var i = 0; i < MissionTarget.MyTarget.Quantity; i++)
             {
                 IRobotTemplateRelation npcTemplateRelation;
@@ -82,7 +82,7 @@ namespace Perpetuum.Zones.NpcSystem.Presences
                 else
                 {
                     //somekind of saturation 15%
-                    npcTemplateRelation = level == 0 ? _robotTemplateRelations.GetRandomDummyDecoyOthers() : 
+                    npcTemplateRelation = level == 0 ? _robotTemplateRelations.GetRandomDummyDecoyOthers() :
                                                        _robotTemplateRelations.GetRandomIndustrialNpc(level);
 
                     Logger.DebugInfo($" selected as indy {npcTemplateRelation.EntityDefault.Name}");

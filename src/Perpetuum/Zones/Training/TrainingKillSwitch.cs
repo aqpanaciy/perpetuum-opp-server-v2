@@ -3,7 +3,7 @@ using Perpetuum.Units;
 
 namespace Perpetuum.Zones.Training
 {
-    public class TrainingKillSwitch : Unit,IUsableItem
+    public class TrainingKillSwitch : Unit, IUsableItem
     {
         public void UseItem(Player player)
         {

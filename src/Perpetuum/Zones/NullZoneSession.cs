@@ -11,7 +11,7 @@ namespace Perpetuum.Zones
         public int Id
         {
             get { return 0; }
-            
+
         }
         public void SendPacket(Packet packet) { }
         public void SendPacket(IBuilder<Packet> packetBuilder) { }
@@ -25,7 +25,7 @@ namespace Perpetuum.Zones
         public void ResetLogoutTimer() { }
         public void SendTerrainData() { }
 
-        public void SendBeamIfVisible(Beam beam) {}
+        public void SendBeamIfVisible(Beam beam) { }
         public void SendBeam(IBuilder<Beam> builder) { }
         public void SendBeam(Beam beam) { }
 

@@ -36,7 +36,7 @@ namespace Perpetuum.Groups.Corporations
 
         public override void OnInsertToDb()
         {
-            DynamicProperties.Update(k.hangarAccess,(int)CorporationRole.HangarAccess_low);
+            DynamicProperties.Update(k.hangarAccess, (int)CorporationRole.HangarAccess_low);
         }
 
         public void CheckAccessAndThrowIfFailed(CorporationRole memberRole, ContainerAccess access)
@@ -47,7 +47,7 @@ namespace Perpetuum.Groups.Corporations
         public bool HasAccess(CorporationRole memberRole, ContainerAccess access)
         {
             //not defined for this container
-            if (HangarAccess == CorporationRole.NotDefined) 
+            if (HangarAccess == CorporationRole.NotDefined)
                 return true;
 
             //corp lord?
@@ -58,7 +58,7 @@ namespace Perpetuum.Groups.Corporations
             var hangarAccess = HangarAccess.GetHighestContainerAccess();
 
             // let's check the action
-            var expectedAccess = (int) memberRole.CleanUpHangarAccess() & (int) hangarAccess;
+            var expectedAccess = (int)memberRole.CleanUpHangarAccess() & (int)hangarAccess;
             if (expectedAccess == 0)
                 return false;
 
@@ -75,17 +75,17 @@ namespace Perpetuum.Groups.Corporations
 
         public void SetHangarAccess(Character character, CorporationRole corporationRole)
         {
-            DynamicProperties.Update(k.hangarAccess,(int)corporationRole);
+            DynamicProperties.Update(k.hangarAccess, (int)corporationRole);
             AddLogEntry(character, ContainerAccess.SetAccess);
         }
 
         public override Dictionary<string, object> ToDictionary()
         {
             var result = base.ToDictionary();
-            result.Add(k.leaseStart,LeaseStart);
-            result.Add(k.leaseEnd,LeaseEnd);
-            result.Add(k.leaseExpired,IsLeaseExpired);
-            result.Add(k.hangarAccess,(int)HangarAccess);
+            result.Add(k.leaseStart, LeaseStart);
+            result.Add(k.leaseEnd, LeaseEnd);
+            result.Add(k.leaseExpired, IsLeaseExpired);
+            result.Add(k.hangarAccess, (int)HangarAccess);
             return result;
         }
 
@@ -103,7 +103,7 @@ namespace Perpetuum.Groups.Corporations
             set
             {
                 var intValue = (value) ? 1 : 0;
-                DynamicProperties.Update(k.leaseExpired,intValue);
+                DynamicProperties.Update(k.leaseExpired, intValue);
             }
         }
 
@@ -121,7 +121,7 @@ namespace Perpetuum.Groups.Corporations
             }
             set
             {
-                DynamicProperties.Update(k.leaseStart,value);
+                DynamicProperties.Update(k.leaseStart, value);
             }
         }
 
@@ -139,14 +139,14 @@ namespace Perpetuum.Groups.Corporations
             }
             set
             {
-                DynamicProperties.Update(k.leaseEnd,value);
+                DynamicProperties.Update(k.leaseEnd, value);
             }
         }
 
-        public override void AddItem(Item item,long issuerEid, bool doStack)
+        public override void AddItem(Item item, long issuerEid, bool doStack)
         {
             CheckAllowedTypesForAddAndThrowIfFailed(item);
-            base.AddItem(item,Owner, doStack);
+            base.AddItem(item, Owner, doStack);
         }
 
         public static void CheckAllowedTypesForAddAndThrowIfFailed(Item item)
@@ -169,10 +169,10 @@ namespace Perpetuum.Groups.Corporations
         {
             foreach (var hangarFolder in Folders)
             {
-                hangarFolder.SetLogging(state,character);
+                hangarFolder.SetLogging(state, character);
             }
 
-            base.SetLogging(state,character,doLog);
+            base.SetLogging(state, character, doLog);
         }
 
         protected override bool IsPersonalContainer
@@ -230,7 +230,7 @@ namespace Perpetuum.Groups.Corporations
             var storage = EntityDefault.GetByName(DefinitionNames.PUBLIC_CORPORATE_HANGARS_STORAGE);
 
             var hangarEids = Db.Query().CommandText("select eid from entities where parent in (SELECT eid FROM dbo.getLiveDockingbaseChildren() WHERE definition=@hangarDef) order by parent")
-                                     .SetParameter("@hangarDef",storage.Definition)
+                                     .SetParameter("@hangarDef", storage.Definition)
                                      .Execute()
                                      .Select(h => (CorporateHangar)GetOrThrow(h.GetValue<long>(0)))
                                      .ToArray();
@@ -247,45 +247,45 @@ namespace Perpetuum.Groups.Corporations
                         switch (hangarStorage.GetParentDockingBase())
                         {
                             case Outpost outpost:
-                            {
-                                var siteInfo = outpost.GetIntrusionSiteInfo();
-                                if (siteInfo?.Owner != null)
                                 {
-                                    //it has an owner
-                                    if (hangar.Owner != siteInfo.Owner)
+                                    var siteInfo = outpost.GetIntrusionSiteInfo();
+                                    if (siteInfo?.Owner != null)
                                     {
-                                        //the owner is not the hangar's owner
-                                        var dockingStandingLimit = siteInfo.DockingStandingLimit;
-                                        if (dockingStandingLimit != null)
+                                        //it has an owner
+                                        if (hangar.Owner != siteInfo.Owner)
                                         {
-                                            //the outpost has standing limit set
-                                            var standingTowardsOwner = standingHandler.GetStanding((long)siteInfo.Owner,hangar.Owner);
-
-                                            if (standingTowardsOwner < dockingStandingLimit)
+                                            //the owner is not the hangar's owner
+                                            var dockingStandingLimit = siteInfo.DockingStandingLimit;
+                                            if (dockingStandingLimit != null)
                                             {
-                                                //the hangar is inaccessible
-                                                Logger.Info("hangar is inaccessible for corp. " + hangar.Owner + " hangaried:" + hangar.Eid + " standing:" + standingTowardsOwner + " dockingStandingLimit:" + dockingStandingLimit);
-                                                continue;
+                                                //the outpost has standing limit set
+                                                var standingTowardsOwner = standingHandler.GetStanding((long)siteInfo.Owner, hangar.Owner);
+
+                                                if (standingTowardsOwner < dockingStandingLimit)
+                                                {
+                                                    //the hangar is inaccessible
+                                                    Logger.Info("hangar is inaccessible for corp. " + hangar.Owner + " hangaried:" + hangar.Eid + " standing:" + standingTowardsOwner + " dockingStandingLimit:" + dockingStandingLimit);
+                                                    continue;
+                                                }
                                             }
                                         }
                                     }
+                                    break;
                                 }
-                                break;
-                            }
                             case PBSDockingBase pbsDockingBase:
-                            {
-                                if (pbsDockingBase.StandingEnabled)
                                 {
-                                    var standingTowardsOwner = standingHandler.GetStanding(pbsDockingBase.Owner,hangar.Owner);
-
-                                    if (standingTowardsOwner < pbsDockingBase.StandingLimit)
+                                    if (pbsDockingBase.StandingEnabled)
                                     {
-                                        Logger.Info("hangar is inaccessible for corp. " + hangar.Owner + " hangaried:" + hangar.Eid + " standing:" + standingTowardsOwner + " dockingStandingLimit:" + pbsDockingBase.StandingLimit);
-                                        continue;
+                                        var standingTowardsOwner = standingHandler.GetStanding(pbsDockingBase.Owner, hangar.Owner);
+
+                                        if (standingTowardsOwner < pbsDockingBase.StandingLimit)
+                                        {
+                                            Logger.Info("hangar is inaccessible for corp. " + hangar.Owner + " hangaried:" + hangar.Eid + " standing:" + standingTowardsOwner + " dockingStandingLimit:" + pbsDockingBase.StandingLimit);
+                                            continue;
+                                        }
                                     }
+                                    break;
                                 }
-                                break;
-                            }
                         }
 
                         var rentInfo = hangarStorage.GetCorporationHangarRentInfo();
@@ -315,7 +315,7 @@ namespace Perpetuum.Groups.Corporations
 
                                 Message.Builder.SetCommand(Commands.CorporationHangarRentExpired)
                                                .WithData(info)
-                                               .ToCorporation(corporation,CorporationRole.Accountant)
+                                               .ToCorporation(corporation, CorporationRole.Accountant)
                                                .Send();
                             }
                             else

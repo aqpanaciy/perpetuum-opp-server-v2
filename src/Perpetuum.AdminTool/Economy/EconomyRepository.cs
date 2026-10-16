@@ -117,13 +117,13 @@ namespace Perpetuum.AdminTool.Economy
 
             // Run sequentially on a single connection — ADO.NET does not support
             // concurrent commands on the same SqlConnection.
-            var nicIn  = await LoadCategoryRowsAsync(cn, NicInSql,  NicInOrder);
+            var nicIn = await LoadCategoryRowsAsync(cn, NicInSql, NicInOrder);
             var nicOut = await LoadCategoryRowsAsync(cn, NicOutSql, NicOutOrder);
             var (plasmaRow, rawmatRow) = await LoadAutoMarketRowsAsync(cn);
 
             // Splice AutoMarket rows into their fixed positions (they are not in the UNION query)
-            var plasmaIdx = Array.IndexOf(NicInOrder,  "AutoMarket Plasma");
-            if (plasmaIdx >= 0) nicIn[plasmaIdx]  = plasmaRow;
+            var plasmaIdx = Array.IndexOf(NicInOrder, "AutoMarket Plasma");
+            if (plasmaIdx >= 0) nicIn[plasmaIdx] = plasmaRow;
 
             var rawmatIdx = Array.IndexOf(NicOutOrder, "AutoMarket Raw Materials");
             if (rawmatIdx >= 0) nicOut[rawmatIdx] = rawmatRow;
@@ -131,21 +131,21 @@ namespace Perpetuum.AdminTool.Economy
             // Append bold Total rows
             nicIn.Add(new EconomyNicFlowRow
             {
-                Category   = "Total NIC In",
-                Today      = nicIn.Sum(r => r.Today),
-                Last7Days  = nicIn.Sum(r => r.Last7Days),
+                Category = "Total NIC In",
+                Today = nicIn.Sum(r => r.Today),
+                Last7Days = nicIn.Sum(r => r.Last7Days),
                 Last30Days = nicIn.Sum(r => r.Last30Days),
-                AllTime    = nicIn.Sum(r => r.AllTime),
-                IsTotal    = true,
+                AllTime = nicIn.Sum(r => r.AllTime),
+                IsTotal = true,
             });
             nicOut.Add(new EconomyNicFlowRow
             {
-                Category   = "Total NIC Out",
-                Today      = nicOut.Sum(r => r.Today),
-                Last7Days  = nicOut.Sum(r => r.Last7Days),
+                Category = "Total NIC Out",
+                Today = nicOut.Sum(r => r.Today),
+                Last7Days = nicOut.Sum(r => r.Last7Days),
                 Last30Days = nicOut.Sum(r => r.Last30Days),
-                AllTime    = nicOut.Sum(r => r.AllTime),
-                IsTotal    = true,
+                AllTime = nicOut.Sum(r => r.AllTime),
+                IsTotal = true,
             });
 
             return (nicIn, nicOut);
@@ -163,11 +163,11 @@ namespace Perpetuum.AdminTool.Economy
                 var cat = r.GetString(0);
                 raw[cat] = new EconomyNicFlowRow
                 {
-                    Category   = cat,
-                    Today      = (long)Math.Round(r.GetDouble(1)),
-                    Last7Days  = (long)Math.Round(r.GetDouble(2)),
+                    Category = cat,
+                    Today = (long)Math.Round(r.GetDouble(1)),
+                    Last7Days = (long)Math.Round(r.GetDouble(2)),
                     Last30Days = (long)Math.Round(r.GetDouble(3)),
-                    AllTime    = (long)Math.Round(r.GetDouble(4)),
+                    AllTime = (long)Math.Round(r.GetDouble(4)),
                 };
             }
             // Enforce display order; categories absent from DB results appear as zero rows
@@ -199,7 +199,7 @@ namespace Perpetuum.AdminTool.Economy
                     todayP = (long)Math.Round(r.GetDouble(0));
                     last7P = (long)Math.Round(r.GetDouble(1));
                     last30P = (long)Math.Round(r.GetDouble(2));
-                    allP   = (long)Math.Round(r.GetDouble(3));
+                    allP = (long)Math.Round(r.GetDouble(3));
                 }
             }
 
@@ -218,12 +218,12 @@ namespace Perpetuum.AdminTool.Economy
                     todayR = (long)Math.Round(r.GetDouble(0));
                     last7R = (long)Math.Round(r.GetDouble(1));
                     last30R = (long)Math.Round(r.GetDouble(2));
-                    allR   = (long)Math.Round(r.GetDouble(3));
+                    allR = (long)Math.Round(r.GetDouble(3));
                 }
             }
 
             return (
-                new EconomyNicFlowRow { Category = "AutoMarket Plasma",       Today = todayP, Last7Days = last7P, Last30Days = last30P, AllTime = allP },
+                new EconomyNicFlowRow { Category = "AutoMarket Plasma", Today = todayP, Last7Days = last7P, Last30Days = last30P, AllTime = allP },
                 new EconomyNicFlowRow { Category = "AutoMarket Raw Materials", Today = todayR, Last7Days = last7R, Last30Days = last30R, AllTime = allR }
             );
         }

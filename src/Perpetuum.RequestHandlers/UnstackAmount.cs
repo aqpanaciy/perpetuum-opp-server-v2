@@ -70,7 +70,7 @@ namespace Perpetuum.RequestHandlers
 
                 result.Add(k.source, sourceContainer.ToDictionary());
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

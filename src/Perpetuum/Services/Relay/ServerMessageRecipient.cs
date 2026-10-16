@@ -6,6 +6,6 @@
     public enum ServerMessageRecipient
     {
         allOnliners
-        
+
     }
 }

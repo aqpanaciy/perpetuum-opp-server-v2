@@ -44,8 +44,8 @@ namespace Perpetuum.Zones.PBS
 
         public static bool IsOfflineOnReinforce(Unit pbsUnit)
         {
-            return pbsUnit is PBSEffectSupplier || 
-                   pbsUnit is PBSTurret || 
+            return pbsUnit is PBSEffectSupplier ||
+                   pbsUnit is PBSTurret ||
                    pbsUnit is PBSArmorRepairerNode;
         }
 
@@ -91,7 +91,7 @@ namespace Perpetuum.Zones.PBS
                 return -1;
             }
 
-            return (int) objectEd.Config.targetDefinition;
+            return (int)objectEd.Config.targetDefinition;
         }
 
         public static int GetCapsuleDefinitionByPBSObjectDefinition(int nodeDefinition)
@@ -107,7 +107,7 @@ namespace Perpetuum.Zones.PBS
                              EntityDefault.Get(nodeDefinition).Name);
             }
 
-            Debug.Assert(capsuleDefinition > 0,"capsule definition was not found");
+            Debug.Assert(capsuleDefinition > 0, "capsule definition was not found");
 
             return capsuleDefinition;
 
@@ -313,7 +313,7 @@ namespace Perpetuum.Zones.PBS
         /// <param name="iterations">Number of attempts to try</param>
         /// <param name="epsilon">Epsilon factor to account for rounding in geometric in/equalities</param>
         /// <returns>Modified position</returns>
-        private static Position TryMovePlayerOutOfRadius(Position edge, Position center, IZone zone, Player player, double radius, int iterations=100, double epsilon=0.1)
+        private static Position TryMovePlayerOutOfRadius(Position edge, Position center, IZone zone, Player player, double radius, int iterations = 100, double epsilon = 0.1)
         {
             var r = new Random();
             while ((edge.TotalDistance2D(center) < radius - epsilon || !zone.IsWalkable(edge, player.Slope)) && iterations > 0)
@@ -351,7 +351,7 @@ namespace Perpetuum.Zones.PBS
                 }
                 else
                 {
-                    constructionRadius = (int) dc.constructionRadius;
+                    constructionRadius = (int)dc.constructionRadius;
                 }
             }
 
@@ -374,7 +374,7 @@ namespace Perpetuum.Zones.PBS
                 }
                 else
                 {
-                    blockingRadius = (int) dc.blockingradius;
+                    blockingRadius = (int)dc.blockingradius;
                 }
             }
 
@@ -458,7 +458,7 @@ namespace Perpetuum.Zones.PBS
                         double originY = position.intY;
                         var blend = MathHelper.DistanceFalloff(blockingRadius, farRange, originX, originY, i, j);
 
-                        zone.Terrain.Altitude.UpdateValue(i,j, current => current.Mix(centerAltitude, blend));
+                        zone.Terrain.Altitude.UpdateValue(i, j, current => current.Mix(centerAltitude, blend));
                     }
                 }
             }
@@ -476,8 +476,8 @@ namespace Perpetuum.Zones.PBS
         {
             const int processRadius = 20; // 40x40 rectangle will be processed
 
-            var pbsRangeFar = (int) DistanceConstants.TERRAIN_DEGRADE_DISTANCE_FROM_PBS;
-            var pbsRangeNear = (int) (DistanceConstants.TERRAIN_DEGRADE_DISTANCE_FROM_PBS*DEGRADE_NEAR_BIAS);
+            var pbsRangeFar = (int)DistanceConstants.TERRAIN_DEGRADE_DISTANCE_FROM_PBS;
+            var pbsRangeNear = (int)(DistanceConstants.TERRAIN_DEGRADE_DISTANCE_FROM_PBS * DEGRADE_NEAR_BIAS);
             var pbsRangeLenght = pbsRangeFar - pbsRangeNear;
 
             var pbsPositions =
@@ -534,11 +534,11 @@ namespace Perpetuum.Zones.PBS
                             ushort newAltitude;
                             if (originalAltitude > currentAltitude)
                             {
-                                newAltitude = (ushort) (currentAltitude + increment).Clamp(0, ushort.MaxValue);
+                                newAltitude = (ushort)(currentAltitude + increment).Clamp(0, ushort.MaxValue);
                             }
                             else
                             {
-                                newAltitude = (ushort) (currentAltitude - increment).Clamp(0, ushort.MaxValue);
+                                newAltitude = (ushort)(currentAltitude - increment).Clamp(0, ushort.MaxValue);
                             }
 
 
@@ -546,7 +546,7 @@ namespace Perpetuum.Zones.PBS
                             {
                                 var currentPosition = new Position(i, j);
 
-                                var sum = (long) newAltitude;
+                                var sum = (long)newAltitude;
 
                                 foreach (var nPos in currentPosition.GetEightNeighbours(zone.Size))
                                 {
@@ -556,7 +556,7 @@ namespace Perpetuum.Zones.PBS
                                 }
 
                                 //overwrite the alitude
-                                newAltitude = (ushort) (sum/9.0);
+                                newAltitude = (ushort)(sum / 9.0);
 
                             }
 
@@ -711,11 +711,11 @@ namespace Perpetuum.Zones.PBS
             pbsRefineryFacility.Owner = dockingBase.Owner;
             dockingBase.AddChild(pbsRefineryFacility);
 
-            var pbsMillFacility = (PBSMillFacility) Mill.CreateWithRandomEID(DefinitionNames.PBS_FACILITY_MILL);
+            var pbsMillFacility = (PBSMillFacility)Mill.CreateWithRandomEID(DefinitionNames.PBS_FACILITY_MILL);
             pbsMillFacility.Owner = dockingBase.Owner;
             dockingBase.AddChild(pbsMillFacility);
 
-            var pbsPrototyperFacility = (PBSPrototyperFacility) Prototyper.CreateWithRandomEID(DefinitionNames.PBS_FACILITY_PROTOTYPER);
+            var pbsPrototyperFacility = (PBSPrototyperFacility)Prototyper.CreateWithRandomEID(DefinitionNames.PBS_FACILITY_PROTOTYPER);
             pbsPrototyperFacility.Owner = dockingBase.Owner;
             dockingBase.AddChild(pbsPrototyperFacility);
 
@@ -783,7 +783,7 @@ namespace Perpetuum.Zones.PBS
                 }
                 else
                 {
-                    bandwidthUsage = (int) dc.bandwidthUsage;
+                    bandwidthUsage = (int)dc.bandwidthUsage;
                 }
             }
 
@@ -806,7 +806,7 @@ namespace Perpetuum.Zones.PBS
                 }
                 else
                 {
-                    reinforceCounterMax = (int) dc.reinforceCounterMax;
+                    reinforceCounterMax = (int)dc.reinforceCounterMax;
                 }
             }
             return reinforceCounterMax;
@@ -826,7 +826,7 @@ namespace Perpetuum.Zones.PBS
                 }
                 else
                 {
-                    constructionLevelMax = (int) dc.constructionlevelmax;
+                    constructionLevelMax = (int)dc.constructionlevelmax;
                 }
             }
             return constructionLevelMax;
@@ -845,7 +845,7 @@ namespace Perpetuum.Zones.PBS
                 }
                 else
                 {
-                    chargeAmount = (int) dc.chargeAmount;
+                    chargeAmount = (int)dc.chargeAmount;
                 }
             }
             return chargeAmount;
@@ -864,7 +864,7 @@ namespace Perpetuum.Zones.PBS
                 }
                 else
                 {
-                    upgradeAmount = (int) dc.productionUpgradeAmount;
+                    upgradeAmount = (int)dc.productionUpgradeAmount;
                 }
             }
             return upgradeAmount;
@@ -884,7 +884,7 @@ namespace Perpetuum.Zones.PBS
                 }
                 else
                 {
-                    productionLevel = (int) dc.productionLevel;
+                    productionLevel = (int)dc.productionLevel;
                 }
             }
             return productionLevel;
@@ -990,7 +990,7 @@ namespace Perpetuum.Zones.PBS
             return ec;
         }
 
-        public static void DropLootToZoneFromBaseItems(IZone zone, PBSDockingBase pbsDockingBase,bool damaged = true)
+        public static void DropLootToZoneFromBaseItems(IZone zone, PBSDockingBase pbsDockingBase, bool damaged = true)
         {
             IEnumerable<LootItem> allEntities;
 
@@ -1019,7 +1019,7 @@ namespace Perpetuum.Zones.PBS
 
             TransportAssignment.DockingBaseKilled(baseEid);
 
-            var thisBase = (DockingBase) Entity.Repository.LoadRawTree(baseEid);
+            var thisBase = (DockingBase)Entity.Repository.LoadRawTree(baseEid);
 
             if (thisBase == null)
             {
@@ -1093,7 +1093,7 @@ namespace Perpetuum.Zones.PBS
             //--transport assignments
             TransportAssignment.DockingBaseKilled(baseEid);
 
-            var thisBase = (PBSDockingBase) Entity.Repository.LoadRawTree(baseEid);
+            var thisBase = (PBSDockingBase)Entity.Repository.LoadRawTree(baseEid);
             if (thisBase == null)
             {
                 Logger.Error("mi is van itt? mer van torolve? ");
@@ -1197,7 +1197,7 @@ namespace Perpetuum.Zones.PBS
                 if (!productionComponent.IsMaterial)
                     continue;
 
-                var amount = (int) (productionComponent.Amount*FastRandom.NextDouble(0.3, 0.7));
+                var amount = (int)(productionComponent.Amount * FastRandom.NextDouble(0.3, 0.7));
                 if (amount <= 0)
                     continue;
 
@@ -1242,7 +1242,7 @@ namespace Perpetuum.Zones.PBS
 
                 scope.Complete();
             }
-            
+
             return ec;
         }
 
@@ -1273,7 +1273,7 @@ namespace Perpetuum.Zones.PBS
         }
 
 
-        public static Dictionary<string, object> GetUpdateDictionary(int zone,Unit eventSource,PBSEventType pbsEventType, Dictionary<string, object> data = null)
+        public static Dictionary<string, object> GetUpdateDictionary(int zone, Unit eventSource, PBSEventType pbsEventType, Dictionary<string, object> data = null)
         {
             Logger.Warning($"Zone {zone} eventSource {eventSource} event type {pbsEventType}");
             var sourceDict = eventSource.ToDictionary();
@@ -1288,7 +1288,7 @@ namespace Perpetuum.Zones.PBS
             data[k.zoneID] = zone; //OPP: client does not accept null or invalid zoneIDs!
             return data;
         }
-        
+
         public static int CollectFacilityNodeLevelFromInComingConnections(PBSProductionFacilityNode pbsProductionFacilityNode)
         {
             var inConnections = pbsProductionFacilityNode.ConnectionHandler.InConnections;
@@ -1329,7 +1329,7 @@ namespace Perpetuum.Zones.PBS
         }
 
 
-        private const double  MAXIMUM_PBS_SLOPE = 2.75;
+        private const double MAXIMUM_PBS_SLOPE = 2.75;
 
         public static bool CheckSlopeInRadiusWithBeams(IZone zone, Position origin, int radius, out List<Position> badSlopes)
         {
@@ -1337,7 +1337,7 @@ namespace Perpetuum.Zones.PBS
 
             if (badSlopes.Count > 0)
             {
-                zone.CreateSingleBeamToPositions(BeamType.green_10sec,1337,badSlopes);
+                zone.CreateSingleBeamToPositions(BeamType.green_10sec, 1337, badSlopes);
             }
 
             return badSlopes.Count == 0; //akkor jo ha nincs egy rossz pozicio sem
@@ -1350,13 +1350,13 @@ namespace Perpetuum.Zones.PBS
 
             if (badBlocks.Count > 0)
             {
-                zone.CreateSingleBeamToPositions(BeamType.green_10sec,1337,badBlocks);
+                zone.CreateSingleBeamToPositions(BeamType.green_10sec, 1337, badBlocks);
             }
 
-            return badBlocks.Count== 0;
+            return badBlocks.Count == 0;
         }
-     
-        public static void CollectConditions(IZone zone, Position origin, int radius, out List<Position> troubledPositions, Func<int, int, bool> conditionTest )
+
+        public static void CollectConditions(IZone zone, Position origin, int radius, out List<Position> troubledPositions, Func<int, int, bool> conditionTest)
         {
             origin = origin.Center;
             troubledPositions = new List<Position>();
@@ -1376,7 +1376,7 @@ namespace Perpetuum.Zones.PBS
                         if (!origin.IsWithinOrEqualRange(i + 0.5, j + 0.5, radius)) continue;
                     }
 
-                    if (!conditionTest(i,j))
+                    if (!conditionTest(i, j))
                     {
                         troubledPositions.Add(new Position(i, j).Center);
                     }
@@ -1385,7 +1385,7 @@ namespace Perpetuum.Zones.PBS
         }
 
 
-        public static void WritePBSLog(PBSLogType logType, long nodeEid, int nodeDefinition, long corporationEid, 
+        public static void WritePBSLog(PBSLogType logType, long nodeEid, int nodeDefinition, long corporationEid,
             int? issuerCharacterId = null,
             long? takeOverCorporationEid = null,
             long? otherNodeEid = null,
@@ -1399,17 +1399,17 @@ namespace Perpetuum.Zones.PBS
         {
             if (background)
             {
-                Task.Run(() => InsertPBSLog(logType, nodeEid, nodeDefinition, corporationEid, issuerCharacterId, takeOverCorporationEid, otherNodeEid, materialDefinition, materialAmount,otherNodeDefinition,zoneId, killerCharacterId)).LogExceptions();
+                Task.Run(() => InsertPBSLog(logType, nodeEid, nodeDefinition, corporationEid, issuerCharacterId, takeOverCorporationEid, otherNodeEid, materialDefinition, materialAmount, otherNodeDefinition, zoneId, killerCharacterId)).LogExceptions();
             }
             else
             {
-                InsertPBSLog(logType, nodeEid, nodeDefinition, corporationEid, issuerCharacterId, takeOverCorporationEid, otherNodeEid, materialDefinition, materialAmount, otherNodeDefinition,zoneId, killerCharacterId);
+                InsertPBSLog(logType, nodeEid, nodeDefinition, corporationEid, issuerCharacterId, takeOverCorporationEid, otherNodeEid, materialDefinition, materialAmount, otherNodeDefinition, zoneId, killerCharacterId);
             }
 
         }
 
 
-        private static void InsertPBSLog(PBSLogType logType, long nodeEid, int nodeDefinition, long corporationEid, 
+        private static void InsertPBSLog(PBSLogType logType, long nodeEid, int nodeDefinition, long corporationEid,
             int? issuerCharacterId = null,
             long? takeOverCorporationEid = null,
             long? otherNodeEid = null,
@@ -1420,16 +1420,17 @@ namespace Perpetuum.Zones.PBS
             int? killerCharacterId = null
             )
         {
-            var res = DynamicSqlQuery.Insert("pbslog", new{ 
-                eventtype=  logType, 
-                nodeeid=  nodeEid, 
-                nodedefinition= nodeDefinition,
-                corporationeid= corporationEid,
-                issuercharacterid = issuerCharacterId, 
+            var res = DynamicSqlQuery.Insert("pbslog", new
+            {
+                eventtype = logType,
+                nodeeid = nodeEid,
+                nodedefinition = nodeDefinition,
+                corporationeid = corporationEid,
+                issuercharacterid = issuerCharacterId,
                 takeovercorporationeid = takeOverCorporationEid,
-                othernodeeid= otherNodeEid, 
-                materialdefinition =materialDefinition,
-                materialamount =materialAmount,
+                othernodeeid = otherNodeEid,
+                materialdefinition = materialDefinition,
+                materialamount = materialAmount,
                 othernodedefinition = otherNodeDefinition,
                 zoneid = zoneId,
                 killercharacterid = killerCharacterId,
@@ -1463,10 +1464,10 @@ killercharacterid
                                     WHERE corporationeid = @corporationEid AND (eventtime between @earlier AND @later) and zoneid=@zoneId";
 
             var result = Db.Query().CommandText(sqlCmd)
-                .SetParameter("@corporationEid",corporationEid)
-                .SetParameter("@earlier",earlier)
-                .SetParameter("@later",later)
-                .SetParameter("@zoneId",zoneId)
+                .SetParameter("@corporationEid", corporationEid)
+                .SetParameter("@earlier", earlier)
+                .SetParameter("@later", later)
+                .SetParameter("@zoneId", zoneId)
                 .Execute().RecordsToDictionary("p");
             return result;
         }
@@ -1495,26 +1496,27 @@ killercharacterid
                 return 0;
             }
 
-            return (int) eggDc.targetDefinition;
+            return (int)eggDc.targetDefinition;
         }
 
         public static ErrorCodes ValidatePBSNodePlacing(IZone zone, Position spawnPosition, long owner, EntityDefault pbsNodeEntityDefault)
         {
-            var ourBases = zone.Units.OfType<PBSDockingBase>().Where(b=>b.Owner == owner).ToList();
+            var ourBases = zone.Units.OfType<PBSDockingBase>().Where(b => b.Owner == owner).ToList();
 
-            var isInRange = ourBases.Any(b =>{
-                    var dockingBaseRange = b.GetNetworkNodeRange();
-                    return spawnPosition.IsInRangeOf2D(b.CurrentPosition, dockingBaseRange);
-                });
-            
-            return isInRange ? ErrorCodes.NoError  : ErrorCodes.NoOwnedBaseInRange;
+            var isInRange = ourBases.Any(b =>
+            {
+                var dockingBaseRange = b.GetNetworkNodeRange();
+                return spawnPosition.IsInRangeOf2D(b.CurrentPosition, dockingBaseRange);
+            });
+
+            return isInRange ? ErrorCodes.NoError : ErrorCodes.NoOwnedBaseInRange;
         }
 
-        public static void FeedWithItems<T>(T pbsObject, Player player, IEnumerable<long> eids) where T:Unit,IPBSObject
+        public static void FeedWithItems<T>(T pbsObject, Player player, IEnumerable<long> eids) where T : Unit, IPBSObject
         {
             //lehet offline reactort etetni? - most lehet
             pbsObject.IsFullyConstructed().ThrowIfFalse(ErrorCodes.ObjectNotFullyConstructed);
-            pbsObject.CoreMax.ThrowIfLessOrEqual( pbsObject.Core, ErrorCodes.ReactorIsFull);
+            pbsObject.CoreMax.ThrowIfLessOrEqual(pbsObject.Core, ErrorCodes.ReactorIsFull);
 
             var logDict = new Dictionary<int, int>();
 

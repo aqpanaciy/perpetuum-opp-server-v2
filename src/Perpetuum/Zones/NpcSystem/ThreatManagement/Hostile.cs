@@ -26,7 +26,7 @@ namespace Perpetuum.Zones.NpcSystem.ThreatManaging
                 {
                     return;
                 }
-                    
+
                 _threat = value;
                 OnThreatUpdated();
             }
@@ -34,7 +34,7 @@ namespace Perpetuum.Zones.NpcSystem.ThreatManaging
 
         public bool IsExpired
         {
-            get 
+            get
             {
                 return (GlobalTimer.Elapsed - LastThreatUpdate) >= _threatTimeOut;
             }

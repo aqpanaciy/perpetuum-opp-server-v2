@@ -10,12 +10,12 @@ namespace Perpetuum.Zones
 {
     partial class ZoneExtensions
     {
-        private static void DrawEnvironmentByDefinitionAndPosition(this IZone zone,Unit unit)
+        private static void DrawEnvironmentByDefinitionAndPosition(this IZone zone, Unit unit)
         {
             //enviroment load
             var description = EntityEnvironment.LoadEnvironmentSql(unit.Definition);
             //draw extra environment
-            if (description.Equals(default(EntityEnvironmentDescription))) 
+            if (description.Equals(default(EntityEnvironmentDescription)))
                 return;
 
             if (description.blocksTiles == null || description.blocksTiles.Count <= 0)
@@ -47,7 +47,7 @@ namespace Perpetuum.Zones
             DrawEnvironmentWithMirrorAndTurns(zone, unit.CurrentPosition, description, turns, false, false, BlockingFlags.Obstacle);
         }
 
-        public static void DrawBlockingByDefinition(this IZone zone,EntityDefault entityDefault)
+        public static void DrawBlockingByDefinition(this IZone zone, EntityDefault entityDefault)
         {
             Logger.Info($"drawing blocking for definition:{entityDefault.Definition} {entityDefault.Name} on zone:{zone.Id}");
 
@@ -61,7 +61,7 @@ namespace Perpetuum.Zones
             Logger.Info($"{units.Count} {entityDefault.Name} blocked.");
         }
 
-        public static void CleanBlockingByDefinition(this IZone zone,EntityDefault entityDefault)
+        public static void CleanBlockingByDefinition(this IZone zone, EntityDefault entityDefault)
         {
             Logger.Info($"clean blocking for definition:{entityDefault.Definition} {entityDefault.Name} on zone:{zone.Id}");
 
@@ -123,7 +123,7 @@ namespace Perpetuum.Zones
                     if (!offsetPosition.IsValid(zone.Size))
                         continue;
 
-                    zone.Terrain.Blocks.UpdateValue(offsetPosition,bi =>
+                    zone.Terrain.Blocks.UpdateValue(offsetPosition, bi =>
                     {
                         var altitude = terrain.Altitude.GetAltitudeAsDouble(offsetPosition);
                         var altDiff = (int)(altitude - originAltitude);
@@ -148,7 +148,7 @@ namespace Perpetuum.Zones
                 if (!offsetPosition.IsValid(zone.Size))
                     continue;
 
-                zone.Terrain.Blocks.SetValue(offsetPosition,new BlockingInfo());
+                zone.Terrain.Blocks.SetValue(offsetPosition, new BlockingInfo());
             }
         }
 
@@ -185,7 +185,7 @@ namespace Perpetuum.Zones
                     var offsetPosition = new Position(position.intX + rotatedPos.intX, position.intY + rotatedPos.intY);
                     if (offsetPosition.IsValid(zone.Size))
                     {
-                        zone.Terrain.Blocks.SetValue(offsetPosition,bi);
+                        zone.Terrain.Blocks.SetValue(offsetPosition, bi);
                     }
                 }
             }

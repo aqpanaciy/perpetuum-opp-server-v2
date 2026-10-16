@@ -29,10 +29,10 @@ namespace Perpetuum.Services.Social
 
         private void LoadFromDb()
         {
-            if ( character == Character.None )
+            if (character == Character.None)
                 return;
 
-            var records = Db.Query().CommandText("select friendid,socialstate,note,laststateupdate from charactersocial where characterid = @characterId").SetParameter("@characterId",character.Id).Execute();
+            var records = Db.Query().CommandText("select friendid,socialstate,note,laststateupdate from charactersocial where characterid = @characterId").SetParameter("@characterId", character.Id).Execute();
 
             foreach (var record in records)
             {
@@ -41,7 +41,7 @@ namespace Perpetuum.Services.Social
 
                 var info = new FriendInfo(friend, socialState)
                 {
-                    note = record.GetValue<string>("note"), 
+                    note = record.GetValue<string>("note"),
                     lastStateUpdate = record.GetValue<DateTime>("laststateupdate")
                 };
 
@@ -55,7 +55,7 @@ namespace Perpetuum.Services.Social
             return !_friends.TryGetValue(friend, out friendInfo) ? SocialState.Undefined : friendInfo.socialState;
         }
 
-        public ErrorCodes SetFriendSocialState(Character friend, SocialState socialState,string note = null)
+        public ErrorCodes SetFriendSocialState(Character friend, SocialState socialState, string note = null)
         {
             if (character.Id == 0 || character == friend)
                 return ErrorCodes.NoError;
@@ -82,11 +82,11 @@ namespace Perpetuum.Services.Social
                 const string updateCommandText = "update charactersocial set socialstate = @socialState,laststateupdate = @lastStateUpdate,note = @note  where characterid = @characterId and friendid = @friendId";
 
                 var sqlResult = Db.Query().CommandText(updateCommandText)
-                                       .SetParameter("@characterId",character.Id)
-                                       .SetParameter("@friendId",friend.Id)
-                                       .SetParameter("@socialState",socialState)
-                                       .SetParameter("@lastStateUpdate",lastStateUpdate)
-                                       .SetParameter("@note",note)
+                                       .SetParameter("@characterId", character.Id)
+                                       .SetParameter("@friendId", friend.Id)
+                                       .SetParameter("@socialState", socialState)
+                                       .SetParameter("@lastStateUpdate", lastStateUpdate)
+                                       .SetParameter("@note", note)
                                        .ExecuteNonQuery();
 
                 if (sqlResult == 0)
@@ -97,11 +97,11 @@ namespace Perpetuum.Services.Social
                 // insert
                 const string insertCommandText = "insert into charactersocial (characterid,friendid,socialstate,laststateupdate,note) values (@characterId,@friendId,@socialState,@lastStateUpdate,@note)";
                 var sqlResult = Db.Query().CommandText(insertCommandText)
-                                       .SetParameter("@characterId",character.Id)
-                                       .SetParameter("@friendId",friend.Id)
-                                       .SetParameter("@socialState",socialState)
-                                       .SetParameter("@lastStateUpdate",lastStateUpdate)
-                                       .SetParameter("@note",note)
+                                       .SetParameter("@characterId", character.Id)
+                                       .SetParameter("@friendId", friend.Id)
+                                       .SetParameter("@socialState", socialState)
+                                       .SetParameter("@lastStateUpdate", lastStateUpdate)
+                                       .SetParameter("@note", note)
                                        .ExecuteNonQuery();
 
                 if (sqlResult == 0)
@@ -109,7 +109,7 @@ namespace Perpetuum.Services.Social
 
                 friendInfo = new FriendInfo(friend, socialState);
             }
-                
+
             friendInfo.lastStateUpdate = lastStateUpdate;
             friendInfo.note = note;
 
@@ -127,7 +127,7 @@ namespace Perpetuum.Services.Social
                 return;
 
             // delete
-            Db.Query().CommandText("delete from charactersocial where characterid = @characterId and friendid = @friendId").SetParameter("@characterId",character.Id).SetParameter("@friendId",friend.Id).ExecuteNonQuery();
+            Db.Query().CommandText("delete from charactersocial where characterid = @characterId and friendid = @friendId").SetParameter("@characterId", character.Id).SetParameter("@friendId", friend.Id).ExecuteNonQuery();
 
             Transaction.Current.OnCommited(() => _friends.Remove(friend));
         }

@@ -12,12 +12,12 @@ namespace Perpetuum.Services.MissionEngine.Missions
         public readonly long allianceEid;
         public readonly double change;
 
-        public static  MissionStandingChange FromRecord(IDataRecord record)
+        public static MissionStandingChange FromRecord(IDataRecord record)
         {
             var allianceEid = record.GetValue<long>(k.allianceEID.ToLower());
             var change = record.GetValue<double>(k.change);
 
-            return new MissionStandingChange(allianceEid,change);
+            return new MissionStandingChange(allianceEid, change);
 
         }
 
@@ -62,7 +62,7 @@ namespace Perpetuum.Services.MissionEngine.Missions
             var quantity = record.GetValue<int>(k.quantity);
             var probability = record.GetValue<int>(k.probability);
 
-            return new MissionReward(definition,quantity,probability);
+            return new MissionReward(definition, quantity, probability);
         }
 
         public Dictionary<string, object> ToDictionary()

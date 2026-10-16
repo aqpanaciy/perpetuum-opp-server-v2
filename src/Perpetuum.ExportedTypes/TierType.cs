@@ -5,11 +5,11 @@
 namespace Perpetuum.ExportedTypes
 {
 
-	public enum TierType 
-	{
-		Undefined = 0,
- 		Normal = 1,
-		Prototype = 2,
-		Special = 3
-	}
+    public enum TierType
+    {
+        Undefined = 0,
+        Normal = 1,
+        Prototype = 2,
+        Special = 3
+    }
 }

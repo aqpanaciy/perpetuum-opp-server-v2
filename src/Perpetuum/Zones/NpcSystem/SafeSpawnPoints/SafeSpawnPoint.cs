@@ -13,9 +13,9 @@ namespace Perpetuum.Zones.NpcSystem.SafeSpawnPoints
         {
             return new Dictionary<string, object>
             {
-                {"ID", Id}, 
+                {"ID", Id},
                 {"zoneID", ZoneId},
-                {"x", Location.X}, 
+                {"x", Location.X},
                 {"y", Location.Y}
             };
         }

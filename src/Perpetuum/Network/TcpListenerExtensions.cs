@@ -9,7 +9,7 @@ namespace Perpetuum.Network
         public static void Start(this TcpListener listener, Action<Socket> onConnectionAccepted)
         {
             listener.Start();
-            var helper = new ListenerHelper(listener,onConnectionAccepted);
+            var helper = new ListenerHelper(listener, onConnectionAccepted);
             listener.BeginAcceptSocket(AcceptSocketCallback, helper);
         }
 
@@ -20,7 +20,7 @@ namespace Perpetuum.Network
                 if (ar == null)
                     return;
 
-                var helper = (ListenerHelper) ar.AsyncState;
+                var helper = (ListenerHelper)ar.AsyncState;
                 var socket = helper.listener.EndAcceptSocket(ar);
                 helper.listener.BeginAcceptSocket(AcceptSocketCallback, helper);
                 //Console.Beep(200, 200);
@@ -41,7 +41,7 @@ namespace Perpetuum.Network
             public readonly TcpListener listener;
             public readonly Action<Socket> onConnectionAccepted;
 
-            public ListenerHelper(TcpListener listener,Action<Socket> onConnectionAccepted)
+            public ListenerHelper(TcpListener listener, Action<Socket> onConnectionAccepted)
             {
                 this.listener = listener;
                 this.onConnectionAccepted = onConnectionAccepted;

@@ -29,7 +29,7 @@ namespace Perpetuum.RequestHandlers
 
                 var informData = publicContainer.ToDictionary();
                 Message.Builder.FromRequest(request).WithData(new Dictionary<string, object> { { k.container, informData } }).Send();
-                
+
                 scope.Complete();
             }
         }

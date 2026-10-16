@@ -8,7 +8,7 @@ using Perpetuum.Services.ExtensionService;
 
 namespace Perpetuum.Items
 {
-    public class ItemEnablerExtensionChecker : IEntityVisitor<Item>,IEntityVisitor<ActiveModule>,IEntityVisitor<Robot>
+    public class ItemEnablerExtensionChecker : IEntityVisitor<Item>, IEntityVisitor<ActiveModule>, IEntityVisitor<Robot>
     {
         private readonly CharacterExtensionCollection _characterExtensions;
         private readonly HashSet<Extension> _missingExtensions = new HashSet<Extension>();

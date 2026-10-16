@@ -33,7 +33,7 @@ namespace Perpetuum.Threading.Process
         {
             _elapsed += time;
 
-            if (_running )
+            if (_running)
                 return;
 
             _running = true;
@@ -55,7 +55,7 @@ namespace Perpetuum.Threading.Process
                 {
                     _running = false;
                 }
-            },_cancellation.Token);
+            }, _cancellation.Token);
         }
     }
 }

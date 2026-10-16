@@ -10,7 +10,7 @@ namespace Perpetuum.RequestHandlers.Intrusion
         {
             var result = new Dictionary<string, object>
             {
-                {k.from,Outpost.IntrusionPauseTime.Start}, 
+                {k.from,Outpost.IntrusionPauseTime.Start},
                 {k.to,Outpost.IntrusionPauseTime.End}
             };
 

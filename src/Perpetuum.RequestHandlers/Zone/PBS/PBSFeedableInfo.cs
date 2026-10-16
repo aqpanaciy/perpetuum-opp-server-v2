@@ -24,7 +24,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
             }
             else
             {
-                Message.Builder.FromRequest(request).WithData(new Dictionary<string, object> {{k.info, info}}).Send();
+                Message.Builder.FromRequest(request).WithData(new Dictionary<string, object> { { k.info, info } }).Send();
             }
         }
     }

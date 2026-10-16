@@ -18,7 +18,7 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
         public double amount;
         public double sumAmount;
 
-        public MissionPayOutLogEntry(int id,DateTime evenTime,Guid missionGuid,int missionId, MissionCategory missionCategory,int missionLevel, long? corporationEid, int? characterId, int gangSize,double amount, double sumAmount)
+        public MissionPayOutLogEntry(int id, DateTime evenTime, Guid missionGuid, int missionId, MissionCategory missionCategory, int missionLevel, long? corporationEid, int? characterId, int gangSize, double amount, double sumAmount)
         {
             this.id = id;
             this.evenTime = evenTime;
@@ -33,7 +33,7 @@ namespace Perpetuum.Services.MissionEngine.MissionProcessorObjects
             this.sumAmount = sumAmount;
         }
 
-        public MissionPayOutLogEntry(Guid missionGuid, int missionId, MissionCategory missionCategory, int missionLevel, long? corporationEid, int? characterId,int gangSize, double amount, double sumAmount)
+        public MissionPayOutLogEntry(Guid missionGuid, int missionId, MissionCategory missionCategory, int missionLevel, long? corporationEid, int? characterId, int gangSize, double amount, double sumAmount)
         {
             this.missionGuid = missionGuid;
             this.missionId = missionId;
@@ -76,7 +76,7 @@ VALUES  (
                 .SetParameter("@missionguid", missionGuid)
                 .SetParameter("@missionid", missionId)
                 .SetParameter("@missioncategory", (int)missionCategory)
-                .SetParameter("@missionLevel" , missionLevel)
+                .SetParameter("@missionLevel", missionLevel)
                 .SetParameter("@corporationeid", corporationEid)
                 .SetParameter("@characterid", characterId)
                 .SetParameter("@gangSize", gangSize)

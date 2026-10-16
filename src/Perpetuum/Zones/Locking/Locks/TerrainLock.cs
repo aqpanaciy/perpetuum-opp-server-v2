@@ -19,7 +19,7 @@ namespace Perpetuum.Zones.Locking.Locks
 
         public int Falloff { get; set; }
 
-        public TerrainLock(Robot owner,Position location) : base(owner)
+        public TerrainLock(Robot owner, Position location) : base(owner)
         {
             Location = location;
         }

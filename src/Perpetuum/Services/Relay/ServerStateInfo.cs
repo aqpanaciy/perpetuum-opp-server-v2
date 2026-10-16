@@ -82,11 +82,11 @@ namespace Perpetuum.Services.Relay
         public void SaveServerInfoToDb(ServerInfo serverInfo)
         {
             Db.Query().CommandText("saServerInfoSet")
-                .SetParameter("name",serverInfo.Name)
-                .SetParameter("description",serverInfo.Description)
-                .SetParameter("contact",serverInfo.Contact)
-                .SetParameter("isopen",serverInfo.IsOpen)
-                .SetParameter("isbroadcast",serverInfo.IsBroadcast)
+                .SetParameter("name", serverInfo.Name)
+                .SetParameter("description", serverInfo.Description)
+                .SetParameter("contact", serverInfo.Contact)
+                .SetParameter("isopen", serverInfo.IsOpen)
+                .SetParameter("isbroadcast", serverInfo.IsBroadcast)
                 .ExecuteSingleRow();
         }
 

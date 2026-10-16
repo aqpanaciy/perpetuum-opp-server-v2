@@ -21,7 +21,7 @@ namespace Perpetuum.Services.Looting
             }
         }
 
-        public LootItem(Guid id,ItemInfo itemInfo)
+        public LootItem(Guid id, ItemInfo itemInfo)
         {
             this.id = id;
             ItemInfo = itemInfo;

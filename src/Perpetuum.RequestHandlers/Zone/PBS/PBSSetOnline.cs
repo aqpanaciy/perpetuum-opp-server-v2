@@ -51,7 +51,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
                 }
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

@@ -9,7 +9,7 @@ namespace Perpetuum.Units
 
     public class OptionalPropertyCollection : IEnumerable<IOptionalProperty>
     {
-        private readonly Dictionary<UnitDataType,IOptionalProperty> _properties = new Dictionary<UnitDataType, IOptionalProperty>();
+        private readonly Dictionary<UnitDataType, IOptionalProperty> _properties = new Dictionary<UnitDataType, IOptionalProperty>();
         private readonly ConcurrentQueue<IOptionalProperty> _updatedProperties = new ConcurrentQueue<IOptionalProperty>();
 
         public IOptionalProperty Get(UnitDataType type)
@@ -22,7 +22,7 @@ namespace Perpetuum.Units
             _properties[property.Type] = property;
 
             var n = property as INotifyOptionalPropertyChanged;
-            if ( n == null )
+            if (n == null)
                 return;
             n.PropertyChanged += OnPropertyChanged;
         }

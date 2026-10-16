@@ -41,51 +41,51 @@ namespace Perpetuum.Items.Templates
         }
 
         [CanBeNull]
-        public static RobotTemplate CreateFromDictionary(string name,IDictionary<string, object> dictionary)
+        public static RobotTemplate CreateFromDictionary(string name, IDictionary<string, object> dictionary)
         {
             if (dictionary == null)
                 return null;
 
             var template = new RobotTemplate(name)
             {
-                EntityDefault = EntityDefault.Get(dictionary.GetOrDefault(k.robot,0)),
-                Head = RobotComponentTemplate<RobotHead>.Create(dictionary.GetOrDefault(k.head, 0), ModulesFromDictionary(dictionary,k.headModules)),
-                Chassis = RobotComponentTemplate<RobotChassis>.Create(dictionary.GetOrDefault(k.chassis, 0), ModulesFromDictionary(dictionary,k.chassisModules)),
-                Leg = RobotComponentTemplate<RobotLeg>.Create(dictionary.GetOrDefault(k.leg, 0), ModulesFromDictionary(dictionary,k.legModules)),
-                Inventory = RobotInventoryTemplate.Create(dictionary.GetOrDefault(k.container, 0), ItemsFromDictionary(dictionary,k.items))
+                EntityDefault = EntityDefault.Get(dictionary.GetOrDefault(k.robot, 0)),
+                Head = RobotComponentTemplate<RobotHead>.Create(dictionary.GetOrDefault(k.head, 0), ModulesFromDictionary(dictionary, k.headModules)),
+                Chassis = RobotComponentTemplate<RobotChassis>.Create(dictionary.GetOrDefault(k.chassis, 0), ModulesFromDictionary(dictionary, k.chassisModules)),
+                Leg = RobotComponentTemplate<RobotLeg>.Create(dictionary.GetOrDefault(k.leg, 0), ModulesFromDictionary(dictionary, k.legModules)),
+                Inventory = RobotInventoryTemplate.Create(dictionary.GetOrDefault(k.container, 0), ItemsFromDictionary(dictionary, k.items))
             };
 
             return template;
         }
 
-        private static ModuleTemplate[] ModulesFromDictionary(IDictionary<string,object> dictinary,string key)
+        private static ModuleTemplate[] ModulesFromDictionary(IDictionary<string, object> dictinary, string key)
         {
-            var md = dictinary.GetOrDefault<IDictionary<string,object>>(key);
-            if ( md == null )
+            var md = dictinary.GetOrDefault<IDictionary<string, object>>(key);
+            if (md == null)
                 return new ModuleTemplate[0];
 
             var templates = new List<ModuleTemplate>();
 
             foreach (var o in md.Values)
             {
-                var t = ModuleTemplate.CreateFromDictionary((IDictionary<string, object>) o);
+                var t = ModuleTemplate.CreateFromDictionary((IDictionary<string, object>)o);
                 templates.Add(t);
             }
 
             return templates.ToArray();
         }
 
-        private static ItemTemplate<Item>[] ItemsFromDictionary(IDictionary<string,object> dd,string key)
+        private static ItemTemplate<Item>[] ItemsFromDictionary(IDictionary<string, object> dd, string key)
         {
-            var id = dd.GetOrDefault<IDictionary<string,object>>(key);
-            if ( id == null )
+            var id = dd.GetOrDefault<IDictionary<string, object>>(key);
+            if (id == null)
                 return new ItemTemplate<Item>[0];
 
             var templates = new List<ItemTemplate<Item>>();
 
             foreach (var o in id.Values)
             {
-                var dictionary = (IDictionary<string, object>) o;
+                var dictionary = (IDictionary<string, object>)o;
                 var definition = dictionary.GetOrDefault(k.definition, 0);
                 var quantity = dictionary.GetValue<int>(k.quantity);
                 var repackaged = dictionary.GetOrDefault(k.repackaged, 0) > 0;
@@ -165,6 +165,6 @@ namespace Perpetuum.Items.Templates
             };
         }
 
-     
+
     }
 }

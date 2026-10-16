@@ -56,7 +56,7 @@ namespace Perpetuum.Zones.PBS
     /// Handles reinforcing of a pbs object
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class PBSReinforceHandler<T> : IPBSReinforceHandler where T : Unit,IPBSObject
+    public class PBSReinforceHandler<T> : IPBSReinforceHandler where T : Unit, IPBSObject
     {
         private readonly T _pbsUnit;
         private readonly FiniteStateMachine<IReinforceState> _fsm = new FiniteStateMachine<IReinforceState>();
@@ -64,7 +64,7 @@ namespace Perpetuum.Zones.PBS
         private int _offsetHoursWithinDay = 20;
         private DateTime _nextReinforceCounterIncrease;
         private int _currentReinforceCounter;
-       
+
         public PBSReinforceHandler(T pbsUnit)
         {
             _pbsUnit = pbsUnit;
@@ -96,8 +96,8 @@ namespace Perpetuum.Zones.PBS
 
             _fsm.Update(time);
         }
-       
-        
+
+
         private void SetNextReinforceCounterIncreaseFromNow(int minutes)
         {
             _nextReinforceCounterIncrease = DateTime.Now.AddMinutes(minutes);
@@ -105,7 +105,7 @@ namespace Perpetuum.Zones.PBS
             //Logger.Info("next reinforce counter increase in " + minutes + " minutes    eid:" + _pbsUnit.Eid + "  " + _pbsUnit.EntityDefault.Name + " n:" +_pbsUnit.Name);
 
         }
-        
+
 
         public DateTime? ReinforceEnd
         {
@@ -154,7 +154,7 @@ namespace Perpetuum.Zones.PBS
             return PBSHelper.LazyReinforceCounterMax(_pbsUnit, ref _reinforceCounterMax);
         }
 
-       
+
         private void IncreaseReinforceCounter()
         {
             _currentReinforceCounter = (_currentReinforceCounter + 1).Clamp(0, GetReinforceCounterMax());
@@ -171,10 +171,10 @@ namespace Perpetuum.Zones.PBS
         {
             //logoljon meg minden %%%
 
-            _pbsUnit.DynamicProperties.Update(k.reinforceCounter,_currentReinforceCounter);
+            _pbsUnit.DynamicProperties.Update(k.reinforceCounter, _currentReinforceCounter);
         }
 
-        
+
 
 
         private void StartAsyncLog(PBSLogType logType)
@@ -281,7 +281,7 @@ namespace Perpetuum.Zones.PBS
 
             public virtual void ToReinforce(Unit attacker)
             {
-                _reinforceHandler._fsm.ChangeState(new ActiveReinforceState(_reinforceHandler,attacker));
+                _reinforceHandler._fsm.ChangeState(new ActiveReinforceState(_reinforceHandler, attacker));
 
             }
 
@@ -289,7 +289,7 @@ namespace Perpetuum.Zones.PBS
             {
                 _reinforceHandler._fsm.ChangeState(new VulnerableState(_reinforceHandler));
             }
-            
+
             protected void WriteLog(string message)
             {
                 Logger.Info(message);
@@ -301,9 +301,9 @@ namespace Perpetuum.Zones.PBS
         //kezdo allapot 
         private class NormalState : ReinforceStateBase
         {
-            private readonly IntervalTimer _timer = new IntervalTimer(TimeSpan.FromSeconds(10+FastRandom.NextInt(0,3)));
+            private readonly IntervalTimer _timer = new IntervalTimer(TimeSpan.FromSeconds(10 + FastRandom.NextInt(0, 3)));
 
-            public NormalState(PBSReinforceHandler<T> reinforceHandler) : base(reinforceHandler) {}
+            public NormalState(PBSReinforceHandler<T> reinforceHandler) : base(reinforceHandler) { }
 
             public override void Enter()
             {
@@ -330,12 +330,12 @@ namespace Perpetuum.Zones.PBS
 
                 ToReinforce(attacker);
             }
-           
+
             //already in this state
-            public override void ToNormal() {}
+            public override void ToNormal() { }
 
             //only from reinforce
-            public override void ToVulnerable() {}
+            public override void ToVulnerable() { }
 
             public override void ToReinforce(Unit attacker)
             {
@@ -367,7 +367,7 @@ namespace Perpetuum.Zones.PBS
                 _timer.Update(time);
                 if (!_timer.Passed) return;
                 _timer.Reset();
-                
+
 
                 if (ReinforceHandler._nextReinforceCounterIncrease < DateTime.Now)
                 {
@@ -424,7 +424,7 @@ namespace Perpetuum.Zones.PBS
 
             //already in this state
             public override void ToReinforce(Unit attacker) { }
-            
+
             public override bool IsReinforced => true;
 
             public override bool CanBeKilled => false;
@@ -462,7 +462,7 @@ namespace Perpetuum.Zones.PBS
                 }
             }
 
-          
+
             private void DoEnter()
             {
                 var pbsUnitObject = ReinforceHandler._pbsUnit;
@@ -484,8 +484,8 @@ namespace Perpetuum.Zones.PBS
                     var killer = _reinforceStartedBy?.Id;
 
                     //sql log
-                    PBSHelper.WritePBSLog(PBSLogType.reinforceStart, pbsUnitObject.Eid, pbsUnitObject.Definition, pbsUnitObject.Owner, zoneId:zone.Configuration.Id, killerCharacterId:killer);
-                    
+                    PBSHelper.WritePBSLog(PBSLogType.reinforceStart, pbsUnitObject.Eid, pbsUnitObject.Definition, pbsUnitObject.Owner, zoneId: zone.Configuration.Id, killerCharacterId: killer);
+
 
                     var oldCounter = ReinforceHandler.ReinforceCounter;
                     //elveszunk egy lehetoseget
@@ -579,8 +579,8 @@ namespace Perpetuum.Zones.PBS
             }
 
 
-          
-        
+
+
             private int _inProgress;
 
             public override void Update(TimeSpan time)
@@ -604,9 +604,9 @@ namespace Perpetuum.Zones.PBS
                     {
                         Logger.Exception(ex);
                     }
-                }).ContinueWith(t=> { _inProgress = 0; });
+                }).ContinueWith(t => { _inProgress = 0; });
             }
-          
+
 
             private void DoReinforceEndCheck()
             {
@@ -641,7 +641,7 @@ namespace Perpetuum.Zones.PBS
             {
                 base.AddToDictionary(info);
 
-                info.Add(k.reinforceEnd,_reinforceEnd);
+                info.Add(k.reinforceEnd, _reinforceEnd);
                 info.Add(k.isReinforced, 1);
             }
 
@@ -689,7 +689,7 @@ namespace Perpetuum.Zones.PBS
         private class VulnerableState : ReinforceStateBase
         {
             private readonly IntervalTimer _timer = new IntervalTimer(TimeSpan.FromSeconds(10 + FastRandom.NextInt(0, 3)));
-            private DateTime _vulnerableEnd; 
+            private DateTime _vulnerableEnd;
 
             public VulnerableState(PBSReinforceHandler<T> reinforceHandler) : base(reinforceHandler)
             {
@@ -717,13 +717,13 @@ namespace Perpetuum.Zones.PBS
             {
                 get { return true; }
             }
-            
+
             public override void Enter()
             {
                 var pbsUnitObject = ReinforceHandler._pbsUnit;
 
                 pbsUnitObject.DynamicProperties.Set(k.vulnerable, 1);
-                
+
                 //unless the init has already set it
                 if (_vulnerableEnd.Equals(default(DateTime)))
                 {
@@ -738,7 +738,7 @@ namespace Perpetuum.Zones.PBS
                     {
                         ReinforceHandler.LogWrite(PBSLogType.vulnerableStart);
                     }
-                    
+
                 }
                 else
                 {
@@ -746,7 +746,7 @@ namespace Perpetuum.Zones.PBS
                     Logger.Info("VULNERABLE STATE ENTER: skipping calculation, server start. " + pbsUnitObject.Eid + " " + pbsUnitObject.Name);
 
                     //somewhere in the future
-                    if ( DateTime.Now < _vulnerableEnd)
+                    if (DateTime.Now < _vulnerableEnd)
                     {
                         var pvpEffectTime = _vulnerableEnd.Subtract(DateTime.Now);
                         pbsUnitObject.ApplyPvPEffect(pvpEffectTime);
@@ -755,7 +755,7 @@ namespace Perpetuum.Zones.PBS
 
                 pbsUnitObject.States.Reinforced = false;
 
-               
+
 
                 base.Enter();
             }
@@ -766,7 +766,7 @@ namespace Perpetuum.Zones.PBS
 
                 pbsUnitObject.DynamicProperties.Update(k.vulnerable, 0);
                 pbsUnitObject.DynamicProperties.Update(k.vulnerableEnd, default(DateTime));
-                
+
                 var zone = pbsUnitObject.Zone;
                 if (zone != null)
                 {
@@ -774,7 +774,7 @@ namespace Perpetuum.Zones.PBS
                 }
 
                 base.Exit();
-                
+
             }
 
             public override void Update(TimeSpan time)
@@ -794,7 +794,7 @@ namespace Perpetuum.Zones.PBS
                 base.AddToDictionary(info);
 
                 info.Add(k.vulnerable, 1);
-                info.Add(k.vulnerableEnd,_vulnerableEnd);
+                info.Add(k.vulnerableEnd, _vulnerableEnd);
 
             }
 
@@ -804,7 +804,7 @@ namespace Perpetuum.Zones.PBS
                 {
                     var v = owner.DynamicProperties.GetOrAdd<DateTime>(k.vulnerableEnd);
 
-                    if (!v.Equals(default(DateTime))  && v > DateTime.Now)
+                    if (!v.Equals(default(DateTime)) && v > DateTime.Now)
                     {
                         Logger.Info("vulnerable end was set by init. " + owner);
                         _vulnerableEnd = v;
@@ -829,7 +829,7 @@ namespace Perpetuum.Zones.PBS
                 _offsetHoursWithinDay = _pbsUnit.DynamicProperties.GetOrAdd<int>(k.offsetWithinDay);
             }
 
-            
+
             if (_pbsUnit.DynamicProperties.Contains(k.isReinforced))
             {
                 var isReinforced = _pbsUnit.DynamicProperties.GetOrAdd<int>(k.isReinforced) == 1;
@@ -842,23 +842,23 @@ namespace Perpetuum.Zones.PBS
                 }
             }
 
-            
+
             if (_pbsUnit.DynamicProperties.Contains(k.vulnerable))
             {
                 var isVulnerable = _pbsUnit.DynamicProperties.GetOrAdd<int>(k.vulnerable) == 1;
 
-                if (isVulnerable )
+                if (isVulnerable)
                 {
                     //minden stimmel, akkor mehetunk egybol
                     Logger.Info("Vulnerable state was inited " + _pbsUnit);
                     state = new VulnerableState(this);
-                    ((VulnerableState) state).Init(_pbsUnit);
+                    ((VulnerableState)state).Init(_pbsUnit);
 
 
                 }
             }
 
-            _fsm.ChangeState( state);
+            _fsm.ChangeState(state);
 
 
         }
@@ -867,9 +867,9 @@ namespace Perpetuum.Zones.PBS
         {
             CurrentState.OnSave();
 
-            
 
-            
+
+
 
             _pbsUnit.DynamicProperties.Update(k.offsetWithinDay, _offsetHoursWithinDay);
 
@@ -907,20 +907,20 @@ namespace Perpetuum.Zones.PBS
 
         public void AddToDictionary(IDictionary<string, object> info)
         {
-           
+
             _fsm.Current.AddToDictionary(info);
 
         }
 
 
 #if DEBUG
-      
+
 
         public const double REINFORCE_THRESHOLD = 0.5;
         public const int VULNERABLE_LENGTH_MINUTES = 15; //2 hours
         public const int REINFORCE_LENGTH_MINUTES = 1; //3 days
         public const int REINFORCE_COUNTER_INCREASE_MINUTES = 6; //2 days
-       
+
 
 
 #else

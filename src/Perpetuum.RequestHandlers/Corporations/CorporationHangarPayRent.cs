@@ -57,7 +57,7 @@ namespace Perpetuum.RequestHandlers.Corporations
                 };
 
                 Message.Builder.FromRequest(request).WithData(result).Send();
-                
+
                 scope.Complete();
             }
         }

@@ -29,7 +29,7 @@ namespace Perpetuum.Services.MissionEngine.MissionStructures
             CreateSuccessBeam(player);
 
         }
-      
+
     }
 
 

@@ -14,11 +14,11 @@ namespace Perpetuum.RequestHandlers.Zone
 
             request.Zone.Terrain.Plants.UpdateAll((x, y, pi) =>
             {
-                if ((int) pi.type == plantIndex)
+                if ((int)pi.type == plantIndex)
                 {
                     //this is the plant we are looking for
 
-                    if (counter++%everyNth == 0)
+                    if (counter++ % everyNth == 0)
                     {
                         //kill it
                         pi.Clear();

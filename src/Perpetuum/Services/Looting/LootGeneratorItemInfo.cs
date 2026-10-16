@@ -8,7 +8,7 @@ namespace Perpetuum.Services.Looting
         public readonly bool damaged;
         public readonly double probability;
 
-        public LootGeneratorItemInfo(ItemInfo item,bool damaged,double probability)
+        public LootGeneratorItemInfo(ItemInfo item, bool damaged, double probability)
         {
             this.item = item;
             this.damaged = damaged;

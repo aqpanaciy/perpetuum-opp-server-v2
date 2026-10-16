@@ -3,7 +3,7 @@ using Perpetuum.Units;
 
 namespace Perpetuum.Services.MissionEngine.MissionStructures
 {
-    public class MissionStructureNameGenerator : IEntityVisitor<AlarmSwitch>,IEntityVisitor<SimpleSwitch>,IEntityVisitor<ItemSupply>,IEntityVisitor<Kiosk>
+    public class MissionStructureNameGenerator : IEntityVisitor<AlarmSwitch>, IEntityVisitor<SimpleSwitch>, IEntityVisitor<ItemSupply>, IEntityVisitor<Kiosk>
     {
         public static void Generate(Unit unit)
         {

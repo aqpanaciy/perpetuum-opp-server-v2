@@ -11,7 +11,7 @@ namespace Perpetuum.Services.Sessions
             return sessionManager.MaxSessions > signedInClientsCount;
         }
 
-        public static void DeselectCharacter(this ISessionManager sessionManager,Character character)
+        public static void DeselectCharacter(this ISessionManager sessionManager, Character character)
         {
             var session = sessionManager.GetByCharacter(character);
             session?.DeselectCharacter();

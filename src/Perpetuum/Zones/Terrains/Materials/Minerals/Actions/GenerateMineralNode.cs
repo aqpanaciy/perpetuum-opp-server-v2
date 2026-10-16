@@ -2,7 +2,7 @@ using Perpetuum.Zones.Terrains.Materials.Minerals.Generators;
 
 namespace Perpetuum.Zones.Terrains.Materials.Minerals.Actions
 {
-    public class GenerateMineralNode : MineralLayerVisitor,ILayerAction
+    public class GenerateMineralNode : MineralLayerVisitor, ILayerAction
     {
         private readonly IMineralNodeGenerator _nodeGenerator;
 

@@ -38,7 +38,7 @@ namespace Perpetuum.RequestHandlers.Zone
                     // szepen kozoljuk a klienssel,h minden rendben van
                     Message.Builder.FromRequest(request).WithData(scanResult.ToDictionary()).Send();
                 });
-                
+
                 scope.Complete();
             }
         }

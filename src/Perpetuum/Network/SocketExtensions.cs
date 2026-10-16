@@ -11,7 +11,7 @@ namespace Perpetuum.Network
         {
             socket.SetKeepAlive(state, (uint)time.TotalMilliseconds, (uint)interval.TotalMilliseconds);
         }
-        
+
         public static void SetKeepAlive(this Socket socket, bool state, uint time, uint interval)
         {
             try

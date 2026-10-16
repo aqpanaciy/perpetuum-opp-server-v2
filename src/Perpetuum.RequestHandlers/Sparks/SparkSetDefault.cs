@@ -42,7 +42,7 @@ namespace Perpetuum.RequestHandlers.Sparks
                 }
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

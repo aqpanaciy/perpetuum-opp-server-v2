@@ -23,7 +23,7 @@ namespace Perpetuum.Containers
             }
 
             // megkeressuk,h a target nem-e gyereke a sourcenak
-            targetContainer = (Container) sourceContainer.GetItem(targetContainerEid, true);
+            targetContainer = (Container)sourceContainer.GetItem(targetContainerEid, true);
 
             if (targetContainer != null)
             {
@@ -36,7 +36,7 @@ namespace Perpetuum.Containers
             targetContainer = GetWithItems(targetContainerEid, character, ContainerAccess.Add);
 
             // itt megnezzuk,h a targetnek nem gyereke-e a source
-            var tmpContainer = (Container) targetContainer.GetItem(sourceContainerEid,true);
+            var tmpContainer = (Container)targetContainer.GetItem(sourceContainerEid, true);
             if (tmpContainer == null)
                 return;
 
@@ -66,7 +66,7 @@ namespace Perpetuum.Containers
 
         public new static Container GetOrThrow(long containerEid)
         {
-            return (Container) Repository.LoadOrThrow(containerEid);
+            return (Container)Repository.LoadOrThrow(containerEid);
         }
 
         public static PublicContainer GetFromStructure(long strucureEid)
@@ -78,7 +78,7 @@ namespace Perpetuum.Containers
                 return dockingBase.GetPublicContainer();
             }
 
-            if ( entity is FieldTerminal fieldTerminal)
+            if (entity is FieldTerminal fieldTerminal)
             {
                 return fieldTerminal.GetPublicContainer();
             }

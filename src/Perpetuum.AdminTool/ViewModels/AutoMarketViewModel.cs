@@ -13,15 +13,15 @@ namespace Perpetuum.AdminTool.ViewModels
     {
         private readonly AutoMarketRepository _repo;
 
-        [ObservableProperty] private bool   _isRefreshing;
+        [ObservableProperty] private bool _isRefreshing;
         [ObservableProperty] private string _statusMessage = "";
-        [ObservableProperty] private bool   _statusIsError;
+        [ObservableProperty] private bool _statusIsError;
 
-        public AutoMarketConfigViewModel          Config      { get; }
-        public AutoMarketTradeListViewModel       TradeList   { get; }
-        public AutoMarketRawMaterialsViewModel    RawMaterials { get; }
-        public AutoMarketStatisticsViewModel      Statistics  { get; }
-        public AutoMarketOrdersViewModel          Orders      { get; }
+        public AutoMarketConfigViewModel Config { get; }
+        public AutoMarketTradeListViewModel TradeList { get; }
+        public AutoMarketRawMaterialsViewModel RawMaterials { get; }
+        public AutoMarketStatisticsViewModel Statistics { get; }
+        public AutoMarketOrdersViewModel Orders { get; }
 
         public AutoMarketViewModel(
             AutoMarketRepository repo,
@@ -29,12 +29,12 @@ namespace Perpetuum.AdminTool.ViewModels
             LookupCache lookups,
             TranslationsViewModel? translations = null)
         {
-            _repo        = repo;
-            Config       = new AutoMarketConfigViewModel(repo, queue);
-            TradeList    = new AutoMarketTradeListViewModel(repo, queue, lookups, translations);
+            _repo = repo;
+            Config = new AutoMarketConfigViewModel(repo, queue);
+            TradeList = new AutoMarketTradeListViewModel(repo, queue, lookups, translations);
             RawMaterials = new AutoMarketRawMaterialsViewModel(repo, queue, translations);
-            Statistics   = new AutoMarketStatisticsViewModel(repo, translations);
-            Orders       = new AutoMarketOrdersViewModel(repo, translations);
+            Statistics = new AutoMarketStatisticsViewModel(repo, translations);
+            Orders = new AutoMarketOrdersViewModel(repo, translations);
         }
 
         public async Task LoadAsync()
@@ -45,7 +45,7 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand(CanExecute = nameof(CanRefreshNow))]
         private async Task RefreshNow()
         {
-            IsRefreshing  = true;
+            IsRefreshing = true;
             StatusIsError = false;
             StatusMessage = "Refreshing AutoMarket orders...";
             try

@@ -5,15 +5,15 @@
 namespace Perpetuum.ExportedTypes
 {
 
-	public enum TechTreePointType 
-	{
-		undefined = 0,
- 		common = 5,
-		hitech = 6,
-		industrial = 4,
-		newtech = 7,
-		nuimqol = 3,
-		pelistal = 2,
-		thelodica = 1
-	}
+    public enum TechTreePointType
+    {
+        undefined = 0,
+        common = 5,
+        hitech = 6,
+        industrial = 4,
+        newtech = 7,
+        nuimqol = 3,
+        pelistal = 2,
+        thelodica = 1
+    }
 }

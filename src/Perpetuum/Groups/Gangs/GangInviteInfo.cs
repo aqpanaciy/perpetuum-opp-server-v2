@@ -31,7 +31,7 @@ namespace Perpetuum.Groups.Gangs
             {
                 if (_removable)
                     return true;
-                
+
                 return _timer.Expired;
             }
         }

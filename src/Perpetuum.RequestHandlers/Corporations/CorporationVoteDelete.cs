@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers.Corporations
 
                 var corporation = character.GetPrivateCorporationOrThrow();
                 corporation.DeleteVote(character, voteID);
-                
+
                 scope.Complete();
             }
         }

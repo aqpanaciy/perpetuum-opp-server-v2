@@ -7,15 +7,15 @@ namespace Perpetuum
     {
         public const double PI2 = Math.PI * 2;
 
-        public static double DirectionTo(double x0,double y0,double x1,double y1)
+        public static double DirectionTo(double x0, double y0, double x1, double y1)
         {
             var x = x1 - x0;
             var y = y1 - y0;
 
-            if ( Math.Abs(x) < double.Epsilon )
+            if (Math.Abs(x) < double.Epsilon)
                 return y > 0 ? 0.5 : 0;
 
-            if ( Math.Abs(y) < double.Epsilon )
+            if (Math.Abs(y) < double.Epsilon)
                 return x > 0 ? 0.25 : 0.75;
 
             var direction = (Math.Atan(y / x) + Math.PI / 2) / Math.PI * 0.5;

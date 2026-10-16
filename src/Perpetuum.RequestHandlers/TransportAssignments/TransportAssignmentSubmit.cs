@@ -22,7 +22,7 @@ namespace Perpetuum.RequestHandlers.TransportAssignments
 
                 var character = request.Session.Character;
                 TransportAssignment.SubmitTransportAssignment(character, wrapperContainerEid, reward, collateral, sourceBaseEid, targetBaseEid, durationDays);
-                
+
                 scope.Complete();
             }
         }

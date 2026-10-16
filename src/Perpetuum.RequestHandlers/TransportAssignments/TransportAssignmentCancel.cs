@@ -16,7 +16,7 @@ namespace Perpetuum.RequestHandlers.TransportAssignments
                 var id = request.Data.GetOrDefault<int>(k.ID);
                 var character = request.Session.Character;
                 TransportAssignment.CancelWaitingTransportAssignment(id, character);
-                
+
                 scope.Complete();
             }
         }

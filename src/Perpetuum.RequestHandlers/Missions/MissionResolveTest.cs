@@ -34,7 +34,7 @@ namespace Perpetuum.RequestHandlers.Missions
 
             var missionLevel = request.Data.GetOrDefault(k.level, 4);
 
-            var resolveTest = new MissionResolveTester(_missionProcessor,zoneId);
+            var resolveTest = new MissionResolveTester(_missionProcessor, zoneId);
 
             var displayOnly = request.Data.GetOrDefault<int>("display") == 1;
             var writeResult = !displayOnly;
@@ -58,8 +58,8 @@ namespace Perpetuum.RequestHandlers.Missions
                 Logger.Info(deletedMissionTargetsLog + " deleted from missiontargetslog.");
             }
 
-            var mainTask = Task.Run(()=>resolveTest.RunTestParallel(testCharacter, missionLevel,maxAttempts, writeResult,singleLocation))
-                .ContinueWith((t)=>
+            var mainTask = Task.Run(() => resolveTest.RunTestParallel(testCharacter, missionLevel, maxAttempts, writeResult, singleLocation))
+                .ContinueWith((t) =>
             {
                 MissionResolveTester.isTestMode = false;
                 Message.Builder.FromRequest(request).WithOk().Send();

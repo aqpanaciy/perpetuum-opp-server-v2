@@ -79,7 +79,7 @@ namespace Perpetuum.Zones.PBS
 
         private void ProcessStuff()
         {
-            if (_areaQueue.Count == 0) 
+            if (_areaQueue.Count == 0)
                 return;
 
             var liveSegments = GetLiveHighwaySegments();
@@ -142,13 +142,13 @@ namespace Perpetuum.Zones.PBS
                                 var xo = i - zArea.X1;
                                 var yo = j - zArea.Y1;
 
-                                var offset = xo + yo*zArea.Width;
+                                var offset = xo + yo * zArea.Width;
 
                                 var tc = data[offset];
-                                
+
                                 //do highway
                                 tc.PBSHighway = true;
-                                
+
                                 //draw concrete
                                 if (FastRandom.NextInt() % 2 == 1)
                                 {

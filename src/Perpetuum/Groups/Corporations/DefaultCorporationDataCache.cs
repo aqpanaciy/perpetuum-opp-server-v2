@@ -7,7 +7,7 @@ namespace Perpetuum.Groups.Corporations
     public static class DefaultCorporationDataCache
     {
         private static Dictionary<long, KeyValuePair<long, string>> _corporationToAlliance;
-        private static Dictionary<long,string> _allianceEidToName;
+        private static Dictionary<long, string> _allianceEidToName;
         private static Dictionary<int, long> _raceIdToAlliance;
 
         public static void LoadAll()
@@ -17,16 +17,16 @@ namespace Perpetuum.Groups.Corporations
             _raceIdToAlliance = LoadAllianceRaces();
         }
 
-        private static Dictionary<long,KeyValuePair<long, string>> LoadCorporationInfo()
+        private static Dictionary<long, KeyValuePair<long, string>> LoadCorporationInfo()
         {
             return Db.Query().CommandText("SELECT c.eid,a.allianceEID,c.name FROM corporations c JOIN dbo.alliancemembers a ON c.eid=a.corporationEID  WHERE c.defaultcorp=1")
                           .Execute()
-                          .ToDictionary(r => r.GetValue<long>(0), r => new KeyValuePair<long, string>( r.GetValue<long>(1),r.GetValue<string>(2)));
+                          .ToDictionary(r => r.GetValue<long>(0), r => new KeyValuePair<long, string>(r.GetValue<long>(1), r.GetValue<string>(2)));
         }
 
         public static IEnumerable<long> GetByAlliance(long allianceEid)
         {
-            return  _corporationToAlliance.Where(r =>  r.Value.Key == allianceEid).Select(r=> r.Key);
+            return _corporationToAlliance.Where(r => r.Value.Key == allianceEid).Select(r => r.Key);
         }
 
         public static IEnumerable<long> GetPureCorpsByAlliance(long allianceEid)
@@ -39,14 +39,14 @@ namespace Perpetuum.Groups.Corporations
         public static long GetIndustrialCorpByAlliance(long allianceEid)
         {
             return _corporationToAlliance
-                .Where(r => r.Value.Key == allianceEid &&  r.Value.Value.EndsWith("_ii") )
+                .Where(r => r.Value.Key == allianceEid && r.Value.Value.EndsWith("_ii"))
                 .Select(r => r.Key).First();
         }
 
         public static long GetPureCorporationFromAllianceByPostFix(long allianceEid, string postFix)
         {
             return _corporationToAlliance.Where(v => v.Value.Key == allianceEid && v.Value.Value.EndsWith(postFix))
-                .Select(v=>v.Key)
+                .Select(v => v.Key)
                 .FirstOrDefault();
         }
 

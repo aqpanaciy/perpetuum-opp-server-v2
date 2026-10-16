@@ -42,7 +42,7 @@ namespace Perpetuum.RequestHandlers
                 if (siteInfo.DockingStandingLimit == standingLimit)
                 {
                     //nothing to do => exit
-                    Message.Builder.FromRequest(request).WithData(new Dictionary<string, object> { { k.baseEID,outpost.Eid } }).Send();
+                    Message.Builder.FromRequest(request).WithData(new Dictionary<string, object> { { k.baseEID, outpost.Eid } }).Send();
                     return;
                 }
 
@@ -51,7 +51,7 @@ namespace Perpetuum.RequestHandlers
                 var corporationEid = character.CorporationEid;
 
                 //only owner corp controls the docking rights
-                corporationEid.ThrowIfNotEqual((long) owner, ErrorCodes.AccessDenied);
+                corporationEid.ThrowIfNotEqual((long)owner, ErrorCodes.AccessDenied);
 
                 DefaultCorporationDataCache.IsCorporationDefault(corporationEid).ThrowIfTrue(ErrorCodes.CharacterMustBeInPrivateCorporation);
 
@@ -60,12 +60,12 @@ namespace Perpetuum.RequestHandlers
 
                 var stabilityLimit = Outpost.GetDockingRightsStabilityLimit();
 
-                siteInfo.Stability.ThrowIfLess(stabilityLimit,ErrorCodes.StabilityTooLow);
+                siteInfo.Stability.ThrowIfLess(stabilityLimit, ErrorCodes.StabilityTooLow);
 
                 var dockingControlLimit = siteInfo.DockingControlLimit;
                 if (dockingControlLimit != null)
                 {
-                    DateTime.Now.ThrowIfLess((DateTime)dockingControlLimit,ErrorCodes.DockingRightsChangeCooldownInProgress);
+                    DateTime.Now.ThrowIfLess((DateTime)dockingControlLimit, ErrorCodes.DockingRightsChangeCooldownInProgress);
                 }
 
                 outpost.SetDockingControlDetails(standingLimit, !lockBase);
@@ -74,7 +74,7 @@ namespace Perpetuum.RequestHandlers
                 Transaction.Current.OnCommited(() => outpost.SendSiteInfoToOnlineCharacters());
 
                 Message.Builder.FromRequest(request).WithData(new Dictionary<string, object> { { k.baseEID, baseEid } }).Send();
-                
+
                 scope.Complete();
             }
         }

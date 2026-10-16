@@ -36,7 +36,7 @@ namespace Perpetuum.RequestHandlers
                 dockingBase.Save();
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

@@ -27,7 +27,7 @@ namespace Perpetuum.RequestHandlers
                 var item = CreateItem(request).ThrowIfNull(ErrorCodes.WTFErrorMedicalAttentionSuggested);
                 item.Owner = character.Eid;
 
-                targetContainer.AddItem(item,false);
+                targetContainer.AddItem(item, false);
                 targetContainer.Save();
 
                 Message.Builder.FromRequest(request)
@@ -36,7 +36,7 @@ namespace Perpetuum.RequestHandlers
                     .Send();
 
                 Transaction.Current.OnCommited(() => character.ReloadContainerOnZoneAsync());
-                
+
                 scope.Complete();
             }
         }

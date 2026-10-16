@@ -13,7 +13,7 @@ namespace Perpetuum.RequestHandlers.Markets
         private readonly MarketHelper _marketHelper;
         private readonly IMarketOrderRepository _marketOrderRepository;
 
-        public MarketModifyOrder(MarketHelper marketHelper,IMarketOrderRepository marketOrderRepository)
+        public MarketModifyOrder(MarketHelper marketHelper, IMarketOrderRepository marketOrderRepository)
         {
             _marketHelper = marketHelper;
             _marketOrderRepository = marketOrderRepository;
@@ -73,7 +73,7 @@ namespace Perpetuum.RequestHandlers.Markets
 
                 var result = _marketHelper.GetMarketOrdersInfo(character);
                 Message.Builder.FromRequest(request).WithData(result).WrapToResult().Send();
-                
+
                 scope.Complete();
             }
 

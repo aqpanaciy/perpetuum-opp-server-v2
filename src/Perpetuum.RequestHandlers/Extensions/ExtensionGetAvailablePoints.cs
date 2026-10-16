@@ -17,7 +17,7 @@ namespace Perpetuum.RequestHandlers.Extensions
             var account = _accountManager.Repository.Get(request.Session.AccountId).ThrowIfNull(ErrorCodes.AccountNotFound);
             var character = request.Session.Character;
 
-            var result = _accountManager.GetEPData(account,character);
+            var result = _accountManager.GetEPData(account, character);
             Message.Builder.FromRequest(request).WithData(result).Send();
         }
     }

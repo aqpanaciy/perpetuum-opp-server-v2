@@ -47,7 +47,7 @@ namespace Perpetuum.RequestHandlers.Zone.PBS
                 sourceUnit.Save();
 
                 Message.Builder.FromRequest(request).WithData(sourceUnit.ToDictionary()).Send();
-                
+
                 scope.Complete();
             }
         }

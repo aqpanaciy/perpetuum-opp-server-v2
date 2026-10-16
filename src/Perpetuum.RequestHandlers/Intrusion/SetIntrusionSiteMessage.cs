@@ -56,7 +56,7 @@ namespace Perpetuum.RequestHandlers.Intrusion
                 Message.Builder.FromRequest(request).WithOk().Send();
 
                 Transaction.Current.OnCommited(() => outpost.SendSiteInfoToOnlineCharacters());
-                
+
                 scope.Complete();
             }
         }

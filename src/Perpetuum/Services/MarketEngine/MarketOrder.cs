@@ -26,16 +26,16 @@ namespace Perpetuum.Services.MarketEngine
         public long submitterEID; // the owner of the order
         public DateTime submitted; // time of creation
         public int duration; // order's duration in hours
-        public double price; 
-        public int quantity; 
+        public double price;
+        public int quantity;
         public bool isSell; // sell or buy order
-        public bool useCorporationWallet; 
+        public bool useCorporationWallet;
         public bool isVendorItem;
         public long? forMembersOf; // visible to corporation only if not null
 
         public delegate MarketOrder Factory();
 
-        public MarketOrder(MarketHandler marketHandler,ICentralBank centralBank)
+        public MarketOrder(MarketHandler marketHandler, ICentralBank centralBank)
         {
             _marketHandler = marketHandler;
             _centralBank = centralBank;
@@ -47,11 +47,11 @@ namespace Perpetuum.Services.MarketEngine
                               {
                                   {k.marketItemID, id},
                                   {k.itemEID,itemEid},
-                                  {k.definition, itemDefinition}, 
-                                  {k.submitted, submitted}, 
-                                  {k.submitterEID, submitterEID}, 
-                                  {k.duration, duration}, 
-                                  {k.isSell, isSell}, 
+                                  {k.definition, itemDefinition},
+                                  {k.submitted, submitted},
+                                  {k.submitterEID, submitterEID},
+                                  {k.duration, duration},
+                                  {k.isSell, isSell},
                                   {k.price, price},
                                   {k.quantity,quantity},
                                   {k.useCorporationWallet, useCorporationWallet},
@@ -138,7 +138,7 @@ namespace Perpetuum.Services.MarketEngine
 
             Logger.Info("returning market item " + this);
 
-            var canceledItem = Item.GetOrThrow((long) itemEid);
+            var canceledItem = Item.GetOrThrow((long)itemEid);
 
             //itt kell kiszedni a markethez tartozo bazis public conteneret
             var container = GetMarket().GetDockingBase().GetPublicContainer();
@@ -156,7 +156,7 @@ namespace Perpetuum.Services.MarketEngine
             PrivateCorporation corporation = null;
             if (forMembersOf != null)
             {
-                corporation = PrivateCorporation.Get((long) forMembersOf);
+                corporation = PrivateCorporation.Get((long)forMembersOf);
             }
 
             IWallet<double> wallet;
@@ -178,7 +178,7 @@ namespace Perpetuum.Services.MarketEngine
                 .SetCharacter(submitter)
                 .SetItem(itemDefinition, quantity);
 
-           
+
             var corpWallet = wallet as CorporationWallet;
             if (corpWallet != null)
             {

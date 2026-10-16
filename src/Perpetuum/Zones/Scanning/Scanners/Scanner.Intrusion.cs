@@ -54,7 +54,7 @@ namespace Perpetuum.Zones.Scanning.Scanners
                 else
                 {
                     intrusionPacket.AppendInt(1); //in intrusion
-                    var nextIntrusionTime = CalculateTime((DateTime) intrusionStartTime);
+                    var nextIntrusionTime = CalculateTime((DateTime)intrusionStartTime);
                     intrusionPacket.AppendInt((int)nextIntrusionTime.TotalSeconds); // seconds
                 }
             }
@@ -71,7 +71,7 @@ namespace Perpetuum.Zones.Scanning.Scanners
             foreach (var unit in units)
             {
                 var pbsObject = unit as IPBSObject;
-                if (pbsObject == null) 
+                if (pbsObject == null)
                     continue;
 
                 stream.AppendInt(unit.Definition);
@@ -85,11 +85,11 @@ namespace Perpetuum.Zones.Scanning.Scanners
                 if (reinforceEnd != null)
                 {
                     inReinforce = 1;
-                    reinforceTime = CalculateTime((DateTime) reinforceEnd);
+                    reinforceTime = CalculateTime((DateTime)reinforceEnd);
                 }
 
                 stream.AppendInt(inReinforce);
-                stream.AppendInt((int) reinforceTime.TotalSeconds);
+                stream.AppendInt((int)reinforceTime.TotalSeconds);
 
                 counter++;
             }

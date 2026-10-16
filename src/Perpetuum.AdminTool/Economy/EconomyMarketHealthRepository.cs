@@ -18,18 +18,18 @@ namespace Perpetuum.AdminTool.Economy
             await using var cn = new SqlConnection(_connection.BuildConnectionString());
             await cn.OpenAsync();
 
-            var velocity    = await LoadVelocityAsync(cn);
-            var priceIndex  = await LoadPriceIndexAsync(cn);
-            var ageBuckets  = await LoadAgeBucketsAsync(cn);
+            var velocity = await LoadVelocityAsync(cn);
+            var priceIndex = await LoadPriceIndexAsync(cn);
+            var ageBuckets = await LoadAgeBucketsAsync(cn);
             var (amCount, playerCount) = await LoadOrderCountsAsync(cn);
 
             return new EconomyMarketData
             {
-                VelocityRows        = velocity,
-                PriceIndexRows      = priceIndex,
-                AgeBuckets          = ageBuckets,
+                VelocityRows = velocity,
+                PriceIndexRows = priceIndex,
+                AgeBuckets = ageBuckets,
                 AutoMarketOrderCount = amCount,
-                PlayerOrderCount    = playerCount,
+                PlayerOrderCount = playerCount,
             };
         }
 
@@ -49,8 +49,8 @@ namespace Perpetuum.AdminTool.Economy
             {
                 var item = new EconomyPriceIndexBasketItem
                 {
-                    Id             = r.GetInt32(0),
-                    Definition     = r.GetInt32(1),
+                    Id = r.GetInt32(0),
+                    Definition = r.GetInt32(1),
                     DefinitionName = r.IsDBNull(2) ? "" : r.GetString(2),
                 };
                 item.Weight = r.GetDouble(3);
@@ -112,9 +112,9 @@ namespace Perpetuum.AdminTool.Economy
             if (!await r.ReadAsync()) return new EconomyListingAgeBuckets();
             return new EconomyListingAgeBuckets
             {
-                Today   = r.IsDBNull(0) ? 0 : r.GetInt32(0),
-                D1To7   = r.IsDBNull(1) ? 0 : r.GetInt32(1),
-                D7To30  = r.IsDBNull(2) ? 0 : r.GetInt32(2),
+                Today = r.IsDBNull(0) ? 0 : r.GetInt32(0),
+                D1To7 = r.IsDBNull(1) ? 0 : r.GetInt32(1),
+                D7To30 = r.IsDBNull(2) ? 0 : r.GetInt32(2),
                 D30Plus = r.IsDBNull(3) ? 0 : r.GetInt32(3),
             };
         }

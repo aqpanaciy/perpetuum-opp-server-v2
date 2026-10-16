@@ -20,10 +20,10 @@ namespace Perpetuum.Zones.Effects
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) 
+            if (ReferenceEquals(null, obj))
                 return false;
 
-            return obj is EffectToken && Equals((EffectToken) obj);
+            return obj is EffectToken && Equals((EffectToken)obj);
         }
 
         public override int GetHashCode()

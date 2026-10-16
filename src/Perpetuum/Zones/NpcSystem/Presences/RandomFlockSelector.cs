@@ -16,7 +16,7 @@ namespace Perpetuum.Zones.NpcSystem.Presences
         public IFlockConfiguration SelectRandomFlockByPresence(RandomPresence presence)
         {
             var flockInfos = _randomFlockReader.GetByPresence(presence);
-            
+
             var sumRate = flockInfos.Sum(r => r.rate);
             var minRate = 0.0;
             var chance = FastRandom.NextDouble();

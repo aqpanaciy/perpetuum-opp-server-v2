@@ -39,7 +39,7 @@ namespace Perpetuum.StateMachines
 
         public static AnonymousState Create(Action<TimeSpan> onUpdate)
         {
-            return new AnonymousState(Stubs.None,Stubs.None,onUpdate);
+            return new AnonymousState(Stubs.None, Stubs.None, onUpdate);
         }
     }
 

@@ -47,17 +47,17 @@ namespace Perpetuum.Zones.Effects
             var result = new Dictionary<string, object>();
             foreach (var effectDefaultModifier in _effectDefaultModifiers)
             {
-                var oneEntry = new Dictionary<string, object> {{k.effectType, (int) effectDefaultModifier.Key}};
+                var oneEntry = new Dictionary<string, object> { { k.effectType, (int)effectDefaultModifier.Key } };
 
                 var effectsDict = new Dictionary<string, object>();
-                
+
                 foreach (var effect in effectDefaultModifier)
                 {
                     effect.AddToDictionary(effectsDict);
                 }
 
                 oneEntry.Add(k.effect, effectsDict);
-                result.Add("e"+counter++, oneEntry);
+                result.Add("e" + counter++, oneEntry);
             }
 
             return result;

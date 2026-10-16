@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers.Extensions
         private readonly MtProductHelper _mtProductHelper;
         private const int EP_BOOST_PERIOD_LENGTH_IN_DAYS = 30;
 
-        public ExtensionBuyEpBoost(IAccountManager accountManager,IAccountRepository accountRepository,MtProductHelper mtProductHelper)
+        public ExtensionBuyEpBoost(IAccountManager accountManager, IAccountRepository accountRepository, MtProductHelper mtProductHelper)
         {
             _accountManager = accountManager;
             _accountRepository = accountRepository;
@@ -23,9 +23,9 @@ namespace Perpetuum.RequestHandlers.Extensions
 
         public void HandleRequest(IRequest request)
         {
-			// Disable this command completely so as to not cause confusion with the in-game item
-			false.ThrowIfFalse(ErrorCodes.NoSuchCommand);
-			/*
+            // Disable this command completely so as to not cause confusion with the in-game item
+            false.ThrowIfFalse(ErrorCodes.NoSuchCommand);
+            /*
             using (var scope = Db.CreateTransaction())
             {
                 var account = _accountManager.Repository.Get(request.Session.AccountId).ThrowIfNull(ErrorCodes.AccountNotFound);

@@ -44,20 +44,20 @@ namespace Perpetuum.Modules
             // ennyit szedunk le a targettol
             var coreAmount = _energyVampiredAmount.Value;
 
-            ModifyValueByReactorRadiation(unitLock.Target,ref coreAmount);
+            ModifyValueByReactorRadiation(unitLock.Target, ref coreAmount);
             // optimalrange-el modositjuk
-            coreAmount = ModifyValueByOptimalRange(unitLock.Target,coreAmount);
+            coreAmount = ModifyValueByOptimalRange(unitLock.Target, coreAmount);
 
             var coreNeutralized = 0.0;
             var coreTransfered = 0.0;
 
-            if ( coreAmount > 0.0 )
+            if (coreAmount > 0.0)
             {
                 var targetCore = unitLock.Target.Core;
 
                 unitLock.Target.Core -= coreAmount;
                 coreNeutralized = Math.Abs(targetCore - unitLock.Target.Core);
-                unitLock.Target.OnCombatEvent(ParentRobot,new EnergyDispersionEventArgs(coreNeutralized));
+                unitLock.Target.OnCombatEvent(ParentRobot, new EnergyDispersionEventArgs(coreNeutralized));
 
                 // amit sikerult leszedni azt hozzaadjuk a robothoz
                 var core = ParentRobot.Core;
@@ -81,7 +81,7 @@ namespace Perpetuum.Modules
             packet.AppendDouble(coreAmount);
             packet.AppendDouble(coreNeutralized);
             packet.AppendDouble(coreTransfered);
-            packet.Send(unitLock.Target,ParentRobot);
+            packet.Send(unitLock.Target, ParentRobot);
         }
     }
 }

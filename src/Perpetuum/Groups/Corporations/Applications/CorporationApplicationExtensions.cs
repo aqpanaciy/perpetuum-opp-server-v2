@@ -6,7 +6,7 @@ namespace Perpetuum.Groups.Corporations.Applications
 {
     public static class CorporationApplicationExtensions
     {
-        public static IEnumerable<CorporationApplication> GetApplicationsByCharacter(this PrivateCorporation corporation,Character character)
+        public static IEnumerable<CorporationApplication> GetApplicationsByCharacter(this PrivateCorporation corporation, Character character)
         {
             return corporation.GetApplications().Where(a => a.Character == character);
         }

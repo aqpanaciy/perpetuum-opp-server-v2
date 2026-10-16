@@ -5,7 +5,7 @@ using Perpetuum.Zones.PBS.DockingBases;
 
 namespace Perpetuum.Zones.PBS.ProductionNodes
 {
-    public class PBSProductionFacilityNodeHelper 
+    public class PBSProductionFacilityNodeHelper
     {
         private readonly PBSProductionFacilityNode _pbsUnit;
 
@@ -51,7 +51,7 @@ namespace Perpetuum.Zones.PBS.ProductionNodes
 
         public void OnSave()
         {
-            _pbsUnit.DynamicProperties.Update(k.productionLevelCurrent,_pbsUnit.PreLevel);
+            _pbsUnit.DynamicProperties.Update(k.productionLevelCurrent, _pbsUnit.PreLevel);
         }
     }
 }

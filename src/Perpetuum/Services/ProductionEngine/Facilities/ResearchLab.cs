@@ -34,7 +34,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             infoData.Add(k.myPointsTime, additiveComponent);
             infoData.Add(k.percentageTime, GetPercentageFromAdditiveComponent(additiveComponent));
             infoData.Add(k.timeExtensionPoints, (int)GetTimeExtensionBonus(character));
-            infoData.Add(k.extensionCTPoints , (int)GetMaterialExtensionBonus(character));
+            infoData.Add(k.extensionCTPoints, (int)GetMaterialExtensionBonus(character));
             infoData.Add(k.myPointsPoints, additiveComponentCT);
             infoData.Add(k.percentagePoints, GetPercentageFromAdditiveComponent(additiveComponentCT));
             return infoData;
@@ -52,7 +52,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             var extensionPoints = GetMaterialExtensionBonus(character);
             var standingPoints = GetStandingPoints(character);
 
-            return (int) (basePoints + extensionPoints + standingPoints);
+            return (int)(basePoints + extensionPoints + standingPoints);
         }
 
         private int GetAdditiveComponentForTime(Character character)
@@ -71,7 +71,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             var standingPoints = GetStandingPoints(character);
             var levelDifferencePoints = levelDifference * 5;
 
-            return (int)(basePoints + extensionPoints + standingPoints + levelDifferencePoints );
+            return (int)(basePoints + extensionPoints + standingPoints + levelDifferencePoints);
         }
 
 
@@ -96,19 +96,19 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             //collect standing
             //calc 
             //[-0.25 ... +0.25]
-            double standingRatio = GetStandingOfOwnerToCharacter(character)/40;
+            double standingRatio = GetStandingOfOwnerToCharacter(character) / 40;
 
             //
             double extensionBonus = GetSlotExtensionBonus(character);
-                                                                   
 
 
-            return 1 + (int) (extensionBonus*(1 + standingRatio));
+
+            return 1 + (int)(extensionBonus * (1 + standingRatio));
 
 
         }
 
-       
+
 
         public override double GetMaterialExtensionBonus(Character character)
         {
@@ -117,19 +117,19 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
 
 
 
-        public void CalculateMaterialAndTimeEfficiency(Character character,ItemResearchLevel itemResearchLevel, int levelDifferencePoints, ref int materialEfficiency, ref int timeEfficiency)
+        public void CalculateMaterialAndTimeEfficiency(Character character, ItemResearchLevel itemResearchLevel, int levelDifferencePoints, ref int materialEfficiency, ref int timeEfficiency)
         {
             //baseConfig +decoder.leveldiff*5 + (1-(100/(100+PLAYER_EXTENSION_PONT+Facility_PONT)))*25
 
-            var result = levelDifferencePoints*5 + (1 - (100.0/(100.0 + GetAdditiveComponent(character))))*50;
+            var result = levelDifferencePoints * 5 + (1 - (100.0 / (100.0 + GetAdditiveComponent(character)))) * 50;
 
-            materialEfficiency = (int)( materialEfficiency + result);
+            materialEfficiency = (int)(materialEfficiency + result);
             timeEfficiency = (int)(timeEfficiency + result);
 
             Logger.Info("material efficiency:" + materialEfficiency + " time efficiency:" + timeEfficiency);
         }
 
-        public void CalculateFinalResearchTimeSeconds(Character character,  int itemLevel, int researchKitLevel, bool isPrototypeItem, out int researchTime, out int levelDifference)
+        public void CalculateFinalResearchTimeSeconds(Character character, int itemLevel, int researchKitLevel, bool isPrototypeItem, out int researchTime, out int levelDifference)
         {
             levelDifference = researchKitLevel - itemLevel;
             researchTime = GetCharacterNominalResearchTimeSecondsWithLevelDifference(character, levelDifference);
@@ -142,9 +142,9 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             researchTime *= itemLevel; //item level is multiplying
             return researchTime;
         }
-       
 
-        public int GetCharacterNominalResearchTimeSecondsWithLevelDifference(Character character, int levelDifference )
+
+        public int GetCharacterNominalResearchTimeSecondsWithLevelDifference(Character character, int levelDifference)
         {
             var baseTime = GetProductionTimeSeconds();
 
@@ -158,11 +158,11 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             return character.GetExtensionsBonusSummary(ExtensionNames.RESEARCH_BASIC, ExtensionNames.RESEARCH_ADVANCED, ExtensionNames.RESEARCH_EXPERT);
         }
 
-        public ErrorCodes StartResearch(Character character, int researchTimeSeconds, Item sourceItem,  ResearchKit researchKit, bool useCorporationWallet, out ProductionInProgress newProduction)
+        public ErrorCodes StartResearch(Character character, int researchTimeSeconds, Item sourceItem, ResearchKit researchKit, bool useCorporationWallet, out ProductionInProgress newProduction)
         {
             newProduction = ProductionInProgressFactory();
 
-            var itemsList = new [] { researchKit,sourceItem };
+            var itemsList = new[] { researchKit, sourceItem };
 
             ItemResearchLevel itemResearchLevel;
             if (!ProductionDataAccess.ResearchLevels.TryGetValue(sourceItem.Definition, out itemResearchLevel))
@@ -223,7 +223,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             var ed = EntityDefault.GetByEid(productionInProgress.ReservedEids[0]);
 
             long researchKitEid, itemEid;
-            if (ed.CategoryFlags.IsCategory(CategoryFlags.cf_research_kits)  || ed.CategoryFlags.IsCategory(CategoryFlags.cf_random_research_kits))
+            if (ed.CategoryFlags.IsCategory(CategoryFlags.cf_research_kits) || ed.CategoryFlags.IsCategory(CategoryFlags.cf_random_research_kits))
             {
                 researchKitEid = productionInProgress.ReservedEids[0];
                 itemEid = productionInProgress.ReservedEids[1];
@@ -235,7 +235,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             }
 
             item = Item.GetOrThrow(itemEid);
-            researchKit = (ResearchKit) Item.GetOrThrow(researchKitEid);
+            researchKit = (ResearchKit)Item.GetOrThrow(researchKitEid);
 
             return ErrorCodes.NoError;
         }
@@ -245,7 +245,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             return EndResearch(productionInProgress);
         }
 
-        private IDictionary<string,object> EndResearch(ProductionInProgress productionInProgress)
+        private IDictionary<string, object> EndResearch(ProductionInProgress productionInProgress)
         {
             Logger.Info("research finished: " + productionInProgress);
 
@@ -260,17 +260,17 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
 
             int researchTime;
             int levelDifferenceBonusPoints;
-            CalculateFinalResearchTimeSeconds(productionInProgress.character,  itemLevel, researchKitLevel, isPrototypeItem, out researchTime, out levelDifferenceBonusPoints);
+            CalculateFinalResearchTimeSeconds(productionInProgress.character, itemLevel, researchKitLevel, isPrototypeItem, out researchTime, out levelDifferenceBonusPoints);
 
             var outputDefinition = productionInProgress.resultDefinition;
 
             //load public container
-            var targetContainer = (PublicContainer) Container.GetOrThrow(PublicContainerEid);
+            var targetContainer = (PublicContainer)Container.GetOrThrow(PublicContainerEid);
             targetContainer.ReloadItems(productionInProgress.character);
 
-            var outputDefault = EntityDefault.Get(outputDefinition).ThrowIfEqual(EntityDefault.None,ErrorCodes.DefinitionNotSupported);
+            var outputDefault = EntityDefault.Get(outputDefinition).ThrowIfEqual(EntityDefault.None, ErrorCodes.DefinitionNotSupported);
             (outputDefault.CategoryFlags.IsCategory(CategoryFlags.cf_calibration_programs) || outputDefault.CategoryFlags.IsCategory(CategoryFlags.cf_random_calibration_programs)).ThrowIfFalse(ErrorCodes.WTFErrorMedicalAttentionSuggested);
-            
+
 
             //create item
             var resultItem = targetContainer.CreateAndAddItem(outputDefinition, false, item1 =>
@@ -281,12 +281,12 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
 
             var calibrationProgram = resultItem as CalibrationProgram;
             calibrationProgram.ThrowIfNull(ErrorCodes.ConsistencyError);
-            
+
             var itemResearchLevel = ProductionDataAccess.GetItemReserchLevelByCalibrationProgram(calibrationProgram);
 
             int materialEfficiency;
             int timeEfficiency;
-            researchKit.GetCalibrationDefaults(outputDefault,  out materialEfficiency, out timeEfficiency);
+            researchKit.GetCalibrationDefaults(outputDefault, out materialEfficiency, out timeEfficiency);
 
             var rawMatEff = materialEfficiency;
 
@@ -297,15 +297,15 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             {
                 materialEfficiency = rawMatEff;
                 calibrationProgram.MaterialEfficiencyPoints = rawMatEff;
-                calibrationProgram.TimeEfficiencyPoints = timeEfficiency;    
+                calibrationProgram.TimeEfficiencyPoints = timeEfficiency;
             }
             else
             {
                 calibrationProgram.MaterialEfficiencyPoints = materialEfficiency;
-                calibrationProgram.TimeEfficiencyPoints = timeEfficiency; 
+                calibrationProgram.TimeEfficiencyPoints = timeEfficiency;
             }
-            
-            
+
+
 
             var randomCalibrationProgram = calibrationProgram as RandomCalibrationProgram;
 
@@ -334,7 +334,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
                 {k.result, calibrationProgram.ToDictionary()}
             };
 
-           
+
             ProductionProcessor.EnqueueProductionMissionTarget(MissionTargetType.research, productionInProgress.character, MyMissionLocationId(), calibrationProgram.Definition);
             return replyDict;
         }
@@ -365,7 +365,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
                 missionRelated = true;
             }
 
-            if (itemDefault.CategoryFlags.IsCategory(CategoryFlags.cf_generic_random_items) )
+            if (itemDefault.CategoryFlags.IsCategory(CategoryFlags.cf_generic_random_items))
             {
                 researchKitDefault.CategoryFlags.IsCategory(CategoryFlags.cf_random_research_kits).ThrowIfFalse(ErrorCodes.OnlyMissionResearchKitAccepted);
                 missionRelated = true;
@@ -396,7 +396,7 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
 
             var itemResearchLevel = ProductionDataAccess.ResearchLevels.GetOrDefault(targetDefinition).ThrowIfNull(ErrorCodes.ItemNotResearchable);
 
-            var outputDefinition = (int) itemResearchLevel.calibrationProgramDefinition.ThrowIfNull(ErrorCodes.ServerError);
+            var outputDefinition = (int)itemResearchLevel.calibrationProgramDefinition.ThrowIfNull(ErrorCodes.ServerError);
 
             //calculate 
             CalculateFinalResearchTimeSeconds(character, itemLevel, researchKitLevel, isPrototypeItem, out int researchTimeSeconds, out int levelDifferenceBonusPoints);
@@ -440,13 +440,13 @@ namespace Perpetuum.Services.ProductionEngine.Facilities
             replyDict.Add(k.calibrationProgram, itemResearchLevel.calibrationProgramDefinition);
 
             //collect real
-            realDict.Add(k.price, (long) price);
+            realDict.Add(k.price, (long)price);
             realDict.Add(k.researchTime, researchTimeSeconds);
             realDict.Add(k.materialEfficiency, materialEfficiency);
             realDict.Add(k.timeEfficiency, timeEfficiency);
 
             //collect nominal
-            nominalDict.Add(k.price, (long) nominalPrice);
+            nominalDict.Add(k.price, (long)nominalPrice);
             nominalDict.Add(k.researchTime, nominalResearchTimeSeconds);
             nominalDict.Add(k.materialEfficiency, nominalMaterialEfficiency);
             nominalDict.Add(k.timeEfficiency, nominalTimeEfficiency);

@@ -6,7 +6,7 @@ namespace Perpetuum.Groups.Corporations
     public interface IVolunteerCEOService
     {
         VolunteerCEO GetVolunteer(long corporationEid);
-        VolunteerCEO AddVolunteer(Corporation corporation,Character character);
+        VolunteerCEO AddVolunteer(Corporation corporation, Character character);
         void ClearVolunteer(VolunteerCEO volunteerCEO);
         IEnumerable<VolunteerCEO> GetExpiredVolunteers();
         void SendVolunteerStatusToMembers(VolunteerCEO volunteerCEO);

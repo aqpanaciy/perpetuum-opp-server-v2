@@ -23,7 +23,7 @@ namespace Perpetuum.RequestHandlers
                     .ExecuteNonQuery();
 
                 Message.Builder.FromRequest(request).WithError(ErrorCodes.YouAreHappyNow).Send();
-                
+
                 scope.Complete();
             }
         }

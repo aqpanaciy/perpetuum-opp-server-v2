@@ -23,7 +23,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             _missionInProgress = missionInProgress;
             _targetInProgress = targetInProgress;
             _estimation = estimation;
-            
+
         }
 
         private MissionTarget Target
@@ -42,7 +42,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             return _reward;
         }
 
-      
+
 
         private int GetQuantityOrProgress
         {
@@ -82,7 +82,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             _reward = reward * pMult;
 
             Log("est:" + _estimation + " lvl:" + level + " bRwe:" + reward + " pMult:" + pMult + " SUM:" + _reward + " for " + Target);
-            
+
         }
 
         private void PayAsArtifact()
@@ -96,10 +96,10 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
                 var reward = Target.Reward;
                 var pMult = GetRewardMultiplierByLevel(level);
 
-                dangerFee = pMult * quantity * reward; 
+                dangerFee = pMult * quantity * reward;
 
                 Log("artifact danger fee " + _reward + " for " + Target);
-                
+
             }
 
             PayReward();
@@ -111,7 +111,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         }
 
-      
+
 
         private void PayQuantityAndReward()
         {
@@ -121,26 +121,26 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
             var pMult = GetRewardMultiplierByLevel(level);
 
             _reward = pMult * quantity * reward;
-            
-            Log( "est:" + _estimation + " Q:" + quantity + " lvl:" + level + " bRwe:" + reward + " pMult:" + pMult + " SUM:" + _reward + " for " + Target);
+
+            Log("est:" + _estimation + " Q:" + quantity + " lvl:" + level + " bRwe:" + reward + " pMult:" + pMult + " SUM:" + _reward + " for " + Target);
 
         }
 
 
         public override void Visit_MissionTarget(MissionTarget missionTarget)
         {
-            
+
         }
 
         public override void Visit_RandomMissionTarget(RandomMissionTarget randomMissionTarget)
         {
-           
+
         }
-        
-        
+
+
         public override void Visit_MissionTarget_RND_loot_definition(LootRandomTarget lootRandomTarget)
         {
-           PayReward();
+            PayReward();
         }
 
         public override void Visit_MissionTarget_RND_pop_npc(PopNpcRandomTarget popNpcRandomTarget)
@@ -157,7 +157,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         {
             PayQuantityAndReward();
         }
-        
+
         public override void Visit_MissionTarget_RND_use_switch(UseSwitchRandomTarget useSwitchRandomTarget)
         {
             PayReward();
@@ -165,7 +165,7 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override void Visit_MissionTarget_RND_submit_item(SubmitItemRandomTarget submitItemRandomTarget)
         {
-           PayReward();
+            PayReward();
 
         }
 
@@ -181,9 +181,9 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
 
         public override void Visit_MissionTarget_RND_scan_mineral(ScanMineralRandomTarget scanMineralRandomTarget)
         {
-           PayReward();
+            PayReward();
         }
-        
+
         public override void Visit_MissionTarget_RND_drill_mineral(DrillMineralRandomTarget drillMineralRandomTarget)
         {
             PayAsMineral();
@@ -193,18 +193,18 @@ namespace Perpetuum.Services.MissionEngine.MissionTargets
         {
             PayAsMineral();
         }
-        
+
         public override void Visit_MissionTarget_RND_massproduce(MassproduceRandomTarget massproduceRandomTarget)
         {
             PayReward();
 
         }
-        
+
         public override void Visit_MissionTarget_RND_research(ResearchRandomTarget researchRandomTarget)
         {
-           PayReward();
+            PayReward();
         }
 
-        
+
     }
 }

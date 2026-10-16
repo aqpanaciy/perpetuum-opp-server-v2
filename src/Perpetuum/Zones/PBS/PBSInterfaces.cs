@@ -23,7 +23,7 @@ namespace Perpetuum.Zones.PBS
     public interface IPBSUsesCore
     {
         ICoreUseHandler CoreUseHandler { get; }
-        
+
         /// <summary>
         /// can be used to override/manipulate the config CoreConsuption
         /// 
@@ -33,7 +33,7 @@ namespace Perpetuum.Zones.PBS
         /// </summary>
         /// <param name="coreDemand"></param>
         /// <returns></returns>
-        bool TryCollectCoreConsumption(out double coreDemand); 
+        bool TryCollectCoreConsumption(out double coreDemand);
     }
 
     //ez tud tolteni coret ojanba aki accepteli
@@ -42,7 +42,7 @@ namespace Perpetuum.Zones.PBS
         ICorePumpHandler CorePumpHandler { get; }
     }
 
-    
+
     /// <summary>
     /// Feedable with items
     /// </summary>
@@ -51,17 +51,17 @@ namespace Perpetuum.Zones.PBS
         void FeedWithItems(Player player, IEnumerable<long> eids);
     }
 
-    public interface IPBSObject 
+    public interface IPBSObject
     {
         IPBSReinforceHandler ReinforceHandler { get; }
         IPBSConnectionHandler ConnectionHandler { get; }
 
-        ErrorCodes ModifyConstructionLevel(int amount,bool force = false); //modullal novesztik
+        ErrorCodes ModifyConstructionLevel(int amount, bool force = false); //modullal novesztik
         int ConstructionLevelMax { get; }
         int ConstructionLevelCurrent { get; } //ennyire van felnovesztve
 
         bool OnlineStatus { get; }
-        void SetOnlineStatus(bool state,bool checkNofBase,bool forcedByServer = false);
+        void SetOnlineStatus(bool state, bool checkNofBase, bool forcedByServer = false);
 
         void TakeOver(long newOwner);
         bool IsOrphaned { get; set; }
@@ -69,7 +69,7 @@ namespace Perpetuum.Zones.PBS
         int ZoneIdCached { get; }
         EntityDefault ED { get; }
 
-        event Action<Unit,bool /*orphanedState*/> OrphanedStateChanged;
+        event Action<Unit, bool /*orphanedState*/> OrphanedStateChanged;
 
         void SendNodeUpdate(PBSEventType eventType = PBSEventType.nodeUpdate);
     }
@@ -92,7 +92,7 @@ namespace Perpetuum.Zones.PBS
             return pbsObject.ConstructionLevelCurrent >= pbsObject.ConstructionLevelMax;
         }
 
-        public static bool IsReinforced(this IPBSObject  reinforcable)
+        public static bool IsReinforced(this IPBSObject reinforcable)
         {
             return reinforcable.ReinforceHandler.CurrentState.IsReinforced;
         }
@@ -106,16 +106,16 @@ namespace Perpetuum.Zones.PBS
             CheckAccessAndThrowIfFailed(unit.Owner, issuer);
         }
 
-        public static void CheckAccessAndThrowIfFailed<T>(this T pbsObject, Character issuer) where T : Unit,IPBSObject
+        public static void CheckAccessAndThrowIfFailed<T>(this T pbsObject, Character issuer) where T : Unit, IPBSObject
         {
-            CheckAccessAndThrowIfFailed(pbsObject.Owner,issuer);
+            CheckAccessAndThrowIfFailed(pbsObject.Owner, issuer);
         }
 
-        private static void CheckAccessAndThrowIfFailed(long owner,Character issuer)
+        private static void CheckAccessAndThrowIfFailed(long owner, Character issuer)
         {
             var corporation = issuer.GetPrivateCorporationOrThrow();
 
-            corporation.Eid.ThrowIfNotEqual(owner,ErrorCodes.OwnerMismatch);
+            corporation.Eid.ThrowIfNotEqual(owner, ErrorCodes.OwnerMismatch);
 
             corporation.GetMemberRole(issuer).IsAnyRole(
                 CorporationRole.DeputyCEO,
@@ -132,10 +132,10 @@ namespace Perpetuum.Zones.PBS
                 return 0;
 
             if (unit.ED.Config.bandwidthUsage != null)
-                return (int) unit.ED.Config.bandwidthUsage;
+                return (int)unit.ED.Config.bandwidthUsage;
 
             Logger.Error("consistency error. no bandwidth usage max was defined for definition: " + unit.Definition + " " + unit.ED.Name);
-            return 100; 
+            return 100;
         }
 
         public static void SendNodeDeployed(this IPBSObject node)

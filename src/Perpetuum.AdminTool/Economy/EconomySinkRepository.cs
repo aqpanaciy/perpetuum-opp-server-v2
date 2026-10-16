@@ -60,10 +60,10 @@ namespace Perpetuum.AdminTool.Economy
             await using var cn = new SqlConnection(_connection.BuildConnectionString());
             await cn.OpenAsync();
 
-            int  activePlayerCount    = await LoadActivePlayerCountAsync(cn);
-            long rawmatLast30         = await LoadRawmatLast30Async(cn);
-            double insurancePct       = await LoadInsuranceCoverageAsync(cn);
-            var nicOutRaw             = await LoadNicOutLast30Async(cn);
+            int activePlayerCount = await LoadActivePlayerCountAsync(cn);
+            long rawmatLast30 = await LoadRawmatLast30Async(cn);
+            double insurancePct = await LoadInsuranceCoverageAsync(cn);
+            var nicOutRaw = await LoadNicOutLast30Async(cn);
 
             var rows = NicOutOrder
                 .Select(name =>
@@ -72,9 +72,9 @@ namespace Perpetuum.AdminTool.Economy
                     long nicValue = name == "AutoMarket Raw Materials" ? rawmatLast30 : nic;
                     return new EconomySinkRow
                     {
-                        Category      = name,
+                        Category = name,
                         NicLast30Days = nicValue,
-                        NicPerPlayer  = activePlayerCount > 0 ? (double)nicValue / activePlayerCount : 0.0,
+                        NicPerPlayer = activePlayerCount > 0 ? (double)nicValue / activePlayerCount : 0.0,
                     };
                 })
                 .ToList();
@@ -82,17 +82,17 @@ namespace Perpetuum.AdminTool.Economy
             long totalNic = rows.Sum(r => r.NicLast30Days);
             rows.Add(new EconomySinkRow
             {
-                Category      = "Total NIC Out",
+                Category = "Total NIC Out",
                 NicLast30Days = totalNic,
-                NicPerPlayer  = activePlayerCount > 0 ? (double)totalNic / activePlayerCount : 0.0,
-                IsTotal       = true,
+                NicPerPlayer = activePlayerCount > 0 ? (double)totalNic / activePlayerCount : 0.0,
+                IsTotal = true,
             });
 
             return new EconomySinkData
             {
-                ActivePlayerCount    = activePlayerCount,
+                ActivePlayerCount = activePlayerCount,
                 InsuranceCoveragePct = insurancePct,
-                SinkRows             = rows,
+                SinkRows = rows,
             };
         }
 

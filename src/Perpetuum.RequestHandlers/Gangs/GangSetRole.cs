@@ -35,7 +35,7 @@ namespace Perpetuum.RequestHandlers.Gangs
                 _gangManager.SetRole(gang, member, newRole);
 
                 Message.Builder.FromRequest(request).WithOk().Send();
-                
+
                 scope.Complete();
             }
         }

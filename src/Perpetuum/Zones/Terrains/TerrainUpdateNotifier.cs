@@ -20,7 +20,7 @@ namespace Perpetuum.Zones.Terrains
         private int _dirty;
 
         private readonly Grid<UpdateHolderCell> _grid;
-        private ImmutableList<TerrainUpdateInfo>  _newUpdates = ImmutableList<TerrainUpdateInfo>.Empty;
+        private ImmutableList<TerrainUpdateInfo> _newUpdates = ImmutableList<TerrainUpdateInfo>.Empty;
 
         private class UpdateHolderCell : Cell
         {
@@ -92,7 +92,7 @@ namespace Perpetuum.Zones.Terrains
             var tilesPerCellX = zone.Size.Width / TILES_PER_CELL;
             var tilesPerCellY = zone.Size.Height / TILES_PER_CELL;
 
-            _grid = new Grid<UpdateHolderCell>(zone.Size.Width,zone.Size.Height,tilesPerCellX,tilesPerCellY,area =>
+            _grid = new Grid<UpdateHolderCell>(zone.Size.Width, zone.Size.Height, tilesPerCellX, tilesPerCellY, area =>
             {
                 var cell = new UpdateHolderCell(area);
 
@@ -119,12 +119,12 @@ namespace Perpetuum.Zones.Terrains
 
         public void Update()
         {
-            if ( _updatingGrid )
+            if (_updatingGrid)
                 return;
 
             DequeueNewUpdates();
 
-            if ( Interlocked.CompareExchange(ref _dirty,0,1) == 0)
+            if (Interlocked.CompareExchange(ref _dirty, 0, 1) == 0)
                 return;
 
             _updatingGrid = true;
@@ -152,7 +152,7 @@ namespace Perpetuum.Zones.Terrains
                     return ImmutableList<TerrainUpdateInfo>.Empty;
                 });
 
-                if ( infos == null )
+                if (infos == null)
                     return;
 
                 foreach (var info in infos)
@@ -191,7 +191,7 @@ namespace Perpetuum.Zones.Terrains
 
             foreach (var cell in _grid.GetCells())
             {
-                cell.Update(_zone.Terrain,_player, visibleArea);
+                cell.Update(_zone.Terrain, _player, visibleArea);
             }
         }
     }

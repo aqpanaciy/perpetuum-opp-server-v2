@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers.Extensions
                 character.ResetAllExtensions();
                 Message.Builder.FromRequest(request).WithOk().Send();
                 Logger.Info("extension was reset for character: " + character.Id);
-                
+
                 scope.Complete();
             }
         }

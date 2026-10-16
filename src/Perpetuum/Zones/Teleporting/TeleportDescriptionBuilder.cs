@@ -26,7 +26,7 @@ namespace Perpetuum.Zones.Teleporting
         public Teleport SourceTeleport => _sourceTeleport;
         public Teleport TargetTeleport => _targetTeleport;
 
-        public TeleportDescriptionBuilder(IZoneManager zoneManager,UnitHelper unitHelper)
+        public TeleportDescriptionBuilder(IZoneManager zoneManager, UnitHelper unitHelper)
         {
             _zoneManager = zoneManager;
             _unitHelper = unitHelper;

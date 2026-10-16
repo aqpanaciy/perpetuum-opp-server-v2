@@ -11,7 +11,7 @@ namespace Perpetuum.RequestHandlers
         private readonly ISteamManager _steamManager;
         private readonly IAccountRepository _accountRepository;
 
-        public SignInSteam(ISteamManager steamManager,IRelayStateService relayStateService, ISessionManager sessionManager, IAccountRepository accountRepository, ILoginQueueService loginQueueService) : base(relayStateService, sessionManager, accountRepository, loginQueueService)
+        public SignInSteam(ISteamManager steamManager, IRelayStateService relayStateService, ISessionManager sessionManager, IAccountRepository accountRepository, ILoginQueueService loginQueueService) : base(relayStateService, sessionManager, accountRepository, loginQueueService)
         {
             _steamManager = steamManager;
             _accountRepository = accountRepository;
@@ -19,7 +19,7 @@ namespace Perpetuum.RequestHandlers
 
         protected override Account LoadAccount(IRequest request)
         {
-            if ( _steamManager.SteamAppID <= 0 )
+            if (_steamManager.SteamAppID <= 0)
                 throw new PerpetuumException(ErrorCodes.SteamLoginDisabled);
 
             var encryptedTicket = request.Data.GetOrDefault<byte[]>("encData");

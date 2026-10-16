@@ -14,7 +14,7 @@ namespace Perpetuum.RequestHandlers
         private readonly IZoneManager _zoneManager;
         private readonly RobotHelper _robotHelper;
 
-        public GetRobotInfo(IZoneManager zoneManager,RobotHelper robotHelper)
+        public GetRobotInfo(IZoneManager zoneManager, RobotHelper robotHelper)
         {
             _zoneManager = zoneManager;
             _robotHelper = robotHelper;

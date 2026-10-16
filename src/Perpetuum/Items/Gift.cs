@@ -20,11 +20,11 @@ namespace Perpetuum.Items
                 var minQuantity = r.GetValue<int>("minquantity");
                 var maxQuantity = r.GetValue<int>("maxquantity");
                 var q = new IntRange(minQuantity, maxQuantity);
-                return new LootInfo(definition,q);
+                return new LootInfo(definition, q);
             }).ToList();
         }
-        
-        public Item Open(Container targetContainer,Character character)
+
+        public Item Open(Container targetContainer, Character character)
         {
             var randomLoot = _loots.RandomElement();
             var randomItem = (Item)Factory.CreateWithRandomEID(randomLoot.definition);

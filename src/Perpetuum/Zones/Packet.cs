@@ -25,7 +25,7 @@ namespace Perpetuum.Zones
 
         public Packet(byte[] byteArray) : base(byteArray)
         {
-            Debug.Assert(byteArray.Length >= HEADERSIZE,"invalid packet");
+            Debug.Assert(byteArray.Length >= HEADERSIZE, "invalid packet");
             Reset();
         }
 
@@ -44,7 +44,7 @@ namespace Perpetuum.Zones
         {
             set
             {
-                PutInt(1, (int)value);    
+                PutInt(1, (int)value);
             }
         }
 
@@ -52,7 +52,7 @@ namespace Perpetuum.Zones
         {
             set
             {
-                PutInt(9,value);
+                PutInt(9, value);
             }
         }
     }
@@ -82,7 +82,7 @@ namespace Perpetuum.Zones
             {
                 AppendInt(module.Definition);
                 AppendLong(module.Eid);
-                AppendByte((byte) module.Slot);
+                AppendByte((byte)module.Slot);
             }
             else
             {
@@ -127,7 +127,7 @@ namespace Perpetuum.Zones
         {
             AppendInt((int)CombatLogType.Error);
             AppendLong(module.Eid);
-            AppendByte((byte) module.Slot);
+            AppendByte((byte)module.Slot);
             AppendInt((int)errorCode);
         }
 
@@ -136,11 +136,11 @@ namespace Perpetuum.Zones
             var player = target as Player;
             player?.Session.SendPacket(this);
 
-            if ( target == otherTarget )
+            if (target == otherTarget)
                 return;
 
             var otherPlayer = otherTarget as Player;
             otherPlayer?.Session.SendPacket(this);
         }
-    }   
+    }
 }

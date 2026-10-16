@@ -13,11 +13,11 @@ namespace Perpetuum
             dest = t;
         }
 
-        public static int CombineHashCodes(int h1,int h2)
+        public static int CombineHashCodes(int h1, int h2)
         {
             unchecked
             {
-                return (((h1 << 5) + h1) ^ h2);             
+                return (((h1 << 5) + h1) ^ h2);
             }
         }
     }

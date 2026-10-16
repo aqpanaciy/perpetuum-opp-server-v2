@@ -44,11 +44,11 @@ namespace Perpetuum.Modules
                 success = true;
             }
 
-            var packet = new CombatLogPacket(CombatLogType.Jammer, robot,ParentRobot,this);
+            var packet = new CombatLogPacket(CombatLogType.Jammer, robot, ParentRobot, this);
 
             packet.AppendByte(success.ToByte());
-            packet.Send(ParentRobot,robot);
-            robot.OnCombatEvent(ParentRobot,new SensorJammerEventArgs(success));
+            packet.Send(ParentRobot, robot);
+            robot.OnCombatEvent(ParentRobot, new SensorJammerEventArgs(success));
         }
     }
 

@@ -4,7 +4,7 @@ using Perpetuum.Robots;
 
 namespace Perpetuum.Items
 {
-    public class ItemUnpacker : IEntityVisitor<Item>,IEntityVisitor<Robot>,IEntityVisitor<VolumeWrapperContainer>
+    public class ItemUnpacker : IEntityVisitor<Item>, IEntityVisitor<Robot>, IEntityVisitor<VolumeWrapperContainer>
     {
         private static readonly ItemUnpacker _default = new ItemUnpacker();
 

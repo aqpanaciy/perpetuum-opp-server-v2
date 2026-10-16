@@ -38,7 +38,7 @@ namespace Perpetuum.Zones.PBS
 
         protected virtual void OnConnectionCreated(PBSConnection pbsConnection)
         {
-           
+
         }
 
         protected virtual void OnConnectionDeleted(PBSConnection pbsConnection)
@@ -51,7 +51,7 @@ namespace Perpetuum.Zones.PBS
             if (!TryAcceptVisitor(this, visitor))
                 base.AcceptVisitor(visitor);
         }
-       
+
         public override ErrorCodes IsAttackable
         {
             get
@@ -119,7 +119,7 @@ namespace Perpetuum.Zones.PBS
 
         protected override void OnDead(Unit killer)
         {
-            _pbsObjectHelper.DropLootToZone(Zone,this,killer);
+            _pbsObjectHelper.DropLootToZone(Zone, this, killer);
             base.OnDead(killer);
         }
 
@@ -140,7 +140,7 @@ namespace Perpetuum.Zones.PBS
 
         public void SetOnlineStatus(bool state, bool checkNofBase, bool forcedByServer = false)
         {
-            _pbsObjectHelper.SetOnlineStatus(state,checkNofBase,forcedByServer);
+            _pbsObjectHelper.SetOnlineStatus(state, checkNofBase, forcedByServer);
         }
 
         public bool OnlineStatus => _pbsObjectHelper.OnlineStatus;
@@ -167,10 +167,10 @@ namespace Perpetuum.Zones.PBS
             //minden pbs node kell h csinalja, felepulest mentegeti pl stb
             _reinforceHandler.OnUpdate(time);
             _pbsObjectHelper.OnUpdate(time);
-            
+
             base.OnUpdate(time);
         }
-       
+
         protected virtual void OnOnlineStatusChanged(bool onlineStatus)
         {
         }

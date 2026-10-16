@@ -33,17 +33,17 @@ namespace Perpetuum.Zones.Scanning.Scanners
                         continue;
 
                     var amount = node.GetValue(location);
-                    if ( amount <= 0 )
+                    if (amount <= 0)
                         continue;
 
                     var m = _materialHelper.GetMaterialInfo(layer.Type);
                     var def = m.EntityDefault.Definition;
                     bb.AppendInt(def);
-                    bb.AppendInt((int) amount);
+                    bb.AppendInt((int)amount);
                     count++;
                 }
 
-                packet.AppendByte((byte) count);
+                packet.AppendByte((byte)count);
                 packet.AppendStream(bb);
             }
 

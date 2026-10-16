@@ -21,12 +21,12 @@ namespace Perpetuum.Zones.Environments
             return ConvertFromString(descriptionString);
         }
 
-        private static EntityEnvironmentDescription ConvertFromString(string descriptionString )
+        private static EntityEnvironmentDescription ConvertFromString(string descriptionString)
         {
             var nativeDescription = new EntityEnvironmentDescription();
 
             var descriptionObjects = GenxyConverter.Deserialize(descriptionString);
-            
+
             if (descriptionObjects.ContainsKey(k.blocks))
             {
                 var tileDict = (Dictionary<string, object>)descriptionObjects[k.blocks];
@@ -38,7 +38,7 @@ namespace Perpetuum.Zones.Environments
 
         private static List<Tile> ConvertTilesToList(Dictionary<string, object> tileDict)
         {
-            return tileDict.Values.Select(t => Tile.FromDictionary((Dictionary<string, object>) t)).ToList();
+            return tileDict.Values.Select(t => Tile.FromDictionary((Dictionary<string, object>)t)).ToList();
         }
 
         public static void WriteEnvironmentToSql(int definition, EntityEnvironmentDescription nativeEnvironmentData)
@@ -47,8 +47,8 @@ namespace Perpetuum.Zones.Environments
             Db.Query().CommandText("writeEnvironment")
                 .SetParameter("@definition", definition)
                 .SetParameter("@descriptionstring", descriptionString)
-                .ExecuteScalar<int>().ThrowIfEqual(0,ErrorCodes.SQLInsertError);
+                .ExecuteScalar<int>().ThrowIfEqual(0, ErrorCodes.SQLInsertError);
         }
-       
+
     }
 }
