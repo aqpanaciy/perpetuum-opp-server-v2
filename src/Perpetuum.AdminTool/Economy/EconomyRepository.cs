@@ -123,10 +123,16 @@ namespace Perpetuum.AdminTool.Economy
 
             // Splice AutoMarket rows into their fixed positions (they are not in the UNION query)
             var plasmaIdx = Array.IndexOf(NicInOrder, "AutoMarket Plasma");
-            if (plasmaIdx >= 0) nicIn[plasmaIdx] = plasmaRow;
+            if (plasmaIdx >= 0)
+            {
+                nicIn[plasmaIdx] = plasmaRow;
+            }
 
             var rawmatIdx = Array.IndexOf(NicOutOrder, "AutoMarket Raw Materials");
-            if (rawmatIdx >= 0) nicOut[rawmatIdx] = rawmatRow;
+            if (rawmatIdx >= 0)
+            {
+                nicOut[rawmatIdx] = rawmatRow;
+            }
 
             // Append bold Total rows
             nicIn.Add(new EconomyNicFlowRow

@@ -86,7 +86,10 @@ public partial class NewItemDialogViewModel : ObservableObject
                 PrototypePanel.SuggestName(BasicPanel.DefinitionName, "_pr");
             }
             if (e.PropertyName == nameof(BasicPanelViewModel.CategoryFlags))
+            {
                 ProductionPanel.UpdateCategory(BasicPanel.CategoryFlags);
+            }
+
             if (e.PropertyName is nameof(BasicPanelViewModel.IsCraftable)
                                  or nameof(BasicPanelViewModel.HasPrototype))
             {
@@ -129,7 +132,10 @@ public partial class NewItemDialogViewModel : ObservableObject
 
     private async Task LoadCloneAsync(int definition)
     {
-        if (!_existingRowsById.TryGetValue(definition, out var row)) return;
+        if (!_existingRowsById.TryGetValue(definition, out var row))
+        {
+            return;
+        }
 
         BasicPanel.LoadFromClone(row);
         CalibrationPanel.LoadFromClone(row, "_cprg");
@@ -216,26 +222,64 @@ public partial class NewItemDialogViewModel : ObservableObject
 
     private string? Validate()
     {
-        if (BasicPanel.HasErrors) return "Basic tab has errors — check Definition Name and Category Flags.";
-        if (IsCraftable && CalibrationPanel.HasErrors) return "Calibration Template tab has errors.";
-        if (IsCraftable && HasPrototype && PrototypePanel.HasErrors) return "Prototype tab has errors.";
-        if (StatsPanel.HasDuplicateFields()) return "Stats tab: duplicate aggregate field.";
-        if (IsCraftable && ProductionPanel.HasDuplicateIngredients()) return "Production tab: duplicate ingredient.";
-        if (IsCraftable && ResearchPanel.HasDuplicatePointTypes()) return "Research tab: duplicate point type.";
-        if (OptionsVisualPanel.HasDuplicateConfigColumns()) return "Options & Visual tab: duplicate config column.";
+        if (BasicPanel.HasErrors)
+        {
+            return "Basic tab has errors — check Definition Name and Category Flags.";
+        }
+
+        if (IsCraftable && CalibrationPanel.HasErrors)
+        {
+            return "Calibration Template tab has errors.";
+        }
+
+        if (IsCraftable && HasPrototype && PrototypePanel.HasErrors)
+        {
+            return "Prototype tab has errors.";
+        }
+
+        if (StatsPanel.HasDuplicateFields())
+        {
+            return "Stats tab: duplicate aggregate field.";
+        }
+
+        if (IsCraftable && ProductionPanel.HasDuplicateIngredients())
+        {
+            return "Production tab: duplicate ingredient.";
+        }
+
+        if (IsCraftable && ResearchPanel.HasDuplicatePointTypes())
+        {
+            return "Research tab: duplicate point type.";
+        }
+
+        if (OptionsVisualPanel.HasDuplicateConfigColumns())
+        {
+            return "Options & Visual tab: duplicate config column.";
+        }
+
         var tintError = OptionsVisualPanel.ValidateTintValues();
-        if (tintError != null) return tintError;
+        if (tintError != null)
+        {
+            return tintError;
+        }
+
         return null;
     }
 
     private List<string> SeedTranslations()
     {
         var seeded = new List<string>();
-        if (!_translationStore.DirectoryExists) return seeded;
+        if (!_translationStore.DirectoryExists)
+        {
+            return seeded;
+        }
 
         void TryAdd(string key)
         {
-            if (_translationStore.TryAddKey(key, out _)) seeded.Add(key);
+            if (_translationStore.TryAddKey(key, out _))
+            {
+                seeded.Add(key);
+            }
         }
 
         TryAdd(BasicPanel.DefinitionName);
@@ -259,15 +303,25 @@ public partial class NewItemDialogViewModel : ObservableObject
     {
         var sb = new StringBuilder();
         if (scriptPath != null)
+        {
             sb.AppendLine($"Item '{BasicPanel.DefinitionName}' written to script: {scriptPath}");
+        }
         else
+        {
             sb.AppendLine($"Item '{BasicPanel.DefinitionName}' created.");
+        }
+
         if (!_translationStore.DirectoryExists)
+        {
             sb.AppendLine("Warning: GameRoot not configured — translation keys were NOT seeded.");
+        }
         else if (seededKeys.Count > 0)
         {
             sb.AppendLine("Translation keys seeded:");
-            foreach (var k in seededKeys) sb.AppendLine($"  • {k}");
+            foreach (var k in seededKeys)
+            {
+                sb.AppendLine($"  • {k}");
+            }
         }
         return sb.ToString().TrimEnd();
     }

@@ -56,7 +56,10 @@ namespace Perpetuum.AdminTool.Seasons
 
         public static string GetEffectiveRateLabel(SeasonActivityType type, double pointsPerUnit, int unitScale)
         {
-            if (pointsPerUnit == 0) return "Disabled";
+            if (pointsPerUnit == 0)
+            {
+                return "Disabled";
+            }
 
             var pts = pointsPerUnit.ToString("0.##", CultureInfo.InvariantCulture);
             var scale = unitScale.ToString("N0", CultureInfo.InvariantCulture);

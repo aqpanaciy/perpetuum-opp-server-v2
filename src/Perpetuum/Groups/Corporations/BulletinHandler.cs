@@ -67,7 +67,9 @@ namespace Perpetuum.Groups.Corporations
                                 .ExecuteSingleRow();
 
             if (record == null)
+            {
                 return BulletinDescription.None;
+            }
 
             var bulletin = CreateBulletinDescriptionFromRecord(record);
             return bulletin;
@@ -200,7 +202,9 @@ namespace Perpetuum.Groups.Corporations
                              .ExecuteNonQuery();
 
             if (res == 0)
+            {
                 throw new PerpetuumException(ErrorCodes.SQLDeleteError);
+            }
         }
 
         public int InsertEntry(int bulletinID, int characterID, string entryText)
@@ -220,7 +224,9 @@ namespace Perpetuum.Groups.Corporations
                              .ExecuteNonQuery();
 
             if (res == 0)
+            {
                 throw new PerpetuumException(ErrorCodes.SQLDeleteError);
+            }
         }
 
         public int CountEntries(int bulletinID)

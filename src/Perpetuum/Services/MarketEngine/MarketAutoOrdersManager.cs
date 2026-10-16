@@ -41,7 +41,11 @@ namespace Perpetuum.Services.MarketEngine
 
         private void ConsolidateStatisticsAsync()
         {
-            if (_consolidating) return;
+            if (_consolidating)
+            {
+                return;
+            }
+
             _consolidating = true;
             _ = Task.Run(() =>
             {
@@ -53,7 +57,11 @@ namespace Perpetuum.Services.MarketEngine
 
         private void RecalculatePricesAndRenewOrdersAsync()
         {
-            if (_recalculating) return;
+            if (_recalculating)
+            {
+                return;
+            }
+
             _recalculating = true;
             _ = Task.Run(() =>
             {

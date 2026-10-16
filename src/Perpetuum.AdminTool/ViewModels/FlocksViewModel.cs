@@ -58,11 +58,19 @@ namespace Perpetuum.AdminTool.ViewModels
 
         private void OnRowPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (sender is not FlockRow row) return;
+            if (sender is not FlockRow row)
+            {
+                return;
+            }
+
             if (e.PropertyName == nameof(FlockRow.Definition))
+            {
                 row.DefinitionName = ResolveEntityName(row.Definition);
+            }
             else if (e.PropertyName == nameof(FlockRow.PresenceId))
+            {
                 row.PresenceName = ResolvePresenceName(row.PresenceId);
+            }
         }
 
         private string ResolveEntityName(int definition) =>
@@ -73,11 +81,22 @@ namespace Perpetuum.AdminTool.ViewModels
 
         private bool MatchesFilter(object obj)
         {
-            if (obj is not FlockRow row) return false;
-            if (string.IsNullOrWhiteSpace(FilterText)) return true;
+            if (obj is not FlockRow row)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(FilterText))
+            {
+                return true;
+            }
+
             var f = FilterText.Trim();
             if (int.TryParse(f, out var n))
+            {
                 return row.Id == n || row.PresenceId == n || row.Definition == n;
+            }
+
             return row.Name.Contains(f, StringComparison.OrdinalIgnoreCase)
                 || row.PresenceName.Contains(f, StringComparison.OrdinalIgnoreCase)
                 || row.DefinitionName.Contains(f, StringComparison.OrdinalIgnoreCase);
@@ -97,7 +116,11 @@ namespace Perpetuum.AdminTool.ViewModels
                 var load = await repo.LoadAllAsync();
 
                 PresencePicks.Clear();
-                foreach (var p in load.PresencePicks) PresencePicks.Add(p);
+                foreach (var p in load.PresencePicks)
+                {
+                    PresencePicks.Add(p);
+                }
+
                 _presencePicksById = PresencePicks.ToDictionary(p => p.Id, p => p);
 
                 Rows.Clear();
@@ -155,7 +178,11 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public void RemoveSelected()
         {
-            if (SelectedRow == null) return;
+            if (SelectedRow == null)
+            {
+                return;
+            }
+
             var row = SelectedRow;
             SelectedRow = null;
             Rows.Remove(row);
@@ -171,14 +198,21 @@ namespace Perpetuum.AdminTool.ViewModels
                 return;
             }
 
-            foreach (var c in changes) _queue.Add(c);
+            foreach (var c in changes)
+            {
+                _queue.Add(c);
+            }
 
             // New rows queued an INSERT but the IDENTITY hasn't returned a real id yet.
             // Roll forward only existing edited rows.
             var newOriginals = new Dictionary<int, FlockSnapshot>(Rows.Count);
             foreach (var row in Rows)
             {
-                if (row.IsNew) continue;
+                if (row.IsNew)
+                {
+                    continue;
+                }
+
                 row.RefreshOriginalFromCurrent();
                 newOriginals[row.Id] = row.Original;
             }

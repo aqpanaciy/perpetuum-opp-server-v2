@@ -85,7 +85,9 @@ namespace Perpetuum.Services.Seasons
                     int totalDaily = objectives.Count(o => o.IsDaily);
                     var poolObjs = objectives.Where(o => newPool.Contains(o.Id)).ToList();
                     if (poolObjs.Count > 0)
+                    {
                         AnnounceDailyPool(poolObjs, totalDaily);
+                    }
                 }
             }
 
@@ -105,7 +107,9 @@ namespace Perpetuum.Services.Seasons
             // Defence-in-depth: reject any season whose start_time has not yet arrived
             // (DB guard already handles this; this backstop covers clock skew / in-flight state).
             if (season != null && DateTime.UtcNow < season.StartTime)
+            {
                 season = null;
+            }
 
             if (season == null)
             {
@@ -125,7 +129,9 @@ namespace Perpetuum.Services.Seasons
 
                     var pending = _repository.GetPendingRecurringSeason();
                     if (pending != null)
+                    {
                         _repository.SetSeasonActive(pending.Id, true);
+                    }
                 }
                 return;
             }
@@ -152,7 +158,9 @@ namespace Perpetuum.Services.Seasons
                     int totalDaily = _activeObjectives.Count(o => o.IsDaily);
                     var poolObjs = _activeObjectives.Where(o => _dailyPool.Ids.Contains(o.Id)).ToList();
                     if (poolObjs.Count > 0)
+                    {
                         AnnounceDailyPool(poolObjs, totalDaily);
+                    }
                 }
             }
 
@@ -168,16 +176,22 @@ namespace Perpetuum.Services.Seasons
         {
             var season = _activeSeason;
             if (season == null || DateTime.UtcNow < season.StartTime || DateTime.UtcNow > season.EndTime)
+            {
                 return;
+            }
 
             var rates = _activeRates.Where(r => r.ActivityType == activityType).ToList();
             if (rates.Count == 0)
+            {
                 return;
+            }
 
             // DB lookup deferred until a rate match is confirmed — avoids 2 synchronous
             // ExecuteScalar round-trips on every high-frequency call (e.g. each weapon cycle).
             if (Character.Get(characterId).IsInTraining())
+            {
                 return;
+            }
 
             if (evt.CounterpartyAccountId.HasValue)
             {
@@ -185,7 +199,9 @@ namespace Perpetuum.Services.Seasons
                 var theirIp = GetMostRecentSessionIp(evt.CounterpartyAccountId.Value);
                 if (myIp != null && theirIp != null &&
                     string.Equals(myIp, theirIp, StringComparison.OrdinalIgnoreCase))
+                {
                     return;
+                }
             }
 
             double basePoints = 0;
@@ -196,7 +212,9 @@ namespace Perpetuum.Services.Seasons
             }
 
             if (basePoints <= 0)
+            {
                 return;
+            }
 
             double newTotal = season.ScoringMode == SeasonScoringMode.ActivityAndGlobal
                 ? _repository.AddPoints(characterId, season.Id, basePoints)
@@ -207,10 +225,14 @@ namespace Perpetuum.Services.Seasons
             foreach (var obj in _activeObjectives.Where(o => o.ActivityType == activityType))
             {
                 if (obj.TargetDefinitionId.HasValue && obj.TargetDefinitionId != evt.DefinitionId)
+                {
                     continue;
+                }
 
                 if (obj.IsDaily && season.DailyObjectivesPerDay.HasValue && !_dailyPool.Ids.Contains(obj.Id))
+                {
                     continue;
+                }
 
                 DateTime dayWindow = obj.IsDaily
                     ? dailyWindow
@@ -227,7 +249,9 @@ namespace Perpetuum.Services.Seasons
                         SendObjectiveCompleteMail(characterId, obj, newTotal);
 
                         if (obj.IsDaily && (obj.PackageId.HasValue || obj.EquipmentSetId.HasValue))
+                        {
                             DeliverObjectiveReward(characterId, obj.PackageId, obj.EquipmentSetId);
+                        }
                     }
                 }
             }
@@ -239,7 +263,9 @@ namespace Perpetuum.Services.Seasons
                          .OrderBy(t => t.TierNumber))
             {
                 if (_repository.InsertTierClaim(characterId, season.Id, tier.Id))
+                {
                     DeliverTierReward(characterId, tier, newTotal);
+                }
             }
         }
 
@@ -271,7 +297,10 @@ namespace Perpetuum.Services.Seasons
             {
                 var items = _repository.GetPackageItems(tier.PackageId.Value);
                 if (items.Count == 0)
+                {
                     return;
+                }
+
                 _repository.InsertRedeemableItems(character.AccountId, tier.PackageId.Value, items);
                 SendTierUnlockMail(characterId, tier, currentPoints, items);
             }
@@ -302,7 +331,10 @@ namespace Perpetuum.Services.Seasons
             {
                 var items = _repository.GetPackageItems(packageId.Value);
                 if (items.Count == 0)
+                {
                     return;
+                }
+
                 _repository.InsertRedeemableItems(character.AccountId, packageId.Value, items);
             }
             else
@@ -333,7 +365,10 @@ namespace Perpetuum.Services.Seasons
             {
                 var items = _repository.GetPackageItems(reward.PackageId.Value);
                 if (items.Count == 0)
+                {
                     return false;
+                }
+
                 _repository.InsertRedeemableItems(character.AccountId, reward.PackageId.Value, items);
                 return true;
             }
@@ -353,10 +388,16 @@ namespace Perpetuum.Services.Seasons
         public int RedeliverLeaderboardRewards(int seasonId)
         {
             var season = _repository.GetSeasonById(seasonId);
-            if (season == null) return -1;
+            if (season == null)
+            {
+                return -1;
+            }
 
             var leaderboard = _repository.GetLeaderboardRewards(seasonId);
-            if (leaderboard.Count == 0) return 0;
+            if (leaderboard.Count == 0)
+            {
+                return 0;
+            }
 
             // Load all participants sorted by total_points DESC — index+1 is the player's rank.
             var rankings = _repository.GetParticipantRankings(seasonId)
@@ -367,7 +408,10 @@ namespace Perpetuum.Services.Seasons
             for (int rank = 1; rank <= rankings.Count; rank++)
             {
                 var entry = rankings[rank - 1];
-                if (entry.LeaderboardRewardDelivered) continue;
+                if (entry.LeaderboardRewardDelivered)
+                {
+                    continue;
+                }
 
                 try
                 {
@@ -410,7 +454,9 @@ namespace Perpetuum.Services.Seasons
             {
                 var entry = rankings[rank - 1];
                 if (entry.LeaderboardRewardDelivered)
+                {
                     continue;
+                }
 
                 try
                 {
@@ -418,7 +464,10 @@ namespace Perpetuum.Services.Seasons
                     bool rewardDelivered = reward != null && DeliverLeaderboardReward(entry.CharacterId, reward);
 
                     if (reward == null || rewardDelivered)
+                    {
                         _repository.MarkLeaderboardDelivered(entry.CharacterId, season.Id);
+                    }
+
                     SendFinalStandingsMail(entry.CharacterId, rank, entry.TotalPoints,
                         rewardDelivered, season.Name);
                 }
@@ -450,20 +499,27 @@ namespace Perpetuum.Services.Seasons
                 chatMessage.AppendLine($"  #{i + 1}: {charName} - {r.TotalPoints:N2} pts");
             }
             if (rankings.Count > displayCount)
+            {
                 chatMessage.AppendLine($"  ... and {rankings.Count - displayCount} more");
+            }
+
             chatMessage.AppendLine();
             chatMessage.AppendLine("Thanks for participating! Stay tuned for the next season.");
 
             _channelManager.Value.Announcement(SeasonChannelName, _announcer.Value, chatMessage.ToString());
 
             if (season.IsRecurring && !_repository.HasFutureClone(season))
+            {
                 _repository.CloneSeasonForNextIteration(season);
+            }
         }
 
         internal void AnnounceLeaderboard(Season? season)
         {
             if (season == null || _activeSeason == null || DateTime.UtcNow > season.EndTime)
+            {
                 return;
+            }
 
             var rankings = _repository.GetParticipantRankings(season.Id)
                 .Where(r => !Character.Get(r.CharacterId).IsInTraining())
@@ -471,7 +527,10 @@ namespace Perpetuum.Services.Seasons
             int displayCount = Math.Min(10, rankings.Count);
 
             if (displayCount == 0)
+            {
                 return;
+            }
+
             var chatMessage = new StringBuilder();
             chatMessage.AppendLine();
             chatMessage.AppendLine($"Top {displayCount} of this season:");
@@ -493,7 +552,9 @@ namespace Perpetuum.Services.Seasons
             int n = season.DailyObjectivesPerDay!.Value;
             var daily = objectives.Where(o => o.IsDaily).ToList();
             if (n >= daily.Count)
+            {
                 return daily.Select(o => o.Id).ToImmutableHashSet();
+            }
 
             int seed = season.Id * 397 ^ day.DayNumber;
             var rng = new Random(seed);
@@ -511,7 +572,10 @@ namespace Perpetuum.Services.Seasons
             sb.AppendLine();
             sb.AppendLine($"Today's daily objectives ({pool.Count} of {totalDailyCount}):");
             foreach (var obj in pool)
+            {
                 sb.AppendLine($"  — {obj.Name}: {obj.Description}");
+            }
+
             sb.AppendLine();
             sb.AppendLine("Complete them for bonus season points and rewards!");
             _channelManager.Value.PinnedAnnouncement(SeasonChannelName, _announcer.Value, sb.ToString(), PinSlot.DailyPool);
@@ -583,7 +647,10 @@ namespace Perpetuum.Services.Seasons
             string subject = $"Season Ended: {seasonName}";
             string body = $"The season '{seasonName}' has ended.\n\nYour final rank: #{rank}\nTotal points: {total:N2}";
             if (hasLeaderboardReward)
+            {
                 body += "\n\nYou earned a leaderboard reward! Redeem it at any terminal.";
+            }
+
             MailHandler.SendMail(_announcer.Value, character, subject, body,
                 MailType.character, out _, out _);
         }
@@ -603,13 +670,17 @@ namespace Perpetuum.Services.Seasons
 
             var announcementParts = BuildSeasonAnnouncementParts(season);
             foreach (var part in announcementParts)
+            {
                 _channelManager.Value.Announcement(SeasonChannelName, _announcer.Value, part);
+            }
 
             foreach (var profile in _characterProfileRepository.GetAll())
             {
                 var character = profile.character;
                 if (character == null || character == Character.None)
+                {
                     continue;
+                }
 
                 if (_repository.TryMarkAnnouncementMailSent(character.Id, season.Id))
                 {
@@ -638,7 +709,9 @@ namespace Perpetuum.Services.Seasons
                          .OrderBy(objective => objective.DisplayOrder))
             {
                 if (previousActivityType.HasValue && previousActivityType.Value != objective.ActivityType)
+                {
                     announcement.AppendLine();
+                }
 
                 announcement.AppendLine($"{objective.Name} - {objective.Description}");
                 previousActivityType = objective.ActivityType;
@@ -646,7 +719,9 @@ namespace Perpetuum.Services.Seasons
 
             announcement.AppendLine().AppendLine("Tiers:").AppendLine();
             foreach (var tier in _activeTiers.OrderBy(tier => tier.TierNumber))
+            {
                 announcement.AppendLine($"{tier.TierName} - {tier.PointsRequired}");
+            }
 
             // Discord prefixes bridged messages with **<nick>**: . Leave room for that prefix.
             int maxPartLength = DiscordMessageMaxLength - $"**<{_announcer.Value.Nick}>**: ".Length;
@@ -662,16 +737,22 @@ namespace Perpetuum.Services.Seasons
             {
                 int breakAt = message.LastIndexOf('\n', offset + maxPartLength - 1, maxPartLength);
                 if (breakAt < offset)
+                {
                     breakAt = offset + maxPartLength;
+                }
                 else
+                {
                     breakAt++;
+                }
 
                 parts.Add(message.Substring(offset, breakAt - offset));
                 offset = breakAt;
             }
 
             if (offset < message.Length)
+            {
                 parts.Add(message.Substring(offset));
+            }
 
             return parts;
         }
@@ -687,7 +768,10 @@ namespace Perpetuum.Services.Seasons
         private static string Translate(string key, Dictionary<string, object>? dict)
         {
             if (dict != null && dict.TryGetValue(key, out var val) && val is string s && s.Length > 0)
+            {
                 return s;
+            }
+
             return key;
         }
 

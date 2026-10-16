@@ -58,11 +58,19 @@ namespace Perpetuum.AdminTool.ViewModels
 
         private void OnRowPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (sender is not RobotTemplateRelationRow row) return;
+            if (sender is not RobotTemplateRelationRow row)
+            {
+                return;
+            }
+
             if (e.PropertyName == nameof(RobotTemplateRelationRow.TemplateId))
+            {
                 row.TemplateName = ResolveTemplateName(row.TemplateId);
+            }
             else if (e.PropertyName == nameof(RobotTemplateRelationRow.Definition))
+            {
                 row.DefinitionName = ResolveEntityName(row.Definition);
+            }
         }
 
         private string ResolveEntityName(int definition) =>
@@ -73,11 +81,22 @@ namespace Perpetuum.AdminTool.ViewModels
 
         private bool MatchesFilter(object obj)
         {
-            if (obj is not RobotTemplateRelationRow row) return false;
-            if (string.IsNullOrWhiteSpace(FilterText)) return true;
+            if (obj is not RobotTemplateRelationRow row)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(FilterText))
+            {
+                return true;
+            }
+
             var f = FilterText.Trim();
             if (int.TryParse(f, out var n))
+            {
                 return row.Definition == n || row.TemplateId == n;
+            }
+
             return row.DefinitionName.Contains(f, StringComparison.OrdinalIgnoreCase)
                 || row.TemplateName.Contains(f, StringComparison.OrdinalIgnoreCase);
         }
@@ -169,7 +188,11 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public void RemoveSelected()
         {
-            if (SelectedRow == null) return;
+            if (SelectedRow == null)
+            {
+                return;
+            }
+
             var row = SelectedRow;
             SelectedRow = null;
             Rows.Remove(row);
@@ -201,7 +224,10 @@ namespace Perpetuum.AdminTool.ViewModels
                 return;
             }
 
-            foreach (var c in changes) _queue.Add(c);
+            foreach (var c in changes)
+            {
+                _queue.Add(c);
+            }
 
             // Roll the baseline forward: edited / new rows now reflect the post-commit state.
             // Re-key by current Definition because that's what the next save's WHERE clause should target.

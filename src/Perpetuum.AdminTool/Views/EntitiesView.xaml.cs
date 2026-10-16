@@ -16,18 +16,28 @@ namespace Perpetuum.AdminTool.Views
 
         private async void OnReloadClick(object sender, RoutedEventArgs e)
         {
-            if (Vm == null) return;
+            if (Vm == null)
+            {
+                return;
+            }
+
             await Vm.ReloadAsync();
         }
 
         private void OnNewEntityClick(object sender, RoutedEventArgs e)
         {
-            if (Vm == null) return;
+            if (Vm == null)
+            {
+                return;
+            }
 
             while (true)
             {
                 var win = new NewEntityWindow { Owner = Window.GetWindow(this) };
-                if (win.ShowDialog() != true) return;
+                if (win.ShowDialog() != true)
+                {
+                    return;
+                }
 
                 if (Vm.TryAddNew(win.ViewModel.DefinitionName, out var error))
                 {
@@ -42,13 +52,20 @@ namespace Perpetuum.AdminTool.Views
         private void OnCategoryTreeSelectedItemChanged(
             object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (Vm == null) return;
+            if (Vm == null)
+            {
+                return;
+            }
+
             Vm.SelectedCategoryNode = e.NewValue as CategoryFlagsNode;
         }
 
         private void OnShowAllCategoriesClick(object sender, RoutedEventArgs e)
         {
-            if (Vm == null) return;
+            if (Vm == null)
+            {
+                return;
+            }
 
             // Collapse the TreeView's selection, then null the VM filter.
             // Walking containers to deselect the current item programmatically is fragile;
@@ -69,7 +86,11 @@ namespace Perpetuum.AdminTool.Views
 
         private void OnApplyCategoryClick(object sender, RoutedEventArgs e)
         {
-            if (Vm == null) return;
+            if (Vm == null)
+            {
+                return;
+            }
+
             if (!Vm.ApplySelectedCategoryToCurrentRow(out var error))
             {
                 MessageBox.Show(Window.GetWindow(this), error, "Cannot apply category",

@@ -25,7 +25,9 @@ namespace Perpetuum.Data
             {
                 var o = objects[index];
                 if (o == null)
+                {
                     continue;
+                }
 
                 unchecked
                 {
@@ -50,7 +52,9 @@ namespace Perpetuum.Data
             var result = new Dictionary<string, object>();
 
             if (o == null)
+            {
                 return result;
+            }
 
             foreach (var propertyInfo in o.GetType().GetProperties())
             {
@@ -110,8 +114,15 @@ namespace Perpetuum.Data
                     var first = true;
                     foreach (var key in whereDictionary.Keys)
                     {
-                        if (first) first = false;
-                        else commandText += " AND ";
+                        if (first)
+                        {
+                            first = false;
+                        }
+                        else
+                        {
+                            commandText += " AND ";
+                        }
+
                         commandText += string.Format("{0} = @{0}", key);
                     }
                 }

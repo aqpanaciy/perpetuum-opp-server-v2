@@ -18,7 +18,11 @@ namespace Perpetuum.AdminTool.Export
             await cn.OpenAsync();
 
             var (seasonName, seasonDesc) = await LoadSeasonHeaderAsync(seasonId, cn);
-            if (string.IsNullOrEmpty(seasonName)) return string.Empty;
+            if (string.IsNullOrEmpty(seasonName))
+            {
+                return string.Empty;
+            }
+
             var seasonVar = $"(SELECT id FROM seasons WHERE name = {SqlLiteral.Of(seasonName)})";
 
             var (packageIds, setIds) = await CollectRewardRefsAsync(seasonId, cn);
@@ -56,7 +60,11 @@ namespace Perpetuum.AdminTool.Export
             cmd.CommandText = "SELECT name, description FROM seasons WHERE id = @id";
             cmd.Parameters.AddWithValue("@id", seasonId);
             await using var r = await cmd.ExecuteReaderAsync();
-            if (!await r.ReadAsync()) return ("", "");
+            if (!await r.ReadAsync())
+            {
+                return ("", "");
+            }
+
             return (r.IsDBNull(0) ? "" : r.GetString(0), r.IsDBNull(1) ? "" : r.GetString(1));
         }
 
@@ -79,8 +87,15 @@ namespace Perpetuum.AdminTool.Export
             await using var r = await cmd.ExecuteReaderAsync();
             while (await r.ReadAsync())
             {
-                if (!r.IsDBNull(0)) packageIds.Add(r.GetInt32(0));
-                if (!r.IsDBNull(1)) setIds.Add(r.GetInt32(1));
+                if (!r.IsDBNull(0))
+                {
+                    packageIds.Add(r.GetInt32(0));
+                }
+
+                if (!r.IsDBNull(1))
+                {
+                    setIds.Add(r.GetInt32(1));
+                }
             }
             return (packageIds, setIds);
         }
@@ -88,29 +103,47 @@ namespace Perpetuum.AdminTool.Export
         private static async Task CollectPackageItemDefsAsync(
             HashSet<int> packageIds, HashSet<int> defIds, SqlConnection cn)
         {
-            if (packageIds.Count == 0) return;
+            if (packageIds.Count == 0)
+            {
+                return;
+            }
+
             var list = string.Join(",", packageIds);
             await using var cmd = cn.CreateCommand();
             cmd.CommandText = $"SELECT DISTINCT definition FROM packageitems WHERE packageid IN ({list})";
             await using var r = await cmd.ExecuteReaderAsync();
-            while (await r.ReadAsync()) defIds.Add(r.GetInt32(0));
+            while (await r.ReadAsync())
+            {
+                defIds.Add(r.GetInt32(0));
+            }
         }
 
         private static async Task CollectSetMemberDefsAsync(
             HashSet<int> setIds, HashSet<int> defIds, SqlConnection cn)
         {
-            if (setIds.Count == 0) return;
+            if (setIds.Count == 0)
+            {
+                return;
+            }
+
             var list = string.Join(",", setIds);
             await using var cmd = cn.CreateCommand();
             cmd.CommandText = $"SELECT DISTINCT definition FROM equipment_set_members WHERE set_id IN ({list})";
             await using var r = await cmd.ExecuteReaderAsync();
-            while (await r.ReadAsync()) defIds.Add(r.GetInt32(0));
+            while (await r.ReadAsync())
+            {
+                defIds.Add(r.GetInt32(0));
+            }
         }
 
         private static async Task AddPackagesMergeAsync(
             List<RawSqlChange> changes, HashSet<int> packageIds, SqlConnection cn)
         {
-            if (packageIds.Count == 0) return;
+            if (packageIds.Count == 0)
+            {
+                return;
+            }
+
             var list = string.Join(",", packageIds);
             await using var cmd = cn.CreateCommand();
             cmd.CommandText = $"SELECT id, name FROM packages WHERE id IN ({list}) ORDER BY id";
@@ -126,13 +159,19 @@ namespace Perpetuum.AdminTool.Export
                     $"WHEN NOT MATCHED THEN INSERT (name) VALUES (src.name);");
             }
             if (sb.Length > 0)
+            {
                 changes.Add(new RawSqlChange("packages: merge reward packages", sb.ToString().TrimEnd()));
+            }
         }
 
         private static async Task AddPackageItemsMergeAsync(
             List<RawSqlChange> changes, HashSet<int> packageIds, SqlConnection cn)
         {
-            if (packageIds.Count == 0) return;
+            if (packageIds.Count == 0)
+            {
+                return;
+            }
+
             var list = string.Join(",", packageIds);
             await using var cmd = cn.CreateCommand();
             cmd.CommandText =
@@ -158,13 +197,19 @@ namespace Perpetuum.AdminTool.Export
                     $"VALUES (src.packageid, src.definition, {quantity});");
             }
             if (sb.Length > 0)
+            {
                 changes.Add(new RawSqlChange("packageitems: merge reward package items", sb.ToString().TrimEnd()));
+            }
         }
 
         private static async Task AddEquipmentSetsMergeAsync(
             List<RawSqlChange> changes, HashSet<int> setIds, SqlConnection cn)
         {
-            if (setIds.Count == 0) return;
+            if (setIds.Count == 0)
+            {
+                return;
+            }
+
             var list = string.Join(",", setIds);
             await using var cmd = cn.CreateCommand();
             cmd.CommandText = $"SELECT set_id, name FROM equipment_sets WHERE set_id IN ({list}) ORDER BY set_id";
@@ -180,13 +225,19 @@ namespace Perpetuum.AdminTool.Export
                     $"WHEN NOT MATCHED THEN INSERT (name) VALUES (src.name);");
             }
             if (sb.Length > 0)
+            {
                 changes.Add(new RawSqlChange("equipment_sets: merge reward sets", sb.ToString().TrimEnd()));
+            }
         }
 
         private static async Task AddEquipmentSetMembersAsync(
             List<RawSqlChange> changes, HashSet<int> setIds, SqlConnection cn)
         {
-            if (setIds.Count == 0) return;
+            if (setIds.Count == 0)
+            {
+                return;
+            }
+
             var list = string.Join(",", setIds);
             await using var cmd = cn.CreateCommand();
             cmd.CommandText =
@@ -209,13 +260,19 @@ namespace Perpetuum.AdminTool.Export
                     $"WHEN NOT MATCHED THEN INSERT (set_id, definition) VALUES (src.set_id, src.definition);");
             }
             if (sb.Length > 0)
+            {
                 changes.Add(new RawSqlChange("equipment_set_members: merge set assignments", sb.ToString().TrimEnd()));
+            }
         }
 
         private static async Task AddEquipmentSetThresholdsAsync(
             List<RawSqlChange> changes, HashSet<int> setIds, SqlConnection cn)
         {
-            if (setIds.Count == 0) return;
+            if (setIds.Count == 0)
+            {
+                return;
+            }
+
             var list = string.Join(",", setIds);
             await using var cmd = cn.CreateCommand();
             cmd.CommandText =
@@ -243,7 +300,9 @@ namespace Perpetuum.AdminTool.Export
                     $"VALUES (src.set_id, src.required_pieces, {fieldVar}, {bonusVal});");
             }
             if (sb.Length > 0)
+            {
                 changes.Add(new RawSqlChange("equipment_set_bonus_thresholds: merge set thresholds", sb.ToString().TrimEnd()));
+            }
         }
 
         private static async Task AddSeasonMergeAsync(
@@ -256,7 +315,10 @@ namespace Perpetuum.AdminTool.Export
                 "FROM seasons WHERE id = @id";
             cmd.Parameters.AddWithValue("@id", seasonId);
             await using var r = await cmd.ExecuteReaderAsync();
-            if (!await r.ReadAsync()) return;
+            if (!await r.ReadAsync())
+            {
+                return;
+            }
 
             var start = $"'{r.GetDateTime(0):yyyy-MM-ddTHH:mm:ss}'";
             var end = $"'{r.GetDateTime(1):yyyy-MM-ddTHH:mm:ss}'";
@@ -294,15 +356,24 @@ namespace Perpetuum.AdminTool.Export
             var rows = new List<(int Type, double Pts, int Scale)>();
             await using var r = await cmd.ExecuteReaderAsync();
             while (await r.ReadAsync())
+            {
                 rows.Add((r.GetInt32(0), r.GetDouble(1), r.GetInt32(2)));
-            if (rows.Count == 0) return;
+            }
+
+            if (rows.Count == 0)
+            {
+                return;
+            }
 
             var sb = new StringBuilder();
             sb.AppendLine($"DELETE FROM season_activity_rates WHERE season_id = {seasonVar};");
             foreach (var (type, pts, scale) in rows)
+            {
                 sb.AppendLine(
                     $"INSERT INTO season_activity_rates (season_id, activity_type, points_per_unit, unit_scale) " +
                     $"VALUES ({seasonVar}, {type}, {pts.ToString("R", CultureInfo.InvariantCulture)}, {scale});");
+            }
+
             changes.Add(new RawSqlChange($"season_activity_rates: {rows.Count} rate(s)", sb.ToString().TrimEnd()));
         }
 
@@ -349,7 +420,9 @@ namespace Perpetuum.AdminTool.Export
                     $"VALUES (src.season_id, {name}, {desc}, {actType}, {targetVal}, {bonus}, {order}, {isDaily}, {pkgId}, {targetDef}, {setId});");
             }
             if (count > 0)
+            {
                 changes.Add(new RawSqlChange($"season_objectives: {count} objective(s)", sb.ToString().TrimEnd()));
+            }
         }
 
         private static async Task AddTiersAsync(
@@ -385,7 +458,9 @@ namespace Perpetuum.AdminTool.Export
                     $"VALUES (src.season_id, src.tier_number, {tierName}, {pts}, {pkgId}, {setId});");
             }
             if (count > 0)
+            {
                 changes.Add(new RawSqlChange($"season_tiers: {count} tier(s)", sb.ToString().TrimEnd()));
+            }
         }
 
         private static async Task AddLeaderboardRewardsAsync(
@@ -420,7 +495,9 @@ namespace Perpetuum.AdminTool.Export
                     $"VALUES (src.season_id, src.rank_min, src.rank_max, {pkgId}, {setId});");
             }
             if (count > 0)
+            {
                 changes.Add(new RawSqlChange($"season_leaderboard_rewards: {count} reward(s)", sb.ToString().TrimEnd()));
+            }
         }
     }
 }

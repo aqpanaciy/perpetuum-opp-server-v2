@@ -71,7 +71,9 @@ namespace Perpetuum.PathFinders
 
                     // already processed this stamp -> skip
                     if (stamp == _currentStamp)
+                    {
                         continue;
+                    }
 
                     // set parent and mark with current stamp
                     _closedList[idx] = (_currentStamp << 22) | node.HashCode;
@@ -118,7 +120,9 @@ namespace Perpetuum.PathFinders
 
                 uint parent = list[hash] & 0x3FFFFF;
                 if (parent == (uint)hash)
+                {
                     break;
+                }
 
                 hash = (int)parent;
             }
@@ -139,10 +143,14 @@ namespace Perpetuum.PathFinders
                 int ny = (int)node.Y + dy;
 
                 if (nx < 0 || ny < 0 || nx >= W_H || ny >= W_H)
+                {
                     continue;
+                }
 
                 if (!passable(nx, ny))
+                {
                     continue;
+                }
 
                 int cost = node.G + ((dx == 0 || dy == 0) ? WEIGHT : WEIGHT_DIAG);
                 yield return new Node((uint)nx, (uint)ny, cost);

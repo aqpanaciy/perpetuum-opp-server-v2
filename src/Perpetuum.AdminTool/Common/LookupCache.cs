@@ -73,7 +73,11 @@ namespace Perpetuum.AdminTool.Common
                 names[def] = name;
             }
             Entities.Clear();
-            foreach (var p in fresh) Entities.Add(p);
+            foreach (var p in fresh)
+            {
+                Entities.Add(p);
+            }
+
             EntityNamesByDefinition = names;
         }
 
@@ -92,7 +96,11 @@ namespace Perpetuum.AdminTool.Common
                 names[id] = name;
             }
             Templates.Clear();
-            foreach (var p in fresh) Templates.Add(p);
+            foreach (var p in fresh)
+            {
+                Templates.Add(p);
+            }
+
             TemplateNamesById = names;
         }
     }

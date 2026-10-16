@@ -17,13 +17,21 @@ namespace Perpetuum.AdminTool.Views
 
         private void OnOkClick(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.Selected == null) return;
+            if (ViewModel.Selected == null)
+            {
+                return;
+            }
+
             DialogResult = true;
         }
 
         private void OnDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (ViewModel.Selected == null) return;
+            if (ViewModel.Selected == null)
+            {
+                return;
+            }
+
             DialogResult = true;
         }
 

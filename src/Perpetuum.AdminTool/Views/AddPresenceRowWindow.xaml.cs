@@ -13,7 +13,11 @@ namespace Perpetuum.AdminTool.Views
         {
             InitializeComponent();
             ViewModel = new AddPresenceRowViewModel();
-            foreach (var p in zoneSpawnPicks) ViewModel.ZoneSpawnPicks.Add(p);
+            foreach (var p in zoneSpawnPicks)
+            {
+                ViewModel.ZoneSpawnPicks.Add(p);
+            }
+
             DataContext = ViewModel;
         }
 

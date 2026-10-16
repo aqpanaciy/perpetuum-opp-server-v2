@@ -46,14 +46,18 @@ namespace Perpetuum.Network
 
             // Non-positive means the clock moved backwards or two touches raced. Neither is a gap.
             if (gap <= 0)
+            {
                 return;
+            }
 
             long widest = Interlocked.Read(ref _longestGapTicks);
             while (gap > widest)
             {
                 long actual = Interlocked.CompareExchange(ref _longestGapTicks, gap, widest);
                 if (actual == widest)
+                {
                     return;
+                }
 
                 widest = actual;
             }

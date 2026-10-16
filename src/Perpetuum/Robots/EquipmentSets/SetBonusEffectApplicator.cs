@@ -13,7 +13,9 @@ namespace Perpetuum.Robots.EquipmentSets
         public void Update(Robot robot, IReadOnlyDictionary<int, IReadOnlyList<ItemPropertyModifier>> modifiersPerSet)
         {
             if (!robot.InZone)
+            {
                 return;
+            }
 
             // Remove effects for sets no longer active
             foreach (int setId in _activeTokens.Keys.Except(modifiersPerSet.Keys).ToList())
@@ -27,7 +29,9 @@ namespace Perpetuum.Robots.EquipmentSets
             {
                 int newCount = modifiersPerSet[setId].Count;
                 if (_activeTokens[setId].ModifierCount == newCount)
+                {
                     continue;
+                }
 
                 robot.EffectHandler.RemoveEffectByToken(_activeTokens[setId].Token);
                 _activeTokens.Remove(setId);

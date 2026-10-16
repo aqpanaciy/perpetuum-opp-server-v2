@@ -28,8 +28,7 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public ObservableCollection<AutoMarketCoveredMaterialRow> Rows { get; } = new();
 
-        public IEnumerable<AutoMarketCoveredMaterialRow> FilteredRows =>
-            _showOverridesOnly ? Rows.Where(r => r.HasOverride) : (IEnumerable<AutoMarketCoveredMaterialRow>)Rows;
+        public IEnumerable<AutoMarketCoveredMaterialRow> FilteredRows => ShowOverridesOnly ? Rows.Where(r => r.HasOverride) : (IEnumerable<AutoMarketCoveredMaterialRow>)Rows;
 
         public AutoMarketRawMaterialsViewModel(
             AutoMarketRepository repo,
@@ -59,9 +58,16 @@ namespace Perpetuum.AdminTool.ViewModels
                     {
                         var tr = store.Rows.FirstOrDefault(x => x.Key == r.DefinitionName);
                         var t = tr?[EnglishLangId];
-                        if (!string.IsNullOrEmpty(t)) r.DisplayName = t;
+                        if (!string.IsNullOrEmpty(t))
+                        {
+                            r.DisplayName = t;
+                        }
                     }
-                    if (string.IsNullOrEmpty(r.DisplayName)) r.DisplayName = r.DefinitionName;
+                    if (string.IsNullOrEmpty(r.DisplayName))
+                    {
+                        r.DisplayName = r.DefinitionName;
+                    }
+
                     Rows.Add(r);
                 }
 
@@ -84,7 +90,10 @@ namespace Perpetuum.AdminTool.ViewModels
         {
             var description = $"automarket_rawmat_overrides: {row.DefinitionName}";
             var existing = _queue.Items.FirstOrDefault(c => c.Description == description);
-            if (existing != null) _queue.Items.Remove(existing);
+            if (existing != null)
+            {
+                _queue.Items.Remove(existing);
+            }
 
             string sql;
             if (row.IsAtDefaults)

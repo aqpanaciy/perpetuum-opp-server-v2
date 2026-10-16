@@ -56,7 +56,10 @@ namespace Perpetuum.AdminTool.ViewModels
                     {
                         var tr = store.Rows.FirstOrDefault(x => x.Key == r.DefinitionName);
                         var t = tr?[EnglishLangId];
-                        if (!string.IsNullOrEmpty(t)) r.DisplayName = t;
+                        if (!string.IsNullOrEmpty(t))
+                        {
+                            r.DisplayName = t;
+                        }
                     }
                     Rows.Add(r);
                 }
@@ -76,7 +79,10 @@ namespace Perpetuum.AdminTool.ViewModels
             {
                 var mats = await _repo.LoadDerivedMaterialsAsync();
                 DerivedMaterials.Clear();
-                foreach (var m in mats) DerivedMaterials.Add(m);
+                foreach (var m in mats)
+                {
+                    DerivedMaterials.Add(m);
+                }
             }
             catch { /* non-fatal — sub-panel stays empty */ }
         }
@@ -86,7 +92,11 @@ namespace Perpetuum.AdminTool.ViewModels
         {
             var description = $"market_orders_configuration: update {row.DefinitionName}";
             var existing = _queue.Items.FirstOrDefault(c => c.Description == description);
-            if (existing != null) _queue.Items.Remove(existing);
+            if (existing != null)
+            {
+                _queue.Items.Remove(existing);
+            }
+
             _queue.Add(new RawSqlChange(
                 description,
                 $"UPDATE market_orders_configuration " +
@@ -107,12 +117,18 @@ namespace Perpetuum.AdminTool.ViewModels
                       "AutoMarket will no longer place orders for this item.";
             if (MessageBox.Show(msg, "Remove item",
                     MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No)
-                != MessageBoxResult.Yes) return;
+                != MessageBoxResult.Yes)
+            {
+                return;
+            }
 
             // Cancel any pending save for this row
             var saveDesc = $"market_orders_configuration: update {row.DefinitionName}";
             var existing = _queue.Items.FirstOrDefault(c => c.Description == saveDesc);
-            if (existing != null) _queue.Items.Remove(existing);
+            if (existing != null)
+            {
+                _queue.Items.Remove(existing);
+            }
 
             _queue.Add(new RawSqlChange(
                 $"market_orders_configuration: delete {row.DefinitionName}",
@@ -127,7 +143,10 @@ namespace Perpetuum.AdminTool.ViewModels
             var existing = Rows.Select(r => r.DefinitionName).ToHashSet();
             var vm = new AddAutoMarketItemViewModel(_lookups, _translations, existing);
             var win = new AddAutoMarketItemWindow(vm) { Owner = owner };
-            if (win.ShowDialog() != true || vm.SelectedItem == null) return;
+            if (win.ShowDialog() != true || vm.SelectedItem == null)
+            {
+                return;
+            }
 
             var item = vm.SelectedItem;
             _queue.Add(new RawSqlChange(

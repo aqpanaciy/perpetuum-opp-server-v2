@@ -55,24 +55,45 @@ namespace Perpetuum.AdminTool.ViewModels
 
         private void OnRowPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (sender is not PresenceRow row) return;
+            if (sender is not PresenceRow row)
+            {
+                return;
+            }
+
             if (e.PropertyName == nameof(PresenceRow.SpawnId))
+            {
                 row.SpawnName = ResolveSpawnName(row.SpawnId);
+            }
         }
 
         private string ResolveSpawnName(int? spawnId)
         {
-            if (!spawnId.HasValue) return "";
+            if (!spawnId.HasValue)
+            {
+                return "";
+            }
+
             return _zoneSpawnPicksById.TryGetValue(spawnId.Value, out var p) ? p.Name : "";
         }
 
         private bool MatchesFilter(object obj)
         {
-            if (obj is not PresenceRow row) return false;
-            if (string.IsNullOrWhiteSpace(FilterText)) return true;
+            if (obj is not PresenceRow row)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(FilterText))
+            {
+                return true;
+            }
+
             var f = FilterText.Trim();
             if (int.TryParse(f, out var n))
+            {
                 return row.Id == n || row.SpawnId == n;
+            }
+
             return row.Name.Contains(f, StringComparison.OrdinalIgnoreCase)
                 || row.SpawnName.Contains(f, StringComparison.OrdinalIgnoreCase);
         }
@@ -88,7 +109,11 @@ namespace Perpetuum.AdminTool.ViewModels
                 var load = await repo.LoadAllAsync();
 
                 ZoneSpawnPicks.Clear();
-                foreach (var p in load.ZoneSpawnPicks) ZoneSpawnPicks.Add(p);
+                foreach (var p in load.ZoneSpawnPicks)
+                {
+                    ZoneSpawnPicks.Add(p);
+                }
+
                 _zoneSpawnPicksById = ZoneSpawnPicks
                     .GroupBy(p => p.SpawnId)
                     .ToDictionary(g => g.Key, g => g.First());
@@ -141,7 +166,11 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public void RemoveSelected()
         {
-            if (SelectedRow == null) return;
+            if (SelectedRow == null)
+            {
+                return;
+            }
+
             var row = SelectedRow;
             SelectedRow = null;
             Rows.Remove(row);
@@ -157,12 +186,19 @@ namespace Perpetuum.AdminTool.ViewModels
                 return;
             }
 
-            foreach (var c in changes) _queue.Add(c);
+            foreach (var c in changes)
+            {
+                _queue.Add(c);
+            }
 
             var newOriginals = new Dictionary<int, PresenceSnapshot>(Rows.Count);
             foreach (var row in Rows)
             {
-                if (row.IsNew) continue;
+                if (row.IsNew)
+                {
+                    continue;
+                }
+
                 row.RefreshOriginalFromCurrent();
                 newOriginals[row.Id] = row.Original;
             }

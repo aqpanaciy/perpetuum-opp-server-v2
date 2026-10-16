@@ -26,8 +26,16 @@ namespace Perpetuum.AdminTool.Entities
             var v = target;
             while (true)
             {
-                if (v == Value) return true;
-                if (v == 0) return false;
+                if (v == Value)
+                {
+                    return true;
+                }
+
+                if (v == 0)
+                {
+                    return false;
+                }
+
                 v = ParentOf(v);
             }
         }
@@ -41,7 +49,10 @@ namespace Perpetuum.AdminTool.Entities
             for (var b = 7; b >= 1; b--)
             {
                 var mask = 0xFFL << (b * 8);
-                if ((v & mask) != 0) return v & ~mask;
+                if ((v & mask) != 0)
+                {
+                    return v & ~mask;
+                }
             }
             return 0;
         }

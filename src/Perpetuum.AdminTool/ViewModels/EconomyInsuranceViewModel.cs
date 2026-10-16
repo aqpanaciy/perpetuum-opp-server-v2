@@ -40,10 +40,16 @@ namespace Perpetuum.AdminTool.ViewModels
                 var prices = await _repo.LoadPricesAsync();
 
                 ConfigRows.Clear();
-                foreach (var r in config) ConfigRows.Add(r);
+                foreach (var r in config)
+                {
+                    ConfigRows.Add(r);
+                }
 
                 PriceRows.Clear();
-                foreach (var r in prices) PriceRows.Add(r);
+                foreach (var r in prices)
+                {
+                    PriceRows.Add(r);
+                }
 
                 UpdateSinkWarning();
             }
@@ -60,7 +66,11 @@ namespace Perpetuum.AdminTool.ViewModels
         {
             var description = $"insurance_config: update {row.ParamName}";
             var existing = _queue.Items.FirstOrDefault(c => c.Description == description);
-            if (existing != null) _queue.Items.Remove(existing);
+            if (existing != null)
+            {
+                _queue.Items.Remove(existing);
+            }
+
             _queue.Add(new RawSqlChange(
                 description,
                 $"UPDATE insurance_config SET param_value = {SqlLiteral.Of(row.ParamValue)} " +
@@ -81,7 +91,11 @@ namespace Perpetuum.AdminTool.ViewModels
                 await _repo.RecalculateAsync();
                 var prices = await _repo.LoadPricesAsync();
                 PriceRows.Clear();
-                foreach (var r in prices) PriceRows.Add(r);
+                foreach (var r in prices)
+                {
+                    PriceRows.Add(r);
+                }
+
                 StatusMessage = $"Prices recalculated at {DateTime.UtcNow:HH:mm:ss} UTC.";
             }
             catch (Exception ex)

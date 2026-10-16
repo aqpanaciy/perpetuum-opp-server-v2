@@ -236,7 +236,9 @@ namespace Perpetuum.Services.MissionEngine.TransportAssignments
             var baseEid = sourcebaseeid;
 
             if (targetBaseEid != 0)
+            {
                 baseEid = targetBaseEid;
+            }
 
             var volumeInitCharacter = taken ? volunteercharacter : ownercharacter;
             var sourcePublicContainer = Container.GetFromStructure(volumeWrapperContainer.TraverseForStructureRootEid());
@@ -293,7 +295,9 @@ namespace Perpetuum.Services.MissionEngine.TransportAssignments
         public void GiveToVolunteer(out VolumeWrapperContainer volumeWrapperContainer, out PublicContainer publicContainer)
         {
             if (volunteercharacter == Character.None)
+            {
                 throw new PerpetuumException(ErrorCodes.WTFErrorMedicalAttentionSuggested);
+            }
 
             GetLocalPublicContainer(ownercharacter, out volumeWrapperContainer, volunteercharacter, out publicContainer);
 
@@ -337,7 +341,9 @@ namespace Perpetuum.Services.MissionEngine.TransportAssignments
 
             var wrapperContainer = sourceContainer.GetItem(volumeWrapperContainer.Eid) as VolumeWrapperContainer;
             if (wrapperContainer != null)
+            {
                 sourceContainer.RemoveItemOrThrow(wrapperContainer);
+            }
 
             var publicContainer = Container.GetFromStructure(baseEid);
             publicContainer.ReloadItems(ownercharacter);
@@ -368,7 +374,9 @@ namespace Perpetuum.Services.MissionEngine.TransportAssignments
                     .Send();
 
                 if (volunteercharacter == Character.None)
+                {
                     return;
+                }
 
                 var privateResult = new Dictionary<string, object>
                 {

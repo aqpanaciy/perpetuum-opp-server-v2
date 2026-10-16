@@ -16,7 +16,11 @@ namespace Perpetuum.AdminTool.Views
 
         private async void OnReloadClick(object sender, RoutedEventArgs e)
         {
-            if (Vm == null) return;
+            if (Vm == null)
+            {
+                return;
+            }
+
             await Vm.ReloadAsync();
         }
 
@@ -29,14 +33,21 @@ namespace Perpetuum.AdminTool.Views
 
         private void OnAddClick(object sender, RoutedEventArgs e)
         {
-            if (Vm == null) return;
+            if (Vm == null)
+            {
+                return;
+            }
+
             while (true)
             {
                 var win = new AddPresenceRowWindow(Vm.ZoneSpawnPicks)
                 {
                     Owner = Window.GetWindow(this)
                 };
-                if (win.ShowDialog() != true) return;
+                if (win.ShowDialog() != true)
+                {
+                    return;
+                }
 
                 var v = win.ViewModel;
                 var seed = new PresenceSnapshot
@@ -64,7 +75,10 @@ namespace Perpetuum.AdminTool.Views
                     IzGroupId = v.IzGroupId,
                     GrowthSeconds = v.GrowthSeconds
                 };
-                if (Vm.TryAddNew(seed, out var error)) return;
+                if (Vm.TryAddNew(seed, out var error))
+                {
+                    return;
+                }
 
                 MessageBox.Show(Window.GetWindow(this), error, "Cannot add presence",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -98,7 +112,11 @@ namespace Perpetuum.AdminTool.Views
 
         private void OnRemoveClick(object sender, RoutedEventArgs e)
         {
-            if (Vm?.SelectedRow == null) return;
+            if (Vm?.SelectedRow == null)
+            {
+                return;
+            }
+
             var row = Vm.SelectedRow;
 
             string prompt = row.IsNew
@@ -109,7 +127,10 @@ namespace Perpetuum.AdminTool.Views
 
             var ok = MessageBox.Show(Window.GetWindow(this), prompt, "Remove presence",
                 MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (ok != MessageBoxResult.Yes) return;
+            if (ok != MessageBoxResult.Yes)
+            {
+                return;
+            }
 
             Vm.RemoveSelected();
         }

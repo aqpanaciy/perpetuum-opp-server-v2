@@ -70,7 +70,10 @@ namespace Perpetuum.AdminTool.Economy
                 "GROUP BY date ORDER BY date DESC";
             await using var r = await cmd.ExecuteReaderAsync();
             while (await r.ReadAsync())
+            {
                 rows.Add(new EconomyVelocityRow { Date = r.GetDateTime(0), NicTraded = (long)Math.Round(r.GetDouble(1)) });
+            }
+
             return rows;
         }
 
@@ -91,7 +94,11 @@ namespace Perpetuum.AdminTool.Economy
             await using var r = await cmd.ExecuteReaderAsync();
             while (await r.ReadAsync())
             {
-                if (r.IsDBNull(1)) continue;
+                if (r.IsDBNull(1))
+                {
+                    continue;
+                }
+
                 rows.Add(new EconomyPriceIndexRow { Date = r.GetDateTime(0), IndexValue = r.GetDouble(1) });
             }
             return rows;
@@ -109,7 +116,11 @@ namespace Perpetuum.AdminTool.Economy
                 "FROM marketitems " +
                 "WHERE isSell=1 AND (isAutoOrder=0 OR isAutoOrder IS NULL)";
             await using var r = await cmd.ExecuteReaderAsync();
-            if (!await r.ReadAsync()) return new EconomyListingAgeBuckets();
+            if (!await r.ReadAsync())
+            {
+                return new EconomyListingAgeBuckets();
+            }
+
             return new EconomyListingAgeBuckets
             {
                 Today = r.IsDBNull(0) ? 0 : r.GetInt32(0),
@@ -128,7 +139,11 @@ namespace Perpetuum.AdminTool.Economy
                 "  SUM(CASE WHEN isAutoOrder=0 OR isAutoOrder IS NULL THEN 1 ELSE 0 END) " +
                 "FROM marketitems WHERE isSell=1";
             await using var r = await cmd.ExecuteReaderAsync();
-            if (!await r.ReadAsync()) return (0, 0);
+            if (!await r.ReadAsync())
+            {
+                return (0, 0);
+            }
+
             return (r.IsDBNull(0) ? 0 : r.GetInt32(0), r.IsDBNull(1) ? 0 : r.GetInt32(1));
         }
     }

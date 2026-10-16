@@ -41,17 +41,29 @@ namespace Perpetuum.AdminTool.ViewModels
                 AvgPointsPerDay = await _repo.LoadAvgPointsPerDayAsync(seasonId);
 
                 TierDistribution.Clear();
-                foreach (var r in await _repo.LoadTierDistributionAsync(seasonId)) TierDistribution.Add(r);
+                foreach (var r in await _repo.LoadTierDistributionAsync(seasonId))
+                {
+                    TierDistribution.Add(r);
+                }
 
                 Top10.Clear();
-                foreach (var r in await _repo.LoadTop10LeaderboardAsync(seasonId)) Top10.Add(r);
+                foreach (var r in await _repo.LoadTop10LeaderboardAsync(seasonId))
+                {
+                    Top10.Add(r);
+                }
 
                 ObjectiveCompletion.Clear();
-                foreach (var r in await _repo.LoadObjectiveCompletionAsync(seasonId)) ObjectiveCompletion.Add(r);
+                foreach (var r in await _repo.LoadObjectiveCompletionAsync(seasonId))
+                {
+                    ObjectiveCompletion.Add(r);
+                }
 
                 TodaysDailyObjectives.Clear();
                 foreach (var r in await _repo.LoadTodaysDailyObjectivesAsync(seasonId))
+                {
                     TodaysDailyObjectives.Add(r);
+                }
+
                 HasTodaysDailyObjectives = TodaysDailyObjectives.Count > 0;
             }
             finally { IsLoading = false; }

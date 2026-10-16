@@ -37,7 +37,11 @@ namespace Perpetuum.AdminTool.ViewModels
                 var repo = new FlockRepository(_settings.Settings.Connection);
                 var rows = await repo.LoadByPresenceAsync(PresenceId);
                 Flocks.Clear();
-                foreach (var r in rows) Flocks.Add(r);
+                foreach (var r in rows)
+                {
+                    Flocks.Add(r);
+                }
+
                 StatusMessage = $"{Flocks.Count} flock(s) reference this presence.";
             }
             catch (Exception ex)

@@ -11,7 +11,9 @@ namespace Perpetuum.Services.Trading
         {
             Trade trade;
             if (!_trades.TryRemove(character, out trade))
+            {
                 return;
+            }
 
             lock (trade.commonSync)
             {
@@ -19,7 +21,9 @@ namespace Perpetuum.Services.Trading
                 trade.SendFinishCommand();
 
                 if (!_trades.TryRemove(trade.trader, out trade))
+                {
                     return;
+                }
 
                 trade.State = TradeState.Cancel;
                 trade.SendFinishCommand();

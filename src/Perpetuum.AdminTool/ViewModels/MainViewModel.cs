@@ -128,24 +128,45 @@ namespace Perpetuum.AdminTool.ViewModels
         private string ApplyPendingTranslationKeys()
         {
             var pending = Changes.PendingNewEntityNames;
-            if (pending.Count == 0) return "";
+            if (pending.Count == 0)
+            {
+                return "";
+            }
 
             var store = Translations.Store;
-            if (store == null) return "";
+            if (store == null)
+            {
+                return "";
+            }
 
             var added = 0;
             try
             {
                 foreach (var name in pending)
                 {
-                    if (string.IsNullOrWhiteSpace(name)) continue;
-                    if (!store.TryAddKey(name, out _)) continue;
+                    if (string.IsNullOrWhiteSpace(name))
+                    {
+                        continue;
+                    }
+
+                    if (!store.TryAddKey(name, out _))
+                    {
+                        continue;
+                    }
+
                     var row = store.Rows.FirstOrDefault(r => r.Key == name);
-                    if (row != null) row[0] = name;
+                    if (row != null)
+                    {
+                        row[0] = name;
+                    }
+
                     added++;
                 }
 
-                if (added == 0) return "";
+                if (added == 0)
+                {
+                    return "";
+                }
 
                 store.Save();
                 return $"\n\nAlso created {added} translation key(s) (English = definitionName).";
@@ -246,7 +267,10 @@ namespace Perpetuum.AdminTool.ViewModels
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning,
                     MessageBoxResult.No);
-                if (warn != MessageBoxResult.Yes) return;
+                if (warn != MessageBoxResult.Yes)
+                {
+                    return;
+                }
             }
 
             var confirmVm = new ConfirmSqlViewModel(

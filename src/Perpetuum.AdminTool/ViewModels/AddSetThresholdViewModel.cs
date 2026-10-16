@@ -21,7 +21,9 @@ namespace Perpetuum.AdminTool.ViewModels
         public AddSetThresholdViewModel(System.Collections.Generic.IEnumerable<AggregateFieldPickItem> fields)
         {
             foreach (var f in fields)
+            {
                 Items.Add(f);
+            }
 
             View = CollectionViewSource.GetDefaultView(Items);
             View.Filter = MatchesFilter;
@@ -31,8 +33,16 @@ namespace Perpetuum.AdminTool.ViewModels
 
         private bool MatchesFilter(object obj)
         {
-            if (obj is not AggregateFieldPickItem item) return false;
-            if (string.IsNullOrWhiteSpace(FilterText)) return true;
+            if (obj is not AggregateFieldPickItem item)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(FilterText))
+            {
+                return true;
+            }
+
             var f = FilterText.Trim();
             return item.Name.Contains(f, StringComparison.OrdinalIgnoreCase)
                 || item.TranslatedName.Contains(f, StringComparison.OrdinalIgnoreCase);

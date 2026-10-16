@@ -158,7 +158,9 @@ namespace Perpetuum.Services.ProductionEngine
             {
                 var item = _itemHelper.LoadItem(reservedEid);
                 if (item != null)
+                {
                     yield return item;
+                }
             }
         }
 
@@ -318,7 +320,9 @@ namespace Perpetuum.Services.ProductionEngine
             var wallet = character.GetWallet(useCorporationWallet, transactionType);
 
             if (wallet.Balance < Price)
+            {
                 return false;
+            }
 
             wallet.Balance -= Price;
 
@@ -431,7 +435,9 @@ namespace Perpetuum.Services.ProductionEngine
         private void SendProductionEventToCorporationMembers(Command command)
         {
             if (!useCorporationWallet)
+            {
                 return;
+            }
 
             var replyDict = new Dictionary<string, object> { { k.production, ToDictionary() } };
 

@@ -106,15 +106,21 @@ namespace Perpetuum.Zones.NpcSystem.Presences.PathFinders
                 foreach (var np in current.location.GetNeighbours())
                 {
                     if (closed.Contains(np))
+                    {
                         continue;
+                    }
 
                     closed.Add(np);
 
                     if (!_zone.IsWalkableForNpc(np, minSlope))
+                    {
                         continue;
+                    }
 
                     if (np.Distance(startNode.location) >= range.Max)
+                    {
                         continue;
+                    }
 
                     _zone.CreateAlignedDebugBeam(BeamType.orange_20sec, np.ToPosition());
 

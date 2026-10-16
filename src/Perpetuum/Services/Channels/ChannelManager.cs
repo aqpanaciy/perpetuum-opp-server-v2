@@ -361,7 +361,9 @@ namespace Perpetuum.Services.Channels
         public void PinnedAnnouncement(string channelName, Character sender, string message, PinSlot pinSlot)
         {
             if (!_channels.TryGetValue(channelName, out Channel? channel))
+            {
                 return;
+            }
 
             channel.Logger.LogMessage(sender, message);
             channel.SendMessageToAll(_sessionManager, sender, message);

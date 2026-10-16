@@ -41,7 +41,9 @@ namespace Perpetuum.Services.Mail
                             .ExecuteSingleRow();
 
             if (m == null)
+            {
                 return null;
+            }
 
             return new MassMail
             {
@@ -88,7 +90,10 @@ namespace Perpetuum.Services.Mail
 
         public static ErrorCodes DeleteMail(Character character, long[] mailIDs)
         {
-            if (mailIDs.Length == 0) return ErrorCodes.NoError;
+            if (mailIDs.Length == 0)
+            {
+                return ErrorCodes.NoError;
+            }
 
             foreach (var id in mailIDs)
             {
@@ -99,7 +104,9 @@ namespace Perpetuum.Services.Mail
                                   .ExecuteNonQuery();
 
                 if (res != 1)
+                {
                     return ErrorCodes.SQLDeleteError;
+                }
             }
 
             return ErrorCodes.NoError;

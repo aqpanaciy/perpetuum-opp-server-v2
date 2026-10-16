@@ -31,7 +31,10 @@ namespace Perpetuum.Services.Channels.ChatCommands
             repo.SetSeasonActive(id, true);
             var season = repo.GetSeasonById(id);
             if (season != null && SeasonServiceLocator.Instance is SeasonService svc)
+            {
                 svc.SendActivationMailToOnlineCharacters(season);
+            }
+
             SendMessageToAll(data, $"Season {id} activated.");
         }
 

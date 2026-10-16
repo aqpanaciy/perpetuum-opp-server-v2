@@ -28,7 +28,10 @@ public class NewRobotRepository
             WHERE definition = @def";
         cmd.Parameters.AddWithValue("@def", robotDefinition);
         await using var r = await cmd.ExecuteReaderAsync();
-        if (!await r.ReadAsync()) return null;
+        if (!await r.ReadAsync())
+        {
+            return null;
+        }
 
         return new RobotTemplateRelationData(
             ItemScoreSum: r.GetInt32(0),
@@ -54,12 +57,15 @@ public class NewRobotRepository
         var results = new List<ChassisBonusRow>();
         await using var r = await cmd.ExecuteReaderAsync();
         while (await r.ReadAsync())
+        {
             results.Add(new ChassisBonusRow(
                 ExtensionId: r.GetInt32(0),
                 Bonus: r.GetDouble(1),
                 TargetPropertyId: r.GetInt32(2),
                 EffectEnhancer: r.GetBoolean(3),
                 Note: r.IsDBNull(4) ? null : r.GetString(4)));
+        }
+
         return results;
     }
 }

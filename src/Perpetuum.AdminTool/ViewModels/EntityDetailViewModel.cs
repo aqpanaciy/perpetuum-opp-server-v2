@@ -39,7 +39,10 @@ namespace Perpetuum.AdminTool.ViewModels
         public void RebuildAvailableFields()
         {
             AvailableFields.Clear();
-            if (Row == null) return;
+            if (Row == null)
+            {
+                return;
+            }
 
             var used = Row.Stats.Select(s => (int)s.Field).ToHashSet();
             foreach (var info in _fields.Values
@@ -53,7 +56,11 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public void AddStat()
         {
-            if (Row == null || NewStatField == null) return;
+            if (Row == null || NewStatField == null)
+            {
+                return;
+            }
+
             var fieldId = NewStatField.Id;
             if (Row.Stats.Any(s => (int)s.Field == fieldId))
             {
@@ -70,7 +77,11 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public void RemoveSelectedStat()
         {
-            if (Row == null || SelectedStat == null) return;
+            if (Row == null || SelectedStat == null)
+            {
+                return;
+            }
+
             Row.Stats.Remove(SelectedStat);
             SelectedStat = null;
             RebuildAvailableFields();
@@ -78,7 +89,10 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public void Save()
         {
-            if (Row == null) return;
+            if (Row == null)
+            {
+                return;
+            }
 
             // A new row that's already been queued cannot be edited further until Reload —
             // the assigned identity isn't known to this client yet.
@@ -96,7 +110,10 @@ namespace Perpetuum.AdminTool.ViewModels
                 StatusMessage = "No changes to save.";
                 return;
             }
-            foreach (var c in changes) _queue.Add(c);
+            foreach (var c in changes)
+            {
+                _queue.Add(c);
+            }
 
             if (Row.IsNew)
             {
@@ -125,7 +142,10 @@ namespace Perpetuum.AdminTool.ViewModels
                 .Select(s => new StatRow(Row.Definition, s.Field, s.Value, wasInDb: true))
                 .ToList();
             Row.Stats.Clear();
-            foreach (var s in rebuilt) Row.Stats.Add(s);
+            foreach (var s in rebuilt)
+            {
+                Row.Stats.Add(s);
+            }
 
             StatusIsError = false;
             StatusMessage = $"Queued {changes.Count} change(s). Use the main Commit button to apply.";
@@ -133,19 +153,32 @@ namespace Perpetuum.AdminTool.ViewModels
 
         public IReadOnlyList<IPendingChange> EnqueueDelete()
         {
-            if (Row == null) return System.Array.Empty<IPendingChange>();
+            if (Row == null)
+            {
+                return System.Array.Empty<IPendingChange>();
+            }
 
             // For never-saved rows, just drop in-memory; emit no SQL.
-            if (Row.IsNew) return System.Array.Empty<IPendingChange>();
+            if (Row.IsNew)
+            {
+                return System.Array.Empty<IPendingChange>();
+            }
 
             var changes = EntityChanges.ComputeDeleteChanges(Row).ToList();
-            foreach (var c in changes) _queue.Add(c);
+            foreach (var c in changes)
+            {
+                _queue.Add(c);
+            }
+
             return changes;
         }
 
         public void Discard()
         {
-            if (Row == null) return;
+            if (Row == null)
+            {
+                return;
+            }
             // Revert primitive fields
             Row.ApplySnapshot(Row.Original);
 

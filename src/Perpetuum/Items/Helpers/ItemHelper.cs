@@ -16,7 +16,10 @@ namespace Perpetuum.Items.Helpers
         {
             var item = LoadItem(itemEid);
             if (item == null)
+            {
                 throw new PerpetuumException(ErrorCodes.ItemNotFound);
+            }
+
             return item;
         }
 

@@ -38,25 +38,35 @@ public static class RobotSqlBuilder
 
         // 4. Robot aggregatevalues
         foreach (var row in vm.StatsPanel.Rows)
+        {
             sql.AppendLine($"INSERT INTO aggregatevalues (definition, field, value) VALUES (@robotDef, {row.FieldId}, {SqlLiteral.Of(row.NewValue)});");
+        }
 
         // 5. modulepropertymodifiers
         foreach (var row in vm.PropertyModifiersPanel.ModulePropertyModifierRows)
+        {
             sql.AppendLine($"INSERT INTO modulepropertymodifiers (categoryflags, basefield, modifierfield) VALUES ({SqlLiteral.Of(basic.CategoryFlags)}, {row.BaseFieldId}, {row.ModifierFieldId});");
+        }
 
         // 6. aggregatemodifiers
         foreach (var row in vm.PropertyModifiersPanel.AggregateModifierRows)
+        {
             sql.AppendLine($"INSERT INTO aggregatemodifiers (categoryflag, basefield, modifierfield) VALUES ({SqlLiteral.Of(basic.CategoryFlags)}, {row.BaseFieldId}, {row.ModifierFieldId});");
+        }
 
         if (basic.IsCraftable)
         {
             // 7. components
             foreach (var row in vm.ProductionPanel.Components)
+            {
                 sql.AppendLine($"INSERT INTO components (definition, componentdefinition, componentamount) VALUES (@robotDef, {row.IngredientDefinition}, {row.Amount});");
+            }
 
             // 8. productionduration (only if category has no existing row)
             if (vm.ProductionPanel.ShouldWriteProductionDuration)
+            {
                 sql.AppendLine($"INSERT INTO productionduration (category, durationmodifier) VALUES ({SqlLiteral.Of(basic.CategoryFlags)}, {SqlLiteral.Of(vm.ProductionPanel.DurationModifier)});");
+            }
 
             // 9. itemresearchlevels
             var rp = vm.ResearchPanel;
@@ -72,16 +82,22 @@ public static class RobotSqlBuilder
 
             // 11. techtreenodeprices
             foreach (var row in rp.ResearchCostRows)
+            {
                 sql.AppendLine($"INSERT INTO techtreenodeprices (definition, pointtype, amount) VALUES (@robotDef, {row.PointTypeId}, {row.Amount});");
+            }
 
             // 12. enablerextensions (full replacement)
             sql.AppendLine("DELETE FROM enablerextensions WHERE definition = @robotDef;");
             foreach (var row in rp.EnablerExtensionRows)
+            {
                 sql.AppendLine($"INSERT INTO enablerextensions (definition, extensionid, extensionlevel) VALUES (@robotDef, {row.ExtensionId}, {row.ExtensionLevel});");
+            }
 
             // 13. prototypes
             if (basic.HasPrototype)
+            {
                 sql.AppendLine("INSERT INTO prototypes (definition, prototype) VALUES (@robotDef, @prDef);");
+            }
         }
 
         // 14. definitionconfig (optional)
@@ -135,11 +151,13 @@ public static class RobotSqlBuilder
 
             // 19b. chassisbonus
             foreach (var row in vm.BonusesPanel.Rows)
+            {
                 sql.AppendLine(
                     $"INSERT INTO chassisbonus (definition, extension, bonus, targetpropertyID, effectenhancer, note)" +
                     $" VALUES (@chassisDef, {row.ExtensionId}, {SqlLiteral.Of(row.NewBonus)}," +
                     $" {row.TargetPropertyId}, {SqlLiteral.Of(row.EffectEnhancer)}," +
                     $" {(string.IsNullOrEmpty(row.Note) ? "NULL" : SqlLiteral.Of(row.Note))});");
+            }
 
             // 20. robottemplates (genxy auto-generated via FORMAT + SCOPE_IDENTITY vars)
             sql.AppendLine("DECLARE @templateId INT;");
@@ -167,7 +185,9 @@ public static class RobotSqlBuilder
     private static void AppendPartStats(StringBuilder sql, string defVar, StatsPanelViewModel stats)
     {
         foreach (var row in stats.Rows)
+        {
             sql.AppendLine($"INSERT INTO aggregatevalues (definition, field, value) VALUES ({defVar}, {row.FieldId}, {SqlLiteral.Of(row.NewValue)});");
+        }
     }
 
     // Returns the options string with all robot-part-ref keys removed so they can be
@@ -175,7 +195,9 @@ public static class RobotSqlBuilder
     private static string StripPartRefKeys(string optionsText)
     {
         if (string.IsNullOrEmpty(optionsText))
+        {
             return "";
+        }
 
         var dict = GenxyConverter.Deserialize(optionsText);
         dict.Remove("head");

@@ -21,7 +21,9 @@ namespace Perpetuum.Zones.Artifacts.Generators
             var artifactInfo = _repository.GetArtifactInfo(artifactType);
 
             if (!_repository.GetArtifacts().Where(a => a.MissionGuid == _target.MyZoneMissionInProgress.missionGuid && artifactInfo == a.Info).IsNullOrEmpty())
+            {
                 return;
+            }
 
             var position = _target.GetPosition();
             var range = _target.GetRange();

@@ -70,7 +70,10 @@ namespace Perpetuum.AdminTool.Views
                 Width = new DataGridLength(280)
             });
 
-            if (_vm == null) return;
+            if (_vm == null)
+            {
+                return;
+            }
 
             foreach (var langId in _vm.Languages)
             {
@@ -106,11 +109,19 @@ namespace Perpetuum.AdminTool.Views
 
         private void OnAddKeyClick(object sender, RoutedEventArgs e)
         {
-            if (_vm == null) return;
+            if (_vm == null)
+            {
+                return;
+            }
+
             var win = new AddKeyWindow { Owner = Window.GetWindow(this) };
             while (true)
             {
-                if (win.ShowDialog() != true) return;
+                if (win.ShowDialog() != true)
+                {
+                    return;
+                }
+
                 if (_vm.TryAddKey(win.ViewModel.Key.Trim(), out var error))
                 {
                     RebuildColumns();
@@ -125,11 +136,22 @@ namespace Perpetuum.AdminTool.Views
 
         private void OnAddLanguageClick(object sender, RoutedEventArgs e)
         {
-            if (_vm?.Store == null) return;
+            if (_vm?.Store == null)
+            {
+                return;
+            }
+
             var win = new AddLanguageWindow(_vm.Store.UnusedLanguages()) { Owner = Window.GetWindow(this) };
-            if (win.ShowDialog() != true) return;
+            if (win.ShowDialog() != true)
+            {
+                return;
+            }
+
             var picked = win.ViewModel.Selected;
-            if (picked == null) return;
+            if (picked == null)
+            {
+                return;
+            }
 
             if (_vm.TryAddLanguage(picked.Id, out var error))
             {
@@ -144,12 +166,20 @@ namespace Perpetuum.AdminTool.Views
 
         private void OnRemoveSelectedClick(object sender, RoutedEventArgs e)
         {
-            if (_vm?.SelectedRow == null) return;
+            if (_vm?.SelectedRow == null)
+            {
+                return;
+            }
+
             var key = _vm.SelectedRow.Key;
             var ok = MessageBox.Show(Window.GetWindow(this),
                 $"Remove key '{key}' from all languages?\n(Save to persist.)",
                 "Remove key", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (ok != MessageBoxResult.Yes) return;
+            if (ok != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
             _vm.RemoveSelected();
         }
     }

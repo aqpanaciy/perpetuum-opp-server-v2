@@ -34,13 +34,17 @@ public partial class OptionsVisualPanelViewModel : ObservableObject
         {
             HasDefinitionConfig = true;
             foreach (var (col, val) in configValues)
+            {
                 if (val != null)
+                {
                     DefinitionConfigRows.Add(new DefinitionConfigRow
                     {
                         ColumnName = col,
                         RawValue = val,
                         OriginalValue = val
                     });
+                }
+            }
         }
     }
 
@@ -57,7 +61,9 @@ public partial class OptionsVisualPanelViewModel : ObservableObject
             if (row.ColumnName == "tint" && !string.IsNullOrEmpty(row.RawValue))
             {
                 if (!Regex.IsMatch(row.RawValue, @"^#[0-9A-Fa-f]{6}$"))
+                {
                     return $"tint must be #RRGGBB, got: {row.RawValue}";
+                }
             }
         }
         return null;

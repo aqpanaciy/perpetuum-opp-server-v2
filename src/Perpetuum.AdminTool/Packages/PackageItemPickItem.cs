@@ -31,10 +31,26 @@ namespace Perpetuum.AdminTool.Packages
             var result = new List<PackageItemPickItem>();
             foreach (var e in all)
             {
-                if (!e.Enabled) continue;
-                if (e.Hidden) continue;
-                if (e.CategoryFlags == 0) continue;
-                if (!MatchesAnyRoot(e.CategoryFlags)) continue;
+                if (!e.Enabled)
+                {
+                    continue;
+                }
+
+                if (e.Hidden)
+                {
+                    continue;
+                }
+
+                if (e.CategoryFlags == 0)
+                {
+                    continue;
+                }
+
+                if (!MatchesAnyRoot(e.CategoryFlags))
+                {
+                    continue;
+                }
+
                 var baseName = (englishNames != null && englishNames.TryGetValue(e.Name, out var eng) && !string.IsNullOrEmpty(eng))
                     ? eng
                     : e.Name;
@@ -76,7 +92,10 @@ namespace Perpetuum.AdminTool.Packages
             foreach (var root in AllowedRoots)
             {
                 var mask = CategoryFlagsMask(root);
-                if ((entityFlags & mask) == root) return true;
+                if ((entityFlags & mask) == root)
+                {
+                    return true;
+                }
             }
             return false;
         }
@@ -85,7 +104,10 @@ namespace Perpetuum.AdminTool.Packages
         {
             var mask = unchecked((long)0xFFFFFFFFFFFFFFFFUL);
             while (((ulong)target & (ulong)mask) > 0)
+            {
                 mask <<= 8;
+            }
+
             return ~mask;
         }
     }

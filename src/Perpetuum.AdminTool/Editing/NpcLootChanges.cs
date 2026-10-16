@@ -25,7 +25,10 @@ namespace Perpetuum.AdminTool.Editing
                 if (originalById.TryGetValue(row.Id, out var original))
                 {
                     var update = BuildUpdate(row, original);
-                    if (update != null) yield return update;
+                    if (update != null)
+                    {
+                        yield return update;
+                    }
                 }
                 else
                 {
@@ -36,7 +39,11 @@ namespace Perpetuum.AdminTool.Editing
 
             foreach (var kv in originalById)
             {
-                if (seenIds.Contains(kv.Key)) continue;
+                if (seenIds.Contains(kv.Key))
+                {
+                    continue;
+                }
+
                 yield return BuildDelete(kv.Value);
             }
         }
@@ -53,15 +60,45 @@ namespace Perpetuum.AdminTool.Editing
         private static IPendingChange? BuildUpdate(NpcLootRow row, NpcLootSnapshot original)
         {
             var sets = new List<string>();
-            if (row.Definition != original.Definition) sets.Add($"definition = {row.Definition}");
-            if (row.LootDefinition != original.LootDefinition) sets.Add($"lootdefinition = {row.LootDefinition}");
-            if (row.MinQuantity != original.MinQuantity) sets.Add($"minquantity = {row.MinQuantity}");
-            if (row.Quantity != original.Quantity) sets.Add($"quantity = {row.Quantity}");
-            if (row.Probability != original.Probability) sets.Add($"probability = {SqlLiteral.Of(row.Probability)}");
-            if (row.DontDamage != original.DontDamage) sets.Add($"dontdamage = {SqlLiteral.Of(row.DontDamage)}");
-            if (row.Repackaged != original.Repackaged) sets.Add($"repackaged = {SqlLiteral.Of(row.Repackaged)}");
+            if (row.Definition != original.Definition)
+            {
+                sets.Add($"definition = {row.Definition}");
+            }
 
-            if (sets.Count == 0) return null;
+            if (row.LootDefinition != original.LootDefinition)
+            {
+                sets.Add($"lootdefinition = {row.LootDefinition}");
+            }
+
+            if (row.MinQuantity != original.MinQuantity)
+            {
+                sets.Add($"minquantity = {row.MinQuantity}");
+            }
+
+            if (row.Quantity != original.Quantity)
+            {
+                sets.Add($"quantity = {row.Quantity}");
+            }
+
+            if (row.Probability != original.Probability)
+            {
+                sets.Add($"probability = {SqlLiteral.Of(row.Probability)}");
+            }
+
+            if (row.DontDamage != original.DontDamage)
+            {
+                sets.Add($"dontdamage = {SqlLiteral.Of(row.DontDamage)}");
+            }
+
+            if (row.Repackaged != original.Repackaged)
+            {
+                sets.Add($"repackaged = {SqlLiteral.Of(row.Repackaged)}");
+            }
+
+            if (sets.Count == 0)
+            {
+                return null;
+            }
 
             return new RawSqlChange(
                 $"npcloot: update id {row.Id} (NPC {row.Definition} → item {row.LootDefinition}, {sets.Count} column(s))",

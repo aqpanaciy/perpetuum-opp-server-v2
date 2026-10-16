@@ -19,7 +19,10 @@ namespace Perpetuum.AdminTool.Packages
             sb.AppendLine($"INSERT INTO packages (name) VALUES ({SqlLiteral.Of(name)});");
             sb.AppendLine($"SET {varName} = SCOPE_IDENTITY();");
             foreach (var it in items)
+            {
                 sb.AppendLine($"INSERT INTO packageitems (packageid, definition, quantity) VALUES ({varName}, {it.Definition}, {it.Quantity});");
+            }
+
             var desc = items.Count > 0
                 ? $"packages: insert '{name}' with {items.Count} item(s)"
                 : $"packages: insert '{name}'";

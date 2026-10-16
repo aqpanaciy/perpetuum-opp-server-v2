@@ -33,8 +33,13 @@ public partial class PropertyModifiersPanelViewModel : ObservableObject
         ModulePropertyModifierRows.Clear();
         AggregateModifierRows.Clear();
         foreach (var (cf, bf, mf) in ExistingModPropertyModifiers.Where(e => e.CategoryFlags == categoryFlags))
+        {
             ModulePropertyModifierRows.Add(new PropertyModifierRow { BaseFieldId = bf, ModifierFieldId = mf, OriginalBaseFieldId = bf, OriginalModifierFieldId = mf });
+        }
+
         foreach (var (cf, bf, mf) in ExistingAggregateModifiers.Where(e => e.CategoryFlags == categoryFlags))
+        {
             AggregateModifierRows.Add(new PropertyModifierRow { BaseFieldId = bf, ModifierFieldId = mf, OriginalBaseFieldId = bf, OriginalModifierFieldId = mf });
+        }
     }
 }

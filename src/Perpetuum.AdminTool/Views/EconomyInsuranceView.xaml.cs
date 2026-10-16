@@ -16,7 +16,9 @@ namespace Perpetuum.AdminTool.Views
         {
             Loaded -= OnLoaded;
             if (DataContext is EconomyInsuranceViewModel vm)
+            {
                 _ = vm.LoadAsync();
+            }
         }
     }
 }

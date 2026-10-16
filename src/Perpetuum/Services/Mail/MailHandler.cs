@@ -68,7 +68,9 @@ namespace Perpetuum.Services.Mail
             };
 
             if (mail.wasRead)
+            {
                 return mail;
+            }
 
             Db.Query().CommandText("update cmails set wasread = 1 where owner = @characterID and mailid = @mailID")
                     .SetParameter("@characterID", character.Id)
@@ -168,7 +170,9 @@ namespace Perpetuum.Services.Mail
         private static void MailEventReport(Guid mailID, Character character, Command command, IDictionary<string, object> extras = null)
         {
             if (!character.IsOnline)
+            {
                 return;
+            }
 
             var rData = new Dictionary<string, object> { { k.ID, mailID.ToString() } };
 

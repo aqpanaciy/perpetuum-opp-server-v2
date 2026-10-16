@@ -24,7 +24,10 @@ namespace Perpetuum.AdminTool.Editing
                 if (originalById.TryGetValue(row.Id, out var original))
                 {
                     var update = BuildUpdate(row, original);
-                    if (update != null) yield return update;
+                    if (update != null)
+                    {
+                        yield return update;
+                    }
                 }
                 else
                 {
@@ -34,7 +37,11 @@ namespace Perpetuum.AdminTool.Editing
 
             foreach (var kv in originalById)
             {
-                if (seenIds.Contains(kv.Key)) continue;
+                if (seenIds.Contains(kv.Key))
+                {
+                    continue;
+                }
+
                 yield return BuildDelete(kv.Value);
             }
         }
@@ -60,27 +67,95 @@ namespace Perpetuum.AdminTool.Editing
         private static IPendingChange? BuildUpdate(FlockRow row, FlockSnapshot original)
         {
             var sets = new List<string>();
-            if (row.Name != original.Name) sets.Add($"name = {SqlLiteral.Of(row.Name)}");
-            if (row.PresenceId != original.PresenceId) sets.Add($"presenceid = {row.PresenceId}");
-            if (row.FlockMemberCount != original.FlockMemberCount) sets.Add($"flockmembercount = {row.FlockMemberCount}");
-            if (row.Definition != original.Definition) sets.Add($"definition = {row.Definition}");
-            if (row.SpawnOriginX != original.SpawnOriginX) sets.Add($"spawnoriginX = {row.SpawnOriginX}");
-            if (row.SpawnOriginY != original.SpawnOriginY) sets.Add($"spawnoriginY = {row.SpawnOriginY}");
-            if (row.SpawnRangeMin != original.SpawnRangeMin) sets.Add($"spawnrangeMin = {row.SpawnRangeMin}");
-            if (row.SpawnRangeMax != original.SpawnRangeMax) sets.Add($"spawnrangeMax = {row.SpawnRangeMax}");
-            if (row.RespawnSeconds != original.RespawnSeconds) sets.Add($"respawnseconds = {row.RespawnSeconds}");
-            if (row.TotalSpawnCount != original.TotalSpawnCount) sets.Add($"totalspawncount = {row.TotalSpawnCount}");
-            if (row.HomeRange != original.HomeRange) sets.Add($"homerange = {row.HomeRange}");
-            if ((row.Note ?? "") != (original.Note ?? ""))
-                sets.Add($"note = {(string.IsNullOrEmpty(row.Note) ? "NULL" : SqlLiteral.Of(row.Note))}");
-            if (row.RespawnMultiplierLow != original.RespawnMultiplierLow)
-                sets.Add($"respawnmultiplierlow = {SqlLiteral.Of(row.RespawnMultiplierLow)}");
-            if (row.Enabled != original.Enabled) sets.Add($"enabled = {SqlLiteral.Of(row.Enabled)}");
-            if (row.IsCallForHelp != original.IsCallForHelp) sets.Add($"iscallforhelp = {SqlLiteral.Of(row.IsCallForHelp)}");
-            if (row.BehaviorType != original.BehaviorType) sets.Add($"behaviorType = {row.BehaviorType}");
-            if (row.NpcSpecialType != original.NpcSpecialType) sets.Add($"npcSpecialType = {row.NpcSpecialType}");
+            if (row.Name != original.Name)
+            {
+                sets.Add($"name = {SqlLiteral.Of(row.Name)}");
+            }
 
-            if (sets.Count == 0) return null;
+            if (row.PresenceId != original.PresenceId)
+            {
+                sets.Add($"presenceid = {row.PresenceId}");
+            }
+
+            if (row.FlockMemberCount != original.FlockMemberCount)
+            {
+                sets.Add($"flockmembercount = {row.FlockMemberCount}");
+            }
+
+            if (row.Definition != original.Definition)
+            {
+                sets.Add($"definition = {row.Definition}");
+            }
+
+            if (row.SpawnOriginX != original.SpawnOriginX)
+            {
+                sets.Add($"spawnoriginX = {row.SpawnOriginX}");
+            }
+
+            if (row.SpawnOriginY != original.SpawnOriginY)
+            {
+                sets.Add($"spawnoriginY = {row.SpawnOriginY}");
+            }
+
+            if (row.SpawnRangeMin != original.SpawnRangeMin)
+            {
+                sets.Add($"spawnrangeMin = {row.SpawnRangeMin}");
+            }
+
+            if (row.SpawnRangeMax != original.SpawnRangeMax)
+            {
+                sets.Add($"spawnrangeMax = {row.SpawnRangeMax}");
+            }
+
+            if (row.RespawnSeconds != original.RespawnSeconds)
+            {
+                sets.Add($"respawnseconds = {row.RespawnSeconds}");
+            }
+
+            if (row.TotalSpawnCount != original.TotalSpawnCount)
+            {
+                sets.Add($"totalspawncount = {row.TotalSpawnCount}");
+            }
+
+            if (row.HomeRange != original.HomeRange)
+            {
+                sets.Add($"homerange = {row.HomeRange}");
+            }
+
+            if ((row.Note ?? "") != (original.Note ?? ""))
+            {
+                sets.Add($"note = {(string.IsNullOrEmpty(row.Note) ? "NULL" : SqlLiteral.Of(row.Note))}");
+            }
+
+            if (row.RespawnMultiplierLow != original.RespawnMultiplierLow)
+            {
+                sets.Add($"respawnmultiplierlow = {SqlLiteral.Of(row.RespawnMultiplierLow)}");
+            }
+
+            if (row.Enabled != original.Enabled)
+            {
+                sets.Add($"enabled = {SqlLiteral.Of(row.Enabled)}");
+            }
+
+            if (row.IsCallForHelp != original.IsCallForHelp)
+            {
+                sets.Add($"iscallforhelp = {SqlLiteral.Of(row.IsCallForHelp)}");
+            }
+
+            if (row.BehaviorType != original.BehaviorType)
+            {
+                sets.Add($"behaviorType = {row.BehaviorType}");
+            }
+
+            if (row.NpcSpecialType != original.NpcSpecialType)
+            {
+                sets.Add($"npcSpecialType = {row.NpcSpecialType}");
+            }
+
+            if (sets.Count == 0)
+            {
+                return null;
+            }
 
             return new RawSqlChange(
                 $"npcflock: update id {row.Id} ('{row.Name}', {sets.Count} column(s))",

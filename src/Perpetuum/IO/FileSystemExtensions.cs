@@ -16,11 +16,15 @@ namespace Perpetuum.IO
 
             var sizeOfT = Marshal.SizeOf<T>();
             if (sizeOfT <= 0)
+            {
                 return Array.Empty<T>();
+            }
 
             long length = stream.Length;
             if (length == 0)
+            {
                 return Array.Empty<T>();
+            }
 
             int count = (int)(length / sizeOfT);
 
@@ -43,7 +47,10 @@ namespace Perpetuum.IO
                 {
                     int n = stream.Read(span.Slice(read));
                     if (n == 0)
+                    {
                         break;
+                    }
+
                     read += n;
                 }
 

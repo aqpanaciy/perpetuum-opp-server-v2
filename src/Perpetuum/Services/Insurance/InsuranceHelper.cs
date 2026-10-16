@@ -26,7 +26,9 @@ namespace Perpetuum.Services.Insurance
         {
             var insurance = GetInsurance(eid);
             if (insurance == null)
+            {
                 return false;
+            }
 
             _insurancePayOut.PayOut(insurance, definition);
             DeleteAndInform(insurance, eid);
@@ -36,7 +38,9 @@ namespace Perpetuum.Services.Insurance
         public void DeleteAndInform(InsuranceDescription insurance, long eid)
         {
             if (insurance == null)
+            {
                 return;
+            }
 
             DeleteInsurance(eid);
 
@@ -59,7 +63,9 @@ namespace Perpetuum.Services.Insurance
                                  .ExecuteSingleRow();
 
             if (record == null)
+            {
                 return null;
+            }
 
             var d = new InsuranceDescription();
 

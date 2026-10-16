@@ -66,7 +66,10 @@ namespace Perpetuum.AdminTool.Economy
                 "FROM economy_daily_snapshot ORDER BY snapshot_date DESC";
             await using var r = await cmd.ExecuteReaderAsync();
             while (await r.ReadAsync())
+            {
                 rows.Add(new EconomySnapshotRow { Date = r.GetDateTime(0), TotalNic = r.GetInt64(1) });
+            }
+
             return rows;
         }
 
@@ -92,6 +95,7 @@ namespace Perpetuum.AdminTool.Economy
             await using var r = await cmd.ExecuteReaderAsync();
             int rank = 1;
             while (await r.ReadAsync())
+            {
                 rows.Add(new EconomyWealthRow
                 {
                     Rank = rank++,
@@ -99,6 +103,8 @@ namespace Perpetuum.AdminTool.Economy
                     Credit = r.GetInt64(1),
                     CorpTag = r.GetString(2),
                 });
+            }
+
             return rows;
         }
 
@@ -122,6 +128,7 @@ namespace Perpetuum.AdminTool.Economy
             await using var r = await cmd.ExecuteReaderAsync();
             int rank = 1;
             while (await r.ReadAsync())
+            {
                 rows.Add(new EconomyCorporationWealthRow
                 {
                     Rank = rank++,
@@ -131,6 +138,8 @@ namespace Perpetuum.AdminTool.Economy
                     CorpWallet = r.GetInt64(3),
                     MemberAggregate = r.GetInt64(4),
                 });
+            }
+
             return rows;
         }
 
@@ -143,7 +152,10 @@ namespace Perpetuum.AdminTool.Economy
                 "WHERE active=1 AND deletedAt IS NULL ORDER BY credit DESC";
             await using var r = await cmd.ExecuteReaderAsync();
             while (await r.ReadAsync())
+            {
                 balances.Add(r.GetInt64(0));
+            }
+
             return balances;
         }
 

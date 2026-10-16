@@ -11,7 +11,11 @@ namespace Perpetuum.AdminTool.Common
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is long l) return CategoryFlagsCatalog.Describe(l);
+            if (value is long l)
+            {
+                return CategoryFlagsCatalog.Describe(l);
+            }
+
             return "";
         }
 
@@ -25,7 +29,11 @@ namespace Perpetuum.AdminTool.Common
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is long l) return AttributeFlagsCatalog.Describe(unchecked((ulong)l));
+            if (value is long l)
+            {
+                return AttributeFlagsCatalog.Describe(unchecked((ulong)l));
+            }
+
             return "";
         }
 

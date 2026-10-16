@@ -135,11 +135,21 @@ namespace Perpetuum.AdminTool.ViewModels
             Objectives.CollectionChanged += (_, e) =>
             {
                 if (e.NewItems != null)
+                {
                     foreach (SeasonObjectiveRow r in e.NewItems)
+                    {
                         r.PropertyChanged += OnObjectivePropertyChanged;
+                    }
+                }
+
                 if (e.OldItems != null)
+                {
                     foreach (SeasonObjectiveRow r in e.OldItems)
+                    {
                         r.PropertyChanged -= OnObjectivePropertyChanged;
+                    }
+                }
+
                 OnPropertyChanged(nameof(FilteredObjectives));
             };
         }
@@ -147,7 +157,9 @@ namespace Perpetuum.AdminTool.ViewModels
         private void OnObjectivePropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(SeasonObjectiveRow.IsDaily))
+            {
                 OnPropertyChanged(nameof(FilteredObjectives));
+            }
         }
 
         private void BuildMaterialLists(TranslationsViewModel? translations)
@@ -166,7 +178,10 @@ namespace Perpetuum.AdminTool.ViewModels
 
             foreach (var e in _cache.Entities)
             {
-                if (!e.Enabled || e.Hidden) continue;
+                if (!e.Enabled || e.Hidden)
+                {
+                    continue;
+                }
 
                 var displayName = (englishNames != null &&
                                    englishNames.TryGetValue(e.Name, out var eng) &&
@@ -175,9 +190,13 @@ namespace Perpetuum.AdminTool.ViewModels
 
                 if (IsCategoryMatch(e.CategoryFlags, (long)CategoryFlags.cf_ore) ||
                     IsCategoryMatch(e.CategoryFlags, (long)CategoryFlags.cf_liquid))
+                {
                     oreAndLiquid.Add(new MaterialPickItem(e.Definition, displayName));
+                }
                 else if (IsCategoryMatch(e.CategoryFlags, (long)CategoryFlags.cf_organic))
+                {
                     organic.Add(new MaterialPickItem(e.Definition, displayName));
+                }
             }
 
             _oreAndLiquidMaterials = oreAndLiquid
@@ -231,37 +250,61 @@ namespace Perpetuum.AdminTool.ViewModels
 
                 Objectives.Clear();
                 if (Season.Id > 0)
+                {
                     foreach (var o in await _repo.LoadObjectivesAsync(Season.Id))
                     {
                         if (o.PackageId.HasValue)
+                        {
                             o.SelectedPackage = Packages.FirstOrDefault(p => p.Id == o.PackageId);
+                        }
+
                         if (o.EquipmentSetId.HasValue)
+                        {
                             o.SelectedEquipmentSet = EquipmentSets.FirstOrDefault(s => s.SetId == o.EquipmentSetId);
+                        }
+
                         o.InitializeMaterialLists(_oreAndLiquidMaterials, _organicMaterials);
                         Objectives.Add(o);
                     }
+                }
 
                 Tiers.Clear();
                 if (Season.Id > 0)
+                {
                     foreach (var t in await _repo.LoadTiersAsync(Season.Id))
                     {
                         if (t.PackageId.HasValue)
+                        {
                             t.SelectedPackage = Packages.FirstOrDefault(p => p.Id == t.PackageId);
+                        }
+
                         if (t.EquipmentSetId.HasValue)
+                        {
                             t.SelectedEquipmentSet = EquipmentSets.FirstOrDefault(s => s.SetId == t.EquipmentSetId);
+                        }
+
                         Tiers.Add(t);
                     }
+                }
 
                 LeaderboardRewards.Clear();
                 if (Season.Id > 0)
+                {
                     foreach (var l in await _repo.LoadLeaderboardRewardsAsync(Season.Id))
                     {
                         if (l.PackageId.HasValue)
+                        {
                             l.SelectedPackage = Packages.FirstOrDefault(p => p.Id == l.PackageId);
+                        }
+
                         if (l.EquipmentSetId.HasValue)
+                        {
                             l.SelectedEquipmentSet = EquipmentSets.FirstOrDefault(s => s.SetId == l.EquipmentSetId);
+                        }
+
                         LeaderboardRewards.Add(l);
                     }
+                }
 
                 OnPropertyChanged(nameof(CanActivate));
                 OnPropertyChanged(nameof(CanDeactivate));
@@ -293,7 +336,10 @@ namespace Perpetuum.AdminTool.ViewModels
             var ok = MessageBox.Show(
                 $"Activate season '{Season.Name}'? This queues an UPDATE seasons SET is_active = 1.",
                 "Activate season", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (ok != MessageBoxResult.Yes) return;
+            if (ok != MessageBoxResult.Yes)
+            {
+                return;
+            }
 
             _queue.Add(SeasonChanges.BuildActivate(Season.Id));
             Season.IsActive = true;
@@ -307,11 +353,18 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void Deactivate()
         {
-            if (Season.Id <= 0) return;
+            if (Season.Id <= 0)
+            {
+                return;
+            }
+
             var ok = MessageBox.Show(
                 $"Deactivate season '{Season.Name}'?",
                 "Deactivate season", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (ok != MessageBoxResult.Yes) return;
+            if (ok != MessageBoxResult.Yes)
+            {
+                return;
+            }
 
             _queue.Add(SeasonChanges.BuildDeactivate(Season.Id));
             Season.IsActive = false;
@@ -341,7 +394,11 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void QueueActivityRateSave(SeasonActivityRateRow? row)
         {
-            if (row == null) return;
+            if (row == null)
+            {
+                return;
+            }
+
             if (Season.Id <= 0)
             {
                 MessageBox.Show("Save the season (General tab) first.", "Season unsaved",
@@ -384,12 +441,23 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void RemoveObjective(SeasonObjectiveRow? row)
         {
-            if (row == null) return;
+            if (row == null)
+            {
+                return;
+            }
+
             var ok = MessageBox.Show($"Remove objective '{row.Name}'?",
                 "Remove objective", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (ok != MessageBoxResult.Yes) return;
+            if (ok != MessageBoxResult.Yes)
+            {
+                return;
+            }
 
-            if (row.Id > 0) _queue.Add(SeasonChanges.BuildDeleteObjective(row));
+            if (row.Id > 0)
+            {
+                _queue.Add(SeasonChanges.BuildDeleteObjective(row));
+            }
+
             Objectives.Remove(row);
             StatusIsError = false;
             StatusMessage = row.Id > 0
@@ -400,7 +468,11 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void QueueSaveObjective(SeasonObjectiveRow? row)
         {
-            if (row == null) return;
+            if (row == null)
+            {
+                return;
+            }
+
             if (Season.Id <= 0)
             {
                 MessageBox.Show("Save the season (General tab) first.", "Season unsaved",
@@ -446,12 +518,23 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void RemoveTier(SeasonTierRow? row)
         {
-            if (row == null) return;
+            if (row == null)
+            {
+                return;
+            }
+
             var ok = MessageBox.Show($"Remove tier '{row.TierName}'?",
                 "Remove tier", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (ok != MessageBoxResult.Yes) return;
+            if (ok != MessageBoxResult.Yes)
+            {
+                return;
+            }
 
-            if (row.Id > 0) _queue.Add(SeasonChanges.BuildDeleteTier(row));
+            if (row.Id > 0)
+            {
+                _queue.Add(SeasonChanges.BuildDeleteTier(row));
+            }
+
             Tiers.Remove(row);
             StatusIsError = false;
             StatusMessage = row.Id > 0
@@ -462,7 +545,11 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void QueueSaveTier(SeasonTierRow? row)
         {
-            if (row == null) return;
+            if (row == null)
+            {
+                return;
+            }
+
             if (Season.Id <= 0)
             {
                 MessageBox.Show("Save the season (General tab) first.", "Season unsaved",
@@ -507,7 +594,11 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void QueueSaveLeaderboardReward(SeasonLeaderboardRewardRow? row)
         {
-            if (row == null) return;
+            if (row == null)
+            {
+                return;
+            }
+
             if (Season.Id <= 0)
             {
                 MessageBox.Show("Save the season (General tab) first.", "Season unsaved",
@@ -537,12 +628,23 @@ namespace Perpetuum.AdminTool.ViewModels
         [RelayCommand]
         private void RemoveLeaderboardReward(SeasonLeaderboardRewardRow? row)
         {
-            if (row == null) return;
+            if (row == null)
+            {
+                return;
+            }
+
             var ok = MessageBox.Show($"Remove leaderboard reward (ranks {row.RankMin}-{row.RankMax})?",
                 "Remove leaderboard reward", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (ok != MessageBoxResult.Yes) return;
+            if (ok != MessageBoxResult.Yes)
+            {
+                return;
+            }
 
-            if (row.Id > 0) _queue.Add(SeasonChanges.BuildDeleteLeaderboardReward(row));
+            if (row.Id > 0)
+            {
+                _queue.Add(SeasonChanges.BuildDeleteLeaderboardReward(row));
+            }
+
             LeaderboardRewards.Remove(row);
             StatusIsError = false;
             StatusMessage = row.Id > 0

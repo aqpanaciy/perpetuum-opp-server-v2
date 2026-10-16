@@ -42,13 +42,31 @@ public partial class BasicPanelViewModel : ObservableObject
     {
         get
         {
-            if (string.IsNullOrWhiteSpace(DefinitionName)) return "Required";
-            if (!DefinitionName.StartsWith("def_", StringComparison.Ordinal)) return "Must start with def_";
+            if (string.IsNullOrWhiteSpace(DefinitionName))
+            {
+                return "Required";
+            }
+
+            if (!DefinitionName.StartsWith("def_", StringComparison.Ordinal))
+            {
+                return "Must start with def_";
+            }
+
             if (_mode == BasicPanelMode.CalibrationTemplate && !DefinitionName.EndsWith("_cprg", StringComparison.Ordinal))
+            {
                 return "Must end with _cprg";
+            }
+
             if (_mode == BasicPanelMode.Prototype && !DefinitionName.EndsWith("_pr", StringComparison.Ordinal))
+            {
                 return "Must end with _pr";
-            if (_existingDefNames.Contains(DefinitionName)) return "Name already exists";
+            }
+
+            if (_existingDefNames.Contains(DefinitionName))
+            {
+                return "Name already exists";
+            }
+
             return null;
         }
     }
@@ -94,7 +112,9 @@ public partial class BasicPanelViewModel : ObservableObject
         TierType = source.TierType;
         TierLevel = source.TierLevel;
         if (_mode != BasicPanelMode.CalibrationTemplate)
+        {
             Purchasable = source.Purchasable;
+        }
 
         OnPropertyChanged(nameof(CloneSource));
     }
@@ -114,7 +134,10 @@ public partial class BasicPanelViewModel : ObservableObject
     private string SuggestDescriptionToken(string defName)
     {
         if (defName.EndsWith("_desc", StringComparison.OrdinalIgnoreCase))
+        {
             return defName;
+        }
+
         return defName + "_desc";
     }
 }

@@ -43,7 +43,10 @@ namespace Perpetuum.AdminTool.Editing
         {
             var ts = DateTime.Now.ToString("yyyyMMdd_HHmmss");
             if (string.IsNullOrWhiteSpace(name))
+            {
                 return $"{prefix}_{ts}.sql";
+            }
+
             var safe = Regex.Replace(
                 Regex.Replace(name.ToLowerInvariant(), @"[^a-z0-9_]", "_"),
                 @"_+", "_").Trim('_');

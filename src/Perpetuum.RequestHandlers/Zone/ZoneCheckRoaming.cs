@@ -17,7 +17,9 @@ namespace Perpetuum.RequestHandlers.Zone
         {
             var controlInfo = zone.Terrain.Controls.GetValue(x, y);
             if (!controlInfo.Roaming)
+            {
                 return;
+            }
 
             if (zone.Terrain.IsBlocked(x, y))
             {

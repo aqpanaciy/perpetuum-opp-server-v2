@@ -33,10 +33,25 @@ namespace Perpetuum.AdminTool.ViewModels
             var store = translations.Store;
             foreach (var e in lookups.Entities)
             {
-                if (!e.Enabled) continue;
-                if (e.Hidden) continue;
-                if ((e.CategoryFlags & _equipmentMask) != _equipmentRoot) continue;
-                if (alreadyAssigned.Contains(e.Definition)) continue;
+                if (!e.Enabled)
+                {
+                    continue;
+                }
+
+                if (e.Hidden)
+                {
+                    continue;
+                }
+
+                if ((e.CategoryFlags & _equipmentMask) != _equipmentRoot)
+                {
+                    continue;
+                }
+
+                if (alreadyAssigned.Contains(e.Definition))
+                {
+                    continue;
+                }
 
                 var translated = "";
                 if (store != null)
@@ -61,10 +76,22 @@ namespace Perpetuum.AdminTool.ViewModels
 
         private bool MatchesFilter(object obj)
         {
-            if (obj is not SetMemberPickItem item) return false;
-            if (string.IsNullOrWhiteSpace(FilterText)) return true;
+            if (obj is not SetMemberPickItem item)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(FilterText))
+            {
+                return true;
+            }
+
             var f = FilterText.Trim();
-            if (int.TryParse(f, out var id)) return item.Definition == id;
+            if (int.TryParse(f, out var id))
+            {
+                return item.Definition == id;
+            }
+
             return item.DefinitionName.Contains(f, StringComparison.OrdinalIgnoreCase)
                 || item.TranslatedName.Contains(f, StringComparison.OrdinalIgnoreCase);
         }

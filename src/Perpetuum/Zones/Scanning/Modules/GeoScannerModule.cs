@@ -61,11 +61,15 @@ namespace Perpetuum.Zones.Scanning.Modules
 
             var zone = player.Zone;
             if (zone == null)
+            {
                 return;
+            }
 
             var ammo = GetAmmo();
             if (ammo == null)
+            {
                 return;
+            }
 
             var scanner = _scannerFactory(zone, player, this);
             ammo.AcceptVisitor(scanner);

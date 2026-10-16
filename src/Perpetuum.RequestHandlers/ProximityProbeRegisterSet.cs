@@ -39,7 +39,9 @@ namespace Perpetuum.RequestHandlers
                 var processedCharacters = playersToRegister.Intersect(members).ToArray();
 
                 if (processedCharacters.Length <= 0)
+                {
                     return;
+                }
 
                 var bosses = corporation.Members.Where(m => m.role.IsAnyRole(CorporationRole.CEO, CorporationRole.DeputyCEO)).Select(m => m.character).ToArray();
 

@@ -15,7 +15,10 @@ namespace Perpetuum.AdminTool.Editing
             }
 
             var update = BuildUpdate(row);
-            if (update != null) yield return update;
+            if (update != null)
+            {
+                yield return update;
+            }
         }
 
         public static IEnumerable<IPendingChange> ComputeDeleteChanges(RobotTemplateRow row)
@@ -47,13 +50,24 @@ namespace Perpetuum.AdminTool.Editing
         {
             var sets = new List<string>();
             if (row.Name != row.Original.Name)
+            {
                 sets.Add($"name = {SqlLiteral.Of(row.Name)}");
-            if (row.Description != row.Original.Description)
-                sets.Add($"description = {SqlLiteral.Of(row.Description)}");
-            if (!StringEqualsNullSafe(row.Note, row.Original.Note))
-                sets.Add($"note = {(string.IsNullOrEmpty(row.Note) ? "NULL" : SqlLiteral.Of(row.Note))}");
+            }
 
-            if (sets.Count == 0) return null;
+            if (row.Description != row.Original.Description)
+            {
+                sets.Add($"description = {SqlLiteral.Of(row.Description)}");
+            }
+
+            if (!StringEqualsNullSafe(row.Note, row.Original.Note))
+            {
+                sets.Add($"note = {(string.IsNullOrEmpty(row.Note) ? "NULL" : SqlLiteral.Of(row.Note))}");
+            }
+
+            if (sets.Count == 0)
+            {
+                return null;
+            }
 
             return new RawSqlChange(
                 $"robottemplates: update id {row.Id} ({row.Name}) — {sets.Count} column(s)",

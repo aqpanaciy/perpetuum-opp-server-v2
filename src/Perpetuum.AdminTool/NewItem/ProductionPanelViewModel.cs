@@ -46,7 +46,9 @@ public partial class ProductionPanelViewModel : ObservableObject
     {
         Components.Clear();
         foreach (var (def, amt) in cloneComponents)
+        {
             Components.Add(new NewComponentRow { IngredientDefinition = def, Amount = amt, OriginalAmount = amt });
+        }
     }
 
     public bool HasDuplicateIngredients()

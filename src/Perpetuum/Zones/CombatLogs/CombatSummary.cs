@@ -40,7 +40,9 @@ namespace Perpetuum.Zones.CombatLogs
                         _sensorJammerTotal++;
 
                         if (sje.Success)
+                        {
                             _sensorJammerSuccess++;
+                        }
 
                         break;
                     }
