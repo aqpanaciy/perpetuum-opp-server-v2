@@ -1,4 +1,4 @@
-SET QUOTED_IDENTIFIER ON
+SET QUOTED_IDENTIFIER ON;
 GO
 
 -- IMPROVEMENT-018: add scoring_mode to seasons

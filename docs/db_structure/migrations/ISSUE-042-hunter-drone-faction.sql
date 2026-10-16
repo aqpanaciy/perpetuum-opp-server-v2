@@ -1,4 +1,4 @@
-SET QUOTED_IDENTIFIER ON
+SET QUOTED_IDENTIFIER ON;
 GO
 
 -- ISSUE-042: Hunter Drone chassis definitions are missing two options that every other
