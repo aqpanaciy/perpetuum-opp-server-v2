@@ -9,7 +9,7 @@ namespace Perpetuum.IO
 {
     public static class FileReaderCustom
     {
-        public static string? ResourcePath { get; set; } = null;
+        public static string? ResourcePath { get; set; }
 
         public static ushort[] ReadJpegLayer(string path)
         {
@@ -49,15 +49,15 @@ namespace Perpetuum.IO
             using var image = new Bitmap(imagePath);
             var bounds = new Rectangle(0, 0, image.Width, image.Height);
             using var bitmap = image.Clone(bounds, PixelFormat.Format24bppRgb);
-            var result = new ushort[checked(bitmap.Width * bitmap.Height)];
+            var result = new ushort[bitmap.Width * bitmap.Height];
             var grayscale = new byte[result.Length];
             var pixels = bitmap.LockBits(bounds, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
             try
             {
-                var row = new byte[checked(bitmap.Width * 3)];
+                var row = new byte[bitmap.Width * 3];
                 for (var y = 0; y < bitmap.Height; y++)
                 {
-                    Marshal.Copy(IntPtr.Add(pixels.Scan0, checked(y * pixels.Stride)), row, 0, row.Length);
+                    Marshal.Copy(IntPtr.Add(pixels.Scan0, y * pixels.Stride), row, 0, row.Length);
                     for (var x = 0; x < bitmap.Width; x++)
                     {
                         var offset = x * 3;
