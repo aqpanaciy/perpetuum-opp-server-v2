@@ -174,6 +174,7 @@ namespace Perpetuum.Bootstrapper
             Logger.Info($"Vector is hardware accelerated: {Vector.IsHardwareAccelerated}");
 
             TransactionManager.ImplicitDistributedTransactions = true;
+            FileReaderCustom.ResourcePath = config.ResourcePath;
 
             Db.DbQueryFactory = _container.Resolve<Func<DbQuery>>();
 

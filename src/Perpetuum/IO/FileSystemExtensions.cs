@@ -11,6 +11,11 @@ namespace Perpetuum.IO
         {
             var path = fileSystem.CreatePath(CreateLayerPath(filename));
 
+            if (typeof(T) == typeof(ushort) && !File.Exists(path))
+            {
+                return (T[])(object)FileReaderCustom.ReadJpegLayer(path);
+            }
+
             // Open the stream and read data directly into a T[] to avoid an extra intermediate byte[]
             using var stream = File.OpenRead(path);
 

@@ -76,5 +76,11 @@ namespace Perpetuum
         /// </summary>
         [DefaultValue(""), JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
         public string LokiFallbackPath { get; set; }
+
+        /// <summary>
+        /// File system path for layer resource (C:\\PerpetuumResoruce\\lang0000\\layers\\GAMMA_LAYERS_NEW)
+        /// </summary>
+        [DefaultValue(""), JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+        public string ResourcePath { get; set; }
     }
 }
