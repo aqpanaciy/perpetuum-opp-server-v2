@@ -7,6 +7,7 @@ using Perpetuum.Log;
 using Perpetuum.Players;
 using Perpetuum.Services.PathFind;
 using Perpetuum.Services.Relics;
+using Perpetuum.Services.RouteNode;
 using Perpetuum.Services.Strongholds;
 using Perpetuum.Services.Weather;
 using Perpetuum.Units;
@@ -68,6 +69,8 @@ namespace Perpetuum.Zones
 
         [CanBeNull]
         RouteGraph RouteGraph { get; }
+        [CanBeNull]
+        RouteNodeService RouteNodeService { get; }
 
         void AddUnit(Unit unit);
         void RemoveUnit(Unit unit);

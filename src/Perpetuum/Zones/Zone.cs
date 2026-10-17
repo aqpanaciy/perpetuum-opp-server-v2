@@ -10,6 +10,7 @@ using Perpetuum.Services.HighScores;
 using Perpetuum.Services.PathFind;
 using Perpetuum.Services.Relics;
 using Perpetuum.Services.RiftSystem;
+using Perpetuum.Services.RouteNode;
 using Perpetuum.Services.Sessions;
 using Perpetuum.Services.Strongholds;
 using Perpetuum.Services.Weather;
@@ -89,6 +90,7 @@ namespace Perpetuum.Zones
         public bool IsLayerEditLocked { get; set; }
 
         public RouteGraph RouteGraph { get; set; }
+        public RouteNodeService RouteNodeService { get; set; }
 
         protected Zone(ISessionManager sessionManager, IGangManager gangManager)
         {

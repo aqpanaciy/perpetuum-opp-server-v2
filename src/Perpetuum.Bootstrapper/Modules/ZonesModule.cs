@@ -11,6 +11,7 @@ using Perpetuum.Services.HighScores;
 using Perpetuum.Services.PathFind;
 using Perpetuum.Services.Relics;
 using Perpetuum.Services.RiftSystem;
+using Perpetuum.Services.RouteNode;
 using Perpetuum.Services.Strongholds;
 using Perpetuum.Services.Weather;
 using Perpetuum.Threading.Process;
@@ -64,6 +65,11 @@ namespace Perpetuum.Bootstrapper.Modules
             {
                 e.Context.Resolve<IProcessManager>().AddProcess(e.Instance.ToAsync().AsTimed(TimeSpan.FromMinutes(5)));
             }).As<IPathFindService>().SingleInstance();
+
+            _ = builder.RegisterType<RouteNodeService>().OnActivated(e =>
+            {
+                e.Context.Resolve<IProcessManager>().AddProcess(e.Instance.ToAsync().AsTimed(TimeSpan.FromMinutes(1)));
+            }).AsSelf();
 
             _ = builder.RegisterType<WeatherMonitor>();
             _ = builder.RegisterType<WeatherEventListener>();
@@ -171,6 +177,11 @@ namespace Perpetuum.Bootstrapper.Modules
                     zone.RelicManager = ctx.Resolve<Func<IZone, IRelicManager>>().Invoke(zone);
                     zone.PathFindService = ctx.Resolve<IPathFindService>();
                     zone.RouteGraph = ctx.Resolve<RouteNodeReader>().GetAll(zone.Configuration.Id);
+
+                    if (zone.RouteGraph != null)
+                    {
+                        zone.RouteNodeService = ctx.Resolve<RouteNodeService>(new TypedParameter(typeof(IZone), zone));
+                    }
 
                     if (configuration.Terraformable)
                     {
