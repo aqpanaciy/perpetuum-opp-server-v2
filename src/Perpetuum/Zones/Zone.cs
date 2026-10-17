@@ -20,6 +20,7 @@ using Perpetuum.Zones.Blobs;
 using Perpetuum.Zones.Decors;
 using Perpetuum.Zones.Effects.ZoneEffects;
 using Perpetuum.Zones.Environments;
+using Perpetuum.Zones.Node;
 using Perpetuum.Zones.NpcSystem.Presences;
 using Perpetuum.Zones.NpcSystem.SafeSpawnPoints;
 using Perpetuum.Zones.PBS;
@@ -86,6 +87,8 @@ namespace Perpetuum.Zones
 
         private readonly SessionlessPlayerTimeout _sessionlessPlayerTimeout;
         public bool IsLayerEditLocked { get; set; }
+
+        public RouteGraph RouteGraph { get; set; }
 
         protected Zone(ISessionManager sessionManager, IGangManager gangManager)
         {

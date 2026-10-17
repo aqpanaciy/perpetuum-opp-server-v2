@@ -20,6 +20,7 @@ using Perpetuum.Zones.Beams;
 using Perpetuum.Zones.Decors;
 using Perpetuum.Zones.Effects.ZoneEffects;
 using Perpetuum.Zones.Environments;
+using Perpetuum.Zones.Node;
 using Perpetuum.Zones.NpcSystem.Presences;
 using Perpetuum.Zones.NpcSystem.Reinforcements;
 using Perpetuum.Zones.NpcSystem.SafeSpawnPoints;
@@ -138,6 +139,8 @@ namespace Perpetuum.Bootstrapper.Modules
                 };
             });
 
+            _ = builder.RegisterType<RouteNodeReader>().AsSelf().SingleInstance();
+
             _ = builder.Register<Func<ZoneConfiguration, IZone>>(x =>
             {
                 IComponentContext ctx = x.Resolve<IComponentContext>();
@@ -167,6 +170,7 @@ namespace Perpetuum.Bootstrapper.Modules
                     zone.ZoneSessionFactory = ctx.Resolve<ZoneSession.Factory>();
                     zone.RelicManager = ctx.Resolve<Func<IZone, IRelicManager>>().Invoke(zone);
                     zone.PathFindService = ctx.Resolve<IPathFindService>();
+                    zone.RouteGraph = ctx.Resolve<RouteNodeReader>().GetAll(zone.Configuration.Id);
 
                     if (configuration.Terraformable)
                     {

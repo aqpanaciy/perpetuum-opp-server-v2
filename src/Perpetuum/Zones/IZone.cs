@@ -14,6 +14,7 @@ using Perpetuum.Zones.Beams;
 using Perpetuum.Zones.Decors;
 using Perpetuum.Zones.Effects.ZoneEffects;
 using Perpetuum.Zones.Environments;
+using Perpetuum.Zones.Node;
 using Perpetuum.Zones.NpcSystem.Presences;
 using Perpetuum.Zones.NpcSystem.SafeSpawnPoints;
 using Perpetuum.Zones.PBS;
@@ -64,6 +65,9 @@ namespace Perpetuum.Zones
         ILogger<ChatLogEvent> ChatLogger { get; }
 
         IPathFindService PathFindService { get; }
+
+        [CanBeNull]
+        RouteGraph RouteGraph { get; }
 
         void AddUnit(Unit unit);
         void RemoveUnit(Unit unit);
